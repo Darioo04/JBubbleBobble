@@ -1,0 +1,45 @@
+{
+	"$baseURI": "https://yal.cc/r/20/pixelfont/",
+	"$version": "1.0",
+	"in-glyphs": [
+		"0123456",
+		"789@!ab",
+		"cdefghi",
+		"jklmnop",
+		"qrstuvw",
+		"xyz"
+	],
+	"glyph-color": "auto",
+	"in-kerning": [
+		""
+	],
+	"glyph-width": 9,
+	"glyph-height": 9,
+	"glyph-ofs-x": 0,
+	"glyph-ofs-y": 0,
+	"glyph-sep-x": 0,
+	"glyph-sep-y": 0,
+	"glyph-base-x": 0,
+	"glyph-baseline": 9,
+	"glyph-spacing": 1,
+	"font-is-mono": false,
+	"font-em-square": 1920,
+	"font-line-gap": 1024,
+	"font-ascend": 768,
+	"font-descend": -256,
+	"font-px-size": 128,
+	"contour-type": "pixel",
+	"font-type": "otf",
+	"font-name": "BubbleBobbleNes",
+	"font-author": "Matt4322",
+	"font-copy": "-",
+	"font-version": "Version 1.0",
+	"font-desc": "Font used on the nes' version of Bubble Bobble",
+	"font-license": "Meant to be used in academic settings only",
+	"font-license-url": "-",
+	"font-sample-text": "the quick brown fox jumps over a lazy dog! 0123456789@",
+	"font-preview-text": [
+		"prova delle",
+		"prove"
+	]
+}
