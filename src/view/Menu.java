@@ -16,7 +16,7 @@ public class Menu extends JFrame{
 			{
 				add(new JPanel() {
 					{
-						ImageIcon image = new ImageIcon("JBubbleBobble\\Sprites\\NES - Bubble Bobble - Title - JBubbleBobble.gif");
+						ImageIcon image = new ImageIcon("/JBubbleBobble/Sprites/NES - Bubble Bobble - Title - JBubbleBobble.gif");
 						JLabel displayField = new JLabel(image);
 						frame.add(displayField,BorderLayout.NORTH);
 						setBackground(Color.BLACK);
@@ -32,7 +32,7 @@ public class Menu extends JFrame{
 								gioca.addActionListener(new ActionListener() {
 										@Override
 										public void actionPerformed(ActionEvent e) {
-											cardLayout.show(new Gioca(),"Gioca");
+											cardLayout.show(new Play(),"Gioca");
 										}
 									
 								});
@@ -46,7 +46,7 @@ public class Menu extends JFrame{
 								profilo.addActionListener(new ActionListener() {
 									@Override
 									public void actionPerformed(ActionEvent e) {
-										cardLayout.show(new Impostazioni(), "Gioca");
+										cardLayout.show(new Settings(), "Gioca");
 									}
 								});	
 								
