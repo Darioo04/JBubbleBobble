@@ -10,11 +10,11 @@ import javax.swing.*;
 public class Menu extends JFrame {
 	private JPanel panelsContainer = new JPanel();
 	private JPanel menuPanel = new JPanel();
-	private JPanel settingsPanel = new JPanel();
-	private JPanel gamePanel = new JPanel();
+	private Settings settingsPanel = new Settings();
+	private Game gamePanel = new Game();
 	private JButton playButton = new JButton("play");
 	private JButton settingsButton = new JButton("settings");
-	private JButton backButton = new JButton("back to menu");
+//	private JButton backButton = new JButton("back to menu");
 	private CardLayout cl = new CardLayout();
 	
 	public Menu() {
@@ -23,7 +23,7 @@ public class Menu extends JFrame {
 		panelsContainer.setLayout(cl);
 		menuPanel.add(playButton);
 		menuPanel.add(settingsButton);
-		settingsPanel.add(backButton);
+//		settingsPanel.add(backButton);
 		
 		panelsContainer.add(menuPanel, "menu");
 		panelsContainer.add(gamePanel, "game");
@@ -46,7 +46,7 @@ public class Menu extends JFrame {
 			}
 		});
 		
-		backButton.addActionListener(new ActionListener() {
+		settingsPanel.getBackButton().addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {

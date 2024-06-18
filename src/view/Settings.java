@@ -1,13 +1,21 @@
 package view;
+import java.awt.Color;
+
 import javax.swing.*;
-public class Settings extends JFrame {
-	private JFrame impostazioni;
+public class Settings extends JPanel {
+	
+	private JButton backButton = new JButton("back to menu");
 	
 	public Settings() {
-		impostazioni = new JFrame();
-		impostazioni.setSize(900,600);
-		impostazioni.setVisible(true);
-		impostazioni.setLocationRelativeTo(null);
+		this.setSize(900,600);
+		this.setBackground(Color.GRAY);
+		
+		this.add(backButton);
+
+	}
+	
+	public JButton getBackButton() {
+		return backButton;
 	}
 	 
 }

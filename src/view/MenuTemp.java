@@ -32,7 +32,7 @@ public class MenuTemp extends JFrame{
 								gioca.addActionListener(new ActionListener() {
 										@Override
 										public void actionPerformed(ActionEvent e) {
-											cardLayout.show(new Play(),"Gioca");
+											cardLayout.show(new Game(),"Gioca");
 										}
 									
 								});
