@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-public class Menu extends JFrame{
+public class MenuTemp extends JFrame{
 	private CardLayout cardLayout;
 	private JFrame frame;
-	public Menu() {
+	public MenuTemp() {
 		frame=new JFrame("JBubble Bobble");
 		frame.setSize(900,600);
 		frame.setBackground(Color.BLACK);
@@ -46,7 +46,7 @@ public class Menu extends JFrame{
 								profilo.addActionListener(new ActionListener() {
 									@Override
 									public void actionPerformed(ActionEvent e) {
-										cardLayout.show(new Impostazioni(), "Gioca");
+										cardLayout.show(new Settings(), "Gioca");
 									}
 								});	
 								
@@ -64,8 +64,8 @@ public class Menu extends JFrame{
 		frame.setVisible(true);
 	
 }
-	public static void main(String[] args) {
-		new Menu();
-	}
+//	public static void main(String[] args) {
+//		new MenuTemp();
+//	}
 }
 	
