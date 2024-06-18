@@ -32,7 +32,7 @@ public class Menu extends JFrame{
 								gioca.addActionListener(new ActionListener() {
 										@Override
 										public void actionPerformed(ActionEvent e) {
-											cardLayout.show(new Gioca(),"Gioca");
+											cardLayout.show(new Play(),"Gioca");
 										}
 									
 								});
