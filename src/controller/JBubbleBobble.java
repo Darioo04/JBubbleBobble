@@ -1,14 +1,13 @@
 package controller;
 
-import view.Menu;
+import view.FullScreenFrame;
+import view.GamePanel;
 
 public class JBubbleBobble {
 	public static void main(String[] args) {
-//		FirstFrame firstFrame = new FirstFrame();
-//		firstFrame.setVisible(true);
-		
-		Menu menu = new Menu();
-		menu.setVisible(true);
+		FullScreenFrame fullScreenFrame = new FullScreenFrame();
+		GamePanel gamePanel = new GamePanel();
+		fullScreenFrame.add(gamePanel);
 	}
 
 }
