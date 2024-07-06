@@ -2,18 +2,23 @@ package view;
 
 import java.awt.Color;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+
+import model.GameConstants;
 
 public class FullScreenFrame extends JFrame{
 	
-	JPanel panel = new JPanel();
-	
 	public FullScreenFrame() {
 		super("JBubble Bobble");
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+
+        // scaled dimensions
+        int scaledWidth = (int) (GameConstants.ORIGINAL_WIDTH * GameConstants.SCALE);
+        int scaledHeight = (int) (GameConstants.ORIGINAL_HEIGHT * GameConstants.SCALE);
+        
+        this.setSize(scaledWidth, scaledHeight);
 		this.setUndecorated(false);
+		this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        this.getContentPane().setBackground(Color.BLACK);
+        this.setBackground(Color.BLACK);
         setVisible(true);
     }
     

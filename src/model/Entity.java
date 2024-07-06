@@ -1,10 +1,14 @@
 package model;
 
 public abstract class Entity {
-	private int hp;
 	
-	public Entity(int hp) {
+	protected int hp;
+	protected int x, y;
+	
+	public Entity(int hp, int x, int y) {
 		this.hp = hp;
+		this.x = x;
+		this.y = y;
 	}
 
 }
