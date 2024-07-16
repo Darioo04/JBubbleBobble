@@ -8,21 +8,26 @@
 //	private CardLayout cardLayout;
 //	private JFrame frame;
 //	public MenuTemp() {
-//		frame=new JFrame("JBubble Bobble");
-//		frame.setSize(900,600);
-//		frame.setBackground(Color.BLACK);
+//		super("JBubbleBobble");
+//		setSize(900,600);
+//		setBackground(Color.BLACK);
 //		cardLayout = new CardLayout();
-//		frame.add(new JPanel(new BorderLayout()) {
+//		this.add(new JPanel(new BorderLayout() {
 //			{
+//				
 //				add(new JPanel() {
 //					{
-//						ImageIcon image = new ImageIcon("JBubbleBobble\\Sprites\\NES - Bubble Bobble - Title - JBubbleBobble.gif");
-//						JLabel displayField = new JLabel(image);
-//						frame.add(displayField,BorderLayout.NORTH);
 //						setBackground(Color.BLACK);
-//			        }
-//					
-//				});
+//						try {
+//							ImageIcon image = new ImageIcon("JBubbleBobble/res/sprites/Title/NES - Bubble Bobble - Title - JBubbleBobble-1.png");
+//							JLabel displayField = new JLabel(image);
+//							add(displayField,BorderLayout.SOUTH);
+//						} catch (Exception e) {
+//							System.out.println("Image not found");
+//						}
+//						
+//					}
+//				}, BorderLayout.NORTH);
 //				add(new JPanel() {
 //					{
 //						setBackground(Color.BLACK);
@@ -32,40 +37,27 @@
 //								gioca.addActionListener(new ActionListener() {
 //										@Override
 //										public void actionPerformed(ActionEvent e) {
-//											cardLayout.show(new GamePanel(),"Gioca");
+////											cardLayout.show(new GamePanel(),"Gioca");
 //										}
 //									
 //								});
 //								add(gioca);
 //							}
-//						}, BorderLayout.EAST);
-//						add (new JPanel() {
-//							{
-//								var profilo=new JButton("Impostazioni");
-//								add(profilo);
-//								profilo.addActionListener(new ActionListener() {
-//									@Override
-//									public void actionPerformed(ActionEvent e) {
-//										cardLayout.show(new Settings(), "Gioca");
-//									}
-//								});	
-//								
-//							}
-//						}, BorderLayout.WEST);
-//						setBorder(BorderFactory.createEmptyBorder(10,10,70,10));
+//						});
+//						
 //					}
 //				}, BorderLayout.SOUTH);
 //			}
-//		});
+//		}));
 //
-//
-//		frame.setLocationRelativeTo(null);
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setVisible(true);
+//		this.setBackground(Color.BLACK);
+//		this.setLocationRelativeTo(null);
+//		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		this.setVisible(true);
 //	
 //}
-////	public static void main(String[] args) {
-////		new MenuTemp();
-////	}
+//	public static void main(String[] args) {
+//		 new MenuTemp();
+//	}
 //}
 //	

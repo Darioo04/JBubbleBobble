@@ -1,6 +1,6 @@
 package model.bonus;
 
-public class PointItem  {
+public abstract class PointItem  {
 	protected long bonus;
 	
 	public PointItem(long bonus) {

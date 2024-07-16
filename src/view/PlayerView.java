@@ -13,6 +13,7 @@ public class PlayerView extends JPanel{
 	
 	private Player player;
 	private BufferedImage playerImage;
+//	private static PlayerView instance;
 	
 	public PlayerView(Player player) {
         this.player = player;
@@ -22,6 +23,11 @@ public class PlayerView extends JPanel{
 			e.printStackTrace();
 		}
     }
+	
+//	public static PlayerView getInstance(Player player) {
+//		if (instance==null) instance = new PlayerView(player);
+//		return instance;
+//	}
 	
 	@Override
     protected void paintComponent(Graphics g) {

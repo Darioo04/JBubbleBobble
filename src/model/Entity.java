@@ -1,5 +1,6 @@
 package model;
 
+import java.nio.file.Path;
 import java.util.Observable;
 
 @SuppressWarnings("deprecation")
