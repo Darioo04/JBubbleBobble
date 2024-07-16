@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,8 @@ public class Menu extends JFrame {
 		panelsContainer.setLayout(cl);
 		menuPanel.add(playButton);
 		menuPanel.add(settingsButton);
+		menuPanel.setBorder(BorderFactory.createEmptyBorder(10,10,70,10));
+		
 //		settingsPanel.add(backButton);
 		
 		panelsContainer.add(menuPanel, "menu");

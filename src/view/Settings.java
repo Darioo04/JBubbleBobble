@@ -1,4 +1,5 @@
 package view;
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.*;
@@ -9,8 +10,8 @@ public class Settings extends JPanel {
 	public Settings() {
 		this.setSize(900,600);
 		this.setBackground(Color.GRAY);
-		
-		this.add(backButton);
+		this.setLayout(new BorderLayout());
+		this.add(backButton,BorderLayout.SOUTH);
 
 	}
 	
