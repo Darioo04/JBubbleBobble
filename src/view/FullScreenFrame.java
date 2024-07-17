@@ -72,13 +72,13 @@ public class FullScreenFrame extends JFrame{
 							setBackground(Color.BLACK);
 							}
 						});
-						add(new JLabel("Realizzato da  Meridiani Angelo  Ojog Dario  Scafetta Giovanni") {
-							{
-								setBackground(Color.BLACK);
-								setOpaque(true);
-								UIManager.put("Label.font", new Font("ComicSans", Font.LAYOUT_LEFT_TO_RIGHT, 20));
-							}
-						}, BorderLayout.SOUTH);
+//						add(new JLabel("Realizzato da  Meridiani Angelo  Ojog Dario  Scafetta Giovanni") {
+//							{
+//								setBackground(Color.BLACK);
+//								setOpaque(true);
+//								UIManager.put("Label.font", new Font("ComicSans", Font.LAYOUT_LEFT_TO_RIGHT, 20));
+//							}
+//						}, BorderLayout.SOUTH);
 					}
 				}, BorderLayout.PAGE_END);
 			}
