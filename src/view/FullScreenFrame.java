@@ -27,7 +27,7 @@ public class FullScreenFrame extends JFrame{
 	private JPanel cardpanel;
 	public FullScreenFrame() {
 		super("JBubble Bobble");
-		try { setIconImage(ImageIO.read(new File("C:\\Users\\ameri\\OneDrive\\Desktop\\Workspace Java\\JBubbleBobble\\res\\sprites\\Title\\NES - Bubble Bobble - Title - JBubbleBobble-1.png"))); }
+		try { setIconImage(ImageIO.read(new File("JBubbleBobble\\res\\sprites\\Title\\NES - Bubble Bobble - Title - JBubbleBobble-1.png"))); }
 		catch (IOException e) { System.out.println("Image cannot be found"); }
         // scaled dimensions
         int scaledWidth = (int) (GameConstants.ORIGINAL_WIDTH * GameConstants.SCALE);
