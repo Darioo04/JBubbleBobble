@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -18,7 +19,7 @@ public class PlayerView extends JPanel{
 	public PlayerView(Player player) {
         this.player = player;
         try {
-        	playerImage = ImageIO.read(getClass().getResource("/res/sprites/BubAndBob1/Bub-0.png"));
+        	playerImage = ImageIO.read(getClass().getResourceAsStream("/sprites/BubAndBob1/Bub-0.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
