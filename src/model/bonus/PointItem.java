@@ -1,6 +1,10 @@
 package model.bonus;
+import java.util.Observable;
 
-public abstract class PointItem  {
+@SuppressWarnings("deprecation")
+
+
+public abstract class PointItem extends Observable {
 	protected long bonus;
 	
 	public PointItem(long bonus) {
