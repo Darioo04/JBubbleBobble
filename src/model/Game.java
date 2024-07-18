@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.util.Observable;
 import java.util.Observer;
 
-import model.tiles.Tiles;
+import model.tiles.*;
 
 
 @SuppressWarnings("deprecation")
@@ -50,8 +50,8 @@ public class Game extends Observable implements Observer {
 			for (int j=0; j<file[0].length; j++) {
 				tiles[i][j] = 
 					switch (file[i][j]) {
-						case "1" -> new Tiles(level);
-						//case "0" -> tiles[i][j] = new bloccovuoto();
+						case "1" -> new Wall(level);
+						case "0" ->  new EmptyBlock();
 						default -> throw new IllegalArgumentException("Unexpected value: " + file[i][j]); 
 				};
 			}
