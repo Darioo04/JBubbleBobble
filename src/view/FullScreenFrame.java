@@ -43,11 +43,11 @@ public class FullScreenFrame extends JFrame{
 				add(new JPanel() {
 					{
 						try {
-						String filePath = "JBubbleBobble\\res\\sprites\\NES - Bubble Bobble - Title - JBubbleBobble.gif";
-						BufferedImage image = ImageIO.read(new File(filePath));
-						ImageIcon newImage = new ImageIcon(image.getScaledInstance(image.getWidth()*2, image.getHeight()*2,0));
-						JLabel displayField = new JLabel(newImage);
-						add(displayField);
+							String filePath = "JBubbleBobble"+"/"+"res"+"/"+"sprites"+"/"+"NES - Bubble Bobble - Title - JBubbleBobble.gif";
+							BufferedImage image = ImageIO.read(new File(filePath));
+							ImageIcon newImage = new ImageIcon(image.getScaledInstance(image.getWidth()*2, image.getHeight()*2,0));
+							JLabel displayField = new JLabel(newImage);
+							add(displayField);
 						} catch (IOException e) {
 							System.out.println("Image cannot be found");
 						}

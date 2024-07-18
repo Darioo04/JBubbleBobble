@@ -1,5 +1,7 @@
 package model;
 
+@SuppressWarnings("deprecation")
+
 public class Player extends Entity {
 	protected long score;
 	
