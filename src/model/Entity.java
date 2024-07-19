@@ -7,11 +7,10 @@ import java.util.Observable;
 
 public abstract class Entity extends Observable{
 	
-	protected int hp;
 	protected int x, y;
+	protected String path;
 	
-	public Entity(int hp, int x, int y) {
-		this.hp = hp;
+	public Entity(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}

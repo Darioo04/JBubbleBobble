@@ -6,7 +6,7 @@ public class Player extends Entity {
 	protected long score;
 	
 	public Player() {
-		super(100, 50, 50);
+		super(50, 50);
 	}
 	
 	public long getScore() {
