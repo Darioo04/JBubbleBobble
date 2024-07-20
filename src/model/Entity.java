@@ -9,14 +9,20 @@ public abstract class Entity extends Observable{
 	
 	protected int x, y;
 	protected String path;
+	protected String name;
 	
-	public Entity(int x, int y) {
+	public Entity(int x, int y, String name) {
 		this.x = x;
 		this.y = y;
+		this.name=name;
 	}
 	
 	public String getPath() {
 		return path;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public int getX() {

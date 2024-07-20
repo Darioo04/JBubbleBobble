@@ -5,7 +5,7 @@ public class GameModel {
 	private Player player;
 
     public GameModel() {
-        this.player = new Player();
+        this.player = Player.getInstance();
     }
 
     public Player getPlayer() {
