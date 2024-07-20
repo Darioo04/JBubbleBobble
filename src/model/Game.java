@@ -15,19 +15,21 @@ import model.tiles.*;
 
 public class Game extends Observable implements Observer {
 	private int level;
-	private Tiles[][] tiles = new Tiles[10][10];
+	private final String path = "/res/sprite/levels/";
+	private Tiles[][] tiles = new Tiles[16][16];
 	private Duration time = Duration.ofSeconds(0);
 	
 	public Game(int level) { 
 		this.level=level;
 		String[][] file = readLevel();
 		initLevel(file);
+		loadLevel();
 	}
 	
 	public String[][] readLevel() {
-		String[][] file = new String[10][10];
+		String[][] file = new String[16][16];
 		try {
-			File inFile= new File("JBubbleBobble" + "\\" + "res" + "\\" + "sprite" + "\\"+"levels" + "\\" + "level-" + level + ".txt");
+			File inFile= new File(path + "level-" + level + ".txt");
 			BufferedReader br = new BufferedReader(new FileReader(inFile));
 			int k=0;
 			while (br.ready()) {
@@ -62,6 +64,10 @@ public class Game extends Observable implements Observer {
 				tile.addObserver(this);
 			}
 		}
+	}
+	
+	public void loadLevel() {
+		
 	}
 	
 	public Tiles[][] getLevel() {

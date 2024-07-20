@@ -15,6 +15,10 @@ public abstract class Entity extends Observable{
 		this.y = y;
 	}
 	
+	public String getPath() {
+		return path;
+	}
+	
 	public int getX() {
 		return x;
 	}

@@ -14,7 +14,6 @@ public abstract class Bubble extends Observable  {
 	public Bubble(int x,int y) {
 		this.x=x;
 		this.y=y;
-		
 	}
 	
 	public int getX() {
