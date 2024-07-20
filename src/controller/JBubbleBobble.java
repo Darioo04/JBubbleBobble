@@ -11,7 +11,7 @@ public class JBubbleBobble {
 		
 		GameModel model = new GameModel();
 		GameController controller = new GameController(model);
-		FullScreenFrame fullScreenFrame = new FullScreenFrame();
+		FullScreenFrame fullScreenFrame = FullScreenFrame.getInstance();
 		GamePanel gamePanel = new GamePanel(model);
 		gamePanel.addKeyListener(controller.getPlayerController());
 		fullScreenFrame.add(gamePanel);

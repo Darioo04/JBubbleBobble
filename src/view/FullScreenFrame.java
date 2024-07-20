@@ -23,22 +23,27 @@ import javax.swing.UIManager;
 import model.GameConstants;
 
 public class FullScreenFrame extends JFrame{
+	private static FullScreenFrame instance;
 	private JPanel cardpanel;
-	public FullScreenFrame() {
+	
+	public static FullScreenFrame getInstance() {
+		if (instance==null) instance = new FullScreenFrame();
+		return instance;
+	}
+	
+	private FullScreenFrame() {
 		super("JBubble Bobble");
 		try { 
 			BufferedImage image = ImageIO.read(getClass().getResource("/sprites/Title/NES-BubbleBobble-Title-JBubbleBobble-0.png"));
 			setIconImage(image); 
 		}
-		catch (IOException e) { System.out.println("Image cannot be found"); }
-		catch (NullPointerException e) { System.out.println("Image cannot be found"); }
+		catch ( IOException e ) { System.out.println("Image cannot be found"); }
         // scaled dimensions
         int scaledWidth = (int) (GameConstants.ORIGINAL_WIDTH * GameConstants.SCALE);
         int scaledHeight = (int) (GameConstants.ORIGINAL_HEIGHT * GameConstants.SCALE);
         setSize(scaledWidth, scaledHeight);
 		setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setBackground(Color.BLACK);
         add(new JPanel(new BorderLayout()) {
 			{
 				setBackground(Color.BLACK);
@@ -68,21 +73,24 @@ public class FullScreenFrame extends JFrame{
 									
 								}
 							});
-							UIManager.put("Button.border", new BorderLayout());
+							gioca.setBackground(Color.BLACK);
+							gioca.setForeground(Color.WHITE);
+							gioca.setBorderPainted(false);
+							gioca.setFocusPainted(false);
 							add(gioca);
-							setBorder(BorderFactory.createEmptyBorder(300,350,300,350));
+							setBorder(BorderFactory.createEmptyBorder(350,350,300,350));
 							setBackground(Color.BLACK);
 							}
 						});
 						add(new JLabel("Realizzato da  Meridiani Angelo  Ojog Dario  Scafetta Giovanni") {
 							{
 								setBackground(Color.BLACK);
+								setForeground(Color.DARK_GRAY);
 								setOpaque(true);
-								UIManager.put("Label.font", new Font("ComicSans", Font.ITALIC, 20));
 							}
 						}, BorderLayout.SOUTH);
 					}
-				}, BorderLayout.PAGE_END);
+				}, BorderLayout.SOUTH);
 			}
         });
         setBackground(Color.BLACK);

@@ -49,26 +49,26 @@ public class EntityView extends JLabel implements Observer {
 		walkingSpritesRight = new BufferedImage[4];
 		try {
 			//carica le animazioni da fermo
-			standingSprites[0] = ImageIO.read(getClass().getResourceAsStream(path+"standingToLeft.png"));
-			standingSprites[1] = ImageIO.read(getClass().getResourceAsStream(path+"/standingToRight.png"));
+			standingSprites[0] = ImageIO.read(getClass().getResource(path+"standingToLeft.png"));
+			standingSprites[1] = ImageIO.read(getClass().getResource(path+"/standingToRight.png"));
 			
 			//carica le animazioni di movimento
 			for (int i=0; i<entity.getWalkingSpritesUpNum(); i++) {
-				walkingSpritesUp[i] = ImageIO.read(getClass().getResourceAsStream(path+"/walkingUp-"+i+".png"));
+				walkingSpritesUp[i] = ImageIO.read(getClass().getResource(path+"/walkingUp-"+i+".png"));
 			}
 			for (int i=0; i<entity.getWalkingSpritesDownNum(); i++) {
-				walkingSpritesDown[i] = ImageIO.read(getClass().getResourceAsStream(path+"/walkingDown-"+i+".png"));
+				walkingSpritesDown[i] = ImageIO.read(getClass().getResource(path+"/walkingDown-"+i+".png"));
 			}
 			for (int i=0; i<entity.getWalkingSpritesLeftNum(); i++) {
-				walkingSpritesLeft[i] = ImageIO.read(getClass().getResourceAsStream(path+"/walkingLeft-"+i+".png"));
+				walkingSpritesLeft[i] = ImageIO.read(getClass().getResource(path+"/walkingLeft-"+i+".png"));
 			}
 			for (int i=0; i<entity.getWalkingSpritesRightNum(); i++) {
-				walkingSpritesRight[i] = ImageIO.read(getClass().getResourceAsStream(path+"/walkingRight-"+i+".png"));
+				walkingSpritesRight[i] = ImageIO.read(getClass().getResource(path+"/walkingRight-"+i+".png"));
 			}
 			
 			//carica le animazioni di morte
 			for (int i=0; i<entity.getDeathSpritesNum(); i++) {
-				deathSprites[i] = ImageIO.read(getClass().getResourceAsStream(path+"death-"+i+".png"));
+				deathSprites[i] = ImageIO.read(getClass().getResource(path+"death-"+i+".png"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
