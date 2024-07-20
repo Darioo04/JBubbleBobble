@@ -26,8 +26,12 @@ public class FullScreenFrame extends JFrame{
 	private JPanel cardpanel;
 	public FullScreenFrame() {
 		super("JBubble Bobble");
-		try { setIconImage(ImageIO.read(new File("NES - Bubble Bobble - Title - JBubbleBobble-1.png"))); }
+		try { 
+			BufferedImage image = ImageIO.read(getClass().getResource("/sprites/Title/NES-BubbleBobble-Title-JBubbleBobble-0.png"));
+			setIconImage(image); 
+		}
 		catch (IOException e) { System.out.println("Image cannot be found"); }
+		catch (NullPointerException e) { System.out.println("Image cannot be found"); }
         // scaled dimensions
         int scaledWidth = (int) (GameConstants.ORIGINAL_WIDTH * GameConstants.SCALE);
         int scaledHeight = (int) (GameConstants.ORIGINAL_HEIGHT * GameConstants.SCALE);
@@ -41,7 +45,7 @@ public class FullScreenFrame extends JFrame{
 				add(new JPanel() {
 					{
 						try {
-							BufferedImage image = ImageIO.read(new File("/res/sprites/Title/NES-BubbleBobble-Title-JBubbleBobble-0.png"));
+							BufferedImage image = ImageIO.read(getClass().getResource("/sprites/Title/NES-BubbleBobble-Title-JBubbleBobble-0.png"));
 							ImageIcon newImage = new ImageIcon(image.getScaledInstance(image.getWidth()*2, image.getHeight()*2,0));
 							JLabel displayField = new JLabel(newImage);
 							add(displayField);
@@ -64,6 +68,7 @@ public class FullScreenFrame extends JFrame{
 									
 								}
 							});
+							UIManager.put("Button.border", new BorderLayout());
 							add(gioca);
 							setBorder(BorderFactory.createEmptyBorder(300,350,300,350));
 							setBackground(Color.BLACK);
