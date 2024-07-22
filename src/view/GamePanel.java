@@ -7,27 +7,28 @@ import java.util.Observer;
 
 import javax.swing.*;
 
-import model.GameModel;
+import model.Player;
+
 
 @SuppressWarnings("deprecation")
 
 public class GamePanel extends JPanel implements Observer{
 	
-	private GameModel model;
+    private Player player;
     private PlayerView playerView;
 	
 
-	public GamePanel(GameModel gameModel) {
+	public GamePanel() {
 		super(new GridLayout(14, 16));
-		this.model = gameModel;
-		this.model.getPlayer().addObserver(this);
 		this.setBackground(Color.BLACK);
 		
-		playerView = new PlayerView(model.getPlayer());
-		
-		this.add(playerView);
-		
 	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+        playerView = new PlayerView(player);
+        this.add(playerView);
+    }
 	
 	@Override
     public void update(Observable o, Object arg) {

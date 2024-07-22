@@ -2,19 +2,27 @@ package controller;
 
 import java.awt.event.KeyListener;
 
-import model.GameModel;
+import model.Player;
+import view.PlayerView;
 
 public class GameController {
 	
-	private GameModel model;
     private PlayerController playerController;
+    private Player player;
+//    private PlayerView playerView;
 
-    public GameController(GameModel model) {
-        this.model = model;
-        this.playerController = new PlayerController(model.getPlayer());
+    public GameController() {
+        
+        this.player = Player.getInstance();
+        this.playerController = new PlayerController(player);
+//        this.playerView = new PlayerView(player);
     }
 
     public KeyListener getPlayerController() {
         return playerController;
+    }
+    
+    public Player getPlayer() {
+        return player;
     }
 }
