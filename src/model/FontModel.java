@@ -31,7 +31,7 @@ public class FontModel extends Observable {
 	public void initFont() {
 		
 		//Aggiungo alla Map le lettere
-		for (char s='A'; s<='Z'; s++) {
+		for (char s='A'; s<'Z'; s++) {
 			try {
 				BufferedImage character = ImageIO.read(getClass().getResource(path+s+".png"));
 				font.put(s, character);
@@ -41,7 +41,7 @@ public class FontModel extends Observable {
 		}
 		
 		// Aggiungo alla Map i numeri
-		for (char n='1'; n<='9'; n++) {
+		for (char n='1'; n<'9'; n++) {
 			try {
 				BufferedImage character = ImageIO.read(getClass().getResource(path+n+".png"));
 				font.put(n, character);

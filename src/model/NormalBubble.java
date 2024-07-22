@@ -1,4 +1,4 @@
-package model.bubble;
+package model;
 
 public class NormalBubble extends Bubble {
 	

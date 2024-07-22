@@ -1,4 +1,4 @@
-package model.bubble;
+package model;
 
 public class LetterBubble extends Bubble {
 //donano una vita extra se viene composta la parola "EXTENDS"

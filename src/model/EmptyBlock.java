@@ -1,4 +1,4 @@
-package model.tiles;
+package model;
 
 public class EmptyBlock extends Tiles {
 	

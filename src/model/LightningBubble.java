@@ -1,6 +1,4 @@
-package model.bubble;
-
-import model.obj.Lightning;
+package model;
 
 public class LightningBubble extends Bubble {
 // quando scoppiata rilascia un fulmine

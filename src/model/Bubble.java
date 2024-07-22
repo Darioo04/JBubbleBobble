@@ -1,4 +1,4 @@
-package model.bubble;
+package model;
 
 import java.util.Observable;
 

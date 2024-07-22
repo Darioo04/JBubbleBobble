@@ -8,28 +8,24 @@ import java.time.Duration;
 import java.util.Observable;
 import java.util.Observer;
 
-import model.tiles.*;
-
-
 @SuppressWarnings("deprecation")
 
-public class Game extends Observable implements Observer {
+public class Game extends Observable {
 	private int level;
-	private final String path = "/res/sprite/levels/";
-	private Tiles[][] tiles = new Tiles[16][16];
-	private Duration time = Duration.ofSeconds(0);
+	private final String path = "/res/sprite/levels/level-";
+	private Tiles[][] tiles = new Tiles[16][14];
+//	private Duration time = Duration.ofSeconds(0);
 	
 	public Game(int level) { 
 		this.level=level;
 		String[][] file = readLevel();
 		initLevel(file);
-		loadLevel();
 	}
 	
 	public String[][] readLevel() {
-		String[][] file = new String[16][16];
+		String[][] file = new String[16][14];
 		try {
-			File inFile= new File(path + "level-" + level + ".txt");
+			File inFile= new File(path + level + ".txt");
 			BufferedReader br = new BufferedReader(new FileReader(inFile));
 			int k=0;
 			while (br.ready()) {
@@ -59,24 +55,19 @@ public class Game extends Observable implements Observer {
 			}
 		}
 		
-		for (Tiles[] row : tiles) {
-			for (Tiles tile : row) {
-				tile.addObserver(this);
-			}
-		}
-	}
-	
-	public void loadLevel() {
-		
+//		for (Tiles[] row : tiles) {
+//			for (Tiles tile : row) {
+//				tile.addObserver(this);
+//			}
+//		}
 	}
 	
 	public Tiles[][] getLevel() {
 		return tiles;
 	}
 	
-	public void update(Observable o, Object arg) {
-		time = time.plusSeconds(1);
-		setChanged();
-		notifyObservers();
-	}
+//	public void update(Observable o, Object arg) {
+//		setChanged();
+//		notifyObservers();
+//	}
 }

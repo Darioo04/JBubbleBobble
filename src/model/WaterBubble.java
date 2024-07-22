@@ -1,6 +1,4 @@
-package model.bubble;
-
-import model.obj.Water;
+package model;
 
 public class WaterBubble extends Bubble {
 //fa cadere una cascata nella direzione opposta al pg

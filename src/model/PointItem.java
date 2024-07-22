@@ -1,4 +1,4 @@
-package model.bonus;
+package model;
 import java.util.Observable;
 
 @SuppressWarnings("deprecation")

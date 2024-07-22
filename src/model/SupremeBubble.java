@@ -1,4 +1,4 @@
-package model.bubble;
+package model;
 
 public class SupremeBubble extends Bubble {
 //bolla molto rara rossa con un fulmine lampeggiante donerà 100.000 punti al giocatore 

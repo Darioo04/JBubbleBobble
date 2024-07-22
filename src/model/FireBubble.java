@@ -1,6 +1,4 @@
-package model.bubble;
-
-import model.obj.Fire;
+package model;
 
 public class FireBubble extends Bubble {
 //bolle contenenti delle fiamme faranno cadere a terra un tappeto infuocato 
