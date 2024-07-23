@@ -1,6 +1,6 @@
 package model;
 
-import java.nio.file.Path;
+
 import java.util.Observable;
 
 @SuppressWarnings("deprecation")
@@ -10,6 +10,7 @@ public abstract class Entity extends Observable{
 	protected int x, y;
 	protected String path;
 	protected String name;
+	private boolean isDead;
 	
 	public Entity(int x, int y, String name) {
 		this.x = x;
@@ -19,6 +20,10 @@ public abstract class Entity extends Observable{
 	
 	public String getPath() {
 		return path;
+	}
+	
+	public void setPath(String path) {
+		this.path = path;
 	}
 	
 	public String getName() {
@@ -50,6 +55,14 @@ public abstract class Entity extends Observable{
         this.y += dy;
         setChanged();
         notifyObservers();
+    }
+	
+	public boolean isDead() {
+        return isDead;
+    }
+	
+	public void setDead(boolean isDead) {
+        this.isDead = isDead;
     }
 
 }

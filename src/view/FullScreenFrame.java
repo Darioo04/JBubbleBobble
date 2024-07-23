@@ -44,7 +44,7 @@ public class FullScreenFrame extends JFrame {
 			{
 				add(new MainPanel(), Panels.MAIN.name());
 				add(new MenuPanel(), Panels.MENU.name());
-				add(GamePanel.getInstance(), Panels.GAME.name());
+				add(new GamePanel(), Panels.GAME.name());
 			}
 		});
 		
