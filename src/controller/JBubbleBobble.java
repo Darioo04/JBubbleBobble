@@ -4,18 +4,21 @@ package controller;
 
 
 import model.Player;
-import view.FullScreenFrame;
+import view.MainFrame;
 import view.GamePanel;
 
 public class JBubbleBobble {
 	public static void main(String[] args) {
 		GameController controller = new GameController();
-		FullScreenFrame fullScreenFrame = FullScreenFrame.getInstance();
+		MainFrame mainFrame = MainFrame.getInstance();
 		GamePanel gamePanel = new GamePanel();
+		Player player = controller.getPlayer();
+		player.setPath("/sprites/Bub-0.png");
 		gamePanel.addKeyListener(controller.getPlayerController());
-		gamePanel.setPlayer(controller.getPlayer());
-		fullScreenFrame.add(gamePanel);
-		fullScreenFrame.setFocusable(true);
+		gamePanel.setPlayer(player);
+		mainFrame.add(gamePanel);
+		mainFrame.setFocusable(true);
+//		mainFrame.setContentPane(gamePanel);
 		
 	}
 

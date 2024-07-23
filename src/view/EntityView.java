@@ -14,7 +14,7 @@ import model.Entity;
 import model.GameConstants;
 
 @SuppressWarnings("deprecation")
-public class EntityView extends JLabel implements Observer {
+public abstract class EntityView extends JLabel implements Observer {
 	
 	private Entity entity;
 	private String path;
@@ -38,9 +38,9 @@ public class EntityView extends JLabel implements Observer {
         setVisible(true);
     }
 	
-	public void setPath(String path) {
-		this.path = path;
-	}
+//	public void setPath(String path) {
+//		this.path = path;
+//	}
 
 	@Override
 	public void update(Observable o, Object arg) {

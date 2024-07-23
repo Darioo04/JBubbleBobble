@@ -19,7 +19,6 @@ public class GamePanel extends JPanel implements Observer{
 	
 
 	public GamePanel() {
-		super(new GridLayout(14, 16));
 		this.setBackground(Color.BLACK);
 		
 	}
