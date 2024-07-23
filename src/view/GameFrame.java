@@ -12,8 +12,9 @@ public class GameFrame extends JFrame {
     }
 	
 	private GameFrame() {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+        setVisible(true);
 	}
 
 }

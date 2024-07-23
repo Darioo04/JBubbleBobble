@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Observable;
@@ -16,11 +17,18 @@ public class GamePanel extends JPanel implements Observer{
 	
     private Player player;
     private PlayerView playerView;
+	private static GamePanel instance;
 	
-
-	public GamePanel() {
+	
+	public static GamePanel getInstance() {
+		if (instance==null) instance = new GamePanel();
+		return instance;
+	}
+	
+	private GamePanel() {
 		super(new GridLayout(14, 16));
-		this.setBackground(Color.BLACK);
+		setBackground(Color.BLACK);
+		setVisible(true);
 		
 	}
 	

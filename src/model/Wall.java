@@ -9,7 +9,7 @@ public class Wall extends Tiles  {
 	
 	public Wall(int level) {
 		this.collision=true;
-		try { this.sprite = ImageIO.read(new File("JBubbleBobble\\res\\sprite\\Tiles\\LevelTiles-"+level+".png")); }
+		try { this.sprite = ImageIO.read(new File("/sprite/Tiles/LevelTiles-"+level+".png")); }
 		catch (IOException e) {
 			System.out.println("Tile cannot be found");
 		}
