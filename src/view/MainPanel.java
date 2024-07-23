@@ -1,14 +1,11 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -17,9 +14,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import model.Navigator;
+import model.Panels;
+
 @SuppressWarnings("deprecation")
 
-public class MainPanel extends JPanel implements Observer {
+public class MainPanel extends JPanel {
 	private static MainPanel instance;
 
 	public static MainPanel getInstance() {
@@ -27,18 +27,9 @@ public class MainPanel extends JPanel implements Observer {
 		return instance;
 	}
 	
-	enum Panels {
-		MENU
-	}
-	
-	public MainPanel() {
+	private MainPanel() {
 		setBackground(Color.BLACK);
-//		JPanel cardPanel2;
-//		add(cardPanel2 = new JPanel(new CardLayout()) {
-//			{
-//				add(new MenuPanel(), Panels.MENU.name());
-//			}
-//		});
+		
 		add(new JPanel(new BorderLayout()) {
 			{
 				add(new JPanel() {
@@ -69,7 +60,7 @@ public class MainPanel extends JPanel implements Observer {
 							start.addActionListener(new ActionListener() {
 								@Override
 								public void actionPerformed(ActionEvent e) {
-//									((CardLayout) cardPanel2.getLayout()).show(cardPanel2, Panels.MENU.name());	
+									Navigator.getInstance().navigate(Panels.MENU);
 								}	
 							});
 							add(start);
@@ -82,11 +73,6 @@ public class MainPanel extends JPanel implements Observer {
 				});
 			}	
 		});
-		
-	}
-	
-	@Override
-	public void update(Observable o, Object arg) {
 		
 	}
 }

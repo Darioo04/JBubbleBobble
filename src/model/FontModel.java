@@ -15,12 +15,14 @@ import view.FontView;
 
 public class FontModel extends Observable {
 	private Map<Character,BufferedImage> font;
-	private final String path = "/sprite/fontChars/font-";
+	private final String path = "/sprites/fontChars/font-";
 	private static FontModel instance;
 	
 	private FontModel() {
 		font = new HashMap<>();
 		initFont();
+		setChanged();
+		notifyObservers();
 	}
 	
 	public static FontModel getInstance() {
@@ -62,4 +64,6 @@ public class FontModel extends Observable {
 	public Map<Character, BufferedImage> getFont() {
 		return font;
 	}
+	
+	
 }

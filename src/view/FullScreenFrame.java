@@ -23,6 +23,7 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 
 import model.GameConstants;
+import model.Panels;
 
 public class FullScreenFrame extends JFrame {
 	private static FullScreenFrame instance;
@@ -32,23 +33,19 @@ public class FullScreenFrame extends JFrame {
 		return instance;
 	}
 	
-	enum Panels {
-		MAIN,MENU,GAME
-	}
-	
 	private FullScreenFrame() {
 		super("JBubble Bobble");
 		
-		JPanel cardPanel;
-		add(cardPanel = new JPanel(new CardLayout()) {
-			{
-				add(new MainPanel(), Panels.MAIN.name());
-				add(new MenuPanel(), Panels.MENU.name());
-				add(new GamePanel(), Panels.GAME.name());
-			}
-		});
+//		JPanel cardPanel;
+//		add(cardPanel = new JPanel(new CardLayout()) {
+//			{
+//				add(new MainPanel(), Panels.MAIN.name());
+//				add(new MenuPanel(), Panels.MENU.name());
+//				add(new GamePanel(), Panels.GAME.name());
+//			}
+//		});
 		
-		((CardLayout) cardPanel.getLayout()).show(cardPanel, Panels.MAIN.name());
+//		((CardLayout) cardPanel.getLayout()).show(cardPanel, Panels.MAIN.name());
 		
 		try { 
 			BufferedImage image = ImageIO.read(getClass().getResource("/sprites/Title/NES-BubbleBobble-Title-JBubbleBobble-0.png"));

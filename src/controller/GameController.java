@@ -17,8 +17,15 @@ public class GameController {
     private Timer timer;
     private ArrayList<Enemy> enemies;
 //    private PlayerView playerView;
-
-    public GameController() {
+    
+    private static GameController instance;
+    
+    public static GameController getInstance() {
+    	if (instance==null) instance = new GameController();
+    	return instance;
+    }
+    
+    private GameController() {
         
     	this.timer = new Timer(16, new ActionListener() {		//16ms per avere 60FPS
 			

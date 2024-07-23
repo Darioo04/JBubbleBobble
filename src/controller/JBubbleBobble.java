@@ -1,15 +1,13 @@
 package controller;
 
 
-
-
 import model.Player;
 import view.MainFrame;
 import view.GamePanel;
 
 public class JBubbleBobble {
 	public static void main(String[] args) {
-		GameController controller = new GameController();
+		GameController controller = GameController.getInstance();
 		MainFrame mainFrame = MainFrame.getInstance();
 		GamePanel gamePanel = new GamePanel();
 		Player player = controller.getPlayer();
