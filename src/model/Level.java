@@ -18,20 +18,20 @@ public class Level extends Observable {
 	
 	public Level(int level) { 
 		this.level=level;
-		String[][] file = readLevel();
+		Character[][] file = readLevel();
 		initLevel(file);
 	}
 	
-	public String[][] readLevel() {
-		String[][] file = new String[16][14];
+	public Character[][] readLevel() {
+		Character[][] file = new Character[16][14];
 		try {
 			File inFile= new File(path + level + ".txt");
 			BufferedReader br = new BufferedReader(new FileReader(inFile));
 			int k=0;
 			while (br.ready()) {
-				String[] line = br.readLine().split(" ");
-				for (int i=0; i<line.length; i++) {
-					file[k][i] = line[i];
+				String line = br.readLine();
+				for (int i=0; i<line.length(); i++) {
+					file[k][i] = line.charAt(i);
 				}
 				k++;
 			}
@@ -43,13 +43,15 @@ public class Level extends Observable {
 		return file;
 	}
 	
-	public void initLevel(String[][] file) {
+	public void initLevel(Character[][] file) {
 		for (int i=0; i<file.length; i++) {
 			for (int j=0; j<file[0].length; j++) {
 				tiles[i][j] = 
 					switch (file[i][j]) {
-						case "1" -> new Wall(level);
-						case "0" ->  new EmptyBlock();
+						case '1' -> new Wall(level);
+						case ' ' ->  new EmptyBlock();
+//						case 'R' -> new Robot();
+//						case 'F' -> new Ghost();
 						default -> throw new IllegalArgumentException("Unexpected value: " + file[i][j]); 
 				};
 			}
