@@ -18,7 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-public class SelectLevelView extends JFrame implements Observer {
+public class SelectLevelView extends JPanel implements Observer {
 //	private static SelectLevelView instance;
 //	
 //	public static SelectLevelView getInstance() {
@@ -27,11 +27,8 @@ public class SelectLevelView extends JFrame implements Observer {
 //	}
 	
 	public SelectLevelView() {
-		super("Select Level Screen");
 		setBackground(Color.BLACK);
 		setVisible(true);
-		setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 		add(new JPanel(new GridLayout(6,4,10,10)) {
 			{
 				setBackground(Color.BLACK);
