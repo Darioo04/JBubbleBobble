@@ -15,7 +15,7 @@ import javax.swing.Timer;
 
 public class GameController {
 	
-    private PlayerController playerController;
+    private KeyController playerController;
     private Player player;
     private PlayerView playerView;
     private final int FPS = 60;
@@ -43,7 +43,7 @@ public class GameController {
 			}
 		});
         this.player = Player.getInstance();
-        this.playerController = new PlayerController(player);
+        this.playerController = new KeyController(player);
 //        this.playerView = new PlayerView(player);
     }
     
