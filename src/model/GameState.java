@@ -1,0 +1,12 @@
+package model;
+
+public enum GameState {
+	LOGIN_STATE,
+	SELECT_LEVEL_STATE,
+	GAME_STATE,
+    PAUSE_STATE,
+    GAME_OVER_STATE,
+    WIN_STATE,
+    MENU_STATE,
+    SELECT_PROFILE_STATE
+}

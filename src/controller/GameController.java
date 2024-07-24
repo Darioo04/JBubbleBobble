@@ -3,20 +3,27 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 
 import model.Enemy;
+import model.GameState;
 import model.Player;
+import view.PlayerView;
+
 import javax.swing.Timer;
 
 public class GameController {
 	
     private PlayerController playerController;
     private Player player;
+    private PlayerView playerView;
     private final int FPS = 60;
     private Timer timer;
     private ArrayList<Enemy> enemies;
-//    private PlayerView playerView;
+    private AudioManager audioManager;
+    private GameState gameState;
+    
     
     private static GameController instance;
     

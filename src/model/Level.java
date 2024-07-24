@@ -10,13 +10,13 @@ import java.util.Observer;
 
 @SuppressWarnings("deprecation")
 
-public class Game extends Observable {
+public class Level extends Observable {
 	private int level;
 	private final String path = "/res/sprite/levels/level-";
 	private Tiles[][] tiles = new Tiles[16][14];
 //	private Duration time = Duration.ofSeconds(0);
 	
-	public Game(int level) { 
+	public Level(int level) { 
 		this.level=level;
 		String[][] file = readLevel();
 		initLevel(file);
