@@ -9,7 +9,7 @@ public final class GameConstants {
 	public static final int ORIGINAL_TILE_SIZE = 16;
 	public static final int ORIGINAL_WIDTH = 256;
 	public static final int ORIGINAL_HEIGHT = 224;
-	public static double SCALE = 5.0f;
+	public static final int SCALE = 5;
 	public static final int TILE_SIZE = (int) (ORIGINAL_TILE_SIZE * SCALE);
 	public static final int COLS = 16;
 	public static final int ROWS = 14;
