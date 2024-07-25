@@ -90,4 +90,8 @@ public abstract class StateScreen extends Observable {
         this.stateScreenView = stateScreenView;
         this.addObserver(stateScreenView);
     }
+	
+	public StateScreenView getStateSreenView() {
+		return stateScreenView;
+	}
 }
