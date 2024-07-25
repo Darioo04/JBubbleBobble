@@ -3,12 +3,20 @@ package controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import model.GameState;
+import model.MenuScreen;
 import model.Player;
+import model.SelectLevelScreen;
+import view.MenuScreenView;
 
 public class KeyController implements KeyListener {
 	
 	private Player player;
-
+	private GameController gameController;
+	private MenuScreen menuScreen = MenuScreen.getInstance();
+	private SelectLevelScreen selectLevelScreen = SelectLevelScreen.getInstance();
+	
+	
     public KeyController(Player player) {
         this.player = player;
     }

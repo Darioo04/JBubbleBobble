@@ -69,6 +69,10 @@ public abstract class StateScreen extends Observable {
 		return pointer;
 	}
 	
+	public Image[] getScreens() {
+        return screens;
+    }
+	
 	public void setFileName(String fileName) {
         this.fileName = fileName;
     }
