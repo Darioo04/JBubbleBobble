@@ -27,16 +27,16 @@ public class KeyController implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_LEFT) {
+        if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
             player.move(-5, 0);
         }
-        if (key == KeyEvent.VK_RIGHT) {
+        if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
             player.move(5, 0);
         }
-        if (key == KeyEvent.VK_UP) {
+        if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
             player.move(0, -5);
         }
-        if (key == KeyEvent.VK_DOWN) {
+        if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
             player.move(0, 5);
         }
     }

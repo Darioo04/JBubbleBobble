@@ -1,7 +1,10 @@
 package model;
 
+import view.SelectLevelPanel;
+
 public class SelectProfileScreen extends StateScreen {
 	private static SelectProfileScreen instance;
+	private GameState state;
 	
 	public static SelectProfileScreen getInstance() {
 		if (instance==null) instance = new SelectProfileScreen();
@@ -9,6 +12,10 @@ public class SelectProfileScreen extends StateScreen {
 	}
 	
 	private SelectProfileScreen() {
-		
+		this.state=GameState.SELECT_PROFILE;
+		this.setFileName(state.getPath());
+		this.setNumOptions(state.getNumScreens());
+		this.loadScreens();
+//		this.setStateScreenPanel(SelectProfilePanel.getInstance());
 	}
 }

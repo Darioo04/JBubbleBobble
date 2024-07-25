@@ -14,9 +14,10 @@ public abstract class StateScreen extends Observable {
 	private int numOptions;
 	private String sourceFolder;
 	private String fileName;
-	private StateScreenPanel stateScreenView;
+	private StateScreenPanel stateScreenPanel;
 	private Image[] screens;
 	private int pointer;
+	private GameState state;
 	
 	protected void loadScreens() {
 		//carica le schermate in base al numero di opzioni
@@ -38,7 +39,7 @@ public abstract class StateScreen extends Observable {
 			pointer++;
 		}
 		else {
-			pointer = 0;
+			pointer = screens.length-1;
 		}
 		update();
 	}
@@ -86,8 +87,20 @@ public abstract class StateScreen extends Observable {
         notifyObservers();
 	}
 	
-	public void setStateScreenView(StateScreenPanel stateScreenView) {
-        this.stateScreenView = stateScreenView;
+	public void setStateScreenPanel(StateScreenPanel stateScreenView) {
+        this.stateScreenPanel = stateScreenView;
         this.addObserver(stateScreenView);
     }
+	
+	public StateScreenPanel getStateScreenPanel() {
+		return stateScreenPanel;
+	}
+	
+	public void setGameState(GameState state) {
+		this.state=state;
+	}
+	
+	public GameState getGameState() {
+		return state;
+	}
 }

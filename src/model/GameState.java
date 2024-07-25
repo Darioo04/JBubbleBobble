@@ -1,12 +1,28 @@
 package model;
 
 public enum GameState {
-	LOGIN_STATE,
-	SELECT_LEVEL_STATE,
-	GAME_STATE,
-    PAUSE_STATE,
-    GAME_OVER_STATE,
-    WIN_STATE,
-    MENU_STATE,
-    SELECT_PROFILE_STATE
+	LOGIN(1,"login-"),
+	SELECT_LEVEL(24,"levels-"),
+	GAME(2,""),
+    PAUSE(2,"pause-"),
+    GAME_OVER(2,"lose-"),
+    WIN(2,"win-"),
+    MENU(3,"menu-"),
+    SELECT_PROFILE(1,"profile-");
+    
+	private int numScreens;
+	private String path;
+	
+    GameState(int numScreens,String path) {
+		this.numScreens=numScreens;
+		this.path=path;
+	}
+    
+    public int getNumScreens() {
+    	return numScreens;
+    }
+    
+    public String getPath() {
+    	return path;
+    }
 }
