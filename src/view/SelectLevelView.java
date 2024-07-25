@@ -18,49 +18,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-public class SelectLevelView extends JPanel implements Observer {
-//	private static SelectLevelView instance;
-//	
-//	public static SelectLevelView getInstance() {
-//		if (instance==null) instance = new SelectLevelView();
-//		return instance;
-//	}
+public class SelectLevelView extends StateScreenView implements Observer {
+	private static SelectLevelView instance;
 	
-	public SelectLevelView() {
-		setBackground(Color.BLACK);
-		setVisible(true);
-		add(new JPanel(new GridLayout(6,4,10,10)) {
-			{
-				setBackground(Color.BLACK);
-				setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-				
-				for (int level=1; level<=24; level++) {
-					add(new JButton("Level "+level) {
-						{
-							setBackground(Color.BLACK);
-							setForeground(Color.WHITE);
-							setFocusPainted(false);
-							setFont(new Font("",Font.BOLD,30));
-							addActionListener(new ActionListener() {
-								@Override
-								public void actionPerformed(ActionEvent e) {
-									
-								}
-							});
-						}
-					});
-				}
-			}
-		});
+	public static SelectLevelView getInstance() {
+		if (instance==null) instance = new SelectLevelView();
+		return instance;
+	}
+	
+	private SelectLevelView() {
+		super();
+		
 	}
 	
 	@Override
 	public void update(Observable o,Object arg) {
-		
+		repaint();
 	}
 	
-	
-	public static void main(String[] args) {
-		new SelectLevelView();
-	}
 }

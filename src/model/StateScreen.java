@@ -11,20 +11,21 @@ import view.StateScreenView;
 @SuppressWarnings("deprecation")
 
 public abstract class StateScreen extends Observable {
-	
+	private int numOptions;
 	private String sourceFolder;
 	private String fileName;
 	private StateScreenView stateScreenView;
-	private Image[] sequence;
+	private Image[] screens;
 	private int pointer;
 	
-	protected void loadScreens(int numOptions) {
+	protected void loadScreens() {
 		//carica le schermate in base al numero di opzioni
-		sequence = new Image[numOptions];
-		for (int i = 1; i <= sequence.length; i++) {
+		this.sourceFolder = "/screens/";
+		screens = new Image[numOptions];
+		for (int i = 1; i <= screens.length; i++) {
 			try {
 				String path = sourceFolder + fileName + i + ".png";
-				sequence[i-1] = ImageIO.read(getClass().getResourceAsStream(path)).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				screens[i-1] = ImageIO.read(getClass().getResourceAsStream(path)).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
 			} catch (Exception e) {
 				System.err.println("Error loading screen: " + fileName + i + ".png");
 			    e.printStackTrace();
@@ -33,7 +34,7 @@ public abstract class StateScreen extends Observable {
 	}
 	
 	public void increasePointer() {
-		if (pointer < sequence.length-1) {
+		if (pointer < screens.length-1) {
 			pointer++;
 		}
 		else {
@@ -47,9 +48,17 @@ public abstract class StateScreen extends Observable {
             pointer--;
         }
         else {
-            pointer = sequence.length-1;
+            pointer = screens.length-1;
         }
         update();
+	}
+	
+	public void setNumOptions(int numOptions) {
+		this.numOptions=numOptions;
+	}
+	
+	public int getNumOptions() {
+		return numOptions;
 	}
 	
 	public void setPointer(int pointer) {

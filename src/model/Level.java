@@ -7,23 +7,24 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Observable;
 import java.util.Observer;
+import model.GameConstants;
 
 @SuppressWarnings("deprecation")
 
 public class Level extends Observable {
 	private int level;
 	private final String path = "/res/sprite/levels/level-";
-	private Tiles[][] tiles = new Tiles[16][14];
-//	private Duration time = Duration.ofSeconds(0);
+	private Tiles[][] tiles = new Tiles[GameConstants.ROWS][GameConstants.COLS];
+	
 	
 	public Level(int level) { 
 		this.level=level;
-		Character[][] file = readLevel();
+		char[][] file = readLevel();
 		initLevel(file);
 	}
 	
-	public Character[][] readLevel() {
-		Character[][] file = new Character[16][14];
+	public char[][] readLevel() {
+		char[][] file = new char[GameConstants.ROWS][GameConstants.COLS];
 		try {
 			File inFile= new File(path + level + ".txt");
 			BufferedReader br = new BufferedReader(new FileReader(inFile));
@@ -43,7 +44,7 @@ public class Level extends Observable {
 		return file;
 	}
 	
-	public void initLevel(Character[][] file) {
+	public void initLevel(char[][] file) {
 		for (int i=0; i<file.length; i++) {
 			for (int j=0; j<file[0].length; j++) {
 				tiles[i][j] = 

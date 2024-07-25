@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import model.Enemy;
 import model.GameState;
 import model.Player;
+import model.StateScreen;
 import view.PlayerView;
 
 import javax.swing.Timer;
@@ -16,8 +17,10 @@ import javax.swing.Timer;
 public class GameController {
 	
     private KeyController playerController;
+    private ScreenController screenController;
     private Player player;
     private PlayerView playerView;
+    private StateScreen stateScreen;
     private final int FPS = 60;
     private Timer timer;
     private ArrayList<Enemy> enemies;
@@ -44,6 +47,8 @@ public class GameController {
 		});
         this.player = Player.getInstance();
         this.playerController = new KeyController(player);
+        
+        this.screenController=screenController.getInstance(stateScreen);
 //        this.playerView = new PlayerView(player);
     }
     

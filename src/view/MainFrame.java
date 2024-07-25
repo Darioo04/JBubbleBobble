@@ -49,6 +49,7 @@ public class MainFrame extends JFrame implements Observer{
 				add(new GamePanel(), Panels.GAME.name());
 			}
 		});
+        
 		
 		
         setBackground(Color.BLACK);

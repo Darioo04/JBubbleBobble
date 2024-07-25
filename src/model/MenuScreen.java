@@ -13,7 +13,8 @@ public class MenuScreen extends StateScreen {
 	
 	private MenuScreen(){
         this.setFileName("menu-");
-        this.loadScreens(3);
+        this.setNumOptions(3);
+        this.loadScreens();
         this.setStateScreenView(MenuScreenView.getInstance());
     }
 }
