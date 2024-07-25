@@ -1,6 +1,6 @@
 package model;
 
-import view.SelectLevelView;
+import view.SelectLevelPanel;
 
 public class SelectLevelScreen extends StateScreen {
 	private static SelectLevelScreen instance;
@@ -14,6 +14,6 @@ public class SelectLevelScreen extends StateScreen {
 		this.setFileName("levels-");
 		this.setNumOptions(24);
 		this.loadScreens();
-		this.setStateScreenView(SelectLevelView.getInstance());
+		this.setStateScreenView(SelectLevelPanel.getInstance());
 	}
 }

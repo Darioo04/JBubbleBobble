@@ -4,17 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 
 import model.FontModel;
 
 public class FontView extends JLabel implements Observer {
 	private String text;
-	private static Map<Character,BufferedImage> fontChars = FontModel.getInstance().getFont();
+	private static Map<Character,String> fontChars = FontModel.getInstance().getFont();
 	
 	public FontView(String text) {
 		this.text=text.toUpperCase();
@@ -28,7 +30,6 @@ public class FontView extends JLabel implements Observer {
 	}
 	
 	protected void drawFont(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
 		
 		int x=15; //posizione dei caratteri
 		int y=30;
@@ -36,17 +37,21 @@ public class FontView extends JLabel implements Observer {
 		char[] charArray = text.toCharArray();
 		for (char c : charArray) {
 			if (fontChars.containsKey(c)) {	
-				BufferedImage image = fontChars.get(c);
-				g2d.drawImage(image, x, y-image.getHeight(), null);
-				x+=image.getWidth() + 5;
+				try {
+					BufferedImage image = ImageIO.read(getClass().getResource(fontChars.get(c)));
+					g.drawImage(image, x, y-image.getHeight(), null);
+					x+=image.getWidth() + 5;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			else if (c==' ') { x+=15; }
-			y+=20;
+			
 		}
 	}
 	
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable o,Object arg) {
 		repaint();
 	}
 }

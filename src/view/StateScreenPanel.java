@@ -14,11 +14,11 @@ import model.StateScreen;
 
 @SuppressWarnings("deprecation")
 
-public abstract class StateScreenView extends JPanel implements Observer {
+public abstract class StateScreenPanel extends JPanel implements Observer {
 	
 	private Image screenToDisplay;
 	
-	protected StateScreenView() {
+	protected StateScreenPanel() {
         this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
         this.setLayout(null);

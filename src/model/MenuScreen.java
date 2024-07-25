@@ -1,6 +1,6 @@
 package model;
 
-import view.MenuScreenView;
+import view.MenuScreenPanel;
 
 public class MenuScreen extends StateScreen {
 	
@@ -15,6 +15,6 @@ public class MenuScreen extends StateScreen {
         this.setFileName("menu-");
         this.setNumOptions(3);
         this.loadScreens();
-        this.setStateScreenView(MenuScreenView.getInstance());
+        this.setStateScreenView(MenuScreenPanel.getInstance());
     }
 }

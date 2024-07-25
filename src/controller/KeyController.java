@@ -7,7 +7,7 @@ import model.GameState;
 import model.MenuScreen;
 import model.Player;
 import model.SelectLevelScreen;
-import view.MenuScreenView;
+import view.MenuScreenPanel;
 
 public class KeyController implements KeyListener {
 	

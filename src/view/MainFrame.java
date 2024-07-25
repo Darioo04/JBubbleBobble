@@ -46,7 +46,7 @@ public class MainFrame extends JFrame implements Observer{
 			{
 				add(MainPanel.getInstance(), Panels.MAIN.name());
 				add(MenuPanel.getInstance(), Panels.MENU.name());
-				add(new GamePanel(), Panels.GAME.name());
+				add(GamePanel.getInstance(), Panels.GAME.name());
 			}
 		});
         

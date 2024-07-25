@@ -6,7 +6,7 @@ import java.util.Observer;
 
 import javax.imageio.ImageIO;
 
-import view.StateScreenView;
+import view.StateScreenPanel;
 
 @SuppressWarnings("deprecation")
 
@@ -14,7 +14,7 @@ public abstract class StateScreen extends Observable {
 	private int numOptions;
 	private String sourceFolder;
 	private String fileName;
-	private StateScreenView stateScreenView;
+	private StateScreenPanel stateScreenView;
 	private Image[] screens;
 	private int pointer;
 	
@@ -86,7 +86,7 @@ public abstract class StateScreen extends Observable {
         notifyObservers();
 	}
 	
-	public void setStateScreenView(StateScreenView stateScreenView) {
+	public void setStateScreenView(StateScreenPanel stateScreenView) {
         this.stateScreenView = stateScreenView;
         this.addObserver(stateScreenView);
     }
