@@ -74,7 +74,7 @@ public class GamePanel extends StateScreenView implements Observer{
 	
 	public void setPlayer(Player player) {
 		this.player = player;
-        playerView = PlayerView.getInstance(player);
+        playerView = new PlayerView(player);
         this.add(playerView);
     }
 	

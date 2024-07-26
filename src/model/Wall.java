@@ -9,6 +9,6 @@ public class Wall extends Tiles  {
 	
 	public Wall(int level) {
 		this.collision=true;
-		this.tilePath = "/sprite/Tiles/LevelTiles-"+level+".png"; 
+		this.tilePath = "/sprites/Tiles/LevelTiles-"+level+".png"; 
 	}
 }

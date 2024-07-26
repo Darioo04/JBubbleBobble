@@ -8,10 +8,12 @@ import java.util.ArrayList;
 
 import model.Enemy;
 import model.GameState;
+import model.GamingScreen;
 import model.MenuScreen;
 import model.Player;
 import model.SelectLevelScreen;
 import model.StateScreen;
+import view.GamePanel;
 import view.MainFrame;
 import view.MenuScreenView;
 import view.PlayerView;
@@ -30,6 +32,8 @@ public class GameController {
     private MenuScreenView menuScreenView;
     private SelectLevelScreen selectLevelScreen;
     private SelectLevelView selectLevelView;
+    private GamingScreen gamingScreen;
+    private GamePanel gamePanel;
     private final int FPS = 60;
     private Timer timer;
     private ArrayList<Enemy> enemies;
@@ -102,11 +106,11 @@ public class GameController {
     	this.gameState = gameState;
     }
     
-    public void setDisplayedScreen(JPanel newScreen) {
-    	mainFrame.setContentPane(newScreen);
-        mainFrame.revalidate();
-        mainFrame.repaint();
-    }
+//    public void setDisplayedScreen(JPanel newScreen) {
+//    	mainFrame.setContentPane(newScreen);
+//        mainFrame.revalidate();
+//        mainFrame.repaint();
+//    }
     
     public void changeDisplayedScreen(JPanel oldScreen, JPanel newScreen) {
     	mainFrame.remove(oldScreen);
@@ -121,6 +125,8 @@ public class GameController {
             stateScreenView.setThereKeyController(true);
         }
         
-        setDisplayedScreen(newScreen);
+        mainFrame.revalidate();
+        mainFrame.repaint();
+//        setDisplayedScreen(newScreen);
     }
 }

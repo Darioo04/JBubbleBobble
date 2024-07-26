@@ -103,5 +103,6 @@ public abstract class StateScreen extends Observable {
 	public GameState getGameState() {
 		return state;
 	}
+
 	
 }

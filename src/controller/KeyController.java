@@ -17,10 +17,10 @@ public class KeyController implements KeyListener {
 	
 	private Player player;
 	private GameController gameController;
-	private MenuScreen menuScreen = MenuScreen.getInstance();
-	private SelectLevelScreen selectLevelScreen = SelectLevelScreen.getInstance();
+	private MenuScreen menuScreen;
+	private SelectLevelScreen selectLevelScreen;
 //	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
-	private GamingScreen gamingScreen = GamingScreen.getInstance();
+	private GamingScreen gamingScreen;
 	
 	public static KeyController getInstance() {
 		if (instance == null) instance = new KeyController();
@@ -28,7 +28,9 @@ public class KeyController implements KeyListener {
     }
 	
     private KeyController() {
-        
+    	menuScreen = MenuScreen.getInstance();
+    	selectLevelScreen = SelectLevelScreen.getInstance();
+    	gamingScreen = GamingScreen.getInstance();
     }
     
     @Override
@@ -36,7 +38,8 @@ public class KeyController implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-    	gameController = GameController.getInstance();    	
+    	gameController = GameController.getInstance();   //questo sta qua perche nel suo costruttore ha un getinstance di del keycontroller, se lo mettessi nel costruttore si ha una chiamata circolare tra le 2 classi
+    	
         int key = e.getKeyCode();
         
         switch (gameController.getGameState()) {
@@ -52,6 +55,7 @@ public class KeyController implements KeyListener {
 						case 0 -> {
 							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), selectLevelScreen.getStateScreenView());
 							gameController.setGameState(GameState.SELECT_LEVEL);
+							selectLevelScreen.setPointer(0);
 							selectLevelScreen.update();
 						}
 						case 1 -> {
@@ -81,8 +85,14 @@ public class KeyController implements KeyListener {
 				if (key == KeyEvent.VK_ENTER) {
 					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), gamingScreen.getStateScreenView());
 					gameController.setGameState(GameState.GAME);
-					gamingScreen.loadLevel();
+//					gamingScreen.loadLevel();
 					gamingScreen.update();
+				}
+				if (key == KeyEvent.VK_ESCAPE) {
+					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), menuScreen.getStateScreenView());
+					gameController.setGameState(GameState.MENU);
+					menuScreen.setPointer(0);
+					menuScreen.update();
 				}
 			}
 			
