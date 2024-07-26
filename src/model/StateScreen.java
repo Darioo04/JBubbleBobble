@@ -6,7 +6,7 @@ import java.util.Observer;
 
 import javax.imageio.ImageIO;
 
-import view.StateScreenPanel;
+import view.StateScreenView;
 
 @SuppressWarnings("deprecation")
 
@@ -14,7 +14,7 @@ public abstract class StateScreen extends Observable {
 	private int numOptions;
 	private String sourceFolder;
 	private String fileName;
-	private StateScreenPanel stateScreenPanel;
+	private StateScreenView stateScreenView;
 	private Image[] screens;
 	private int pointer;
 	private GameState state;
@@ -39,7 +39,7 @@ public abstract class StateScreen extends Observable {
 			pointer++;
 		}
 		else {
-			pointer = screens.length-1;
+			pointer = 0;
 		}
 		update();
 	}
@@ -87,20 +87,21 @@ public abstract class StateScreen extends Observable {
         notifyObservers();
 	}
 	
-	public void setStateScreenPanel(StateScreenPanel stateScreenView) {
-        this.stateScreenPanel = stateScreenView;
+	public void setStateScreenView(StateScreenView stateScreenView) {
+        this.stateScreenView = stateScreenView;
         this.addObserver(stateScreenView);
     }
 	
-	public StateScreenPanel getStateScreenPanel() {
-		return stateScreenPanel;
+	public StateScreenView getStateScreenView() {
+		return stateScreenView;
 	}
 	
 	public void setGameState(GameState state) {
-		this.state=state;
+		this.state = state;
 	}
 	
 	public GameState getGameState() {
 		return state;
 	}
+	
 }

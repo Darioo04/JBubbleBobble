@@ -1,6 +1,6 @@
 package model;
 
-import view.SelectLevelPanel;
+import view.SelectLevelView;
 
 public class SelectProfileScreen extends StateScreen {
 	private static SelectProfileScreen instance;

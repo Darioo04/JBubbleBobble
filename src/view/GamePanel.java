@@ -13,7 +13,7 @@ import model.Player;
 
 @SuppressWarnings("deprecation")
 
-public class GamePanel extends StateScreenPanel implements Observer{
+public class GamePanel extends StateScreenView implements Observer{
 	private static GamePanel instance;
     private Player player;
     private PlayerView playerView;
