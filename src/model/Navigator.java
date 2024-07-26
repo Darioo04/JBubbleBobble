@@ -18,8 +18,8 @@ public class Navigator extends Observable  {
 	 }
 	 
 	 
-	 public void navigate(Panels panel) {
+	 public void navigate(GameState state) {
 		 setChanged();
-		 notifyObservers(panel);
+		 notifyObservers(state);
 	 }
 }

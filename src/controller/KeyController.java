@@ -39,6 +39,9 @@ public class KeyController implements KeyListener {
         if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
             player.move(0, 5);
         }
+        if (key == KeyEvent.VK_SPACE) {
+        	
+        }
     }
 
     @Override

@@ -60,7 +60,7 @@ public class MainPanel extends JPanel {
 							start.addActionListener(new ActionListener() {
 								@Override
 								public void actionPerformed(ActionEvent e) {
-									Navigator.getInstance().navigate(Panels.MENU);
+//									Navigator.getInstance().navigate(Panels.MENU);
 								}	
 							});
 							add(start);
