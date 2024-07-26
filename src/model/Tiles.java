@@ -1,22 +1,18 @@
 package model;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Observable;
 
-import javax.imageio.ImageIO;
+import java.util.Observable;
 
 @SuppressWarnings("deprecation")
 
 
 public abstract class Tiles extends Observable {
 	protected boolean collision;
-	protected BufferedImage sprite;
+	protected String tilePath;
 	
 	
-	public BufferedImage getSprite() {
-		return sprite;
+	public String getPath() {
+		return tilePath;
 	}
 	
 	public boolean isCollision() {

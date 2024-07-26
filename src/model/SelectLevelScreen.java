@@ -1,10 +1,9 @@
 package model;
 
-import view.SelectLevelPanel;
+import view.SelectLevelView;
 
 public class SelectLevelScreen extends StateScreen {
 	private static SelectLevelScreen instance;
-	private GameState state;
 	
 	public static SelectLevelScreen getInstance() {
 		if (instance==null) instance = new SelectLevelScreen();
@@ -12,10 +11,10 @@ public class SelectLevelScreen extends StateScreen {
 	}
 	
 	private SelectLevelScreen() {
-		this.state=GameState.SELECT_LEVEL;
-		this.setFileName(state.getPath());
-		this.setNumOptions(state.getNumScreens());
+		this.setGameState(GameState.SELECT_LEVEL);
+		this.setFileName( getGameState().getPath() );
+		this.setNumOptions( getGameState().getNumScreens() );
 		this.loadScreens();
-		this.setStateScreenPanel(SelectLevelPanel.getInstance());
+		this.setStateScreenView(SelectLevelView.getInstance());
 	}
 }

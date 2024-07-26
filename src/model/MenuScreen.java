@@ -1,11 +1,10 @@
 package model;
 
-import view.MenuScreenPanel;
+import view.MenuScreenView;
 
 public class MenuScreen extends StateScreen {
 	
 	private static MenuScreen instance;
-	private GameState state;
 	
 	public static MenuScreen getInstance(){
         if(instance == null) instance = new MenuScreen();
@@ -13,10 +12,10 @@ public class MenuScreen extends StateScreen {
     }
 	
 	private MenuScreen(){
-		this.state=GameState.MENU;
-        this.setFileName(state.getPath());
-        this.setNumOptions(state.getNumScreens());
+		this.setGameState(GameState.MENU);
+        this.setFileName(getGameState().getPath());
+        this.setNumOptions(getGameState().getNumScreens());
         this.loadScreens();
-        this.setStateScreenPanel(MenuScreenPanel.getInstance());
+        this.setStateScreenView(MenuScreenView.getInstance());
     }
 }

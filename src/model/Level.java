@@ -5,13 +5,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Observable;
+import java.util.Observer;
+
 import model.GameConstants;
 
 @SuppressWarnings("deprecation")
 
-public class Level extends Observable {
+public class Level extends Observable implements Observer {
 	private int level;
-	private final String path = "/res/sprite/levels/level-";
+	private final String path = "res/Levels/level-";
 	private Tiles[][] tiles = new Tiles[GameConstants.ROWS][GameConstants.COLS];
 	
 	
@@ -19,6 +21,8 @@ public class Level extends Observable {
 		this.level=level;
 		char[][] file = readLevel();
 		initLevel(file);
+		setChanged();
+		notifyObservers();
 	}
 	
 	public char[][] readLevel() {
@@ -56,19 +60,18 @@ public class Level extends Observable {
 			}
 		}
 		
-//		for (Tiles[] row : tiles) {
-//			for (Tiles tile : row) {
-//				tile.addObserver(this);
-//			}
-//		}
+		for (Tiles[] row : tiles) {
+			for (Tiles tile : row) {
+				tile.addObserver(this);
+			}
+		}
 	}
 	
 	public Tiles[][] getLevel() {
 		return tiles;
 	}
 	
-//	public void update(Observable o, Object arg) {
-//		setChanged();
-//		notifyObservers();
-//	}
+	public void update(Observable o,Object arg) {
+
+	}
 }

@@ -1,7 +1,5 @@
 package view;
 
-import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Observable;
@@ -10,10 +8,6 @@ import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import model.GameConstants;
-import model.Navigator;
-import model.Panels;
 
 @SuppressWarnings("deprecation")
 
@@ -32,11 +26,8 @@ public class MainFrame extends JFrame {
 			BufferedImage image = ImageIO.read(getClass().getResource("/sprites/Title/NES-BubbleBobble-Title-JBubbleBobble-0.png"));
 			setIconImage(image); 
 		}
-		catch ( IOException e ) { System.out.println("Image cannot be found"); }
-		add (new JPanel() {
-			
-		});
-
+		catch ( IOException e ) { e.printStackTrace(); }
+		
 //        // scaled dimensions
 //        int scaledWidth = (int) (GameConstants.ORIGINAL_WIDTH * GameConstants.SCALE);
 //        int scaledHeight = (int) (GameConstants.ORIGINAL_HEIGHT * GameConstants.SCALE);
@@ -61,12 +52,5 @@ public class MainFrame extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
     }
-	
-//	 @Override
-//	 public void update(Observable o, Object arg) {
-//		 if (o instanceof Navigator && arg instanceof Panels) {
-//			 ((CardLayout) cardPanel.getLayout()).show(cardPanel, ((Panels) arg).name());
-//		 }
-//	 }
 	 
 }

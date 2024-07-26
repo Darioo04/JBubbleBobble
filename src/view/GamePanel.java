@@ -13,7 +13,7 @@ import model.Player;
 
 @SuppressWarnings("deprecation")
 
-public class GamePanel extends StateScreenPanel implements Observer{
+public class GamePanel extends StateScreenView implements Observer{
 	private static GamePanel instance;
     private Player player;
     private PlayerView playerView;
@@ -24,19 +24,57 @@ public class GamePanel extends StateScreenPanel implements Observer{
     }
 
 	private GamePanel() {
-		this.setBackground(Color.BLACK);
-		add(new JPanel(new GridLayout(1,3,5,5)) {
+		super();
+		setVisible(true);
+		setBackground(Color.BLACK);
+		add(new JPanel(new GridLayout(2,1,0,0)) {
 			{
-				add(new JPanel());
-				add(new JPanel());
-				add(new JPanel());
+				add(new JPanel(new GridLayout(2,1,0,0)) {
+					{
+						add(new JPanel(new BorderLayout()) {
+							{
+								setBackground(Color.BLACK);
+								FontView font = new FontView("HP");
+								add(font,BorderLayout.CENTER);
+							}
+						});
+						add(new JPanel() {
+							{
+								setBackground(Color.BLACK);
+								add(new JLabel("0"));
+							}
+						});
+						
+					}
+				},BorderLayout.WEST);
+				add(new JPanel(new GridLayout(2,1,0,0)) {
+					{
+						add(new JPanel(new BorderLayout()) {
+							{
+								setBackground(Color.BLACK);
+								FontView font = new FontView("High score");
+								add(font,BorderLayout.CENTER);
+							}
+						});
+						add(new JPanel() {
+							{
+								setBackground(Color.BLACK);
+								add(new JLabel("0"));
+							}
+						});
+						
+					}
+				},BorderLayout.EAST);
+				
 			}
 		},BorderLayout.PAGE_START);
+		
+		
 	}
 	
 	public void setPlayer(Player player) {
 		this.player = player;
-        playerView = new PlayerView(player);
+        playerView = PlayerView.getInstance(player);
         this.add(playerView);
     }
 	

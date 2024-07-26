@@ -14,11 +14,12 @@ import model.StateScreen;
 
 @SuppressWarnings("deprecation")
 
-public abstract class StateScreenPanel extends JPanel implements Observer {
+public abstract class StateScreenView extends JPanel implements Observer {
 	
 	private Image screenToDisplay;
+	private boolean isThereKeyController;
 	
-	protected StateScreenPanel() {
+	protected StateScreenView() {
         this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
         this.setLayout(null);
@@ -50,5 +51,13 @@ public abstract class StateScreenPanel extends JPanel implements Observer {
         this.repaint();
 		
 	}
+	
+	public boolean isThereKeyController() {
+        return isThereKeyController;
+    }
+	
+	public void setThereKeyController(boolean isThereKeyController) {
+        this.isThereKeyController = isThereKeyController;
+    }
 
 }

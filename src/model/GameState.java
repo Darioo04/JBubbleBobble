@@ -3,12 +3,13 @@ package model;
 public enum GameState {
 	LOGIN(1,"login-"),
 	SELECT_LEVEL(24,"levels-"),
-	GAME(2,""),
+	GAME(1,""),
     PAUSE(2,"pause-"),
     GAME_OVER(2,"lose-"),
     WIN(2,"win-"),
     MENU(3,"menu-"),
-    SELECT_PROFILE(1,"profile-");
+    SELECT_PROFILE(1,"profile-"),
+	LEVEL_EDITOR(1,"");
     
 	private int numScreens;
 	private String path;

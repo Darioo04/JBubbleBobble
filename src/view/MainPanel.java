@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Navigator;
-import model.Panels;
 
 @SuppressWarnings("deprecation")
 

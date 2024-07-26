@@ -10,21 +10,26 @@ import model.Enemy;
 import model.GameState;
 import model.MenuScreen;
 import model.Player;
+import model.SelectLevelScreen;
 import model.StateScreen;
 import view.MainFrame;
-import view.MenuScreenPanel;
+import view.MenuScreenView;
 import view.PlayerView;
+import view.SelectLevelView;
+import view.StateScreenView;
 
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GameController {
 	
-    private KeyController playerController;
-    private ScreenController screenController;
+    private KeyController keyController;
     private Player player;
     private PlayerView playerView;
     private MenuScreen menuScreen;
-    private MenuScreenPanel menuScreenPanel;
+    private MenuScreenView menuScreenView;
+    private SelectLevelScreen selectLevelScreen;
+    private SelectLevelView selectLevelView;
     private final int FPS = 60;
     private Timer timer;
     private ArrayList<Enemy> enemies;
@@ -41,16 +46,18 @@ public class GameController {
     }
     
     private GameController() {
-    	
+
         gameState = GameState.MENU;
         mainFrame = MainFrame.getInstance();
+        selectLevelScreen = SelectLevelScreen.getInstance();
+        selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
         menuScreen = MenuScreen.getInstance();
-        menuScreenPanel = (MenuScreenPanel) menuScreen.getStateScreenPanel();
-        screenController = ScreenController.getInstance();
-        mainFrame.add(menuScreenPanel);
-        menuScreenPanel.addKeyListener(screenController);
+        menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
+        keyController = KeyController.getInstance();
+        mainFrame.add(menuScreenView);
+        menuScreenView.addKeyListener(keyController);
         mainFrame.setFocusable(true);
-        mainFrame.addKeyListener(screenController);
+        mainFrame.addKeyListener(keyController);
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
@@ -63,33 +70,57 @@ public class GameController {
 				
 			}
 		});
-        this.player = Player.getInstance();
-        this.playerController = new KeyController(player);
-        
-        this.screenController = ScreenController.getInstance();
-//        this.playerView = new PlayerView(player);
     }
     
     public void update() {
     	if(gameState == GameState.MENU) {
     		menuScreen.update();
     	}
+    	else if (gameState == GameState.SELECT_LEVEL) {
+    		selectLevelScreen.update();
+    	}
     }
     
     public void startGame() {
-        timer.start(); 			// Inizia il game loop
+        timer.start(); // Inizia il game loop
+//        AudioManager.getInstance().play("/Original Sound Track/03_Room Theme.wav");
     }
 
     public void stopGame() {
         timer.stop(); 			// Ferma il game loop
     }
-
-    public KeyListener getPlayerController() {
-        return playerController;
-    }
     
     public Player getPlayer() {
         return player;
     }
-
+    
+    public GameState getGameState() {
+    	return gameState;
+    }
+    
+    public void setGameState(GameState gameState) {
+    	this.gameState = gameState;
+    }
+    
+    public void setDisplayedScreen(JPanel newScreen) {
+    	mainFrame.setContentPane(newScreen);
+        mainFrame.revalidate();
+        mainFrame.repaint();
+    }
+    
+    public void changeDisplayedScreen(JPanel oldScreen, JPanel newScreen) {
+    	mainFrame.remove(oldScreen);
+    	mainFrame.getContentPane().removeAll();
+        mainFrame.add(newScreen);
+        newScreen.setFocusable(true);
+        newScreen.requestFocusInWindow();
+        
+        StateScreenView stateScreenView = (StateScreenView) newScreen;
+        if (!stateScreenView.isThereKeyController()) {
+        	newScreen.addKeyListener(keyController);
+            stateScreenView.setThereKeyController(true);
+        }
+        
+        setDisplayedScreen(newScreen);
+    }
 }

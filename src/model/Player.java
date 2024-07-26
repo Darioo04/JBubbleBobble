@@ -19,7 +19,7 @@ public class Player extends Entity {
 		return score;
 	}
 	
-	public void setScore(long score) {
+	public void addScore(long score) {
 		this.score+=score;
 		setChanged();
 		notifyObservers();

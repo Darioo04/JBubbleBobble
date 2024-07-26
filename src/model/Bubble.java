@@ -42,7 +42,8 @@ public abstract class Bubble extends Observable  {
         setChanged();
         notifyObservers();
     }
-	public abstract void shot();
+	
+	public abstract void shot(); //metodo astratto implementato da tutte le bolle
 		
 	
 }
