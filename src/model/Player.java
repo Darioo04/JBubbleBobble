@@ -8,6 +8,7 @@ public class Player extends Entity {
 	
 	private Player() {
 		super(50, 50, "Player");
+		this.setPath("/sprites/BubAndBob1/Bub-0.png");
 	}
 	
 	public static Player getInstance() {
@@ -23,6 +24,11 @@ public class Player extends Entity {
 		this.score+=score;
 		setChanged();
 		notifyObservers();
+	}
+	
+	public void update() {
+		setChanged();
+        notifyObservers();
 	}
 
 }

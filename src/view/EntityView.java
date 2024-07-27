@@ -20,12 +20,12 @@ public abstract class EntityView extends JLabel implements Observer {
 	private String path;
 	private Image resizedImage;
 	private ImageIcon resizedIcon;
-	private BufferedImage[] standingSprites;
-	private BufferedImage[] deathSprites;
-	private BufferedImage[] walkingSpritesUp;
-	private BufferedImage[] walkingSpritesDown;
-	private BufferedImage[] walkingSpritesLeft;
-	private BufferedImage[] walkingSpritesRight;
+//	private BufferedImage[] standingSprites;
+//	private BufferedImage[] deathSprites;
+//	private BufferedImage[] walkingSpritesUp;
+//	private BufferedImage[] walkingSpritesDown;
+//	private BufferedImage[] walkingSpritesLeft;
+//	private BufferedImage[] walkingSpritesRight;
 
 	
 	public EntityView(Entity entity) {

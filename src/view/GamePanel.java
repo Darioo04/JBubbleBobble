@@ -13,10 +13,10 @@ import model.Player;
 
 @SuppressWarnings("deprecation")
 
-public class GamePanel extends StateScreenView implements Observer{
+public class GamePanel extends StateScreenView {
 	private static GamePanel instance;
     private Player player;
-    private PlayerView playerView;
+ 
 	
     public static GamePanel getInstance() {
     	if (instance==null) instance = new GamePanel();
@@ -74,13 +74,6 @@ public class GamePanel extends StateScreenView implements Observer{
 	
 	public void setPlayer(Player player) {
 		this.player = player;
-        playerView = new PlayerView(player);
-        this.add(playerView);
-    }
-	
-	@Override
-    public void update(Observable o, Object arg) {
-        playerView.repaint();
     }
 	
 }

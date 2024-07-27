@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import model.Enemy;
 import model.GameState;
-import model.GamingScreen;
 import model.MenuScreen;
 import model.Player;
 import model.SelectLevelScreen;
@@ -32,7 +31,6 @@ public class GameController {
     private MenuScreenView menuScreenView;
     private SelectLevelScreen selectLevelScreen;
     private SelectLevelView selectLevelView;
-    private GamingScreen gamingScreen;
     private GamePanel gamePanel;
     private final int FPS = 60;
     private Timer timer;
@@ -41,6 +39,7 @@ public class GameController {
     private GameState gameState;
     private MainFrame mainFrame;
     
+    @SuppressWarnings("deprecation")
     
     private static GameController instance;
     
@@ -77,12 +76,21 @@ public class GameController {
     }
     
     public void update() {
-    	if(gameState == GameState.MENU) {
-    		menuScreen.update();
-    	}
-    	else if (gameState == GameState.SELECT_LEVEL) {
-    		selectLevelScreen.update();
-    	}
+    	switch (gameState){
+		case GameState.MENU -> {
+			menuScreen.update();
+		}
+		case GameState.SELECT_LEVEL -> {
+            selectLevelScreen.update();
+        }
+		case GameState.GAME -> {
+			player.update();
+			gamePanel.repaint();
+		}
+		
+		default ->
+		throw new IllegalArgumentException("Unexpected value: " + gameState);
+		}
     }
     
     public void startGame() {
@@ -92,6 +100,25 @@ public class GameController {
 
     public void stopGame() {
         timer.stop(); 			// Ferma il game loop
+    }
+    
+
+	public void startLevel() {
+    	player = Player.getInstance();
+    	playerView = new PlayerView(player);
+//    	gamingScreen = GamingScreen.getInstance();
+    	gamePanel = GamePanel.getInstance();
+    	player.addObserver(playerView);
+    	mainFrame.getContentPane().removeAll();
+    	mainFrame.add(gamePanel);
+    	
+    	gamePanel.add(playerView);
+    	gamePanel.setPlayer(player);
+    	gamePanel.setFocusable(true);
+    	gamePanel.grabFocus();
+    	
+    	mainFrame.revalidate();
+        mainFrame.repaint();
     }
     
     public Player getPlayer() {
@@ -117,7 +144,7 @@ public class GameController {
     	mainFrame.getContentPane().removeAll();
         mainFrame.add(newScreen);
         newScreen.setFocusable(true);
-        newScreen.requestFocusInWindow();
+        newScreen.grabFocus();
         
         StateScreenView stateScreenView = (StateScreenView) newScreen;
         if (!stateScreenView.isThereKeyController()) {

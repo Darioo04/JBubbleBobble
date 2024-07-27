@@ -4,11 +4,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import model.GameState;
-import model.GamingScreen;
 import model.MenuScreen;
 import model.Player;
 import model.SelectLevelScreen;
 import model.SelectProfileScreen;
+import view.GamePanel;
 import view.MenuScreenView;
 
 public class KeyController implements KeyListener {
@@ -20,7 +20,7 @@ public class KeyController implements KeyListener {
 	private MenuScreen menuScreen;
 	private SelectLevelScreen selectLevelScreen;
 //	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
-	private GamingScreen gamingScreen;
+//	private GamingScreen gamingScreen;
 	
 	public static KeyController getInstance() {
 		if (instance == null) instance = new KeyController();
@@ -30,7 +30,8 @@ public class KeyController implements KeyListener {
     private KeyController() {
     	menuScreen = MenuScreen.getInstance();
     	selectLevelScreen = SelectLevelScreen.getInstance();
-    	gamingScreen = GamingScreen.getInstance();
+//    	gamingScreen = GamingScreen.getInstance();
+    	player = Player.getInstance();
     }
     
     @Override
@@ -83,10 +84,11 @@ public class KeyController implements KeyListener {
 					selectLevelScreen.increasePointer();
 				}
 				if (key == KeyEvent.VK_ENTER) {
-					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), gamingScreen.getStateScreenView());
+					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), GamePanel.getInstance());
 					gameController.setGameState(GameState.GAME);
 //					gamingScreen.loadLevel();
-					gamingScreen.update();
+					gameController.startLevel();
+//					gamePanel.update();
 				}
 				if (key == KeyEvent.VK_ESCAPE) {
 					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), menuScreen.getStateScreenView());
@@ -103,10 +105,10 @@ public class KeyController implements KeyListener {
 			case GAME -> {
 				//player controller
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-					player.move(0,5);
+					player.move(0,-5);
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
-					player.move(0,-5);
+					player.move(0,5);
 				}
 				if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
 					player.move(-5,0);
