@@ -11,8 +11,7 @@ public class SelectLevelView extends StateScreenView {
 	}
 	
 	private SelectLevelView() {
-		super();
-		
+			
 	}
 	
 	

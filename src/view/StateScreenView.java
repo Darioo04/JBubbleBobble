@@ -23,7 +23,6 @@ public abstract class StateScreenView extends JPanel implements Observer {
         this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
         this.setLayout(null);
-
     }
 	
 	public Image getScreenToDisplay() {

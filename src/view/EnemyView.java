@@ -7,17 +7,10 @@ import javax.imageio.ImageIO;
 
 import model.Enemy;
 
-public class EnemyView {
-	private Enemy enemy;
-	private BufferedImage enemyImage;
+public class EnemyView extends EntityView {
 	
 	public EnemyView(Enemy enemy) {
-		this.enemy = enemy;
-        try {
-        	enemyImage = ImageIO.read(getClass().getResource(enemy.getPath()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		super(enemy);
 	}
 	
 }

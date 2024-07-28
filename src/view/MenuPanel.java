@@ -41,28 +41,7 @@ public class MenuPanel extends JPanel {
 				setBorder(BorderFactory.createEmptyBorder(50, 30, 50, 30));
 				add(new JPanel(new GridBagLayout()) {
 					{
-						
-//						add(new JLabel() {
-//							{
-//								String text = "Testo di prova";
-//								FontView fontText = new FontView(text);
-//								fontText.drawFont(getGraphics());
-//							}
-//						});
-						
-						GridBagConstraints constraints = new GridBagConstraints();
-				        	constraints.weightx = 1;
-				        	constraints.weighty = 1;
-				            constraints.anchor = GridBagConstraints.NORTHEAST;
-				            constraints.gridx = 0;
-				            constraints.gridy = 0;
-				            constraints.gridwidth = 1;
-				            constraints.gridheight = 3;
-				         
-//				         add(new JLabel("Games won: " + gamesWon),constraints);
-//				         add(new JLabel("Games Played: " + gamesPlayed),constraints);
-				         
-				         add(new JButton("Play"),constraints);				
+									
 					}
 				}, BorderLayout.SOUTH);
 			}

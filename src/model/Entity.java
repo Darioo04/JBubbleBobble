@@ -40,21 +40,22 @@ public abstract class Entity extends Observable{
 	
 	public void setX(int x) {
         this.x = x;
-        setChanged();
-        notifyObservers();
+        update();
     }
 	
 	public void setY(int y) {
 		this.y = y;
-        setChanged();
-        notifyObservers();
+        update();
 	}
 	
 	public void move(int dx, int dy) {
         this.x += dx;
         this.y += dy;
-        setChanged();
-        notifyObservers();
+        if (x<0) x=0;
+        if (x>GameConstants.ORIGINAL_WIDTH) x=GameConstants.ORIGINAL_WIDTH;
+        if (y<0) y=0;
+        if (x>GameConstants.ORIGINAL_HEIGHT) y=GameConstants.ORIGINAL_HEIGHT;
+        update();
     }
 	
 	public boolean isDead() {
@@ -64,5 +65,10 @@ public abstract class Entity extends Observable{
 	public void setDead(boolean isDead) {
         this.isDead = isDead;
     }
+	
+	public void update() {
+		setChanged();
+        notifyObservers();
+	}
 
 }

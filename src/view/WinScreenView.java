@@ -16,8 +16,7 @@ public class WinScreenView extends StateScreenView {
 		return instance;
 	}
 	
-	public WinScreenView() {
-		super();
-		
+	private WinScreenView() {
+			
 	}
 }

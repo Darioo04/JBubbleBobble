@@ -13,6 +13,7 @@ import model.Player;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import view.GamePanel;
+import view.LevelPanel;
 import view.MainFrame;
 import view.MenuScreenView;
 import view.PlayerView;
@@ -21,6 +22,8 @@ import view.StateScreenView;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+@SuppressWarnings("deprecation")
 
 public class GameController {
 	
@@ -39,7 +42,7 @@ public class GameController {
     private GameState gameState;
     private MainFrame mainFrame;
     
-    @SuppressWarnings("deprecation")
+    
     
     private static GameController instance;
     
@@ -77,19 +80,23 @@ public class GameController {
     
     public void update() {
     	switch (gameState){
-		case GameState.MENU -> {
-			menuScreen.update();
-		}
-		case GameState.SELECT_LEVEL -> {
-            selectLevelScreen.update();
-        }
-		case GameState.GAME -> {
-			player.update();
-			gamePanel.repaint();
-		}
+    	
+			case MENU -> {
+				menuScreen.update();
+			}
+			
+			case SELECT_LEVEL -> {
+				selectLevelScreen.update();
+			}
+			
+			case GAME -> {
+				player.update();
+				gamePanel.repaint();
+			}
 		
-		default ->
-		throw new IllegalArgumentException("Unexpected value: " + gameState);
+			default -> {
+				throw new IllegalArgumentException("Unexpected value: " + gameState);
+			}	
 		}
     }
     

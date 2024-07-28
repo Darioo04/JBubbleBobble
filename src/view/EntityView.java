@@ -45,7 +45,6 @@ public abstract class EntityView extends JLabel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		this.setBounds(entity.getX(), entity.getY(), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
-		
 		try {
 			BufferedImage sprite = ImageIO.read(getClass().getResource(path));
 			this.resizeIcon(sprite);

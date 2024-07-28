@@ -51,6 +51,9 @@ public class KeyController implements KeyListener {
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 					menuScreen.increasePointer();
 				}
+				if (key == KeyEvent.VK_ESCAPE) {
+					System.exit(key);
+				}
 				if (key == KeyEvent.VK_ENTER) {
 					switch (menuScreen.getPointer()) {
 						case 0 -> {
@@ -103,18 +106,19 @@ public class KeyController implements KeyListener {
 			}
 				
 			case GAME -> {
+				
 				//player controller
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-					player.move(0,-5);
+					player.move(0,-10);
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
-					player.move(0,5);
+					player.move(0,10);
 				}
 				if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
-					player.move(-5,0);
+					player.move(-10,0);
 				}
 				if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
-					player.move(5,0);
+					player.move(10,0);
 				}
 			}
 			
@@ -124,7 +128,10 @@ public class KeyController implements KeyListener {
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 					selectLevelScreen.increasePointer();
-				}	
+				}
+				if (key == KeyEvent.VK_ENTER) {
+					
+				}
 			}
 			
 			case SELECT_PROFILE -> {

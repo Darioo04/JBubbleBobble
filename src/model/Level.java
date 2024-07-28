@@ -11,7 +11,7 @@ import model.GameConstants;
 
 @SuppressWarnings("deprecation")
 
-public class Level extends Observable implements Observer {
+public class Level extends Observable {
 	private int level;
 	private final String path = "res/Levels/level-";
 	private Tiles[][] tiles = new Tiles[GameConstants.ROWS][GameConstants.COLS];
@@ -60,18 +60,14 @@ public class Level extends Observable implements Observer {
 			}
 		}
 		
-		for (Tiles[] row : tiles) {
-			for (Tiles tile : row) {
-				tile.addObserver(this);
-			}
-		}
+//		for (Tiles[] row : tiles) {
+//			for (Tiles tile : row) {
+//				tile.addObserver(this);
+//			}
+//		}
 	}
 	
 	public Tiles[][] getLevel() {
 		return tiles;
-	}
-	
-	public void update(Observable o,Object arg) {
-
 	}
 }

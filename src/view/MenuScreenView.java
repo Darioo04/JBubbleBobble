@@ -9,6 +9,6 @@ public class MenuScreenView extends StateScreenView {
     }
 	
 	private MenuScreenView() {
-        super();
+        
     }
 }

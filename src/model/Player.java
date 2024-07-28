@@ -22,13 +22,10 @@ public class Player extends Entity {
 	
 	public void addScore(long score) {
 		this.score+=score;
-		setChanged();
-		notifyObservers();
+		update();
 	}
 	
-	public void update() {
-		setChanged();
-        notifyObservers();
+	public void resetScore() {
+		this.score=0;
 	}
-
 }

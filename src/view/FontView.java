@@ -11,10 +11,11 @@ import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import model.FontModel;
 
-public class FontView extends JLabel implements Observer {
+public class FontView extends JPanel implements Observer {
 	private String text;
 	private static Map<Character,String> fontChars = FontModel.getInstance().getFont();
 	

@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class NicknamePanel extends JFrame {
+public class NicknamePanel extends JPanel {
 	private static NicknamePanel instance;
 	
 	public static NicknamePanel getInstance() {
@@ -18,11 +18,8 @@ public class NicknamePanel extends JFrame {
 	}
 	
 	private NicknamePanel() {
-		super("Nickname Panel");
 		setVisible(true);
 		Dimension dimension = new Dimension(400,300);
-		setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setPreferredSize(dimension);
 		setMinimumSize(dimension);
 		setMaximumSize(dimension);
@@ -46,11 +43,5 @@ public class NicknamePanel extends JFrame {
 				},BorderLayout.SOUTH);
 			}
 		}, BorderLayout.CENTER);
-		pack();
-		setResizable(false);
-	}
-	
-	public static void main(String[] args) {
-		new NicknamePanel();
 	}
 }
