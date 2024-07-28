@@ -1,18 +1,20 @@
 package view;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
+<<<<<<< HEAD
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+=======
+import java.awt.Dimension;
+>>>>>>> e9945e171eb6e9a5904623cef30ed1fba562d7ec
 
-import javax.swing.*;
 
+import model.GameConstants;
 import model.Player;
 
-
-@SuppressWarnings("deprecation")
 
 public class GamePanel extends StateScreenView {
 	private static GamePanel instance;
@@ -33,6 +35,12 @@ public class GamePanel extends StateScreenView {
 //				
 //			}
 //		});
+		
+		this.setBackground(Color.black);
+		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
+//		super();
+//		setVisible(true);
+//		setBackground(Color.BLACK);
 //		add(new JPanel(new GridLayout(2,1,0,0)) {
 //			{
 //				add(new JPanel(new GridLayout(2,1,0,0)) {
@@ -74,6 +82,9 @@ public class GamePanel extends StateScreenView {
 //				
 //			}
 //		},BorderLayout.PAGE_START);
+
+
+		
 	}
 	
 	public void setPlayer(Player player) {
