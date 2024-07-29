@@ -11,7 +11,7 @@ public final class GameConstants {
 	public static final int ORIGINAL_HEIGHT = 224;
 	public static final int SCALE = 5;
 	public static final int TILE_SIZE = (int) (ORIGINAL_TILE_SIZE * SCALE);
-	public static final int COLS = 15;
+	public static final int COLS = 16;
 	public static final int ROWS = 14;
 	public static final int SCREEN_WIDTH = TILE_SIZE * COLS;
 	public static final int SCREEN_HEIGHT = TILE_SIZE * ROWS;

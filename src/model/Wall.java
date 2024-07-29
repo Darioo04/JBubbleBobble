@@ -1,14 +1,18 @@
 package model;
 
-import java.io.File;
+
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Wall extends Tiles  {
+public class Wall extends Tile  {
 	
 	public Wall(int level) {
 		this.collision=true;
-		this.tilePath = "/sprites/Tiles/LevelTiles-"+level+".png"; 
+		try {
+            this.sprite = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-"+level+".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
 	}
 }

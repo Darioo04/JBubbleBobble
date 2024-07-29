@@ -14,12 +14,12 @@ import model.GameConstants;
 public class Level extends Observable {
 	private int level;
 	private final String path = "res/Levels/level-";
-	private Tiles[][] tiles;
+	private Tile[][] tiles;
 	private char[][] file;
 	
 	
 	public Level(int level) { 
-		this.tiles = new Tiles[GameConstants.ROWS][GameConstants.COLS];
+		this.tiles = new Tile[GameConstants.ROWS][GameConstants.COLS];
 		this.file = new char[GameConstants.ROWS][GameConstants.COLS];
 		this.level=level;
 		readLevel();
@@ -67,7 +67,7 @@ public class Level extends Observable {
 //		}
 	}
 	
-	public Tiles[][] getLevel() {
+	public Tile[][] getLevel() {
 		return tiles;
 	}
 

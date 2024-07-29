@@ -1,10 +1,18 @@
 package model;
 
-public class EmptyBlock extends Tiles {
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class EmptyBlock extends Tile {
 	
 	public EmptyBlock() {
 		this.collision=false;
-		this.tilePath = "/sprites/tiles/EmptyBlock.png";
+		try {
+            this.sprite = ImageIO.read(getClass().getResource("/sprites/Tiles/EmptyBlock.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } 
 	}
 	
 	

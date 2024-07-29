@@ -13,9 +13,8 @@ import model.PauseScreen;
 import model.Player;
 import model.SelectLevelScreen;
 import model.StateScreen;
-import model.Tiles;
+import model.Tile;
 import view.GamePanel;
-import view.LevelPanel;
 import view.MainFrame;
 import view.MenuScreenView;
 import view.PauseScreenView;
@@ -123,19 +122,18 @@ public class GameController {
 
 	public void startLevel() {
     	player = Player.getInstance();
-    	playerView = PlayerView.getInstance(player);
+    	playerView = PlayerView.getInstance();
     	gamePanel = GamePanel.getInstance();
     	player.addObserver(playerView);
     	
     	
-    	mainFrame.getContentPane().removeAll();
     	mainFrame.add(gamePanel);
     	gamePanel.addKeyListener(keyController);
     	gamePanel.setIsThereKeyController(true);
     	
-    	Tiles[][] level= new Level(selectLevelScreen.getPointer()+1).getLevel();
-    	LevelPanel levelPanel=new LevelPanel(level);
-    	gamePanel.add(levelPanel);
+//    	Tiles[][] level= new Level(selectLevelScreen.getPointer()+1).getLevel();
+//    	LevelPanel levelPanel=new LevelPanel(level);
+//    	gamePanel.add(levelPanel);
     	gamePanel.add(playerView);
     	gamePanel.setPlayer(player);
     	gamePanel.setFocusable(true);
@@ -143,6 +141,8 @@ public class GameController {
     	
     	mainFrame.revalidate();
         mainFrame.repaint();
+        
+        removeDisplayedScreen(menuScreenView);
     }
 	public void resumeLevel() {
 		
@@ -182,5 +182,19 @@ public class GameController {
         mainFrame.revalidate();
         mainFrame.repaint();
 //        setDisplayedScreen(newScreen);
+    }
+    
+    public void removeDisplayedScreen(JPanel displayedScreen) {
+    	mainFrame.remove(displayedScreen);
+        mainFrame.revalidate();
+        mainFrame.repaint();
+        removeKeyController(displayedScreen);
+    }
+    
+    public void removeKeyController(JPanel screen) {
+    	screen.setFocusable(false);
+    	screen.removeKeyListener(keyController);
+        StateScreenView stateScreenView = (StateScreenView) screen;
+        stateScreenView.setIsThereKeyController(false);
     }
 }
