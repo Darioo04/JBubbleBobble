@@ -1,6 +1,7 @@
 package view;
 
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -23,6 +24,7 @@ public abstract class StateScreenView extends JPanel implements Observer {
         this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
         this.setDoubleBuffered(true);
         this.setLayout(null);
+        this.setBackground(Color.BLACK);
     }
 	
 	public Image getScreenToDisplay() {
@@ -55,7 +57,7 @@ public abstract class StateScreenView extends JPanel implements Observer {
         return isThereKeyController;
     }
 	
-	public void setThereKeyController(boolean isThereKeyController) {
+	public void setIsThereKeyController(boolean isThereKeyController) {
         this.isThereKeyController = isThereKeyController;
     }
 

@@ -3,7 +3,6 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-import java.security.KeyStore.PrivateKeyEntry;
 import java.util.ArrayList;
 
 import model.Enemy;
@@ -62,6 +61,7 @@ public class GameController {
         keyController = KeyController.getInstance();
         mainFrame.add(menuScreenView);
         menuScreenView.addKeyListener(keyController);
+        menuScreenView.setIsThereKeyController(true);
         mainFrame.setFocusable(true);
         mainFrame.addKeyListener(keyController);
         mainFrame.pack();
@@ -113,7 +113,6 @@ public class GameController {
 	public void startLevel() {
     	player = Player.getInstance();
     	playerView = new PlayerView(player);
-//    	gamingScreen = GamingScreen.getInstance();
     	gamePanel = GamePanel.getInstance();
     	player.addObserver(playerView);
     	mainFrame.getContentPane().removeAll();
@@ -156,7 +155,7 @@ public class GameController {
         StateScreenView stateScreenView = (StateScreenView) newScreen;
         if (!stateScreenView.isThereKeyController()) {
         	newScreen.addKeyListener(keyController);
-            stateScreenView.setThereKeyController(true);
+            stateScreenView.setIsThereKeyController(true);
         }
         
         mainFrame.revalidate();

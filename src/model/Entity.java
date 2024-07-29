@@ -51,10 +51,10 @@ public abstract class Entity extends Observable{
 	public void move(int dx, int dy) {
         this.x += dx;
         this.y += dy;
-        if (x<0) x=0;
-        if (x>GameConstants.ORIGINAL_WIDTH) x=GameConstants.ORIGINAL_WIDTH;
-        if (y<0) y=0;
-        if (x>GameConstants.ORIGINAL_HEIGHT) y=GameConstants.ORIGINAL_HEIGHT;
+        if (x < 0) x = 0;
+        if (x > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH;
+        if (y < 0) y = 0;
+        if (y > GameConstants.SCREEN_HEIGHT) y = GameConstants.SCREEN_HEIGHT;
         update();
     }
 	

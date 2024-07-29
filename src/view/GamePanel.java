@@ -2,15 +2,15 @@ package view;
 
 
 import java.awt.Color;
-<<<<<<< HEAD
+
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
-=======
-import java.awt.Dimension;
->>>>>>> e9945e171eb6e9a5904623cef30ed1fba562d7ec
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import model.GameConstants;
 import model.Player;
@@ -87,7 +87,13 @@ public class GamePanel extends StateScreenView {
 		
 	}
 	
-	public void setPlayer(Player player) {
+	@Override
+    public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
+	
+	public void setPlayer (Player player) {
 		this.player = player;
     }
+	
 }

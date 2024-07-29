@@ -20,7 +20,6 @@ public class KeyController implements KeyListener {
 	private MenuScreen menuScreen;
 	private SelectLevelScreen selectLevelScreen;
 //	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
-//	private GamingScreen gamingScreen;
 	
 	public static KeyController getInstance() {
 		if (instance == null) instance = new KeyController();
@@ -30,7 +29,6 @@ public class KeyController implements KeyListener {
     private KeyController() {
     	menuScreen = MenuScreen.getInstance();
     	selectLevelScreen = SelectLevelScreen.getInstance();
-//    	gamingScreen = GamingScreen.getInstance();
     	player = Player.getInstance();
     }
     
