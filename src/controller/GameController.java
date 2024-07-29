@@ -59,11 +59,13 @@ public class GameController {
         selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
         menuScreen = MenuScreen.getInstance();
         menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
+        menuScreenView.setThereKeyController(true);
         keyController = KeyController.getInstance();
         mainFrame.add(menuScreenView);
         menuScreenView.addKeyListener(keyController);
         mainFrame.setFocusable(true);
         mainFrame.addKeyListener(keyController);
+        
         mainFrame.pack();
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
@@ -112,7 +114,7 @@ public class GameController {
 
 	public void startLevel() {
     	player = Player.getInstance();
-    	playerView = new PlayerView(player);
+    	playerView = PlayerView.getInstance(player);
 //    	gamingScreen = GamingScreen.getInstance();
     	gamePanel = GamePanel.getInstance();
     	player.addObserver(playerView);

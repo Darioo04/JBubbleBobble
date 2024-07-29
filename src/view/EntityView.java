@@ -61,6 +61,9 @@ public abstract class EntityView extends JLabel implements Observer {
     }
 
     public void updateIcon() {
+    	this.setIcon(null);
+    	this.revalidate();
+    	this.repaint();
         this.setIcon(resizedIcon);
     }
 	

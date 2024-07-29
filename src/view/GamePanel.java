@@ -2,14 +2,13 @@ package view;
 
 
 import java.awt.Color;
-<<<<<<< HEAD
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
-=======
 import java.awt.Dimension;
->>>>>>> e9945e171eb6e9a5904623cef30ed1fba562d7ec
 
 
 import model.GameConstants;
@@ -90,4 +89,22 @@ public class GamePanel extends StateScreenView {
 	public void setPlayer(Player player) {
 		this.player = player;
     }
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
