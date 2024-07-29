@@ -11,9 +11,7 @@ public class SelectLevelScreen extends StateScreen {
 	}
 	
 	private SelectLevelScreen() {
-		this.setGameState(GameState.SELECT_LEVEL);
-		this.setFileName( getGameState().getPath() );
-		this.setNumOptions( getGameState().getNumScreens() );
+		super(GameState.SELECT_LEVEL);
 		this.loadScreens();
 		this.setStateScreenView(SelectLevelView.getInstance());
 	}

@@ -12,16 +12,21 @@ import view.StateScreenView;
 
 public abstract class StateScreen extends Observable {
 	private int numOptions;
-	private String sourceFolder;
+	private static  String sourceFolder = "/screens/";
 	private String fileName;
 	private StateScreenView stateScreenView;
 	private Image[] screens;
 	private int pointer;
 	private GameState state;
 	
+	public StateScreen(GameState state) {
+		this.state=state;
+		this.fileName=state.getPath();
+		this.numOptions=state.getNumScreens();
+	}
+	
 	protected void loadScreens() {
 		//carica le schermate in base al numero di opzioni
-		this.sourceFolder = "/screens/";
 		screens = new Image[numOptions];
 		for (int i = 1; i <= screens.length; i++) {
 			try {

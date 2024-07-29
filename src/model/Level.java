@@ -14,19 +14,19 @@ import model.GameConstants;
 public class Level extends Observable {
 	private int level;
 	private final String path = "res/Levels/level-";
-	private Tiles[][] tiles = new Tiles[GameConstants.ROWS][GameConstants.COLS];
+	private Tiles[][] tiles;
+	private char[][] file;
 	
 	
 	public Level(int level) { 
+		this.tiles = new Tiles[GameConstants.ROWS][GameConstants.COLS];
+		this.file = new char[GameConstants.ROWS][GameConstants.COLS];
 		this.level=level;
-		char[][] file = readLevel();
-		initLevel(file);
-		setChanged();
-		notifyObservers();
+		readLevel();
+		initLevel();
 	}
 	
 	public char[][] readLevel() {
-		char[][] file = new char[GameConstants.ROWS][GameConstants.COLS];
 		try {
 			File inFile= new File(path + level + ".txt");
 			BufferedReader br = new BufferedReader(new FileReader(inFile));
@@ -46,7 +46,7 @@ public class Level extends Observable {
 		return file;
 	}
 	
-	public void initLevel(char[][] file) {
+	public void initLevel() {
 		for (int i=0; i<file.length; i++) {
 			for (int j=0; j<file[0].length; j++) {
 				tiles[i][j] = 
@@ -70,4 +70,5 @@ public class Level extends Observable {
 	public Tiles[][] getLevel() {
 		return tiles;
 	}
+
 }

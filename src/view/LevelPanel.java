@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,13 +24,18 @@ import model.Wall;
 public class LevelPanel extends JPanel implements Observer {
 	private Tiles[][] level;
 	
-	public LevelPanel(SelectLevelScreen levelScreen) {
-		level = new Level(levelScreen.getPointer()+1).getLevel();
+	public LevelPanel(Tiles[][] level) {
+		this.level=level;
+		this.setVisible(true);
 		
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		drawLevel((Graphics2D) g);
+	}
+	
+	public void loadTiles() {
+		
 	}
 	
 	public void drawLevel(Graphics2D g) {
@@ -53,6 +59,6 @@ public class LevelPanel extends JPanel implements Observer {
 	}
 	
 	public void update(Observable o,Object arg) {
-		repaint();
+		
 	}
 }

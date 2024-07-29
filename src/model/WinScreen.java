@@ -11,9 +11,7 @@ public class WinScreen extends StateScreen {
 	}
 	
 	private WinScreen() {
-		this.setGameState(GameState.WIN);
-		this.setFileName(getGameState().getPath());
-		this.setNumOptions(getGameState().getNumScreens());
+		super(GameState.WIN);
 		this.loadScreens();
 		this.setStateScreenView(WinScreenView.getInstance());
 	}

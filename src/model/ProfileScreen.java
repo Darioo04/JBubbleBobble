@@ -10,9 +10,7 @@ public class ProfileScreen extends StateScreen {
 	}
 	
 	private ProfileScreen() {
-		this.state=GameState.SELECT_PROFILE;
-		this.setFileName(state.getPath());
-		this.setNumOptions(state.getNumScreens());
+		super(GameState.SELECT_PROFILE);
 		this.loadScreens();
 	}
 }

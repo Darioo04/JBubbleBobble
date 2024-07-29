@@ -11,9 +11,7 @@ public class SelectProfileScreen extends StateScreen {
 	}
 	
 	private SelectProfileScreen() {
-		this.setGameState(GameState.SELECT_PROFILE);
-		this.setFileName(getGameState().getPath());
-		this.setNumOptions(getGameState().getNumScreens());
+		super(GameState.SELECT_PROFILE);
 		this.loadScreens();
 //		this.setStateScreenPanel(SelectProfilePanel.getInstance());
 	}

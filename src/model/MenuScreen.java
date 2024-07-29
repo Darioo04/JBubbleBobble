@@ -12,9 +12,7 @@ public class MenuScreen extends StateScreen {
     }
 	
 	private MenuScreen(){
-		this.setGameState(GameState.MENU);
-        this.setFileName(getGameState().getPath());
-        this.setNumOptions(getGameState().getNumScreens());
+		super(GameState.MENU);
         this.loadScreens();
         this.setStateScreenView(MenuScreenView.getInstance());
     }

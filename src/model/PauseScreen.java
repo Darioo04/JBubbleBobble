@@ -1,8 +1,9 @@
 package model;
 
+import view.PauseScreenView;
+
 public class PauseScreen extends StateScreen {
 	private static PauseScreen instance;
-	private GameState state;
 	
 	public static PauseScreen getInstance() {
 		if (instance==null) instance = new PauseScreen();
@@ -10,10 +11,8 @@ public class PauseScreen extends StateScreen {
 	}
 	
 	private PauseScreen() {
-		this.state=GameState.PAUSE;
-		this.setFileName(state.getPath());
-		this.setNumOptions(state.getNumScreens());
+		super(GameState.PAUSE);
 		this.loadScreens();
-//		this.setStateScreenPanel();
+		this.setStateScreenView(PauseScreenView.getInstance());
 	}
 }

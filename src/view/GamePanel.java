@@ -28,15 +28,14 @@ public class GamePanel extends StateScreenView {
 
 	private GamePanel() {
 //		super();
-		setVisible(true);
-		setBackground(Color.BLACK);
+		this.setVisible(true);
+		this.setBackground(Color.BLACK);
 //		add(new JPanel(new GridBagLayout()) {
 //			{
 //				
 //			}
 //		});
 		
-		this.setBackground(Color.black);
 		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
 //		super();
 //		setVisible(true);
@@ -82,8 +81,6 @@ public class GamePanel extends StateScreenView {
 //				
 //			}
 //		},BorderLayout.PAGE_START);
-
-
 		
 	}
 	

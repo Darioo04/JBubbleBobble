@@ -9,8 +9,6 @@ public class LevelEditor extends StateScreen {
 	}
 	
 	private LevelEditor() {
-		this.setGameState(GameState.LEVEL_EDITOR);
-		this.setNumOptions(getGameState().getNumScreens());
-		this.setFileName(getGameState().getPath());
+		super(GameState.LEVEL_EDITOR);
 	}
 }
