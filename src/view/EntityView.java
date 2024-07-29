@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -16,8 +17,8 @@ import model.GameConstants;
 @SuppressWarnings("deprecation")
 public abstract class EntityView extends JLabel implements Observer {
 	
-	private Entity entity;
-	private String path;
+	protected Entity entity;
+	protected String path;
 	private Image resizedImage;
 	private ImageIcon resizedIcon;
 //	private BufferedImage[] standingSprites;
@@ -32,9 +33,9 @@ public abstract class EntityView extends JLabel implements Observer {
         this.entity = entity;
         this.path = entity.getPath();
         
-        this.setBounds(entity.getX(), entity.getY(), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+        this.setBounds(entity.getX(), entity.getY(), (int)(GameConstants.TILE_SIZE * 0.8), (int)(GameConstants.TILE_SIZE * 0.8));
 //        initSprites();
-        
+        setBackground(Color.BLACK);
         setVisible(true);
     }
 	
@@ -44,7 +45,7 @@ public abstract class EntityView extends JLabel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.setBounds(entity.getX(), entity.getY(), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+		this.setBounds(entity.getX(), entity.getY(),(int)(GameConstants.TILE_SIZE * 0.8), (int)(GameConstants.TILE_SIZE * 0.8));
 		try {
 			BufferedImage sprite = ImageIO.read(getClass().getResource(path));
 			this.resizeIcon(sprite);
@@ -52,7 +53,7 @@ public abstract class EntityView extends JLabel implements Observer {
 			e.printStackTrace();
 		}
 		
-		updateIcon();
+		this.setIcon(resizedIcon);
 	}
 	
 	public void resizeIcon(BufferedImage originalImage) {
@@ -60,12 +61,9 @@ public abstract class EntityView extends JLabel implements Observer {
         resizedIcon = new ImageIcon(resizedImage);
     }
 
-    public void updateIcon() {
-    	this.setIcon(null);
-    	this.revalidate();
-    	this.repaint();
-        this.setIcon(resizedIcon);
-    }
+//    public void updateIcon() {
+//        
+//    }
 	
 	
 //	public void initSprites() {

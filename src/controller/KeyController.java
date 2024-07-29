@@ -8,7 +8,6 @@ import model.MenuScreen;
 import model.Player;
 import model.SelectLevelScreen;
 import model.SelectProfileScreen;
-import model.WinScreen;
 import view.GamePanel;
 import view.MenuScreenView;
 
@@ -20,9 +19,7 @@ public class KeyController implements KeyListener {
 	private GameController gameController;
 	private MenuScreen menuScreen;
 	private SelectLevelScreen selectLevelScreen;
-	private SelectProfileScreen selectProfile;
-	private WinScreen winScreen;
-//	private GamingScreen gamingScreen;
+//	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
 	
 	public static KeyController getInstance() {
 		if (instance == null) instance = new KeyController();
@@ -32,9 +29,6 @@ public class KeyController implements KeyListener {
     private KeyController() {
     	menuScreen = MenuScreen.getInstance();
     	selectLevelScreen = SelectLevelScreen.getInstance();
-//    	selectProfile = SelectProfileScreen.getInstance();
-    	winScreen = WinScreen.getInstance();
-//    	gamingScreen = GamingScreen.getInstance();
     	player = Player.getInstance();
     }
     
@@ -145,19 +139,6 @@ public class KeyController implements KeyListener {
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 					selectLevelScreen.increasePointer();
 				}	
-//				if (key == KeyEvent.VK_ENTER) {
-//					switch (selectProfile.getPointer()) {
-//						case 0 -> {
-//							
-//						}
-//						case 1 -> {
-//							
-//						}
-//						default -> {
-//							
-//						}
-//					}
-//				}
 			}
 			
 			case WIN -> {
@@ -167,9 +148,6 @@ public class KeyController implements KeyListener {
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 					selectLevelScreen.increasePointer();
 				}	
-				if (key == KeyEvent.VK_ENTER) {
-					
-				}
 			}
 			
 			case GAME_OVER -> {
@@ -179,9 +157,6 @@ public class KeyController implements KeyListener {
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 					selectLevelScreen.increasePointer();
 				}	
-				if (key == KeyEvent.VK_ENTER) {
-					
-				}
 			}
 			
 			default -> {
@@ -192,6 +167,8 @@ public class KeyController implements KeyListener {
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {}
+    public void keyReleased(KeyEvent e) {
+    	
+    }
 
 }

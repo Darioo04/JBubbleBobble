@@ -2,14 +2,15 @@ package view;
 
 
 import java.awt.Color;
+
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
-import java.awt.Dimension;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import model.GameConstants;
 import model.Player;
@@ -86,25 +87,13 @@ public class GamePanel extends StateScreenView {
 		
 	}
 	
-	public void setPlayer(Player player) {
+	@Override
+    public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
+	
+	public void setPlayer (Player player) {
 		this.player = player;
     }
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }
