@@ -3,21 +3,24 @@ package model;
 
 import java.util.Observable;
 
-import model.Entity.Direction;
+//import model.Entity.Direction;
 
 @SuppressWarnings("deprecation")
 
 public abstract class Entity extends Observable {
 	
-	enum Direction {
-		LEFT,RIGHT
-	}
+//	enum Direction {
+//		LEFT,RIGHT
+//	}
 	
 	protected int x, y;
 	protected String path;
 	protected String name;
 	private boolean isDead;
-	private Direction direction;
+	private boolean isMoving;
+	public static final int GRAVITY = 1; // Gravità costante
+    
+//	private Direction direction;
 	
 	public Entity(int x, int y, String name) {
 		this.x = x;
@@ -78,11 +81,11 @@ public abstract class Entity extends Observable {
         notifyObservers();
 	}
 
-	public void changeDirection() {
-		direction = (direction == Direction.LEFT) ? Direction.RIGHT : Direction.LEFT;
-	}
-	
-	public Direction getDirection() {
-		return direction;
-	}
+//	public void changeDirection() {
+//		direction = (direction == Direction.LEFT) ? Direction.RIGHT : Direction.LEFT;
+//	}
+//	
+//	public Direction getDirection() {
+//		return direction;
+//	}
 }
