@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import model.Enemy;
 import model.GameState;
 import model.MenuScreen;
+import model.PauseScreen;
 import model.Player;
 import model.SelectLevelScreen;
 import model.StateScreen;
@@ -15,6 +16,7 @@ import view.GamePanel;
 import view.LevelPanel;
 import view.MainFrame;
 import view.MenuScreenView;
+import view.PauseScreenView;
 import view.PlayerView;
 import view.SelectLevelView;
 import view.StateScreenView;
@@ -33,6 +35,8 @@ public class GameController {
     private MenuScreenView menuScreenView;
     private SelectLevelScreen selectLevelScreen;
     private SelectLevelView selectLevelView;
+    private PauseScreen pauseScreen;
+    private PauseScreenView pauseScreenView;
     private GamePanel gamePanel;
     private final int FPS = 60;
     private Timer timer;
@@ -58,6 +62,8 @@ public class GameController {
         selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
         menuScreen = MenuScreen.getInstance();
         menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
+        pauseScreen = PauseScreen.getInstance();
+        pauseScreenView = (PauseScreenView) pauseScreen.getStateScreenView();
         keyController = KeyController.getInstance();
         mainFrame.add(menuScreenView);
         menuScreenView.addKeyListener(keyController);
@@ -93,6 +99,10 @@ public class GameController {
 				player.update();
 				gamePanel.repaint();
 			}
+			
+            case PAUSE -> {
+            	pauseScreen.update();
+            }
 		
 			default -> {
 				throw new IllegalArgumentException("Unexpected value: " + gameState);
@@ -117,6 +127,8 @@ public class GameController {
     	player.addObserver(playerView);
     	mainFrame.getContentPane().removeAll();
     	mainFrame.add(gamePanel);
+    	gamePanel.addKeyListener(keyController);
+    	gamePanel.setIsThereKeyController(true);
     	
     	gamePanel.add(playerView);
     	gamePanel.setPlayer(player);

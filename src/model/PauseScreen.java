@@ -14,6 +14,5 @@ public class PauseScreen extends StateScreen {
 		this.setFileName(state.getPath());
 		this.setNumOptions(state.getNumScreens());
 		this.loadScreens();
-//		this.setStateScreenPanel();
 	}
 }

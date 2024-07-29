@@ -5,6 +5,7 @@ import java.awt.event.KeyListener;
 
 import model.GameState;
 import model.MenuScreen;
+import model.PauseScreen;
 import model.Player;
 import model.SelectLevelScreen;
 import model.SelectProfileScreen;
@@ -19,6 +20,7 @@ public class KeyController implements KeyListener {
 	private GameController gameController;
 	private MenuScreen menuScreen;
 	private SelectLevelScreen selectLevelScreen;
+	private PauseScreen pauseScreen;
 //	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
 	
 	public static KeyController getInstance() {
@@ -30,6 +32,7 @@ public class KeyController implements KeyListener {
     	menuScreen = MenuScreen.getInstance();
     	selectLevelScreen = SelectLevelScreen.getInstance();
     	player = Player.getInstance();
+    	pauseScreen = PauseScreen.getInstance();
     }
     
     @Override
@@ -57,7 +60,6 @@ public class KeyController implements KeyListener {
 						case 0 -> {
 							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), selectLevelScreen.getStateScreenView());
 							gameController.setGameState(GameState.SELECT_LEVEL);
-							selectLevelScreen.setPointer(0);
 							selectLevelScreen.update();
 						}
 						case 1 -> {
@@ -87,14 +89,11 @@ public class KeyController implements KeyListener {
 				if (key == KeyEvent.VK_ENTER) {
 					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), GamePanel.getInstance());
 					gameController.setGameState(GameState.GAME);
-//					gamingScreen.loadLevel();
 					gameController.startLevel();
-//					gamePanel.update();
 				}
 				if (key == KeyEvent.VK_ESCAPE) {
 					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), menuScreen.getStateScreenView());
 					gameController.setGameState(GameState.MENU);
-					menuScreen.setPointer(0);
 					menuScreen.update();
 				}
 			}
@@ -117,6 +116,11 @@ public class KeyController implements KeyListener {
 				}
 				if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
 					player.move(10,0);
+				}
+				if (key == KeyEvent.VK_ESCAPE) {
+					gameController.changeDisplayedScreen(GamePanel.getInstance(), pauseScreen.getStateScreenView());
+					gameController.setGameState(GameState.PAUSE);
+					pauseScreen.update();
 				}
 			}
 			

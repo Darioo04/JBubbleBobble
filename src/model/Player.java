@@ -3,8 +3,12 @@ package model;
 @SuppressWarnings("deprecation")
 
 public class Player extends Entity {
-	protected long score;
+	private long score;
 	private static Player instance;
+	private boolean isLeftPressed;
+	private boolean isRightPressed;
+	private boolean isSpacePressed;
+	
 	
 	private Player() {
 		super(50, 50, "Player");

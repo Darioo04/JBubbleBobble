@@ -20,6 +20,7 @@ public abstract class EntityView extends JLabel implements Observer {
 	protected String path;
 	private Image resizedImage;
 	private ImageIcon resizedIcon;
+	private BufferedImage sprite;
 //	private BufferedImage[] standingSprites;
 //	private BufferedImage[] deathSprites;
 //	private BufferedImage[] walkingSpritesUp;
@@ -31,9 +32,17 @@ public abstract class EntityView extends JLabel implements Observer {
 	public EntityView(Entity entity) {
         this.entity = entity;
         this.path = entity.getPath();
+        try {
+			sprite = ImageIO.read(getClass().getResource(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         
         this.setBounds(entity.getX(), entity.getY(), (int)(GameConstants.TILE_SIZE * 0.8), (int)(GameConstants.TILE_SIZE * 0.8));
 //        initSprites();
+        
+        this.resizeIcon(sprite);
+        this.setIcon(resizedIcon);
         
         setVisible(true);
     }
@@ -45,14 +54,14 @@ public abstract class EntityView extends JLabel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		this.setBounds(entity.getX(), entity.getY(),(int)(GameConstants.TILE_SIZE * 0.8), (int)(GameConstants.TILE_SIZE * 0.8));
-		try {
-			BufferedImage sprite = ImageIO.read(getClass().getResource(path));
-			this.resizeIcon(sprite);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		this.setIcon(resizedIcon);
+//		try {
+//			BufferedImage sprite = ImageIO.read(getClass().getResource(path));
+//			this.resizeIcon(sprite);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		this.setIcon(resizedIcon);
 	}
 	
 	public void resizeIcon(BufferedImage originalImage) {
