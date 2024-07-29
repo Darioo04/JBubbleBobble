@@ -3,12 +3,14 @@ package controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import model.GameOverScreen;
 import model.GameState;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
 import model.SelectLevelScreen;
 import model.SelectProfileScreen;
+import model.WinScreen;
 import view.GamePanel;
 import view.MenuScreenView;
 
@@ -21,6 +23,8 @@ public class KeyController implements KeyListener {
 	private MenuScreen menuScreen;
 	private SelectLevelScreen selectLevelScreen;
 	private PauseScreen pauseScreen;
+	private WinScreen winScreen;
+	private GameOverScreen gameOverScreen;
 //	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
 	
 	public static KeyController getInstance() {
@@ -33,6 +37,7 @@ public class KeyController implements KeyListener {
     	selectLevelScreen = SelectLevelScreen.getInstance();
     	player = Player.getInstance();
     	pauseScreen = PauseScreen.getInstance();
+    	winScreen = WinScreen.getInstance();
     }
     
     @Override
@@ -167,24 +172,56 @@ public class KeyController implements KeyListener {
 			
 			case WIN -> {
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-					selectLevelScreen.decreasePointer();
+					winScreen.decreasePointer();
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
-					selectLevelScreen.increasePointer();
-				}	
+					winScreen.increasePointer();
+				}
+				if (key == KeyEvent.VK_ENTER) {
+					switch (winScreen.getPointer()) {
+						case 0 -> {
+							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),GamePanel.getInstance());
+							gameController.setGameState(GameState.GAME);
+							selectLevelScreen.increasePointer();
+							gameController.startLevel();
+						}
+						case 1 -> {
+							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),menuScreen.getStateScreenView());
+							gameController.setGameState(GameState.MENU);
+							menuScreen.update();
+						}
+						default -> {
+							
+						}
+					}
+				}
 			}
 			
 			case GAME_OVER -> {
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-					selectLevelScreen.decreasePointer();
+					gameOverScreen.decreasePointer();
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
-					selectLevelScreen.increasePointer();
+					gameOverScreen.increasePointer();
 				}	
+				if (key == KeyEvent.VK_ENTER) {
+					switch (gameOverScreen.getPointer()) {
+						case 0 -> {
+							gameController.changeDisplayedScreen(gameOverScreen.getStateScreenView(),GamePanel.getInstance());
+							gameController.setGameState(GameState.GAME);
+							gameController.startLevel();
+						}
+						case 1 -> {
+							gameController.changeDisplayedScreen(gameOverScreen.getStateScreenView(),menuScreen.getStateScreenView());
+							gameController.setGameState(GameState.MENU);
+							menuScreen.update();
+						}
+					}
+				}
 			}
 			
 			default -> {
-				throw new IllegalArgumentException("Unexpected value: " + gameController.getGameState());
+				throw new IllegalArgumentException("Unexpected state: " + gameController.getGameState());
 			}
 			
         }
