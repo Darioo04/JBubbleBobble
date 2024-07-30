@@ -4,6 +4,10 @@ package model;
 
 public class Player extends Entity {
 	
+	enum Direction {
+		LEFT,RIGHT
+	}
+	private Direction direction;
 	private long score;
 	private static Player instance;
 	private boolean isLeftPressed;
@@ -17,6 +21,7 @@ public class Player extends Entity {
 		super(50, 50, "Player");
 		this.setPath("/sprites/BubAndBob1/Bub-0.png");
 		this.isJumping = false;
+		this.direction=Direction.RIGHT;
 	}
 	
 	public static Player getInstance() {
@@ -30,7 +35,8 @@ public class Player extends Entity {
 	
 	public void addScore(long score) {
 		this.score+=score;
-		update();
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void resetScore() {
@@ -63,5 +69,9 @@ public class Player extends Entity {
         }
         setChanged();
         notifyObservers();
+	}
+	
+	public void changeDirection() {
+		direction = (direction==Direction.RIGHT) ? Direction.LEFT : Direction.RIGHT;
 	}
 }
