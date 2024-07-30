@@ -10,23 +10,27 @@ import java.util.Observable;
 
 public abstract class Entity extends Observable {
 	
-	
+	protected CollisionChecker collisionChecker;
 	protected int x, y;
 	protected List<String> paths;
 	protected String path;
 	protected String name;
 	private boolean isDead;
 	private boolean isMoving;
-	public static final int GRAVITY = 1; // Gravità costante
+	public static final int GRAVITY = 3; // Gravità costante
 	
 	private Rectangle hitbox;
 	protected int hitboxWidth;
 	protected int hitboxHeight;
+	protected boolean collisionDown;
+	protected boolean collisionLeft;
+	protected boolean collisionRight;
 	
 	public Entity(int x, int y, String name) {
 		this.x = x;
 		this.y = y;
 		this.name=name;
+		collisionChecker = new CollisionChecker();
 	}
 	
 	public String getPath() {
@@ -85,6 +89,8 @@ public abstract class Entity extends Observable {
         notifyObservers();
 	}
 	
+	public abstract int getSpeed();
+	
 	public Rectangle getHitbox() {
         return hitbox;
     }
@@ -98,6 +104,30 @@ public abstract class Entity extends Observable {
     }
     public void setHitboxY(int y){
         hitbox.y = y;
+    }
+    
+    public boolean getCollisionDown() {
+    	return collisionDown;
+    }
+    
+    public void setCollisionDown(boolean collisionDown) {
+        this.collisionDown = collisionDown;
+    }
+    
+    public boolean getCollisionLeft() {
+        return collisionLeft;
+    }
+    
+    public void setCollisionLeft(boolean collisionLeft) {
+        this.collisionLeft = collisionLeft;
+    }
+    
+    public boolean getCollisionRight() {
+        return collisionRight;
+    }
+    
+    public void setCollisionRight(boolean collisionRight) {
+        this.collisionRight = collisionRight;
     }
 
 }

@@ -13,11 +13,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.FontModel;
+import controller.FontCreator;
 
-public class FontView extends JPanel implements Observer {
+public class FontView extends JPanel {
 	private String text;
-	private static Map<Character,String> fontChars = FontModel.getInstance().getFont();
+	private static Map<Character,String> fontChars = FontCreator.getInstance().getFont();
 	
 	public FontView(String text) {
 		this.text=text.toUpperCase();
@@ -51,8 +51,8 @@ public class FontView extends JPanel implements Observer {
 		}
 	}
 	
-	@Override
-	public void update(Observable o,Object arg) {
-		repaint();
-	}
+//	@Override
+//	public void update(Observable o,Object arg) {
+//		repaint();
+//	}
 }

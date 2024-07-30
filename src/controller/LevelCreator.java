@@ -23,7 +23,7 @@ public class LevelCreator {
 	private EmptyBlock emptyBlock;
 	private Wall wall;
 //	private Tile[] tiles;
-	private char[][] file;
+	private char[][] file; // [rows][cols]
 	
 	public static LevelCreator getInstance() {
 		if (instance == null) instance = new LevelCreator();
@@ -61,7 +61,6 @@ public class LevelCreator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		return file;
 	}
 	
 //	public void draw(Graphics2D g2) {

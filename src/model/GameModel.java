@@ -2,6 +2,8 @@ package model;
 
 import java.util.Observable;
 
+@SuppressWarnings("deprecation")
+
 public class GameModel extends Observable {
 	private int gamesPlayed;
 	private int gamesWon;

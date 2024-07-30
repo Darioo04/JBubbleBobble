@@ -6,10 +6,6 @@ import java.awt.Rectangle;
 
 public class Player extends Entity {
 	
-	enum Direction {
-		LEFT, RIGHT
-	}
-	
 	private long score;
 	private static Player instance;
 	private boolean isLeftPressed;
@@ -17,14 +13,14 @@ public class Player extends Entity {
 	private boolean isSpacePressed;	
 	private boolean isJumping;
 	private int speed;
-	private Direction direction;
+	private String direction;
 	private int lives;
-	private int speedY; //velocita verticale
+	private int fallingSpeed; //velocita di caduta
 	private static final int JUMP_STRENGTH = 15; // Forza del salto
 	
 	
 	private Player() {
-		super(50, 50, "Player");
+		super(200, 150, "Player");
 		setDefaultValues();
 		this.hitboxWidth = GameConstants.TILE_SIZE;
 		this.hitboxHeight = GameConstants.TILE_SIZE;
@@ -43,13 +39,17 @@ public class Player extends Entity {
 		setDead(false);
 		this.isJumping = false;
 		this.setPath("/sprites/BubAndBob1/Bub-0.png");
-		this.direction = Direction.RIGHT;
+		this.direction = "right";
+		fallingSpeed = 0;
 	}
 	
-	public void setDirection() {
-//		direction = (isLeftPressed) ? Direction.LEFT : Direction.RIGHT;
-		if(isLeftPressed) direction = Direction.LEFT;
-		else if(isRightPressed) direction = Direction.RIGHT;
+	public void setDirectionAndCollision() {
+		if(isLeftPressed) direction = "left";
+		else if(isRightPressed) direction = "right";
+		
+		collisionLeft = false;
+		collisionRight = false;
+		collisionDown = false;
 	}
 	
 	public void updateHitbox() {
@@ -76,43 +76,52 @@ public class Player extends Entity {
 	
 	public void jump() {
 		if(!isJumping) {
-			this.speedY = -JUMP_STRENGTH;
+			this.fallingSpeed = -JUMP_STRENGTH;
             this.isJumping = true;
 		}
 	}
 	
 	@Override
 	public void update() {
-		setDirection();
+		setDirectionAndCollision();
+		collisionChecker.checkTileCollision(this);
 		if (isJumping) {
-            speedY += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
-            y += speedY; // Aggiorna la posizione verticale
+			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
+            y += fallingSpeed; // Aggiorna la posizione verticale
 
             // Controlla se il giocatore ha toccato il suolo (y = 0 è considerato il suolo)
             if (y >= 0) {
                 y = 0;
-                speedY = 0;
+                fallingSpeed = 0;
                 isJumping = false; // Termina il salto
             }
         }
 		
+		if(!collisionDown) {
+			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
+            y += fallingSpeed; // Aggiorna la posizione verticale
+        } else {
+            fallingSpeed = 0;
+        }
+		
 		switch (direction){
-			case LEFT -> {
-				if (isLeftPressed) {
-					x -= speed;
-					if (x < 0) x = 0; // Non può essere negativo
-				}
+		case "left" -> {
+			if (isLeftPressed) {
+				x -= speed;
+                if (x < 0) x = 0; // Non può essere negativo
 			}
+		}
 		
-			case RIGHT -> {
-					if (isRightPressed) {
-						x += speed;
-						if (x + hitboxWidth > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH - hitboxWidth; // Non può essere superiore alla larghezza dello schermo
-					}
-			}
+		case "right" -> {
+				if (isRightPressed) {
+                x += speed;
+                if (x + hitboxWidth > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH - hitboxWidth; // Non può essere superiore alla larghezza dello schermo
+            }
+		}
 		
-			default -> throw new IllegalArgumentException("Unexpected value: " + direction);
-			}
+		default ->
+		throw new IllegalArgumentException("Unexpected value: " + direction);
+		}
 		updateHitbox();
         setChanged();
         notifyObservers();
@@ -125,4 +134,9 @@ public class Player extends Entity {
 	public void setRightPressed(boolean isRightPressed) {
         this.isRightPressed = isRightPressed;
     }
+
+	@Override
+	public int getSpeed() {
+		return speed;
+	}
 }
