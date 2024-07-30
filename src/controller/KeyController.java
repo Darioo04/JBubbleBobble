@@ -92,9 +92,46 @@ public class KeyController implements KeyListener {
 					selectLevelScreen.increasePointer();
 				}
 				if (key == KeyEvent.VK_ENTER) {
-					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), GamePanel.getInstance());
-					gameController.setGameState(GameState.GAME);
-					gameController.startLevel();
+					switch (selectLevelScreen.getPointer()) {
+					case 0 -> {
+						gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), GamePanel.getInstance());
+                        gameController.setGameState(GameState.GAME);
+                        GameController.level = 1;
+                        gameController.startLevel();
+					}
+					case 1 -> {
+						gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), GamePanel.getInstance());
+                        gameController.setGameState(GameState.GAME);
+                        GameController.level = 2;
+                        gameController.startLevel();
+					}
+					case 2 -> {
+						gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), GamePanel.getInstance());
+                        gameController.setGameState(GameState.GAME);
+                        GameController.level = 3;
+                        gameController.startLevel();
+					}
+					case 3 -> {
+						gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), GamePanel.getInstance());
+                        gameController.setGameState(GameState.GAME);
+                        GameController.level = 4;
+                        gameController.startLevel();
+					}
+					case 4 -> {
+						gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), GamePanel.getInstance());
+                        gameController.setGameState(GameState.GAME);
+                        GameController.level = 5;
+                        gameController.startLevel();
+					}
+					
+					
+					
+					
+					
+					
+					default ->
+					throw new IllegalArgumentException("Unexpected value: " + selectLevelScreen.getPointer());
+					}
 				}
 				if (key == KeyEvent.VK_ESCAPE) {
 					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), menuScreen.getStateScreenView());

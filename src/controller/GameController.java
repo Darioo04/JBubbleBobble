@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import model.Enemy;
 import model.GameState;
-import model.Level;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
@@ -44,6 +43,8 @@ public class GameController {
     private ArrayList<Enemy> enemies;
     private GameState gameState;
     private MainFrame mainFrame;
+    private LevelCreator levelCreator;
+    public static int level;
     
     
     
@@ -57,6 +58,7 @@ public class GameController {
     private GameController() {
 
         gameState = GameState.MENU;
+        levelCreator = LevelCreator.getInstance();
         mainFrame = MainFrame.getInstance();
         selectLevelScreen = SelectLevelScreen.getInstance();
         selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
@@ -121,6 +123,7 @@ public class GameController {
     
 
 	public void startLevel() {
+		levelCreator.loadLevel();
     	player = Player.getInstance();
     	playerView = PlayerView.getInstance();
     	gamePanel = GamePanel.getInstance();

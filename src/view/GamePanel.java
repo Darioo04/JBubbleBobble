@@ -8,17 +8,23 @@ import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
+import controller.GameController;
+import controller.LevelCreator;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import model.GameConstants;
+import model.GameState;
 import model.Player;
 
 
 public class GamePanel extends StateScreenView {
 	private static GamePanel instance;
     private Player player;
+    private LevelCreator levelCreator;
+    private GameController gameController;
  
 	
     public static GamePanel getInstance() {
@@ -27,6 +33,8 @@ public class GamePanel extends StateScreenView {
     }
 
 	private GamePanel() {
+		gameController = GameController.getInstance();
+		levelCreator = LevelCreator.getInstance();
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setBackground(Color.black);
@@ -39,6 +47,9 @@ public class GamePanel extends StateScreenView {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.fillRect(0, 0, getWidth(), getHeight());
+		if (gameController.getGameState() == GameState.GAME) {
+			levelCreator.draw(g2);
+		}
 	}
 	
 	public void setPlayer (Player player) {

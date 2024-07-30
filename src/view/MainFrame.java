@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 
 public class MainFrame extends JFrame {
 	private static MainFrame instance;
-	private JPanel cardPanel;
 	
 	public static MainFrame getInstance() {
 		if (instance==null) instance = new MainFrame();
