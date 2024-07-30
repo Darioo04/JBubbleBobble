@@ -5,11 +5,8 @@ import java.util.Observable;
 @SuppressWarnings("deprecation")
 
 public abstract class Bubble extends Observable  {
-	protected final int WIDTH = 600;
-	protected final int HEIGHT = 400;
-	protected final int RADIUS = 40;
-	protected int x;
-	protected int y;
+	private int x;
+	private int y;
 	
 	public Bubble(int x,int y) {
 		this.x=x;
@@ -26,24 +23,25 @@ public abstract class Bubble extends Observable  {
 	
 	public void setX(int x) {
         this.x = x;
-        setChanged();
-        notifyObservers();
+        update();
     }
 	
 	public void setY(int y) {
 		this.y = y;
-        setChanged();
-        notifyObservers();
+        update();
 	}
 	
 	public void move(int dx, int dy) {
         this.x += dx;
         this.y += dy;
-        setChanged();
-        notifyObservers();
+        update();
     }
 	
 	public abstract void shot(); //metodo astratto implementato da tutte le bolle
-		
+	
+	public void update() {
+		setChanged();
+		notifyObservers();
+	}
 	
 }

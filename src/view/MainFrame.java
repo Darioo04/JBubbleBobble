@@ -26,28 +26,6 @@ public class MainFrame extends JFrame {
 			setIconImage(image); 
 		}
 		catch ( IOException e ) { e.printStackTrace(); }
-		
-//        // scaled dimensions
-//        int scaledWidth = (int) (GameConstants.ORIGINAL_WIDTH * GameConstants.SCALE);
-//        int scaledHeight = (int) (GameConstants.ORIGINAL_HEIGHT * GameConstants.SCALE);
-//        setSize(scaledWidth, scaledHeight);
-//		setLocationRelativeTo(null);
-//        setDefaultCloseOperation(EXIT_ON_CLOSE);
-//        
-//        Navigator.getInstance().addObserver(this);
-//        
-//		add(cardPanel = new JPanel(new CardLayout()) {
-//			{
-//				add(MainPanel.getInstance(), Panels.MAIN.name());
-//				add(MenuPanel.getInstance(), Panels.MENU.name());
-//				add(new GamePanel(), Panels.GAME.name());
-//			}
-//		});
-//        
-//		
-//		
-//        setBackground(Color.BLACK);
-//        setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
     }

@@ -1,6 +1,7 @@
 package model;
 
 
+import java.util.List;
 import java.util.Observable;
 
 //import model.Entity.Direction;
@@ -14,6 +15,7 @@ public abstract class Entity extends Observable {
 //	}
 	
 	protected int x, y;
+	protected List<String> paths;
 	protected String path;
 	protected String name;
 	private boolean isDead;
@@ -31,9 +33,12 @@ public abstract class Entity extends Observable {
 	public String getPath() {
 		return path;
 	}
-	
 	public void setPath(String path) {
-		this.path = path;
+		this.path=path;
+	}
+	
+	public void addPath(String path) {
+		paths.add(path);
 	}
 	
 	public String getName() {

@@ -2,11 +2,11 @@ package model;
 
 public class LetterBubble extends Bubble {
 //donano una vita extra se viene composta la parola "EXTENDS"
-	private char letter;
+	private int numLetter;
 	
-	public LetterBubble(int x,int y,char letter) {
+	public LetterBubble(int x,int y,int numLetter) {
 		super(x,y);
-		this.letter=letter;
+		this.numLetter=numLetter;
 	}
 	
 	

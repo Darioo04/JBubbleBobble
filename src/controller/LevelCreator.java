@@ -64,65 +64,60 @@ public class LevelCreator {
 //		return file;
 	}
 	
-	public void draw(Graphics2D g2) {
-		int col = 0;
-		int row = 0;
-		int x = 0;
-		int y = 0;
-		while(row < GameConstants.ROWS && col < GameConstants.COLS) {
-			char tile = file[row][col];
-			switch (tile) {
-			case '1' -> {
-				g2.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-			}
-			
-			case ' ' -> {
-				g2.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-			}
-			
-			case 'R' -> {
-				g2.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-			}
-			
-			
-			default ->
-			throw new IllegalArgumentException("Unexpected value: " + tile);
-			}
-			col++;
-			x += GameConstants.TILE_SIZE;
-			
-			if (col == GameConstants.COLS ) {
-				col = 0;
-				row++;
-				x = 0;
-				y += GameConstants.TILE_SIZE;
-			}
-		}
-	}
-	
-//	public void initLevel() {
-//		for (int i=0; i<file.length; i++) {
-//			for (int j=0; j<file[0].length; j++) {
-//				tiles[i][j] = 
-//					switch (file[i][j]) {
-//						case '1' -> new Wall(level);
-//						case ' ' ->  new EmptyBlock();
-////						case 'R' -> new Robot();
-////						case 'F' -> new Ghost();
-//						default -> throw new IllegalArgumentException("Unexpected value: " + file[i][j]); 
-//				};
+//	public void draw(Graphics2D g2) {
+//		int col = 0;
+//		int row = 0;
+//		int x = 0;
+//		int y = 0;
+//		while(row < GameConstants.ROWS && col < GameConstants.COLS) {
+//			char tile = file[row][col];
+//			switch (tile) {
+//				case '1' -> g2.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+//				
+//				case ' ' -> g2.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+//				
+//				case 'R' -> g2.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+//				
+//				default ->
+//				throw new IllegalArgumentException("Unexpected value: " + tile);
+//				}
+//			col++;
+//			x += GameConstants.TILE_SIZE;
+//			
+//			if (col == GameConstants.COLS ) {
+//				col = 0;
+//				row++;
+//				x = 0;
+//				y += GameConstants.TILE_SIZE;
 //			}
 //		}
-//		
-////		for (Tiles[] row : tiles) {
-////			for (Tiles tile : row) {
-////				tile.addObserver(this);
-////			}
-////		}
 //	}
 	
-//	public Tile[] getLevel() {
-//		return tiles;
-//	}
+	public void draw(Graphics2D g2d) {
+		
+		int y = 0;
+		for (int i=0; i<file.length; i++) {
+			int x = 0;
+			for (int j=0; j<file[0].length; j++) {
+				char tile=file[i][j];
+				switch (tile) {
+					case '1' -> g2d.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+				
+					case ' ' -> g2d.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+				
+					case 'R' -> g2d.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+				
+					default -> throw new IllegalArgumentException("Unexpected value: " + tile);
+				}
+			x+=GameConstants.TILE_SIZE;
+			}
+			y+=GameConstants.TILE_SIZE;
+		}
+		
+	}
+	
+	public char[][] getLevel() {
+		return file;
+	}
 
 }

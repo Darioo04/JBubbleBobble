@@ -147,9 +147,9 @@ public class KeyController implements KeyListener {
 			case GAME -> {
 				
 				//player controller
-//				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-//					player.move(0,-13);
-//				}
+				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+					player.jump();
+				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 					player.move(0,13);
 				}
@@ -162,9 +162,6 @@ public class KeyController implements KeyListener {
 				if (key == KeyEvent.VK_SPACE) {
 					player.shot();
 				}
-				if (key == KeyEvent.VK_W) {
-                    player.jump();
-                }
 				if (key == KeyEvent.VK_ESCAPE) {
 					gameController.changeDisplayedScreen(GamePanel.getInstance(), pauseScreen.getStateScreenView());
 					gameController.setGameState(GameState.PAUSE);
