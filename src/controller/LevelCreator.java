@@ -109,7 +109,7 @@ public class LevelCreator {
 				
 					default -> throw new IllegalArgumentException("Unexpected value: " + tile);
 				}
-			x+=GameConstants.TILE_SIZE;
+				x+=GameConstants.TILE_SIZE;
 			}
 			y+=GameConstants.TILE_SIZE;
 		}

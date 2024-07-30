@@ -154,10 +154,10 @@ public class KeyController implements KeyListener {
 					player.move(0,13);
 				}
 				if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
-					player.move(-13,0);
+					player.setLeftPressed(true);
 				}
 				if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
-					player.move(13,0);
+					player.setRightPressed(true);
 				}
 				if (key == KeyEvent.VK_SPACE) {
 					player.shot();
@@ -263,7 +263,16 @@ public class KeyController implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+    	int key = e.getKeyCode();
     	
+    	if (gameController.getGameState() == GameState.GAME) {
+    		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
+				player.setLeftPressed(false);
+			}
+			if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
+				player.setRightPressed(false);
+			}
+    	}
     }
 
 }
