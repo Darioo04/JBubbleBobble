@@ -23,7 +23,7 @@ public class LevelCreator {
 	private EmptyBlock emptyBlock;
 	private Wall wall;
 //	private Tile[] tiles;
-	private char[][] file;
+	private char[][] file; // [rows][cols]
 	
 	public static LevelCreator getInstance() {
 		if (instance == null) instance = new LevelCreator();

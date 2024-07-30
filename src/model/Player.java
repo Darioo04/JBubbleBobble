@@ -15,12 +15,12 @@ public class Player extends Entity {
 	private int speed;
 	private String direction;
 	private int lives;
-	private int speedY; //velocita verticale
+	private int fallingSpeed; //velocita di caduta
 	private static final int JUMP_STRENGTH = 15; // Forza del salto
 	
 	
 	private Player() {
-		super(50, 50, "Player");
+		super(200, 150, "Player");
 		setDefaultValues();
 		this.hitboxWidth = GameConstants.TILE_SIZE;
 		this.hitboxHeight = GameConstants.TILE_SIZE;
@@ -40,11 +40,16 @@ public class Player extends Entity {
 		this.isJumping = false;
 		this.setPath("/sprites/BubAndBob1/Bub-0.png");
 		this.direction = "right";
+		fallingSpeed = 0;
 	}
 	
-	public void setDirection() {
+	public void setDirectionAndCollision() {
 		if(isLeftPressed) direction = "left";
 		else if(isRightPressed) direction = "right";
+		
+		collisionLeft = false;
+		collisionRight = false;
+		collisionDown = false;
 	}
 	
 	public void updateHitbox() {
@@ -71,24 +76,32 @@ public class Player extends Entity {
 	
 	public void jump() {
 		if(!isJumping) {
-			this.speedY = -JUMP_STRENGTH;
+			this.fallingSpeed = -JUMP_STRENGTH;
             this.isJumping = true;
 		}
 	}
 	
 	@Override
 	public void update() {
-		setDirection();
+		setDirectionAndCollision();
+		collisionChecker.checkTileCollision(this);
 		if (isJumping) {
-            speedY += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
-            y += speedY; // Aggiorna la posizione verticale
+			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
+            y += fallingSpeed; // Aggiorna la posizione verticale
 
             // Controlla se il giocatore ha toccato il suolo (y = 0 è considerato il suolo)
             if (y >= 0) {
                 y = 0;
-                speedY = 0;
+                fallingSpeed = 0;
                 isJumping = false; // Termina il salto
             }
+        }
+		
+		if(!collisionDown) {
+			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
+            y += fallingSpeed; // Aggiorna la posizione verticale
+        } else {
+            fallingSpeed = 0;
         }
 		
 		switch (direction){
@@ -121,4 +134,9 @@ public class Player extends Entity {
 	public void setRightPressed(boolean isRightPressed) {
         this.isRightPressed = isRightPressed;
     }
+
+	@Override
+	public int getSpeed() {
+		return speed;
+	}
 }

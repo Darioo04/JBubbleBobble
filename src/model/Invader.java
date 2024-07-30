@@ -7,4 +7,10 @@ public class Invader extends Enemy {
 		super(25,25,"Invader");
 		this.filePath = "/sprites/invader/";
 	}
+
+	@Override
+	public int getSpeed() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
