@@ -1,32 +1,60 @@
 package model;
 
+import java.awt.Rectangle;
+
 @SuppressWarnings("deprecation")
 
 public class Player extends Entity {
 	
 	enum Direction {
-		LEFT,RIGHT
+		LEFT, RIGHT
 	}
-	private Direction direction;
+	
 	private long score;
 	private static Player instance;
 	private boolean isLeftPressed;
 	private boolean isRightPressed;
 	private boolean isSpacePressed;	
 	private boolean isJumping;
+	private int speed;
+	private Direction direction;
+	private int lives;
 	private int speedY; //velocita verticale
 	private static final int JUMP_STRENGTH = 15; // Forza del salto
 	
+	
 	private Player() {
 		super(50, 50, "Player");
-		this.setPath("/sprites/BubAndBob1/Bub-0.png");
-		this.isJumping = false;
-		this.direction=Direction.RIGHT;
+		setDefaultValues();
+		this.hitboxWidth = GameConstants.TILE_SIZE;
+		this.hitboxHeight = GameConstants.TILE_SIZE;
+		setHitbox(new Rectangle(x, y, hitboxWidth, hitboxHeight));
 	}
 	
 	public static Player getInstance() {
 		if (instance==null) instance= new Player();
 		return instance;
+	}
+	
+	public void setDefaultValues() {
+		this.speed = 5;
+		this.lives = 3;
+		this.score = 0;
+		setDead(false);
+		this.isJumping = false;
+		this.setPath("/sprites/BubAndBob1/Bub-0.png");
+		this.direction = Direction.RIGHT;
+	}
+	
+	public void setDirection() {
+//		direction = (isLeftPressed) ? Direction.LEFT : Direction.RIGHT;
+		if(isLeftPressed) direction = Direction.LEFT;
+		else if(isRightPressed) direction = Direction.RIGHT;
+	}
+	
+	public void updateHitbox() {
+		setHitboxX(x);
+		setHitboxY(y);
 	}
 	
 	public long getScore() {
@@ -35,8 +63,7 @@ public class Player extends Entity {
 	
 	public void addScore(long score) {
 		this.score+=score;
-		setChanged();
-		notifyObservers();
+		update();
 	}
 	
 	public void resetScore() {
@@ -56,6 +83,7 @@ public class Player extends Entity {
 	
 	@Override
 	public void update() {
+		setDirection();
 		if (isJumping) {
             speedY += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
             y += speedY; // Aggiorna la posizione verticale
@@ -67,11 +95,34 @@ public class Player extends Entity {
                 isJumping = false; // Termina il salto
             }
         }
+		
+		switch (direction){
+			case LEFT -> {
+				if (isLeftPressed) {
+					x -= speed;
+					if (x < 0) x = 0; // Non può essere negativo
+				}
+			}
+		
+			case RIGHT -> {
+					if (isRightPressed) {
+						x += speed;
+						if (x + hitboxWidth > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH - hitboxWidth; // Non può essere superiore alla larghezza dello schermo
+					}
+			}
+		
+			default -> throw new IllegalArgumentException("Unexpected value: " + direction);
+			}
+		updateHitbox();
         setChanged();
         notifyObservers();
 	}
 	
-	public void changeDirection() {
-		direction = (direction==Direction.RIGHT) ? Direction.LEFT : Direction.RIGHT;
+	public void setLeftPressed(boolean isLeftPressed) {
+		this.isLeftPressed = isLeftPressed;
 	}
+	
+	public void setRightPressed(boolean isRightPressed) {
+        this.isRightPressed = isRightPressed;
+    }
 }

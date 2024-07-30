@@ -163,6 +163,10 @@ public class GameController {
     	this.gameState = gameState;
     }
     
+    public void setLevel(int level) {
+    	this.level=level;
+    }
+    
 //    public void setDisplayedScreen(JPanel newScreen) {
 //    	mainFrame.setContentPane(newScreen);
 //        mainFrame.revalidate();

@@ -1,18 +1,15 @@
 package model;
 
 
+import java.awt.Rectangle;
 import java.util.List;
 import java.util.Observable;
 
-//import model.Entity.Direction;
 
 @SuppressWarnings("deprecation")
 
 public abstract class Entity extends Observable {
 	
-//	enum Direction {
-//		LEFT,RIGHT
-//	}
 	
 	protected int x, y;
 	protected List<String> paths;
@@ -21,8 +18,10 @@ public abstract class Entity extends Observable {
 	private boolean isDead;
 	private boolean isMoving;
 	public static final int GRAVITY = 1; // Gravità costante
-    
-//	private Direction direction;
+	
+	private Rectangle hitbox;
+	protected int hitboxWidth;
+	protected int hitboxHeight;
 	
 	public Entity(int x, int y, String name) {
 		this.x = x;
@@ -85,12 +84,20 @@ public abstract class Entity extends Observable {
 		setChanged();
         notifyObservers();
 	}
+	
+	public Rectangle getHitbox() {
+        return hitbox;
+    }
+	
+	public void setHitbox(Rectangle hitBox) {
+        this.hitbox = hitBox;
+    }
+	
+	public void setHitboxX(int x){
+        hitbox.x = x;
+    }
+    public void setHitboxY(int y){
+        hitbox.y = y;
+    }
 
-//	public void changeDirection() {
-//		direction = (direction == Direction.LEFT) ? Direction.RIGHT : Direction.LEFT;
-//	}
-//	
-//	public Direction getDirection() {
-//		return direction;
-//	}
 }
