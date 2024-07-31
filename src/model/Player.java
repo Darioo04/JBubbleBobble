@@ -37,12 +37,12 @@ public class Player extends Entity {
 	}
 	
 	public void setDefaultValues() {
-		this.speed = 5;
+		this.speed = 6;
 		this.lives = 3;
 		this.score = 0;
 		setDead(false);
 		this.isJumping = false;
-		this.setPath("/sprites/BubAndBob1/Bub-0.png");
+		this.setPath("/sprites/BubAndBob1/");
 		this.direction = Direction.RIGHT;
 		fallingSpeed = 0;
 	}

@@ -11,13 +11,14 @@ import java.util.Observable;
 public abstract class Entity extends Observable {
 	
 	protected CollisionChecker collisionChecker;
-	protected int x, y;
+	protected int x, y, col, row;
 	protected List<String> paths;
 	protected String path;
 	protected String name;
 	private boolean isDead;
 	private boolean isMoving;
 	public static final int GRAVITY = 3; // Gravità costante
+	private int movingSpritesCount;
 	
 	private Rectangle hitbox;
 	protected int hitboxWidth;
@@ -29,7 +30,7 @@ public abstract class Entity extends Observable {
 	public Entity(int x, int y, String name) {
 		this.x = x;
 		this.y = y;
-		this.name=name;
+		this.name = name;
 		collisionChecker = new CollisionChecker();
 	}
 	
@@ -95,6 +96,14 @@ public abstract class Entity extends Observable {
         return hitbox;
     }
 	
+	public void setHitboxWidth(int hitboxWidth) {
+        this.hitboxWidth = hitboxWidth;
+    }
+	
+	public void setHitboxHeight(int hitboxHeight) {
+        this.hitboxHeight = hitboxHeight;
+    }
+	
 	public void setHitbox(Rectangle hitBox) {
         this.hitbox = hitBox;
     }
@@ -128,6 +137,22 @@ public abstract class Entity extends Observable {
     
     public void setCollisionRight(boolean collisionRight) {
         this.collisionRight = collisionRight;
+    }
+    
+    public boolean isMoving() {
+        return isMoving;
+    }
+    
+    public void setMoving(boolean isMoving) {
+        this.isMoving = isMoving;
+    }
+    
+    public int getMovingSpritesCount() {
+        return movingSpritesCount;
+    }
+    
+    public void setMovingSpritesCount(int movingSpritesCount) {
+        this.movingSpritesCount = movingSpritesCount;
     }
 
 }
