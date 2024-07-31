@@ -1,12 +1,15 @@
 package view;
 
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JPanel;
 
 import controller.GameController;
 import controller.LevelCreator;
@@ -18,7 +21,6 @@ import java.awt.Graphics2D;
 import model.GameConstants;
 import model.GameState;
 import model.Player;
-
 
 public class GamePanel extends StateScreenView {
 	private static GamePanel instance;
@@ -35,10 +37,12 @@ public class GamePanel extends StateScreenView {
 	private GamePanel() {
 		gameController = GameController.getInstance();
 		levelCreator = LevelCreator.getInstance();
+		add(StatusBar.getInstance(),BorderLayout.PAGE_START);
 		this.setVisible(true);
 		this.setLayout(null);
-		this.setBackground(Color.black);
+		this.setBackground(Color.BLACK);
 		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
+		
 		
 	}
 	

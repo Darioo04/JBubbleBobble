@@ -8,7 +8,7 @@ public enum GameState {
     GAME_OVER(2,"lose-"),
     WIN(2,"win-"),
     MENU(3,"menu-"),
-    SELECT_PROFILE(1,"profile-"),
+    SELECT_PROFILE(1,""/*"profile-"*/),
 	LEVEL_EDITOR(1,"");
     
 	private int numScreens;

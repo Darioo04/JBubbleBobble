@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import model.Enemy;
+import model.GameModel;
 import model.GameState;
 import model.MenuScreen;
 import model.PauseScreen;
@@ -20,6 +21,7 @@ import view.PauseScreenView;
 import view.PlayerView;
 import view.SelectLevelView;
 import view.StateScreenView;
+import view.StatusBar;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -29,6 +31,7 @@ import javax.swing.Timer;
 public class GameController {
 	
     private KeyController keyController;
+    private GameModel gameModel;
     private Player player;
     private PlayerView playerView;
     private MenuScreen menuScreen;
@@ -58,6 +61,8 @@ public class GameController {
     private GameController() {
 
         gameState = GameState.MENU;
+        gameModel = GameModel.getInstance();
+        gameModel.addObserver(StatusBar.getInstance());
         levelCreator = LevelCreator.getInstance();
         mainFrame = MainFrame.getInstance();
         selectLevelScreen = SelectLevelScreen.getInstance();

@@ -8,11 +8,13 @@ import model.GameState;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
+import model.ProfileScreen;
 import model.SelectLevelScreen;
 import model.SelectProfileScreen;
 import model.WinScreen;
 import view.GamePanel;
 import view.MenuScreenView;
+import view.ProfileView;
 
 public class KeyController implements KeyListener {
 	
@@ -22,6 +24,7 @@ public class KeyController implements KeyListener {
 	private GameController gameController;
 	private MenuScreen menuScreen;
 	private SelectLevelScreen selectLevelScreen;
+	private ProfileScreen profileScreen;
 	private PauseScreen pauseScreen;
 	private WinScreen winScreen;
 	private GameOverScreen gameOverScreen;
@@ -68,9 +71,9 @@ public class KeyController implements KeyListener {
 							selectLevelScreen.update();
 						}
 						case 1 -> {
-							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), selectLevelScreen.getStateScreenView());
-							gameController.setGameState(GameState.SELECT_LEVEL);
-							selectLevelScreen.update();
+							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), ProfileView.getInstance());
+							gameController.setGameState(GameState.SELECT_PROFILE);
+//							profileScreen.update();
 						}
 						case 2 -> {
 							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), selectLevelScreen.getStateScreenView());

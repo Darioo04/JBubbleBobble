@@ -1,5 +1,6 @@
 package model;
 
+import java.io.IOException;
 import java.util.Observable;
 
 @SuppressWarnings("deprecation")
@@ -8,6 +9,8 @@ public class GameModel extends Observable {
 	private int gamesPlayed;
 	private int gamesWon;
 	private int gamesLost;
+	private int numSaveSlot;
+	private int highScore;
 	private String nickName;
 	
 	private static GameModel instance;
@@ -35,6 +38,9 @@ public class GameModel extends Observable {
 	public String getNickName() {
 		return nickName;
 	}
+	public int getHighScore() {
+		return highScore;
+	}
 	
 	public void increaseGamesPlayed() {
 		gamesPlayed+=1;
@@ -52,9 +58,14 @@ public class GameModel extends Observable {
 		this.nickName=nickName;
 		update();
 	}
+	public void setHighScore(int newScore) {
+		this.highScore = (newScore>highScore) ? newScore : highScore;
+	}
 	
 	public void update() {
 		setChanged();
 		notifyObservers();
 	}
+	
+
 }
