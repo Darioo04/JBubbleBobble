@@ -6,6 +6,10 @@ import java.awt.Rectangle;
 
 public class Player extends Entity {
 	
+	enum Direction {
+		LEFT,RIGHT
+	}
+	
 	private long score;
 	private static Player instance;
 	private boolean isLeftPressed;
@@ -13,7 +17,7 @@ public class Player extends Entity {
 	private boolean isSpacePressed;	
 	private boolean isJumping;
 	private int speed;
-	private String direction;
+	private Direction direction;
 	private int lives;
 	private int fallingSpeed; //velocita di caduta
 	private static final int JUMP_STRENGTH = 60; // Forza del salto
@@ -39,14 +43,14 @@ public class Player extends Entity {
 		setDead(false);
 		this.isJumping = false;
 		this.setPath("/sprites/BubAndBob1/Bub-0.png");
-		this.direction = "right";
+		this.direction = Direction.RIGHT;
 		fallingSpeed = 0;
 	}
 	
 	public void setDirectionAndCollision() {
-		if(isLeftPressed) direction = "left";
-		else if(isRightPressed) direction = "right";
-		
+		if(isLeftPressed) direction = Direction.LEFT;
+		else if(isRightPressed) direction = Direction.RIGHT;
+		//direction = (isLeftPressed) ? Direction.LEFT : Direction.RIGHT;
 		collisionLeft = false;
 		collisionRight = false;
 		collisionDown = false;
@@ -106,22 +110,21 @@ public class Player extends Entity {
         }
 		
 		switch (direction){
-		case "left" -> {
+		case LEFT-> {
 			if (isLeftPressed) {
 				x -= speed;
                 if (x < 0) x = 0; // Non può essere negativo
 			}
 		}
 		
-		case "right" -> {
-				if (isRightPressed) {
+		case RIGHT -> {
+			if (isRightPressed) {
                 x += speed;
                 if (x + hitboxWidth > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH - hitboxWidth; // Non può essere superiore alla larghezza dello schermo
             }
 		}
 		
-		default ->
-		throw new IllegalArgumentException("Unexpected value: " + direction);
+		default -> throw new IllegalArgumentException("Unexpected value: " + direction);
 		}
 		updateHitbox();
         setChanged();

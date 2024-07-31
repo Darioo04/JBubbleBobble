@@ -70,9 +70,9 @@ public abstract class Entity extends Observable {
         this.x += dx;
         this.y += dy;
         if (x < 0) x = 0;
-        if (x > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH;
+        if (x > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH-1;
         if (y < 0) y = 0;
-        if (y > GameConstants.SCREEN_HEIGHT) y = GameConstants.SCREEN_HEIGHT;
+        if (y > GameConstants.SCREEN_HEIGHT) y = GameConstants.SCREEN_HEIGHT-1;
         update();
     }
 	
