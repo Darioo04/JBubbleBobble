@@ -16,7 +16,7 @@ public class Player extends Entity {
 	private String direction;
 	private int lives;
 	private int fallingSpeed; //velocita di caduta
-	private static final int JUMP_STRENGTH = 15; // Forza del salto
+	private static final int JUMP_STRENGTH = 60; // Forza del salto
 	
 	
 	private Player() {
@@ -89,12 +89,12 @@ public class Player extends Entity {
 			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
             y += fallingSpeed; // Aggiorna la posizione verticale
 
-            // Controlla se il giocatore ha toccato il suolo (y = 0 è considerato il suolo)
-            if (y >= 0) {
-                y = 0;
-                fallingSpeed = 0;
-                isJumping = false; // Termina il salto
-            }
+//            // Controlla se il giocatore ha toccato il suolo (y = 0 è considerato il suolo)
+//            if (y >= 0) {
+//                y = 0;
+//                fallingSpeed = 0;
+//                isJumping = false; // Termina il salto
+//            }
         }
 		
 		if(!collisionDown) {
@@ -102,6 +102,7 @@ public class Player extends Entity {
             y += fallingSpeed; // Aggiorna la posizione verticale
         } else {
             fallingSpeed = 0;
+            isJumping = false;
         }
 		
 		switch (direction){

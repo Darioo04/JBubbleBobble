@@ -9,18 +9,20 @@ public class CollisionChecker {
 	private char[][] levelFile;
 	
 	public CollisionChecker() {
-        this.levelFile = LevelCreator.getInstance().getLevel();
+        
     }
 
 	
 	public void checkTileCollision(Entity entity) {
 		
+		this.levelFile = LevelCreator.getInstance().getLevel();
+		
 		Rectangle entityHitbox = entity.getHitbox();
 		
-		int leftX = entityHitbox.x / GameConstants.TILE_SIZE;
-		int rightX = leftX + entityHitbox.width / GameConstants.TILE_SIZE;
-		int topY = entityHitbox.y / GameConstants.TILE_SIZE;
-		int bottomY = topY + entityHitbox.height / GameConstants.TILE_SIZE;
+		int leftX = entityHitbox.x;
+		int rightX = leftX + entityHitbox.width;
+		int topY = entityHitbox.y;
+		int bottomY = topY + entityHitbox.height;
 		
 		int leftCol = leftX / GameConstants.TILE_SIZE;
 		int rightCol = rightX / GameConstants.TILE_SIZE;
