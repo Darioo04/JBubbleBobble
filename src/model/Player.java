@@ -104,7 +104,7 @@ public class Player extends Entity {
         }
 		
 		switch (direction){
-			case LEFT-> {
+			case LEFT -> {
 				if (isLeftPressed && !collisionLeft) {
 					x -= speed;
 					if (x < 0) x = 0; // Non può essere negativo

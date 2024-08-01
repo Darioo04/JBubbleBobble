@@ -11,7 +11,6 @@ import model.GameState;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
-import model.ProfileScreen;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import model.Tile;

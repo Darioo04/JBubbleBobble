@@ -17,6 +17,7 @@ import controller.FontCreator;
 
 public class FontView extends JPanel {
 	private String text;
+	private int num;
 	private static Map<Character,String> fontChars = FontCreator.getInstance().getFont();
 	
 	public FontView(String text) {

@@ -29,7 +29,7 @@ public abstract class Entity extends Observable {
 		this.x = x;
 		this.y = y;
 		this.name = name;
-		collisionChecker = new CollisionChecker();
+		collisionChecker = CollisionChecker.getInstance();
 	}
 	
 	public String getPath() {

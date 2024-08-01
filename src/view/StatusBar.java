@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 
 public class StatusBar extends JPanel implements Observer {
 	private static StatusBar instance;
+	private String hp;
+	private String score;
 	
 	public static StatusBar getInstance() {
 		if (instance==null) instance = new StatusBar();
@@ -35,7 +37,7 @@ public class StatusBar extends JPanel implements Observer {
 		        panel1.add(new FontView("HP"), gbc1);
 		        
 		        gbc1.gridy = 1;
-		        panel1.add(new JLabel(), gbc1);
+//		        panel1.add(new FontView(hp), gbc1);
 		        
 		        add(panel1);
 
@@ -51,7 +53,7 @@ public class StatusBar extends JPanel implements Observer {
 		        panel2.add(new FontView("High Score"), gbc2);
 		        
 		        gbc2.gridy = 1;
-		        panel2.add(new JLabel(), gbc2);
+//		        panel2.add(new FontView(score), gbc2);
 		        
 		        add(panel2);
 //				setBackground(Color.BLACK);

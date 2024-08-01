@@ -21,7 +21,7 @@ public abstract class EntityView extends JLabel implements Observer {
 //	protected Image resizedImage;
 	protected ImageIcon resizedIcon;
 	protected BufferedImage defaultSprite;
-
+	
 	
 	public EntityView(Entity entity) {
         this.entity = entity;

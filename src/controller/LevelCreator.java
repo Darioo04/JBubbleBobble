@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import model.GameConstants;
+import model.Invader;
 import model.Wall;
+import view.EnemyView;
 
 
 public class LevelCreator {
@@ -88,11 +90,9 @@ public class LevelCreator {
 				char tile=file[i][j];
 				switch (tile) {
 					case '1' -> g2d.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-				
-//					case ' ' -> //g2d.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-//				
-//					case 'R' -> //g2d.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-				
+						
+					case 'R' -> g2d.drawImage(new EnemyView(new Invader()).getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+					
 					default -> {}
 				}
 				x+=GameConstants.TILE_SIZE;

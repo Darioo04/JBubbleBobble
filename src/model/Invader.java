@@ -5,7 +5,7 @@ public class Invader extends Enemy {
 	
 	public Invader() {
 		super(25,25,"Invader");
-		this.filePath = "/sprites/invader/";
+		this.setPath("/sprites/invader/");
 	}
 
 	@Override

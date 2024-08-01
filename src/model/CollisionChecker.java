@@ -5,8 +5,13 @@ import java.awt.Rectangle;
 import controller.LevelCreator;
 
 public class CollisionChecker {
-	
+	private static CollisionChecker instance;
 	private char[][] levelFile;
+	
+	public static CollisionChecker getInstance() {
+		if (instance==null) instance = new CollisionChecker();
+		return instance;
+	}
 	
 	public CollisionChecker() {
         

@@ -51,7 +51,7 @@ public class ProfileView extends StateScreenView {
 		statsPanel.add(labelPlayed);
 		statsPanel.add(labelWon);
 		statsPanel.add(labelLost);
-		
+		statsPanel.validate();
 		add(statsPanel);
 		
 		UIManager.put("Label.Border", BorderFactory.createCompoundBorder( 
@@ -70,13 +70,8 @@ public class ProfileView extends StateScreenView {
 	
 	@Override
 	public void update(Observable o,Object arg) {
-		super.update(o, arg);
 		this.gamesPlayed=gameModel.getGamesPlayed();
 		this.gamesWon=gameModel.getGamesWon();
 		this.gamesLost=gameModel.getGamesLost();
-	}
-	
-	public static void main(String[] args) {
-		new ProfileView();
 	}
 }	

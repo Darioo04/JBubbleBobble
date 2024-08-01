@@ -8,7 +8,6 @@ import model.GameState;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
-import model.ProfileScreen;
 import model.SelectLevelScreen;
 import model.SelectProfileScreen;
 import model.WinScreen;
@@ -24,7 +23,7 @@ public class KeyController implements KeyListener {
 	private GameController gameController;
 	private MenuScreen menuScreen;
 	private SelectLevelScreen selectLevelScreen;
-	private ProfileScreen profileScreen;
+	private ProfileView profileView;
 	private PauseScreen pauseScreen;
 	private WinScreen winScreen;
 	private GameOverScreen gameOverScreen;
