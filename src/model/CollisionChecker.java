@@ -35,21 +35,21 @@ public class CollisionChecker {
 //		tile1 = levelFile[bottomRow][leftCol];
 //		tile2 = levelFile[bottomRow][rightCol];
 		
-		entity.setCollisionDown(hasTileCollision(bottomRow, leftCol) || hasTileCollision(bottomRow, rightCol));
+		entity.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
 	}
 	
-	private boolean hasTileCollision(int row, int col) {		//controllo se il tile in quella posizione della mappa ha la collisione
-		char tileChar = levelFile[row][col];
-		return 
-			switch (tileChar) {
-				case '1' -> true;
-			
-				case ' ' -> false;
-			
-				case 'R' -> false;
-			
-				default -> throw new IllegalArgumentException("Unexpected value: " + tileChar);
-				};
-	}
+//	private boolean hasTileCollision(int row, int col) {		//controllo se il tile in quella posizione della mappa ha la collisione
+//		char tileChar = levelFile[row][col];
+//		return 
+//			switch (tileChar) {
+//				case '1' -> true;
+//			
+//				case ' ' -> false;
+//			
+//				case 'R' -> false;
+//			
+//				default -> throw new IllegalArgumentException("Unexpected value: " + tileChar);
+//				};
+//	}
 }

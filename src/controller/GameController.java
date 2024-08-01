@@ -42,6 +42,7 @@ public class GameController {
     private PauseScreenView pauseScreenView;
     private GamePanel gamePanel;
     private final int FPS = 60;
+    private int frames = 0;
     private Timer timer;
     private ArrayList<Enemy> enemies;
     private GameState gameState;
@@ -85,8 +86,14 @@ public class GameController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				update();
-				
+				update();	
+				if (gameState == GameState.GAME) {
+					frames++;
+                    if(frames == 8) {
+                    	frames = 0;
+                        playerView.updateAnimation();
+                    }
+				}
 			}
 		});
     }

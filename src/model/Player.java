@@ -20,7 +20,7 @@ public class Player extends Entity {
 	private Direction direction;
 	private int lives;
 	private int fallingSpeed; //velocita di caduta
-	private static final int JUMP_STRENGTH = 60; // Forza del salto
+	private static final int JUMP_STRENGTH = 10; // Forza del salto
 	
 	
 	private Player() {
@@ -37,7 +37,7 @@ public class Player extends Entity {
 	}
 	
 	public void setDefaultValues() {
-		this.speed = 6;
+		this.speed = 7;
 		this.lives = 3;
 		this.score = 0;
 		setDead(false);
@@ -89,19 +89,12 @@ public class Player extends Entity {
 	public void update() {
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
-		if (isJumping) {
-			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
-            y += fallingSpeed; // Aggiorna la posizione verticale
-
-//            // Controlla se il giocatore ha toccato il suolo (y = 0 è considerato il suolo)
-//            if (y >= 0) {
-//                y = 0;
-//                fallingSpeed = 0;
-//                isJumping = false; // Termina il salto
-//            }
-        }
-		
-		if(!collisionDown) {
+//		if (isJumping) {
+//			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
+//            y += fallingSpeed; // Aggiorna la posizione verticale
+//        }
+//		
+		if(!collisionDown || isJumping) {
 			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
             y += fallingSpeed; // Aggiorna la posizione verticale
         } else {
@@ -135,12 +128,29 @@ public class Player extends Entity {
 		this.isLeftPressed = isLeftPressed;
 	}
 	
+	public boolean isLeftPressed() {
+		return isLeftPressed;
+	}
+	
 	public void setRightPressed(boolean isRightPressed) {
         this.isRightPressed = isRightPressed;
     }
+	
+	public boolean isRightPressed() {
+        return isRightPressed;
+    }
+	
+	@Override
+	public boolean isMoving() {
+		return isLeftPressed || isRightPressed;
+	}
 
 	@Override
 	public int getSpeed() {
 		return speed;
+	}
+	
+	public boolean isFalling() {
+		return fallingSpeed > 0;
 	}
 }

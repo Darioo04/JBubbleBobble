@@ -2,17 +2,10 @@ package controller;
 
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Observable;
-import java.util.Observer;
-
-import model.EmptyBlock;
 import model.GameConstants;
-import model.Tile;
 import model.Wall;
 
 
@@ -20,9 +13,7 @@ public class LevelCreator {
 	
 	private static LevelCreator instance;
 	private final String path = "/Levels/level-";
-	private EmptyBlock emptyBlock;
 	private Wall wall;
-//	private Tile[] tiles;
 	private char[][] file; // [rows][cols]
 	
 	public static LevelCreator getInstance() {
@@ -31,14 +22,10 @@ public class LevelCreator {
 	}
 	
 	private LevelCreator() { 
-//		this.tiles = new Tile[GameConstants.ROWS][GameConstants.COLS];
-//		this.file = new char[GameConstants.ROWS][GameConstants.COLS];
-//		readLevel();
-//		initLevel();
+
 	}
 	
 	public void loadSprites() {
-		emptyBlock = new EmptyBlock();
 		wall = new Wall(GameController.level);
 	}
 	
@@ -102,11 +89,11 @@ public class LevelCreator {
 				switch (tile) {
 					case '1' -> g2d.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
 				
-					case ' ' -> g2d.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+//					case ' ' -> //g2d.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+//				
+//					case 'R' -> //g2d.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
 				
-					case 'R' -> g2d.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-				
-					default -> throw new IllegalArgumentException("Unexpected value: " + tile);
+					default -> {}
 				}
 				x+=GameConstants.TILE_SIZE;
 			}

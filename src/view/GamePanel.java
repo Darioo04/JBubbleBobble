@@ -50,6 +50,7 @@ public class GamePanel extends StateScreenView {
     public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.BLACK);
 		g2.fillRect(0, 0, getWidth(), getHeight());
 		if (gameController.getGameState() == GameState.GAME) {
 			levelCreator.draw(g2);
