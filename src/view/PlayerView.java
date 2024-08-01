@@ -7,6 +7,10 @@ import model.Player;
 
 
 public class PlayerView extends EntityView {
+	
+	enum KeyPressed {
+		LEFT,RIGHT
+	}
 	private static PlayerView instance;
 	private BufferedImage idle1;
 	private BufferedImage idle2;
@@ -24,7 +28,7 @@ public class PlayerView extends EntityView {
 	private BufferedImage jumping2sx;
 	private BufferedImage falling1sx;
 	private BufferedImage falling2sx;
-	private String lastKeyPressed = "right";
+	private KeyPressed lastKeyPressed = KeyPressed.RIGHT;
 	private Player player;
 	private BufferedImage actualSprite;
 	
@@ -42,6 +46,7 @@ public class PlayerView extends EntityView {
 	@Override
 	protected void loadSprites() {
 		try {
+			
 			this.idle1 = ImageIO.read(getClass().getResource(path + "Bub-idle-1.png"));
 			this.idle2 = ImageIO.read(getClass().getResource(path + "Bub-idle-2.png"));
 			this.running1 = ImageIO.read(getClass().getResource(path + "Bub-running-1.png"));
@@ -69,35 +74,37 @@ public class PlayerView extends EntityView {
 	@Override
 	protected void loadDefaultSprite() {
 		try {
-			this.defaultSprite = ImageIO.read(getClass().getResource(path + "Bub-idle-1.png"));
+			this.defaultSprite =  ImageIO.read(getClass().getResource(path + "Bub-idle-1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void updateAnimation() {
 		
 		if(!player.isMoving()) {				//se il player non si sta muovendo scegli l'idle in base all'ultima direzione
-			if (lastKeyPressed == "right") { 
-				if(actualSprite == idle1) {
-	                actualSprite = idle2;
-	            } else {
-	                actualSprite = idle1;
-	            }
-			}
-			
-			if (lastKeyPressed == "left") {
-				if(actualSprite == idle1sx) {
-                    actualSprite = idle2sx;
-                } else {
-                    actualSprite = idle1sx;
-                }
+			switch (lastKeyPressed) {
+				case RIGHT -> {
+//					actualSprite = (actualSprite==idle1) ? idle2 : idle1;
+					if(actualSprite == idle1) {
+		                actualSprite = idle2;
+		            } else {
+		                actualSprite = idle1;
+		            }
+				}
+				case LEFT -> {
+//					actualSprite = (actualSprite==idle1sx) ? idle2sx : idle1sx;
+					if(actualSprite == idle1sx) {
+	                    actualSprite = idle2sx;
+	                } else {
+	                    actualSprite = idle1sx;
+	                }
+				}
 			}
 		}
 		else {
 			if (player.isRightPressed()) {
-				lastKeyPressed = "right";
+				lastKeyPressed = KeyPressed.RIGHT;
 				
 				if(actualSprite == idle1 || actualSprite == idle2) {
 					actualSprite = running1;
@@ -111,7 +118,7 @@ public class PlayerView extends EntityView {
 			}
 			
             if (player.isLeftPressed()) {
-            	lastKeyPressed = "left";
+            	lastKeyPressed = KeyPressed.LEFT;
             	
             	if(actualSprite == idle1sx || actualSprite == idle2sx) {
                     actualSprite = running1sx;

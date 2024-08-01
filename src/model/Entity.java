@@ -12,7 +12,6 @@ public abstract class Entity extends Observable {
 	
 	protected CollisionChecker collisionChecker;
 	protected int x, y, col, row;
-	protected List<String> paths;
 	protected String path;
 	protected String name;
 	private boolean isDead;
@@ -39,10 +38,6 @@ public abstract class Entity extends Observable {
 	}
 	public void setPath(String path) {
 		this.path=path;
-	}
-	
-	public void addPath(String path) {
-		paths.add(path);
 	}
 	
 	public String getName() {

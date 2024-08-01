@@ -26,6 +26,7 @@ public abstract class EntityView extends JLabel implements Observer {
 	public EntityView(Entity entity) {
         this.entity = entity;
         this.path = entity.getPath();
+        
         loadDefaultSprite();
         loadSprites();
         
@@ -41,6 +42,7 @@ public abstract class EntityView extends JLabel implements Observer {
 	public void update(Observable o, Object arg) {
 		this.setBounds(entity.getX(), entity.getY(), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
 		//da aggiungere aggiornamento dello sprite
+		
 	}
 	
 	public void resizeIcon(BufferedImage originalImage) {

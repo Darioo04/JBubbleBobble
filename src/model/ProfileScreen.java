@@ -12,7 +12,6 @@ public class ProfileScreen extends StateScreen {
 	
 	private ProfileScreen() {
 		super(GameState.SELECT_PROFILE);
-		this.loadScreens();
 		this.setStateScreenView(ProfileView.getInstance());
 	}
 }

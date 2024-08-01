@@ -87,6 +87,7 @@ public class Player extends Entity {
 	
 	@Override
 	public void update() {
+		super.update();
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
 //		if (isJumping) {
@@ -103,21 +104,21 @@ public class Player extends Entity {
         }
 		
 		switch (direction){
-		case LEFT-> {
-			if (isLeftPressed) {
-				x -= speed;
-                if (x < 0) x = 0; // Non può essere negativo
+			case LEFT-> {
+				if (isLeftPressed) {
+					x -= speed;
+					if (x < 0) x = 0; // Non può essere negativo
+				}
 			}
-		}
 		
-		case RIGHT -> {
-			if (isRightPressed) {
-                x += speed;
-                if (x + hitboxWidth > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH - hitboxWidth; // Non può essere superiore alla larghezza dello schermo
-            }
-		}
+			case RIGHT -> {
+				if (isRightPressed) {
+					x += speed;
+					if (x + hitboxWidth > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH - hitboxWidth; // Non può essere superiore alla larghezza dello schermo
+				}
+			}
 		
-		default -> throw new IllegalArgumentException("Unexpected value: " + direction);
+			default -> throw new IllegalArgumentException("Unexpected value: " + direction);
 		}
 		updateHitbox();
         setChanged();

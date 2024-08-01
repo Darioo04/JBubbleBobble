@@ -11,6 +11,7 @@ import model.GameState;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
+import model.ProfileScreen;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import model.Tile;
@@ -19,6 +20,7 @@ import view.MainFrame;
 import view.MenuScreenView;
 import view.PauseScreenView;
 import view.PlayerView;
+import view.ProfileView;
 import view.SelectLevelView;
 import view.StateScreenView;
 import view.StatusBar;
@@ -38,6 +40,7 @@ public class GameController {
     private MenuScreenView menuScreenView;
     private SelectLevelScreen selectLevelScreen;
     private SelectLevelView selectLevelView;
+    private ProfileView profileView;
     private PauseScreen pauseScreen;
     private PauseScreenView pauseScreenView;
     private GamePanel gamePanel;
@@ -64,10 +67,16 @@ public class GameController {
         gameState = GameState.MENU;
         gameModel = GameModel.getInstance();
         gameModel.addObserver(StatusBar.getInstance());
+        
         levelCreator = LevelCreator.getInstance();
         mainFrame = MainFrame.getInstance();
         selectLevelScreen = SelectLevelScreen.getInstance();
         selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
+        profileView = ProfileView.getInstance();
+        gameModel.addObserver(profileView);
+        
+        playerView = PlayerView.getInstance(); 
+        
         menuScreen = MenuScreen.getInstance();
         menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
         pauseScreen = PauseScreen.getInstance();
@@ -111,11 +120,15 @@ public class GameController {
 			
 			case GAME -> {
 				player.update();
-				gamePanel.repaint();
+//				gamePanel.repaint();
 			}
 			
             case PAUSE -> {
             	pauseScreen.update();
+            }
+            
+            case SELECT_PROFILE -> {
+            	profileView.repaint();
             }
 		
 			default -> {

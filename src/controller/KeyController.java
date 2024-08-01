@@ -77,7 +77,7 @@ public class KeyController implements KeyListener {
 						}
 						case 2 -> {
 							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), selectLevelScreen.getStateScreenView());
-							gameController.setGameState(GameState.SELECT_LEVEL);
+							gameController.setGameState(GameState.LEVEL_EDITOR);
 							selectLevelScreen.update();
 						}
 						default -> {
@@ -204,12 +204,11 @@ public class KeyController implements KeyListener {
 			}
 			
 			case SELECT_PROFILE -> {
-				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-					selectLevelScreen.decreasePointer();
+				if (key == KeyEvent.VK_ESCAPE) {
+					gameController.changeDisplayedScreen(ProfileView.getInstance(),menuScreen.getStateScreenView());
+					gameController.setGameState(GameState.MENU);
+					menuScreen.update();
 				}
-				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
-					selectLevelScreen.increasePointer();
-				}	
 			}
 			
 			case WIN -> {
@@ -225,6 +224,7 @@ public class KeyController implements KeyListener {
 							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),GamePanel.getInstance());
 							gameController.setGameState(GameState.GAME);
 							selectLevelScreen.increasePointer();
+							gameController.setLevel(selectLevelScreen.getPointer()+1);
 							gameController.startLevel();
 						}
 						case 1 -> {
