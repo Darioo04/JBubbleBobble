@@ -105,14 +105,14 @@ public class Player extends Entity {
 		
 		switch (direction){
 			case LEFT-> {
-				if (isLeftPressed) {
+				if (isLeftPressed && !collisionLeft) {
 					x -= speed;
 					if (x < 0) x = 0; // Non può essere negativo
 				}
 			}
 		
 			case RIGHT -> {
-				if (isRightPressed) {
+				if (isRightPressed && !collisionRight) {
 					x += speed;
 					if (x + hitboxWidth > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH - hitboxWidth; // Non può essere superiore alla larghezza dello schermo
 				}
@@ -153,5 +153,10 @@ public class Player extends Entity {
 	
 	public boolean isFalling() {
 		return fallingSpeed > 0;
+	}
+
+	@Override
+	public int getFallingSpeed() {
+		return fallingSpeed;
 	}
 }

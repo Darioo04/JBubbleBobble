@@ -16,8 +16,7 @@ public abstract class Entity extends Observable {
 	protected String name;
 	private boolean isDead;
 	private boolean isMoving;
-	public static final int GRAVITY = 3; // Gravità costante
-	private int movingSpritesCount;
+	public static final int GRAVITY = 2; // Gravità costante
 	
 	private Rectangle hitbox;
 	protected int hitboxWidth;
@@ -86,6 +85,7 @@ public abstract class Entity extends Observable {
 	}
 	
 	public abstract int getSpeed();
+	public abstract int getFallingSpeed();
 	
 	public Rectangle getHitbox() {
         return hitbox;
@@ -142,12 +142,5 @@ public abstract class Entity extends Observable {
         this.isMoving = isMoving;
     }
     
-    public int getMovingSpritesCount() {
-        return movingSpritesCount;
-    }
-    
-    public void setMovingSpritesCount(int movingSpritesCount) {
-        this.movingSpritesCount = movingSpritesCount;
-    }
 
 }

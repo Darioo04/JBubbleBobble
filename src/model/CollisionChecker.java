@@ -29,13 +29,15 @@ public class CollisionChecker {
 		int topRow = topY / GameConstants.TILE_SIZE;
 		int bottomRow = bottomY / GameConstants.TILE_SIZE;
 		
-//		char tile1, tile2;
-		
-		bottomRow = (bottomY + entity.getSpeed()) / GameConstants.TILE_SIZE;
-//		tile1 = levelFile[bottomRow][leftCol];
-//		tile2 = levelFile[bottomRow][rightCol];
-		
+		bottomRow = (bottomY + entity.getFallingSpeed()) / GameConstants.TILE_SIZE;
 		entity.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+		
+//		bottomRow = bottomY / GameConstants.TILE_SIZE;
+		leftCol = (leftX - entity.getSpeed()) / GameConstants.TILE_SIZE;
+		entity.setCollisionLeft(levelFile[bottomRow-1][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
+		
+		rightCol = (rightX + entity.getSpeed()) / GameConstants.TILE_SIZE;
+		entity.setCollisionRight(levelFile[bottomRow-1][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
 		
 	}
 	

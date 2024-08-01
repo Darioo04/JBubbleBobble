@@ -13,4 +13,10 @@ public class Invader extends Enemy {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int getFallingSpeed() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
