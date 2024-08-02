@@ -13,7 +13,7 @@ public class CollisionChecker {
 		return instance;
 	}
 	
-	public CollisionChecker() {
+	private CollisionChecker() {
         
     }
 

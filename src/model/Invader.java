@@ -3,8 +3,8 @@ package model;
 public class Invader extends Enemy {
 	protected String filePath;
 	
-	public Invader() {
-		super(25,25,"Invader");
+	public Invader(int x, int y) {
+		super(x, y, "Invader");
 		this.setPath("/sprites/invader/");
 	}
 

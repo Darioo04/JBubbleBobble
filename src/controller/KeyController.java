@@ -190,9 +190,10 @@ public class KeyController implements KeyListener {
 //							pauseScreen.update();
 						}
 						case 1 -> {
-							gameController.changeDisplayedScreen(pauseScreen.getStateScreenView(),menuScreen.getStateScreenView());
+							gameController.changeDisplayedScreen(pauseScreen.getStateScreenView(), menuScreen.getStateScreenView());
 							gameController.setGameState(GameState.MENU);
 							selectLevelScreen.setPointer(0);
+							gameController.clearLevel();
 							menuScreen.update();
 						}
 						default -> {

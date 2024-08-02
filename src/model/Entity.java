@@ -21,6 +21,8 @@ public abstract class Entity extends Observable {
 	private Rectangle hitbox;
 	protected int hitboxWidth;
 	protected int hitboxHeight;
+	protected int hitboxOffsetX;
+    protected int hitboxOffsetY;
 	protected boolean collisionDown;
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
@@ -97,6 +99,14 @@ public abstract class Entity extends Observable {
 	
 	public void setHitboxHeight(int hitboxHeight) {
         this.hitboxHeight = hitboxHeight;
+    }
+	
+	public void setHitboxOffsetX(int hitboxOffsetX) {
+        this.hitboxOffsetX = hitboxOffsetX;
+    }
+	
+	public void setHitboxOffsetY(int hitboxOffsetY) {
+        this.hitboxOffsetY = hitboxOffsetY;
     }
 	
 	public void setHitbox(Rectangle hitBox) {

@@ -6,14 +6,17 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import model.Enemy;
+import model.GameConstants;
 import model.GameModel;
 import model.GameState;
+import model.Invader;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import model.Tile;
+import view.EnemyView;
 import view.GamePanel;
 import view.MainFrame;
 import view.MenuScreenView;
@@ -47,6 +50,7 @@ public class GameController {
     private int frames = 0;
     private Timer timer;
     private ArrayList<Enemy> enemies;
+    private ArrayList<EnemyView> enemyViews;
     private GameState gameState;
     private MainFrame mainFrame;
     private LevelCreator levelCreator;
@@ -158,19 +162,29 @@ public class GameController {
     	gamePanel.addKeyListener(keyController);
     	gamePanel.setIsThereKeyController(true);
     	
-//    	Tiles[][] level= new Level(selectLevelScreen.getPointer()+1).getLevel();
-//    	LevelPanel levelPanel=new LevelPanel(level);
-//    	gamePanel.add(levelPanel);
     	gamePanel.add(playerView);
     	gamePanel.setPlayer(player);
+    	enemies = new ArrayList<Enemy>();
+    	enemyViews = new ArrayList<EnemyView>();
+    	spawnEnemies();
     	gamePanel.setFocusable(true);
     	gamePanel.grabFocus();
     	
     	mainFrame.revalidate();
         mainFrame.repaint();
         
-        removeDisplayedScreen(menuScreenView);
+//        removeDisplayedScreen(menuScreenView);
     }
+	
+	public void clearLevel() {
+		player.setDefaultValues();
+		gamePanel.remove(playerView);
+		enemies.clear();
+		for(EnemyView eView : enemyViews) {
+			gamePanel.remove(eView);
+		}
+	}
+	
 	public void resumeLevel() {
 		
 	}
@@ -227,5 +241,25 @@ public class GameController {
     	screen.removeKeyListener(keyController);
         StateScreenView stateScreenView = (StateScreenView) screen;
         stateScreenView.setIsThereKeyController(false);
+    }
+    
+    public void spawnEnemies() {
+    	char [][] levelFile = LevelCreator.getInstance().getLevel();
+    	for (int i = 0; i < levelFile.length; i++) {
+    		for (int j = 0; j < levelFile[i].length; j++) {
+                switch (levelFile[i][j]) {
+				case 'R' -> {
+					Invader invader = new Invader(j * GameConstants.TILE_SIZE, i * GameConstants.TILE_SIZE);
+					EnemyView invaderView = new EnemyView(invader);
+					invader.addObserver(invaderView);
+					gamePanel.add(invaderView);
+					enemies.add(invader);
+					enemyViews.add(invaderView);
+				}
+				
+				default -> {}
+				}
+            }
+    	}
     }
 }

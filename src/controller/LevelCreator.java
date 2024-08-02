@@ -91,7 +91,7 @@ public class LevelCreator {
 				switch (tile) {
 					case '1' -> g2d.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
 						
-					case 'R' -> g2d.drawImage(new EnemyView(new Invader()).getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+					case 'R' -> {} //g2d.drawImage(new EnemyView(new Invader()).getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
 					
 					default -> {}
 				}
