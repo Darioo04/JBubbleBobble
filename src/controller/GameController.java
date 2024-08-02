@@ -5,14 +5,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import model.Banebou;
 import model.Enemy;
+import model.EnemyFactory;
 import model.GameConstants;
 import model.GameModel;
 import model.GameState;
+import model.Hidegons;
 import model.Invader;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
+import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import model.Tile;
@@ -247,21 +251,19 @@ public class GameController {
     }
     
     public void spawnEnemies() {
+    	EnemyFactory enemyFactory = EnemyFactory.getInstance();
     	char [][] levelFile = LevelCreator.getInstance().getLevel();
     	for (int i = 0; i < levelFile.length; i++) {
     		for (int j = 0; j < levelFile[i].length; j++) {
-                switch (levelFile[i][j]) {
-				case 'R' -> {
-					Invader invader = new Invader(j * GameConstants.TILE_SIZE, i * GameConstants.TILE_SIZE);
-					EnemyView invaderView = new EnemyView(invader);
-					invader.addObserver(invaderView);
-					gamePanel.add(invaderView);
-					enemies.add(invader);
-					enemyViews.add(invaderView);
-				}
-				
-				default -> {}
-				}
+    			Enemy enemy = enemyFactory.createEnemy(levelFile[i][j], i, j);
+                if (enemy!=null) {
+                	EnemyView enemyView = new EnemyView(enemy);
+    				enemy.addObserver(enemyView);
+    				gamePanel.add(enemyView);
+    				enemies.add(enemy);
+    				enemyViews.add(enemyView);
+                }
+                
             }
     	}
     }

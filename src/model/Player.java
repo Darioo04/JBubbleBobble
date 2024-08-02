@@ -6,10 +6,6 @@ import java.awt.Rectangle;
 
 public class Player extends Entity {
 	
-	enum Direction {
-		LEFT,RIGHT
-	}
-	
 	private long score;
 	private static Player instance;
 	private boolean isLeftPressed;
@@ -17,14 +13,14 @@ public class Player extends Entity {
 	private boolean isSpacePressed;	
 	private boolean isJumping;
 	private int speed;
-	private Direction direction;
+
 	private int lives;
 	private int fallingSpeed; //velocita di caduta
 	private static final int JUMP_STRENGTH = 40; // Forza del salto
 	
 	
 	private Player() {
-		super(200, 150, "Player");
+		super(200, 150);
 		setDefaultValues();
 		this.hitboxOffsetX = GameConstants.SCALE * 2;
 		this.hitboxOffsetY = GameConstants.SCALE;
@@ -47,13 +43,13 @@ public class Player extends Entity {
 		setDead(false);
 		this.isJumping = false;
 		this.setPath("/sprites/BubAndBob1/");
-		this.direction = Direction.RIGHT;
+		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
 	}
 	
 	public void setDirectionAndCollision() {
-		if(isLeftPressed) direction = Direction.LEFT;
-		else if(isRightPressed) direction = Direction.RIGHT;
+		if(isLeftPressed) setDirection(Direction.LEFT);
+		else if(isRightPressed) setDirection(Direction.RIGHT);
 		//direction = (isLeftPressed) ? Direction.LEFT : Direction.RIGHT;
 		collisionLeft = false;
 		collisionRight = false;
@@ -86,6 +82,10 @@ public class Player extends Entity {
 		if(!isJumping) {
 			this.fallingSpeed = -JUMP_STRENGTH;
             this.isJumping = true;
+            if (x < 0) x = 0;
+            if (x > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH-1;
+            if (y < 0) y = 0;
+            if (y > GameConstants.SCREEN_HEIGHT) y = GameConstants.SCREEN_HEIGHT-1;
 		}
 	}
 	
@@ -108,7 +108,7 @@ public class Player extends Entity {
             isJumping = false;
         }
 		
-		switch (direction){
+		switch (getDirection()){
 			case LEFT -> {
 				if (isLeftPressed && !collisionLeft) {
 					x -= speed;
@@ -123,7 +123,7 @@ public class Player extends Entity {
 				}
 			}
 		
-			default -> throw new IllegalArgumentException("Unexpected value: " + direction);
+			default -> throw new IllegalArgumentException("Unexpected value: " + getDirection());
 		}
 		updateHitbox();
         setChanged();
@@ -151,17 +151,17 @@ public class Player extends Entity {
 		return isLeftPressed || isRightPressed;
 	}
 
-	@Override
-	public int getSpeed() {
-		return speed;
-	}
+//	@Override
+//	public int getSpeed() {
+//		return speed;
+//	}
 	
 	public boolean isFalling() {
 		return fallingSpeed > 0;
 	}
 
-	@Override
-	public int getFallingSpeed() {
-		return fallingSpeed;
-	}
+//	@Override
+//	public int getFallingSpeed() {
+//		return fallingSpeed;
+//	}
 }

@@ -1,34 +1,23 @@
 package model;
 
-@SuppressWarnings("deprecation")
+import model.Entity.Direction;
 
-public class Invader extends Enemy {
-	private int speed = 3;
+public class Banebou extends Enemy {
+	//si muovono saltando ad arco
 	
-	public Invader(int x, int y) {
-		super(x, y);
-		this.setPath("/sprites/invader/");
-		this.setDirection(Direction.RIGHT);
+	public Banebou(int x, int y) {
+		super(x,y);
+		setPath("/sprites/banebou/");
+		setDirection(Direction.RIGHT);
+		setSpeed(4);
 	}
-
-	@Override
-	public int getSpeed() {
-		// TODO Auto-generated method stub
-		return speed;
-	}
-
-	@Override
-	public int getFallingSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+	
 	@Override
 	public void update() {
 		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
             randomizeDirection();
         }
-		
+		int speed = getSpeed();
 		switch (getDirection()) {
 			case RIGHT -> {
 				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed) {

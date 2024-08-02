@@ -7,6 +7,7 @@ public enum Item {
 	
 	private int point;
 	private String path;
+	
 	Item(int point,String path) {
 		this.point=point;
 		this.path=path;

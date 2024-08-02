@@ -2,33 +2,21 @@ package model;
 
 @SuppressWarnings("deprecation")
 
-public class Invader extends Enemy {
-	private int speed = 3;
+public class Hidegons extends Enemy{
+	// spara palle di fuoco, si muove solo a destra e a sinistra
+	public Hidegons(int x,int y) {
+		super(x,y);
+		setDirection(Direction.RIGHT);
+		setPath("/sprites/hidegons/");
+		setSpeed(6);
+	}
 	
-	public Invader(int x, int y) {
-		super(x, y);
-		this.setPath("/sprites/invader/");
-		this.setDirection(Direction.RIGHT);
-	}
-
-	@Override
-	public int getSpeed() {
-		// TODO Auto-generated method stub
-		return speed;
-	}
-
-	@Override
-	public int getFallingSpeed() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	@Override
 	public void update() {
 		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
             randomizeDirection();
         }
-		
+		int speed = getSpeed();
 		switch (getDirection()) {
 			case RIGHT -> {
 				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed) {
@@ -80,12 +68,6 @@ public class Invader extends Enemy {
         }
         else if (randomNumber <= 0.5) {
             setDirection(Direction.RIGHT);
-        }
-        else if (randomNumber <= 0.75) {
-            setDirection(Direction.DOWN);
-        }
-        else {
-            setDirection(Direction.UP);
         }
 	}
 }

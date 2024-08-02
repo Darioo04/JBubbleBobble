@@ -2,7 +2,6 @@ package model;
 
 
 import java.awt.Rectangle;
-import java.util.List;
 import java.util.Observable;
 
 
@@ -10,12 +9,18 @@ import java.util.Observable;
 
 public abstract class Entity extends Observable {
 	
+	enum Direction {
+		UP,DOWN,LEFT,RIGHT
+	}
+	
+	private Direction direction;
 	protected CollisionChecker collisionChecker;
 	protected int x, y, col, row;
 	protected String path;
-	protected String name;
 	private boolean isDead;
 	private boolean isMoving;
+	private int speed;
+	private int fallingSpeed; //velocita di caduta
 	public static final int GRAVITY = 2; // Gravità costante
 	
 	private Rectangle hitbox;
@@ -27,11 +32,17 @@ public abstract class Entity extends Observable {
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
 	
-	public Entity(int x, int y, String name) {
+	public Entity(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.name = name;
 		collisionChecker = CollisionChecker.getInstance();
+	}
+	
+	public Direction getDirection() {
+		return direction;
+	}
+	public void setDirection(Direction direction) {
+		this.direction=direction;
 	}
 	
 	public String getPath() {
@@ -39,10 +50,6 @@ public abstract class Entity extends Observable {
 	}
 	public void setPath(String path) {
 		this.path=path;
-	}
-	
-	public String getName() {
-		return name;
 	}
 	
 	public int getX() {
@@ -86,8 +93,8 @@ public abstract class Entity extends Observable {
         notifyObservers();
 	}
 	
-	public abstract int getSpeed();
-	public abstract int getFallingSpeed();
+//	public abstract int getSpeed();
+//	public abstract int getFallingSpeed();
 	
 	public Rectangle getHitbox() {
         return hitbox;
@@ -150,6 +157,20 @@ public abstract class Entity extends Observable {
     
     public void setMoving(boolean isMoving) {
         this.isMoving = isMoving;
+    }
+    
+    public int getSpeed() {
+    	return speed;
+    }
+    public void setSpeed(int speed) {
+    	this.speed=speed;
+    }
+    
+    public int getFallingSpeed() {
+    	return fallingSpeed;
+    }
+    public void setFallingSpeed(int fallingSpeed) {
+    	this.fallingSpeed=fallingSpeed;
     }
     
 
