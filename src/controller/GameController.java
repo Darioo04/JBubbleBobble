@@ -123,6 +123,9 @@ public class GameController {
 			
 			case GAME -> {
 				player.update();
+				for (Enemy e : enemies) {
+					e.update();
+				}
 //				gamePanel.repaint();
 			}
 			

@@ -20,7 +20,7 @@ public class Player extends Entity {
 	private Direction direction;
 	private int lives;
 	private int fallingSpeed; //velocita di caduta
-	private static final int JUMP_STRENGTH = 10; // Forza del salto
+	private static final int JUMP_STRENGTH = 40; // Forza del salto
 	
 	
 	private Player() {
@@ -102,7 +102,8 @@ public class Player extends Entity {
 		if(!collisionDown || isJumping) {
 			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
             y += fallingSpeed; // Aggiorna la posizione verticale
-        } else {
+        } 
+		if(collisionDown) {
             fallingSpeed = 0;
             isJumping = false;
         }
