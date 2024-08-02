@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.util.Observable;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
@@ -36,16 +37,20 @@ public class ProfileView extends StateScreenView {
 		this.setVisible(true);
 		this.setBackground(Color.BLACK);
 		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
-		JPanel statsPanel= new JPanel(new GridLayout(3,1,5,5));
-		setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		
-		JLabel labelPlayed = new JLabel();
+		JPanel statsPanel= new JPanel(new GridLayout(3,1,5,5));
+		statsPanel.setBackground(Color.BLACK);
+		
+		JPanel labelPlayed = new JPanel(new BorderLayout());
+		labelPlayed.setBackground(Color.BLACK);
 		labelPlayed.add(new FontView("Games Played: "+gamesPlayed),BorderLayout.CENTER);
 		
-		JLabel labelWon = new JLabel();
+		JPanel labelWon = new JPanel(new BorderLayout());
+		labelWon.setBackground(Color.BLACK);
 		labelWon.add(new FontView("Games Won: "+gamesWon),BorderLayout.CENTER);
 		
-		JLabel labelLost= new JLabel();
+		JPanel labelLost= new JPanel(new BorderLayout());
+		labelLost.setBackground(Color.BLACK);
 		labelLost.add(new FontView("Games Lost: "+gamesLost),BorderLayout.CENTER);
 		
 		statsPanel.add(labelPlayed);
@@ -74,4 +79,5 @@ public class ProfileView extends StateScreenView {
 		this.gamesWon=gameModel.getGamesWon();
 		this.gamesLost=gameModel.getGamesLost();
 	}
+	
 }	

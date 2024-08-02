@@ -52,35 +52,6 @@ public class LevelCreator {
 		}
 	}
 	
-//	public void draw(Graphics2D g2) {
-//		int col = 0;
-//		int row = 0;
-//		int x = 0;
-//		int y = 0;
-//		while(row < GameConstants.ROWS && col < GameConstants.COLS) {
-//			char tile = file[row][col];
-//			switch (tile) {
-//				case '1' -> g2.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-//				
-//				case ' ' -> g2.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-//				
-//				case 'R' -> g2.drawImage(emptyBlock.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-//				
-//				default ->
-//				throw new IllegalArgumentException("Unexpected value: " + tile);
-//				}
-//			col++;
-//			x += GameConstants.TILE_SIZE;
-//			
-//			if (col == GameConstants.COLS ) {
-//				col = 0;
-//				row++;
-//				x = 0;
-//				y += GameConstants.TILE_SIZE;
-//			}
-//		}
-//	}
-	
 	public void draw(Graphics2D g2d) {
 		
 		int y = 0;

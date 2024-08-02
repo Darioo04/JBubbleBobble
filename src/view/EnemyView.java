@@ -41,7 +41,7 @@ public class EnemyView extends EntityView {
 	@Override
 	protected void loadDefaultSprite() {
 		try {
-			this.actualSprite = ImageIO.read(getClass().getResource(path+"idle-1.png"));
+			this.defaultSprite = ImageIO.read(getClass().getResource(path + "idle-1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

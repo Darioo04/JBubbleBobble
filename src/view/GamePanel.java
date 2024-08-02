@@ -37,7 +37,6 @@ public class GamePanel extends StateScreenView {
 	private GamePanel() {
 		gameController = GameController.getInstance();
 		levelCreator = LevelCreator.getInstance();
-		add(StatusBar.getInstance(),BorderLayout.PAGE_START);
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setBackground(Color.BLACK);
@@ -55,6 +54,7 @@ public class GamePanel extends StateScreenView {
 		if (gameController.getGameState() == GameState.GAME) {
 			levelCreator.draw(g2);
 		}
+		add(StatusBar.getInstance(),BorderLayout.PAGE_START);
 	}
 	
 	public void setPlayer (Player player) {

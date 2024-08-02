@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import controller.FontCreator;
 
-public class FontView extends JPanel {
+public class FontView extends JLabel {
 	private String text;
 	private int num;
 	private static Map<Character,String> fontChars = FontCreator.getInstance().getFont();
@@ -33,15 +33,15 @@ public class FontView extends JPanel {
 	
 	protected void drawFont(Graphics g) {
 		
-		int x=15; //posizione dei caratteri
-		int y=30;
+		int x=0; //posizione dei caratteri
+		int y=0;
 		
 		char[] charArray = text.toCharArray();
 		for (char c : charArray) {
 			if (fontChars.containsKey(c)) {	
 				try {
 					BufferedImage image = ImageIO.read(getClass().getResource(fontChars.get(c)));
-					g.drawImage(image, x, y-image.getHeight(), null);
+					g.drawImage(image, x, y, null);
 					x+=image.getWidth() + 5;
 				} catch (IOException e) {
 					e.printStackTrace();
