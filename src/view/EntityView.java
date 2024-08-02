@@ -18,7 +18,6 @@ public abstract class EntityView extends JLabel implements Observer {
 	
 	protected Entity entity;
 	protected String path;   //percorso cartella con tutti gli sprites
-//	protected Image resizedImage;
 	protected ImageIcon resizedIcon;
 	protected BufferedImage defaultSprite;
 	

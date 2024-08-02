@@ -20,15 +20,17 @@ public class Player extends Entity {
 	private Direction direction;
 	private int lives;
 	private int fallingSpeed; //velocita di caduta
-	private static final int JUMP_STRENGTH = 10; // Forza del salto
+	private static final int JUMP_STRENGTH = 40; // Forza del salto
 	
 	
 	private Player() {
 		super(200, 150, "Player");
 		setDefaultValues();
-		this.hitboxWidth = GameConstants.TILE_SIZE;
+		this.hitboxOffsetX = GameConstants.SCALE * 2;
+		this.hitboxOffsetY = GameConstants.SCALE;
+		this.hitboxWidth = GameConstants.TILE_SIZE - 2*hitboxOffsetX;
 		this.hitboxHeight = GameConstants.TILE_SIZE;
-		setHitbox(new Rectangle(x, y, hitboxWidth, hitboxHeight));
+		setHitbox(new Rectangle(x + hitboxOffsetX, y, hitboxWidth, hitboxHeight));
 	}
 	
 	public static Player getInstance() {
@@ -37,6 +39,8 @@ public class Player extends Entity {
 	}
 	
 	public void setDefaultValues() {
+		this.x = 200;
+		this.y = 150;
 		this.speed = 7;
 		this.lives = 3;
 		this.score = 0;
@@ -57,7 +61,7 @@ public class Player extends Entity {
 	}
 	
 	public void updateHitbox() {
-		setHitboxX(x);
+		setHitboxX(x + hitboxOffsetX);
 		setHitboxY(y);
 	}
 	
@@ -98,7 +102,8 @@ public class Player extends Entity {
 		if(!collisionDown || isJumping) {
 			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
             y += fallingSpeed; // Aggiorna la posizione verticale
-        } else {
+        } 
+		if(collisionDown) {
             fallingSpeed = 0;
             isJumping = false;
         }
