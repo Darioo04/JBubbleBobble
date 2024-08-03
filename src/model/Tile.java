@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 
 
 
-public abstract class Tile{
+public abstract class Tile {
 	private BufferedImage sprite;
 	private boolean collision;
 //	protected String tilePath;

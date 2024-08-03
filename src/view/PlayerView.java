@@ -28,7 +28,7 @@ public class PlayerView extends EntityView {
 	private BufferedImage jumping2sx;
 	private BufferedImage falling1sx;
 	private BufferedImage falling2sx;
-	private KeyPressed lastKeyPressed = KeyPressed.RIGHT;
+	private KeyPressed lastKeyPressed;
 	private Player player;
 	private BufferedImage actualSprite;
 	
@@ -41,6 +41,7 @@ public class PlayerView extends EntityView {
 	private PlayerView () {
 		super(Player.getInstance());
 		player = Player.getInstance();
+		this.lastKeyPressed = KeyPressed.RIGHT;
 	}
 
 	@Override

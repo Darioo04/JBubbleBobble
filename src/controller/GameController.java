@@ -127,9 +127,10 @@ public class GameController {
 			
 			case GAME -> {
 				player.update();
-				for (Enemy e : enemies) {
-					e.update();
-				}
+				enemies.stream().forEach(Enemy::update);
+//				for (Enemy e : enemies) {
+//					e.update();
+//				}
 //				gamePanel.repaint();
 			}
 			
@@ -187,9 +188,10 @@ public class GameController {
 		player.setDefaultValues();
 		gamePanel.remove(playerView);
 		enemies.clear();
-		for(EnemyView eView : enemyViews) {
-			gamePanel.remove(eView);
-		}
+		enemyViews.stream().forEach(gamePanel::remove);
+//		for(EnemyView eView : enemyViews) {
+//			gamePanel.remove(eView);
+//		}
 	}
 	
 	public void resumeLevel() {
