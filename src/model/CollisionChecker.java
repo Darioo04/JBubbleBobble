@@ -34,6 +34,12 @@ public class CollisionChecker {
 		int topRow = topY / GameConstants.TILE_SIZE;
 		int bottomRow = bottomY / GameConstants.TILE_SIZE;
 		
+		if (entity instanceof Player) {
+			if (levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1') {
+				entity.setY(entity.getY() - (bottomY - bottomRow*GameConstants.TILE_SIZE));
+			}
+		}
+		
 		bottomRow = (bottomY + entity.getFallingSpeed()) / GameConstants.TILE_SIZE;
 		entity.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		

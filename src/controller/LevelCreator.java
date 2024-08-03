@@ -59,13 +59,7 @@ public class LevelCreator {
 			int x = 0;
 			for (int j=0; j<file[0].length; j++) {
 				char tile=file[i][j];
-				switch (tile) {
-					case '1' -> g2d.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-						
-					case 'R' -> {} //g2d.drawImage(new EnemyView(new Invader()).getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-					
-					default -> {}
-				}
+				if (tile == '1') g2d.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
 				x+=GameConstants.TILE_SIZE;
 			}
 			y+=GameConstants.TILE_SIZE;

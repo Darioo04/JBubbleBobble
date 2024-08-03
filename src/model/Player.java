@@ -100,7 +100,7 @@ public class Player extends Entity {
 //        }
 //		
 		if(!collisionDown || isJumping) {
-			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
+			fallingSpeed = GRAVITY;
             y += fallingSpeed; // Aggiorna la posizione verticale
         } 
 		if(collisionDown) {
