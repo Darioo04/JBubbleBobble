@@ -34,21 +34,16 @@ public class CollisionChecker {
 		int topRow = topY / GameConstants.TILE_SIZE;
 		int bottomRow = bottomY / GameConstants.TILE_SIZE;
 		
-		if (entity instanceof Player) {
-			if (levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1') {
-				entity.setY(entity.getY() - (bottomY - bottomRow*GameConstants.TILE_SIZE));
-			}
-		}
-		
-		bottomRow = (bottomY + entity.getFallingSpeed()) / GameConstants.TILE_SIZE;
-		entity.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
-		
-//		bottomRow = bottomY / GameConstants.TILE_SIZE;
 		leftCol = (leftX - entity.getSpeed()) / GameConstants.TILE_SIZE;
-		entity.setCollisionLeft(levelFile[bottomRow-1][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
+		entity.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
 		
 		rightCol = (rightX + entity.getSpeed()) / GameConstants.TILE_SIZE;
-		entity.setCollisionRight(levelFile[bottomRow-1][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
+		entity.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
+		
+		leftCol = leftX / GameConstants.TILE_SIZE;
+		rightCol = rightX / GameConstants.TILE_SIZE;
+		bottomRow = (bottomY + GameConstants.SCALE) / GameConstants.TILE_SIZE;
+		entity.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
 	}
 	

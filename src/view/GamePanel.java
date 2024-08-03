@@ -54,6 +54,7 @@ public class GamePanel extends StateScreenView {
 		if (gameController.getGameState() == GameState.GAME) {
 			levelCreator.draw(g2);
 		}
+		player.drawHitbox(g2);
 		add(StatusBar.getInstance(),BorderLayout.PAGE_START);
 	}
 	

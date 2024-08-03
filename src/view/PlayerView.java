@@ -81,12 +81,11 @@ public class PlayerView extends EntityView {
 		}
 	}
 	
-	public void updateAnimation() {
+	public void updateAnimation(int animationCycle) {
 		
-		if(!player.isMoving()) {				//se il player non si sta muovendo scegli l'idle in base all'ultima direzione
+		if(!player.isMoving() && !player.isFalling()) {				//se il player non si sta muovendo scegli l'idle in base all'ultima direzione
 			switch (lastKeyPressed) {
 				case RIGHT -> {
-//					actualSprite = (actualSprite==idle1) ? idle2 : idle1;
 					if(actualSprite == idle1) {
 		                actualSprite = idle2;
 		            } else {
@@ -94,7 +93,6 @@ public class PlayerView extends EntityView {
 		            }
 				}
 				case LEFT -> {
-//					actualSprite = (actualSprite==idle1sx) ? idle2sx : idle1sx;
 					if(actualSprite == idle1sx) {
 	                    actualSprite = idle2sx;
 	                } else {
@@ -103,33 +101,74 @@ public class PlayerView extends EntityView {
 				}
 			}
 		}
+		else if(player.isFalling()) {
+			switch (lastKeyPressed) {
+				case RIGHT -> {
+					if(actualSprite == falling1) {
+		                actualSprite = falling2;
+		            } else {
+		                actualSprite = falling1;
+		            }
+				}
+				case LEFT -> {
+					if(actualSprite == falling1sx) {
+	                    actualSprite = falling2sx;
+	                } else {
+	                    actualSprite = falling1sx;
+	                }
+				}
+			}
+		}
 		else {
 			if (player.isRightPressed()) {
 				lastKeyPressed = KeyPressed.RIGHT;
 				
-				if(actualSprite == idle1 || actualSprite == idle2) {
-					actualSprite = running1;
-				}
-				if(actualSprite == running1) {
-					actualSprite = running2;
-				}
-				else {
-					actualSprite = idle2;
+//				if(actualSprite == idle1 || actualSprite == idle2) {
+//					actualSprite = running1;
+//				}
+//				if(actualSprite == running1) {
+//					actualSprite = running2;
+//				}
+//				else {
+//					actualSprite = idle2;
+//				}
+				switch (animationCycle % 3) {  // Ci sono 3 fasi nell'animazione: idle2, running1, running2
+                case 0:
+                    actualSprite = running1;
+                    break;
+                case 1:
+                    actualSprite = running2;
+                    break;
+                case 2:
+                    actualSprite = idle2;
+                    break;
 				}
 			}
 			
             if (player.isLeftPressed()) {
             	lastKeyPressed = KeyPressed.LEFT;
             	
-            	if(actualSprite == idle1sx || actualSprite == idle2sx) {
+//            	if(actualSprite == idle1sx || actualSprite == idle2sx) {
+//                    actualSprite = running1sx;
+//                }
+//                if(actualSprite == running1sx) {
+//                    actualSprite = running2sx;
+//                }
+//                else {
+//                    actualSprite = idle2sx;  
+//                }
+            	
+            	switch (animationCycle % 3) {
+                case 0:
                     actualSprite = running1sx;
-                }
-                if(actualSprite == running1sx) {
+                    break;
+                case 1:
                     actualSprite = running2sx;
-                }
-                else {
-                    actualSprite = idle2sx;  
-                }
+                    break;
+                case 2:
+                    actualSprite = idle2sx;
+                    break;
+            	}
             }
 		}
 		

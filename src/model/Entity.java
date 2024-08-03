@@ -104,8 +104,16 @@ public abstract class Entity extends Observable {
         this.hitboxWidth = hitboxWidth;
     }
 	
+	public int getHitboxWidth() {
+		return hitboxWidth;
+    }
+	
 	public void setHitboxHeight(int hitboxHeight) {
         this.hitboxHeight = hitboxHeight;
+    }
+	
+	public int getHitboxHeight() {
+        return hitboxHeight;
     }
 	
 	public void setHitboxOffsetX(int hitboxOffsetX) {
@@ -123,8 +131,17 @@ public abstract class Entity extends Observable {
 	public void setHitboxX(int x){
         hitbox.x = x;
     }
+	
     public void setHitboxY(int y){
         hitbox.y = y;
+    }
+    
+    public int getHitboxX() {
+    	return hitbox.x;
+    }
+    
+    public int getHitboxY() {
+        return hitbox.y;
     }
     
     public boolean getCollisionDown() {

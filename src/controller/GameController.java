@@ -59,6 +59,7 @@ public class GameController {
     private MainFrame mainFrame;
     private LevelCreator levelCreator;
     public static int level;
+    private int animationCycle = 0;
     
     
     
@@ -105,10 +106,12 @@ public class GameController {
 				update();	
 				if (gameState == GameState.GAME) {
 					frames++;
-                    if(frames == 8) {
+                    if(frames == 5) {
                     	frames = 0;
-                        playerView.updateAnimation();
+                        playerView.updateAnimation(animationCycle);
+                        animationCycle++;
                     }
+                    if (animationCycle == 3) animationCycle = 0;
 				}
 			}
 		});

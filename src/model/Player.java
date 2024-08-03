@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 @SuppressWarnings("deprecation")
@@ -12,21 +14,23 @@ public class Player extends Entity {
 	private boolean isRightPressed;
 	private boolean isSpacePressed;	
 	private boolean isJumping;
+	private boolean canJump;
 	private int speed;
+	private int yBeforeJumping;
 
 	private int lives;
 	private int fallingSpeed; //velocita di caduta
-	private static final int JUMP_STRENGTH = 40; // Forza del salto
+	private static final int JUMP_STRENGTH = 250; // Forza del salto
 	
 	
 	private Player() {
 		super(200, 150);
 		setDefaultValues();
 		this.hitboxOffsetX = GameConstants.SCALE * 2;
-		this.hitboxOffsetY = GameConstants.SCALE;
+		this.hitboxOffsetY = GameConstants.SCALE * 2;
 		this.hitboxWidth = GameConstants.TILE_SIZE - 2*hitboxOffsetX;
-		this.hitboxHeight = GameConstants.TILE_SIZE;
-		setHitbox(new Rectangle(x + hitboxOffsetX, y, hitboxWidth, hitboxHeight));
+		this.hitboxHeight = GameConstants.TILE_SIZE - hitboxOffsetY;
+		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));
 	}
 	
 	public static Player getInstance() {
@@ -42,6 +46,7 @@ public class Player extends Entity {
 		this.score = 0;
 		setDead(false);
 		this.isJumping = false;
+		this.canJump = true;
 		this.setPath("/sprites/BubAndBob1/");
 		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
@@ -58,7 +63,7 @@ public class Player extends Entity {
 	
 	public void updateHitbox() {
 		setHitboxX(x + hitboxOffsetX);
-		setHitboxY(y);
+		setHitboxY(y + hitboxOffsetY);
 	}
 	
 	public long getScore() {
@@ -79,13 +84,11 @@ public class Player extends Entity {
 	}
 	
 	public void jump() {
-		if(!isJumping) {
+		if(!isJumping && canJump) {
 			this.fallingSpeed = -JUMP_STRENGTH;
             this.isJumping = true;
-            if (x < 0) x = 0;
-            if (x > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH-1;
-            if (y < 0) y = 0;
-            if (y > GameConstants.SCREEN_HEIGHT) y = GameConstants.SCREEN_HEIGHT-1;
+            this.canJump = false;
+            this.yBeforeJumping = y;
 		}
 	}
 	
@@ -94,18 +97,27 @@ public class Player extends Entity {
 		super.update();
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
-//		if (isJumping) {
-//			fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
-//            y += fallingSpeed; // Aggiorna la posizione verticale
-//        }
-//		
-		if(!collisionDown || isJumping) {
-			fallingSpeed = GRAVITY;
+		if (isJumping && (y <= yBeforeJumping)) {
             y += fallingSpeed; // Aggiorna la posizione verticale
+            fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
+            
+            if (y > yBeforeJumping) {
+            	y = yBeforeJumping; // Ripristina la posizione al punto in cui si è messo in salto
+                isJumping = false;
+            }
+        }
+		
+		if(!collisionDown) {
+			if(!isJumping) {
+				fallingSpeed = GRAVITY;
+	            y += fallingSpeed; // Aggiorna la posizione verticale
+	            canJump = false;
+			}
         } 
-		if(collisionDown) {
+		else {
             fallingSpeed = 0;
             isJumping = false;
+            canJump = true;			//canjump è true solo quando sono su un tile
         }
 		
 		switch (getDirection()){
@@ -128,6 +140,11 @@ public class Player extends Entity {
 		updateHitbox();
         setChanged();
         notifyObservers();
+	}
+	
+	public void drawHitbox(Graphics2D g) {		//per debug, viene chiamata nel gamePanel
+		g.setColor(Color.BLUE);
+		g.drawRect(getHitboxX(), getHitboxY(), getHitboxWidth(), getHitboxHeight());
 	}
 	
 	public void setLeftPressed(boolean isLeftPressed) {

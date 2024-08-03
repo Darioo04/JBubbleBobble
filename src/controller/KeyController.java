@@ -156,9 +156,6 @@ public class KeyController implements KeyListener {
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
 					player.jump();
 				}
-				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
-					player.move(0,13);
-				}
 				if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
 					player.setLeftPressed(true);
 				}
