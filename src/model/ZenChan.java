@@ -15,11 +15,15 @@ public class ZenChan extends Enemy {
 	
 	@Override
 	public void update() {
-		setDirectionToGo();
-		setEnemyCollision();
+		this.setDirectionToGo();
+		this.setEnemyCollision();
 		if (isGoingUp && !collisionDown) {
 			y -= speed;
 		}
+		else if(!collisionDown && player.getY() > y) {
+	            y +=speed; // Aggiorna la posizione verticale
+		}
+		
 		else if (collisionDown) {
 			isGoingUp = false;
 			if (player.getY() > y && canGoUp() && getHitboxY() > 2*GameConstants.TILE_SIZE) {
@@ -27,13 +31,13 @@ public class ZenChan extends Enemy {
 				isGoingUp = true;
 			} else {
 				switch (direction) {
-				case Direction.RIGHT -> {
+				case RIGHT -> {
 					if(!collisionRight) {
 						x += speed;
 					}
 				}
 				
-				case Direction.LEFT -> {
+				case LEFT -> {
 					if(!collisionLeft) {
 	                    x -= speed;
 	                }
