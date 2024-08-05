@@ -177,6 +177,7 @@ public class GameController {
     	gamePanel.setPlayer(player);
     	enemies = new ArrayList<Enemy>();
     	enemyViews = new ArrayList<EnemyView>();
+    	player.spawnPlayer();
     	spawnEnemies();
     	gamePanel.setFocusable(true);
     	gamePanel.grabFocus();

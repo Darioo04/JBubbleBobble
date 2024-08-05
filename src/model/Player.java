@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import controller.LevelCreator;
+
 @SuppressWarnings("deprecation")
 
 public class Player extends Entity {
@@ -24,7 +26,6 @@ public class Player extends Entity {
 	
 	
 	private Player() {
-		super(200, 150);
 		setDefaultValues();
 		this.hitboxOffsetX = GameConstants.SCALE * 2;
 		this.hitboxOffsetY = GameConstants.SCALE * 2;
@@ -39,8 +40,6 @@ public class Player extends Entity {
 	}
 	
 	public void setDefaultValues() {
-		this.x = 200;
-		this.y = 150;
 		this.speed = 7;
 		this.lives = 3;
 		this.score = 0;
@@ -59,11 +58,6 @@ public class Player extends Entity {
 		collisionLeft = false;
 		collisionRight = false;
 		collisionDown = false;
-	}
-	
-	public void updateHitbox() {
-		setHitboxX(x + hitboxOffsetX);
-		setHitboxY(y + hitboxOffsetY);
 	}
 	
 	public long getScore() {
@@ -140,6 +134,19 @@ public class Player extends Entity {
 		updateHitbox();
         setChanged();
         notifyObservers();
+	}
+	
+	public void spawnPlayer() {
+		char[][] levelFile = LevelCreator.getInstance().getLevel();
+		for (int x = 0; x < levelFile[0].length; x++) {
+			for (int y = levelFile.length-1; y >= 0; y--) {
+                if (levelFile[y][x] == ' ') {
+                	this.x = x * GameConstants.TILE_SIZE;
+                	this.y = y * GameConstants.TILE_SIZE - GameConstants.SCALE;
+                	return;
+                }
+            }
+		}
 	}
 	
 	public void drawHitbox(Graphics2D g) {		//per debug, viene chiamata nel gamePanel

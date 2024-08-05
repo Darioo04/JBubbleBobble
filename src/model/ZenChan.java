@@ -4,6 +4,7 @@ package model;
 
 public class ZenChan extends Enemy {
 	
+	private boolean isGoingUp = false;
 	
 	public ZenChan(int x,int y) {
 		super(x,y);
@@ -14,67 +15,77 @@ public class ZenChan extends Enemy {
 	
 	@Override
 	public void update() {
-		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
-            randomizeDirection();
-        }
-		int speed = getSpeed();
-		switch (getDirection()) {
-			case RIGHT -> {
-				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed) {
-					x += speed;
-				}
-				else {
-					randomizeDirection();
-				}
-			}
-			
-			case LEFT -> {
-				if (x > 2*GameConstants.TILE_SIZE + speed) {
-	                x -= speed;
-	            }
-				else {
-					randomizeDirection();
-				}
-			}
-			
-			case DOWN -> {
-	            if (y < GameConstants.SCREEN_HEIGHT - 3*GameConstants.TILE_SIZE - speed) {
-	                y += speed;
-	            }
-	            else {
-					randomizeDirection();
-				}
-	        }
-			
-			case UP -> {
-				if (y > 2*GameConstants.TILE_SIZE + speed) {
-	                y -= speed;
-	            }
-				else {
-					randomizeDirection();
-				}
-	        }
-			
-			default ->{}
+		setDirectionToGo();
+		setEnemyCollision();
+		if (isGoingUp && !collisionDown) {
+			y -= speed;
 		}
+		else if (collisionDown) {
+			isGoingUp = false;
+			if (player.getY() > y && canGoUp() && getHitboxY() > 2*GameConstants.TILE_SIZE) {
+				y += speed;
+				isGoingUp = true;
+			} else {
+				switch (direction) {
+				case Direction.RIGHT -> {
+					if(!collisionRight) {
+						x += speed;
+					}
+				}
+				
+				case Direction.LEFT -> {
+					if(!collisionLeft) {
+	                    x -= speed;
+	                }
+				}
+				
+				default ->
+				throw new IllegalArgumentException("Unexpected value: " + direction);
+				}
+			}
+		}
+		else {
+			y -= speed;
+		}
+		updateHitbox();
 		setChanged();
         notifyObservers();
 	}
 	
-	private void randomizeDirection() {
-		double randomNumber = Math.random();
-		
-        if (randomNumber <= 0.25) {
-        	setDirection(Direction.LEFT);
-        }
-        else if (randomNumber <= 0.5) {
-            setDirection(Direction.RIGHT);
-        }
-        else if (randomNumber <= 0.75) {
-            setDirection(Direction.DOWN);
-        }
-        else {
-            setDirection(Direction.UP);
+	private boolean canGoUp() {
+		return Math.random() <= 0.01;
+	}
+	
+	private void setDirectionToGo() {
+		if (collisionLeft) {
+			setDirection(Direction.RIGHT);
+		}
+		else if (collisionRight) {
+            setDirection(Direction.LEFT);
         }
 	}
+	
+	private void setEnemyCollision() {
+		collisionLeft = false;
+		collisionRight = false;
+		collisionDown = false;
+		collisionChecker.checkTileCollision(this);
+	}
+	
+//	private void randomizeDirection() {
+//		double randomNumber = Math.random();
+//		
+//        if (randomNumber <= 0.25) {
+//        	setDirection(Direction.LEFT);
+//        }
+//        else if (randomNumber <= 0.5) {
+//            setDirection(Direction.RIGHT);
+//        }
+//        else if (randomNumber <= 0.75) {
+//            setDirection(Direction.DOWN);
+//        }
+//        else {
+//            setDirection(Direction.UP);
+//        }
+//	}
 }

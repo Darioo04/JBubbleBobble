@@ -13,13 +13,13 @@ public abstract class Entity extends Observable {
 		UP,DOWN,LEFT,RIGHT
 	}
 	
-	private Direction direction;
+	protected Direction direction;
 	protected CollisionChecker collisionChecker;
 	protected int x, y, col, row;
 	protected String path;
 	private boolean isDead;
 	private boolean isMoving;
-	private int speed;
+	protected int speed;
 	private int fallingSpeed; //velocita di caduta
 	public static final int GRAVITY = 8; // Gravità costante
 	
@@ -32,9 +32,7 @@ public abstract class Entity extends Observable {
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
 	
-	public Entity(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public Entity() {
 		collisionChecker = CollisionChecker.getInstance();
 	}
 	
@@ -103,6 +101,11 @@ public abstract class Entity extends Observable {
 	public void setHitboxWidth(int hitboxWidth) {
         this.hitboxWidth = hitboxWidth;
     }
+	
+	public void updateHitbox() {
+		setHitboxX(x + hitboxOffsetX);
+		setHitboxY(y + hitboxOffsetY);
+	}
 	
 	public int getHitboxWidth() {
 		return hitboxWidth;

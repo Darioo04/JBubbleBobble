@@ -18,11 +18,11 @@ public class CollisionChecker {
     }
 
 	
-	public void checkTileCollision(Entity entity) {
+	public void checkTileCollision(Player player) {
 		
 		this.levelFile = LevelCreator.getInstance().getLevel();
 		
-		Rectangle entityHitbox = entity.getHitbox();
+		Rectangle entityHitbox = player.getHitbox();
 		
 		int leftX = entityHitbox.x;
 		int rightX = leftX + entityHitbox.width;
@@ -34,16 +34,45 @@ public class CollisionChecker {
 		int topRow = topY / GameConstants.TILE_SIZE;
 		int bottomRow = bottomY / GameConstants.TILE_SIZE;
 		
-		leftCol = (leftX - entity.getSpeed()) / GameConstants.TILE_SIZE;
-		entity.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
+		leftCol = (leftX - player.getSpeed()) / GameConstants.TILE_SIZE;
+		player.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
 		
-		rightCol = (rightX + entity.getSpeed()) / GameConstants.TILE_SIZE;
-		entity.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
+		rightCol = (rightX + player.getSpeed()) / GameConstants.TILE_SIZE;
+		player.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
 		
 		leftCol = leftX / GameConstants.TILE_SIZE;
 		rightCol = rightX / GameConstants.TILE_SIZE;
 		bottomRow = (bottomY + GameConstants.SCALE) / GameConstants.TILE_SIZE;
-		entity.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+		player.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+		
+	}
+	
+	public void checkTileCollision(Enemy enemy) {
+	
+		this.levelFile = LevelCreator.getInstance().getLevel();
+		
+		Rectangle entityHitbox = enemy.getHitbox();
+		
+		int leftX = entityHitbox.x;
+		int rightX = leftX + entityHitbox.width;
+		int topY = entityHitbox.y;
+		int bottomY = topY + entityHitbox.height;
+		
+		int leftCol = leftX / GameConstants.TILE_SIZE;
+		int rightCol = rightX / GameConstants.TILE_SIZE;
+		int topRow = topY / GameConstants.TILE_SIZE;
+		int bottomRow = bottomY / GameConstants.TILE_SIZE;
+		
+		leftCol = (leftX - enemy.getSpeed()) / GameConstants.TILE_SIZE;
+		enemy.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
+		
+		rightCol = (rightX + enemy.getSpeed()) / GameConstants.TILE_SIZE;
+		enemy.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
+		
+		leftCol = leftX / GameConstants.TILE_SIZE;
+		rightCol = rightX / GameConstants.TILE_SIZE;
+		bottomRow = (bottomY + GameConstants.SCALE) / GameConstants.TILE_SIZE;
+		enemy.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
 	}
 	
