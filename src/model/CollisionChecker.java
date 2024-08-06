@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import controller.LevelCreator;
 
@@ -76,4 +77,16 @@ public class CollisionChecker {
 		
 	}
 	
+	public void checkPlayerEnemeyCollision(Player player, ArrayList<Enemy> enemyList) {
+		this.levelFile = LevelCreator.getInstance().getLevel();
+		Rectangle playerHitbox = player.getHitbox();
+		
+		for (Enemy enemy : enemyList) {
+				Rectangle enemyHitbox = enemy.getHitbox();
+            
+            if (playerHitbox.intersects(enemyHitbox)) {
+            	player.decreaseLives();
+            }
+		}
+	}
 }

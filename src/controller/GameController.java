@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import model.Banebou;
+import model.CollisionChecker;
 import model.Enemy;
 import model.EnemyFactory;
 import model.GameConstants;
@@ -50,6 +51,7 @@ public class GameController {
     private PauseScreen pauseScreen;
     private PauseScreenView pauseScreenView;
     private GamePanel gamePanel;
+    private CollisionChecker collisionChecker;
     private final int FPS = 60;
     private int frames = 0;
     private Timer timer;
@@ -92,6 +94,7 @@ public class GameController {
         pauseScreenView = (PauseScreenView) pauseScreen.getStateScreenView();
         keyController = KeyController.getInstance();
         audioManager = AudioManager.getInstance();
+        collisionChecker = CollisionChecker.getInstance();
         mainFrame.add(menuScreenView);
         menuScreenView.addKeyListener(keyController);
         menuScreenView.setIsThereKeyController(true);
@@ -133,10 +136,11 @@ public class GameController {
 			case GAME -> {
 				player.update();
 				enemies.stream().forEach(Enemy::update);
-//				for (Enemy e : enemies) {
-//					e.update();
-//				}
-//				gamePanel.repaint();
+				collisionChecker.checkPlayerEnemeyCollision(player, enemies);
+				if (player.getLostLife()) {			//se perde una vita respawno il player
+					player.spawnPlayer();
+					player.setLostLife(false);
+				}
 			}
 			
             case PAUSE -> {

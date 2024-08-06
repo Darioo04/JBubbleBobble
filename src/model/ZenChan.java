@@ -9,7 +9,7 @@ public class ZenChan extends Enemy {
 	public ZenChan(int x,int y) {
 		super(x,y);
 		setPath("/sprites/zen-chan/");
-		setDirection(Direction.RIGHT);
+		setDirection(Math.random() > 0.5 ? Direction.RIGHT : Direction.LEFT);	 //prima direzione random
 		setSpeed(5);
 	}
 	

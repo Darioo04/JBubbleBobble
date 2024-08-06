@@ -21,6 +21,7 @@ public class Player extends Entity {
 	private int yBeforeJumping;
 
 	private int lives;
+	private boolean lostLife = false;
 	private int fallingSpeed; //velocita di caduta
 	private int JUMP_STRENGTH = 20; // Forza del salto
 	private static final int MAX_FALL_SPEED = 12;
@@ -97,7 +98,7 @@ public class Player extends Entity {
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
 		if (collisionDown && collisionLeft && collisionRight) {
-			y -= GameConstants.SCALE;		//se si bugga nei tiles sposto il player di un pixel piu sopra
+			y -= 1;		//se si bugga nei tiles sposto il player di un pixel piu sopra
 		}
 //		if (isJumping && (y <= yBeforeJumping)) {
 //            y += fallingSpeed; // Aggiorna la posizione verticale
@@ -149,7 +150,7 @@ public class Player extends Entity {
 			for (int y = levelFile.length-1; y >= 0; y--) {
                 if (levelFile[y][x] == ' ') {
                 	this.x = x * GameConstants.TILE_SIZE;
-                	this.y = y * GameConstants.TILE_SIZE - GameConstants.SCALE;
+                	this.y = y * GameConstants.TILE_SIZE;
                 	return;
                 }
             }
@@ -181,18 +182,25 @@ public class Player extends Entity {
 	public boolean isMoving() {
 		return isLeftPressed || isRightPressed;
 	}
-
-//	@Override
-//	public int getSpeed() {
-//		return speed;
-//	}
 	
 	public boolean isFalling() {
 		return fallingSpeed > 0;
 	}
-
-//	@Override
-//	public int getFallingSpeed() {
-//		return fallingSpeed;
-//	}
+	
+	public void decreaseLives() {
+		lives--;
+        if (lives == 0) {
+            setDead(true);
+        }
+        lostLife = true;
+//      System.out.println(lives);
+	}
+	
+	public boolean getLostLife() {
+		return lostLife;
+	}
+	
+	public void setLostLife(boolean lostLife) {
+        this.lostLife = lostLife;
+    }
 }
