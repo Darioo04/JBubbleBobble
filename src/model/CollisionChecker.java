@@ -43,7 +43,7 @@ public class CollisionChecker {
 		
 		leftCol = leftX / GameConstants.TILE_SIZE;
 		rightCol = rightX / GameConstants.TILE_SIZE;
-		bottomRow = (bottomY + GameConstants.SCALE) / GameConstants.TILE_SIZE;
+		bottomRow = (bottomY + player.getFallingSpeed()) / GameConstants.TILE_SIZE;
 		player.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
 	}

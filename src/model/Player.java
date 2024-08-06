@@ -19,15 +19,13 @@ public class Player extends Entity {
 	private boolean isRightPressed;
 	private boolean isSpacePressed;	
 	private boolean isJumping;
-	private boolean canJump;
 	private int speed;
-	private int yBeforeJumping;
 
 	private int lives;
 	private boolean lostLife = false;
 	private int fallingSpeed; //velocita di caduta
-	private int JUMP_STRENGTH = 20; // Forza del salto
-	private static final int MAX_FALL_SPEED = 12;
+	private int JUMP_STRENGTH = 11 * GameConstants.SCALE; // Forza del salto
+	private boolean inAir;
 	private List<Bubble> bubbles;
 	
 	private Player() {
@@ -49,8 +47,7 @@ public class Player extends Entity {
 		this.lives = 3;
 		this.score = 0;
 		setDead(false);
-		this.isJumping = false;
-		this.canJump = true;
+		inAir = false;
 		this.setPath("/sprites/BubAndBob1/");
 		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
@@ -89,17 +86,9 @@ public class Player extends Entity {
 	}
 	
 	public void jump() {
-//		if(!isJumping && canJump) {
-//			this.fallingSpeed = -JUMP_STRENGTH;
-//            this.isJumping = true;
-//            this.canJump = false;
-//            this.yBeforeJumping = y;
-//		}
-		if(collisionDown) {
-			fallingSpeed = 20;
-			isJumping = true;
-			canJump = false;
-			yBeforeJumping=y;
+		if(!inAir) {
+			fallingSpeed = -JUMP_STRENGTH;
+			inAir = true;
 		}
 	}
 	
@@ -108,32 +97,11 @@ public class Player extends Entity {
 		super.update();
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
-		if (collisionDown && collisionLeft && collisionRight) {
-			y -= 1;		//se si bugga nei tiles sposto il player di un pixel piu sopra
-		}
-			
-//		if (isJumping && (y <= yBeforeJumping)) {
-//            y += fallingSpeed; // Aggiorna la posizione verticale
-//            fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
-//            
-//            if (y > yBeforeJumping) {
-//            	y = yBeforeJumping; // Ripristina la posizione al punto in cui si è messo in salto
-//                isJumping = false;
-//            }
-//        }
-//		
-//		if(!collisionDown) {
-//			if(!isJumping) {
-//				fallingSpeed = GRAVITY;
-//	            y += fallingSpeed; // Aggiorna la posizione verticale
-//	            canJump = false;
-//			}
-//        } 
-//		else {
-//            fallingSpeed = 0;
-//            isJumping = false;
-//            canJump = true;			//canjump è true solo quando sono su un tile
-//      s}
+//		while (collisionDown && collisionLeft && collisionRight) {
+//			y -= 1;		//se si bugga nei tiles sposto il player di un pixel piu sopra
+//			collisionChecker.checkTileCollision(this);
+//		}
+
 		switch (getDirection()){
 			case LEFT -> {
 				if (isLeftPressed && !collisionLeft) {
@@ -151,6 +119,26 @@ public class Player extends Entity {
 		
 			default -> throw new IllegalArgumentException("Unexpected value: " + getDirection());
 		}
+		
+//		if(!collisionDown) {
+//			inAir = true;
+//		}
+		
+		if (inAir) {
+			y += fallingSpeed;
+			fallingSpeed += GRAVITY;
+			collisionChecker.checkTileCollision(this);
+			if (fallingSpeed > 0 && collisionDown) {
+				inAir = false;
+				fallingSpeed = 0;
+//				while (collisionDown && collisionLeft && collisionRight) {
+//					y -= 1;
+//					collisionChecker.checkTileCollision(this);
+//				}
+			}
+		}
+		
+		
 		updateHitbox();
         setChanged();
         notifyObservers();
