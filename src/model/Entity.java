@@ -21,7 +21,7 @@ public abstract class Entity extends Observable {
 	private boolean isMoving;
 	protected int speed;
 	private int fallingSpeed; //velocita di caduta
-	public static final int GRAVITY = 8; // Gravità costante
+	public static final int GRAVITY = 2; // Gravità costante
 	
 	private Rectangle hitbox;
 	protected int hitboxWidth;

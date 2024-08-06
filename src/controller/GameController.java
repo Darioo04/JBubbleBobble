@@ -58,6 +58,7 @@ public class GameController {
     private GameState gameState;
     private MainFrame mainFrame;
     private LevelCreator levelCreator;
+    private AudioManager audioManager;
     public static int level;
     private int animationCycle = 0;
     
@@ -90,6 +91,7 @@ public class GameController {
         pauseScreen = PauseScreen.getInstance();
         pauseScreenView = (PauseScreenView) pauseScreen.getStateScreenView();
         keyController = KeyController.getInstance();
+        audioManager = AudioManager.getInstance();
         mainFrame.add(menuScreenView);
         menuScreenView.addKeyListener(keyController);
         menuScreenView.setIsThereKeyController(true);
@@ -153,7 +155,7 @@ public class GameController {
     
     public void startGame() {
         timer.start(); // Inizia il game loop
-//        AudioManager.getInstance().play("/Original Sound Track/03_Room Theme.wav");
+        audioManager.playBackgroundMusic("theme");
     }
 
     public void stopGame() {
@@ -184,6 +186,8 @@ public class GameController {
     	
     	mainFrame.revalidate();
         mainFrame.repaint();
+        
+        audioManager.pauseBackgroundMusic();
         
 //        removeDisplayedScreen(menuScreenView);
     }

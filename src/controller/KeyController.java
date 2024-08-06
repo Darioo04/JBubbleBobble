@@ -27,6 +27,7 @@ public class KeyController implements KeyListener {
 	private PauseScreen pauseScreen;
 	private WinScreen winScreen;
 	private GameOverScreen gameOverScreen;
+	private AudioManager audioManager;
 //	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
 	
 	public static KeyController getInstance() {
@@ -40,6 +41,7 @@ public class KeyController implements KeyListener {
     	player = Player.getInstance();
     	pauseScreen = PauseScreen.getInstance();
     	winScreen = WinScreen.getInstance();
+    	audioManager = AudioManager.getInstance();
     }
     
     @Override
@@ -54,15 +56,18 @@ public class KeyController implements KeyListener {
         switch (gameController.getGameState()) {
 			case MENU -> {
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+					audioManager.play("scroll");
 					menuScreen.decreasePointer();
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
 					menuScreen.increasePointer();
+					audioManager.play("scroll");
 				}
 				if (key == KeyEvent.VK_ESCAPE) {
 					System.exit(key);
 				}
 				if (key == KeyEvent.VK_ENTER) {
+					audioManager.play("click");
 					switch (menuScreen.getPointer()) {
 						case 0 -> {
 							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), selectLevelScreen.getStateScreenView());
@@ -88,12 +93,15 @@ public class KeyController implements KeyListener {
 			
 			case SELECT_LEVEL -> {
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+					audioManager.play("scroll");
 					selectLevelScreen.decreasePointer();
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
+					audioManager.play("scroll");
 					selectLevelScreen.increasePointer();
 				}
 				if (key == KeyEvent.VK_ENTER) {
+					audioManager.play("click");
 					gameController.changeDisplayedScreen(selectLevelScreen.getStateScreenView(), GamePanel.getInstance());
 					gameController.setGameState(GameState.GAME);
 					gameController.setLevel(selectLevelScreen.getPointer()+1);
@@ -174,12 +182,15 @@ public class KeyController implements KeyListener {
 			
 			case PAUSE -> {
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+					audioManager.play("scroll");
 					pauseScreen.decreasePointer();
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
+					audioManager.play("scroll");
 					pauseScreen.increasePointer();
 				}
 				if (key == KeyEvent.VK_ENTER) {
+					audioManager.play("click");
 					switch (pauseScreen.getPointer()) {
 						case 0 -> {
 							gameController.changeDisplayedScreen(pauseScreen.getStateScreenView(),GamePanel.getInstance());
@@ -192,6 +203,7 @@ public class KeyController implements KeyListener {
 							selectLevelScreen.setPointer(0);
 							gameController.clearLevel();
 							menuScreen.update();
+							audioManager.resumeBackgroundMusic();
 						}
 						default -> {
 							
@@ -210,12 +222,15 @@ public class KeyController implements KeyListener {
 			
 			case WIN -> {
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+					audioManager.play("scroll");
 					winScreen.decreasePointer();
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
+					audioManager.play("scroll");
 					winScreen.increasePointer();
 				}
 				if (key == KeyEvent.VK_ENTER) {
+					audioManager.play("click");
 					switch (winScreen.getPointer()) {
 						case 0 -> {
 							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),GamePanel.getInstance());
@@ -238,12 +253,15 @@ public class KeyController implements KeyListener {
 			
 			case GAME_OVER -> {
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+					audioManager.play("scroll");
 					gameOverScreen.decreasePointer();
 				}
 				if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S) {
+					audioManager.play("scroll");
 					gameOverScreen.increasePointer();
 				}	
 				if (key == KeyEvent.VK_ENTER) {
+					audioManager.play("click");
 					switch (gameOverScreen.getPointer()) {
 						case 0 -> {
 							gameController.changeDisplayedScreen(gameOverScreen.getStateScreenView(),GamePanel.getInstance());

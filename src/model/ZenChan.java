@@ -17,7 +17,10 @@ public class ZenChan extends Enemy {
 	public void update() {
 		this.setDirectionToGo();
 		this.setEnemyCollision();
-		if (isGoingUp && !collisionDown) {
+		if (collisionDown && collisionLeft && collisionRight) {
+			y -= GameConstants.SCALE;
+		}
+		if (isGoingUp && !collisionDown && getHitboxY() > 2*GameConstants.TILE_SIZE) {
 			y -= speed;
 		}
 		else if(!collisionDown && player.getY() > y) {
@@ -27,7 +30,7 @@ public class ZenChan extends Enemy {
 		else if (collisionDown) {
 			isGoingUp = false;
 			if (player.getY() > y && canGoUp() && getHitboxY() > 2*GameConstants.TILE_SIZE) {
-				y += speed;
+				y -= speed;
 				isGoingUp = true;
 			} else {
 				switch (direction) {

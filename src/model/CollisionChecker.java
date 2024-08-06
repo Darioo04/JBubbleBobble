@@ -71,22 +71,9 @@ public class CollisionChecker {
 		
 		leftCol = leftX / GameConstants.TILE_SIZE;
 		rightCol = rightX / GameConstants.TILE_SIZE;
-		bottomRow = (bottomY + GameConstants.SCALE) / GameConstants.TILE_SIZE;
+		bottomRow = (bottomY + enemy.getSpeed()) / GameConstants.TILE_SIZE;
 		enemy.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
 	}
 	
-//	private boolean hasTileCollision(int row, int col) {		//controllo se il tile in quella posizione della mappa ha la collisione
-//		char tileChar = levelFile[row][col];
-//		return 
-//			switch (tileChar) {
-//				case '1' -> true;
-//			
-//				case ' ' -> false;
-//			
-//				case 'R' -> false;
-//			
-//				default -> throw new IllegalArgumentException("Unexpected value: " + tileChar);
-//				};
-//	}
 }

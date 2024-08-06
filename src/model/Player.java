@@ -22,7 +22,8 @@ public class Player extends Entity {
 
 	private int lives;
 	private int fallingSpeed; //velocita di caduta
-	private static final int JUMP_STRENGTH = 250; // Forza del salto
+	private int JUMP_STRENGTH = 20; // Forza del salto
+	private static final int MAX_FALL_SPEED = 12;
 	
 	
 	private Player() {
@@ -78,11 +79,15 @@ public class Player extends Entity {
 	}
 	
 	public void jump() {
-		if(!isJumping && canJump) {
-			this.fallingSpeed = -JUMP_STRENGTH;
-            this.isJumping = true;
-            this.canJump = false;
-            this.yBeforeJumping = y;
+//		if(!isJumping && canJump) {
+//			this.fallingSpeed = -JUMP_STRENGTH;
+//            this.isJumping = true;
+//            this.canJump = false;
+//            this.yBeforeJumping = y;
+//		}
+		if(collisionDown) {
+			fallingSpeed = 20;
+			isJumping = true;
 		}
 	}
 	
@@ -91,29 +96,31 @@ public class Player extends Entity {
 		super.update();
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
-		if (isJumping && (y <= yBeforeJumping)) {
-            y += fallingSpeed; // Aggiorna la posizione verticale
-            fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
-            
-            if (y > yBeforeJumping) {
-            	y = yBeforeJumping; // Ripristina la posizione al punto in cui si è messo in salto
-                isJumping = false;
-            }
-        }
-		
-		if(!collisionDown) {
-			if(!isJumping) {
-				fallingSpeed = GRAVITY;
-	            y += fallingSpeed; // Aggiorna la posizione verticale
-	            canJump = false;
-			}
-        } 
-		else {
-            fallingSpeed = 0;
-            isJumping = false;
-            canJump = true;			//canjump è true solo quando sono su un tile
-        }
-		
+		if (collisionDown && collisionLeft && collisionRight) {
+			y -= GameConstants.SCALE;		//se si bugga nei tiles sposto il player di un pixel piu sopra
+		}
+//		if (isJumping && (y <= yBeforeJumping)) {
+//            y += fallingSpeed; // Aggiorna la posizione verticale
+//            fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
+//            
+//            if (y > yBeforeJumping) {
+//            	y = yBeforeJumping; // Ripristina la posizione al punto in cui si è messo in salto
+//                isJumping = false;
+//            }
+//        }
+//		
+//		if(!collisionDown) {
+//			if(!isJumping) {
+//				fallingSpeed = GRAVITY;
+//	            y += fallingSpeed; // Aggiorna la posizione verticale
+//	            canJump = false;
+//			}
+//        } 
+//		else {
+//            fallingSpeed = 0;
+//            isJumping = false;
+//            canJump = true;			//canjump è true solo quando sono su un tile
+//        }
 		switch (getDirection()){
 			case LEFT -> {
 				if (isLeftPressed && !collisionLeft) {
