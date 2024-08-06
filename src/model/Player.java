@@ -3,6 +3,9 @@ package model;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import controller.LevelCreator;
 
@@ -25,7 +28,7 @@ public class Player extends Entity {
 	private int fallingSpeed; //velocita di caduta
 	private int JUMP_STRENGTH = 20; // Forza del salto
 	private static final int MAX_FALL_SPEED = 12;
-	
+	private List<Bubble> bubbles;
 	
 	private Player() {
 		setDefaultValues();
@@ -51,6 +54,7 @@ public class Player extends Entity {
 		this.setPath("/sprites/BubAndBob1/");
 		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
+		bubbles = new ArrayList<>();
 	}
 	
 	public void setDirectionAndCollision() {
@@ -76,7 +80,12 @@ public class Player extends Entity {
 	}
 	
 	public void shot() {
-		
+		Random random = new Random();
+		Bubble bubble = BubbleFactory.getInstance().createBubble(random.nextInt(100));
+		bubble.shot();
+		bubbles.add(bubble);
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void jump() {
@@ -89,6 +98,8 @@ public class Player extends Entity {
 		if(collisionDown) {
 			fallingSpeed = 20;
 			isJumping = true;
+			canJump = false;
+			yBeforeJumping=y;
 		}
 	}
 	
@@ -100,6 +111,7 @@ public class Player extends Entity {
 		if (collisionDown && collisionLeft && collisionRight) {
 			y -= 1;		//se si bugga nei tiles sposto il player di un pixel piu sopra
 		}
+			
 //		if (isJumping && (y <= yBeforeJumping)) {
 //            y += fallingSpeed; // Aggiorna la posizione verticale
 //            fallingSpeed += GRAVITY; // Aumenta la velocità verso il basso a causa della gravità
@@ -121,7 +133,7 @@ public class Player extends Entity {
 //            fallingSpeed = 0;
 //            isJumping = false;
 //            canJump = true;			//canjump è true solo quando sono su un tile
-//        }
+//      s}
 		switch (getDirection()){
 			case LEFT -> {
 				if (isLeftPressed && !collisionLeft) {
@@ -188,8 +200,7 @@ public class Player extends Entity {
 	}
 	
 	public void decreaseLives() {
-		lives--;
-        if (lives == 0) {
+        if (lives-- == 0) {
             setDead(true);
         }
         lostLife = true;

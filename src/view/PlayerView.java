@@ -123,52 +123,24 @@ public class PlayerView extends EntityView {
 			if (player.isRightPressed()) {
 				lastKeyPressed = KeyPressed.RIGHT;
 				
-//				if(actualSprite == idle1 || actualSprite == idle2) {
-//					actualSprite = running1;
-//				}
-//				if(actualSprite == running1) {
-//					actualSprite = running2;
-//				}
-//				else {
-//					actualSprite = idle2;
-//				}
-				switch (animationCycle % 3) {  // Ci sono 3 fasi nell'animazione: idle2, running1, running2
-                case 0:
-                    actualSprite = running1;
-                    break;
-                case 1:
-                    actualSprite = running2;
-                    break;
-                case 2:
-                    actualSprite = idle2;
-                    break;
-				}
+				actualSprite = switch (animationCycle % 3) {  // Ci sono 3 fasi nell'animazione: idle2, running1, running2
+        			case 0 -> running1;
+        			case 1 -> running2;
+        			case 2 -> idle2;
+        			default -> null;
+				};
 			}
 			
             if (player.isLeftPressed()) {
             	lastKeyPressed = KeyPressed.LEFT;
             	
-//            	if(actualSprite == idle1sx || actualSprite == idle2sx) {
-//                    actualSprite = running1sx;
-//                }
-//                if(actualSprite == running1sx) {
-//                    actualSprite = running2sx;
-//                }
-//                else {
-//                    actualSprite = idle2sx;  
-//                }
             	
-            	switch (animationCycle % 3) {
-                case 0:
-                    actualSprite = running1sx;
-                    break;
-                case 1:
-                    actualSprite = running2sx;
-                    break;
-                case 2:
-                    actualSprite = idle2sx;
-                    break;
-            	}
+            	actualSprite = switch (animationCycle % 3) {
+            		case 0 -> running1sx;
+            		case 1 -> running2sx;
+            		case 2 -> idle2sx;
+            		default -> null;
+            	};
             }
 		}
 		
