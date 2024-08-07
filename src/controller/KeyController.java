@@ -122,7 +122,7 @@ public class KeyController implements KeyListener {
 				
 				//player controller
 				if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
-					player.jump();
+					player.setIsJumping(true);
 				}
 				if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
 					player.setLeftPressed(true);

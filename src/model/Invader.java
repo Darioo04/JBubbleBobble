@@ -68,6 +68,7 @@ public class Invader extends Enemy {
 			
 			default ->{}
 		}
+		updateHitbox();
 		setChanged();
         notifyObservers();
 	}

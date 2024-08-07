@@ -3,6 +3,8 @@ package view;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import model.GameConstants;
 import model.Player;
 
 
@@ -39,7 +41,7 @@ public class PlayerView extends EntityView {
 	}
 	
 	private PlayerView () {
-		super(Player.getInstance());
+		super(Player.getInstance(), GameConstants.PLAYER_SIZE);
 		player = Player.getInstance();
 		this.lastKeyPressed = KeyPressed.RIGHT;
 	}

@@ -5,7 +5,9 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import controller.GameController;
 import model.Enemy;
+import model.GameConstants;
 
 public class EnemyView extends EntityView {
 	
@@ -29,7 +31,7 @@ public class EnemyView extends EntityView {
 	private BufferedImage actualSprite;
 	
 	public EnemyView(Enemy enemy) {
-		super(enemy);
+		super(enemy, GameConstants.TILE_SIZE);
 	}
 
 	@Override

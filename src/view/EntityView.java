@@ -20,16 +20,18 @@ public abstract class EntityView extends JLabel implements Observer {
 	protected String path;   //percorso cartella con tutti gli sprites
 	protected ImageIcon resizedIcon;
 	protected BufferedImage defaultSprite;
+	protected int entitySize;
 	
 	
-	public EntityView(Entity entity) {
+	public EntityView(Entity entity, int entitySize) {
         this.entity = entity;
         this.path = entity.getPath();
+        this.entitySize = entitySize;
         
         loadDefaultSprite();
         loadSprites();
         
-        this.setBounds(entity.getX(), entity.getY(), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+        this.setBounds(entity.getX(), entity.getY(), entitySize, entitySize);
         
         this.resizeIcon(defaultSprite);
         this.setIcon(resizedIcon);
@@ -39,7 +41,7 @@ public abstract class EntityView extends JLabel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.setBounds(entity.getX(), entity.getY(), GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+		this.setBounds(entity.getX(), entity.getY(), entitySize, entitySize);
 		//da aggiungere aggiornamento dello sprite
 		
 	}

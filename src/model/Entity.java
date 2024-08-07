@@ -23,7 +23,7 @@ public abstract class Entity extends Observable {
 	private int fallingSpeed; //velocita di caduta
 	public static final int GRAVITY = 1 * GameConstants.SCALE; // Gravità costante
 	
-	private Rectangle hitbox;
+	protected Rectangle hitbox;
 	protected int hitboxWidth;
 	protected int hitboxHeight;
 	protected int hitboxOffsetX;

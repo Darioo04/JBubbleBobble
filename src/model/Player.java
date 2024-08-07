@@ -24,7 +24,7 @@ public class Player extends Entity {
 	private int lives;
 	private boolean lostLife = false;
 	private int fallingSpeed; //velocita di caduta
-	private int JUMP_STRENGTH = 11 * GameConstants.SCALE; // Forza del salto
+	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
 	private List<Bubble> bubbles;
 	
@@ -32,8 +32,8 @@ public class Player extends Entity {
 		setDefaultValues();
 		this.hitboxOffsetX = GameConstants.SCALE * 2;
 		this.hitboxOffsetY = GameConstants.SCALE * 2;
-		this.hitboxWidth = GameConstants.TILE_SIZE - 2*hitboxOffsetX;
-		this.hitboxHeight = GameConstants.TILE_SIZE - hitboxOffsetY;
+		this.hitboxWidth = GameConstants.PLAYER_SIZE - 2*hitboxOffsetX;
+		this.hitboxHeight = GameConstants.PLAYER_SIZE - hitboxOffsetY;
 		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));
 	}
 	
@@ -97,51 +97,85 @@ public class Player extends Entity {
 		super.update();
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
-//		while (collisionDown && collisionLeft && collisionRight) {
-//			y -= 1;		//se si bugga nei tiles sposto il player di un pixel piu sopra
-//			collisionChecker.checkTileCollision(this);
-//		}
+		
 
+		if(isJumping) jump();
+		
+		if(!collisionDown) inAir = true;
+		
+		if (inAir) {
+			if ((y + fallingSpeed > GameConstants.SCREEN_HEIGHT - 2*GameConstants.TILE_SIZE)){
+				y = GameConstants.SCREEN_HEIGHT - 2*GameConstants.TILE_SIZE;
+			} else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
+				y = GameConstants.TILE_SIZE + 1;
+                fallingSpeed = 5;
+			}else {
+				y += fallingSpeed;
+				fallingSpeed += GRAVITY;
+			}
+				
+			updateHitbox();
+			collisionChecker.checkTileCollision(this);
+			if (fallingSpeed > 0 && collisionDown) {
+				inAir = false;
+				fallingSpeed = 0;
+				isJumping = false;
+			}
+		}
+
+		while (collisionDown && collisionLeft && collisionRight) {
+			y -= 1;
+			collisionDown = false;
+			collisionLeft = false;
+			collisionRight = false;
+			updateHitbox();
+            collisionChecker.checkTileCollision(this);
+		}
+		
 		switch (getDirection()){
 			case LEFT -> {
 				if (isLeftPressed && !collisionLeft) {
 					x -= speed;
-					if (x < 0) x = 0; // Non può essere negativo
 				}
 			}
 		
 			case RIGHT -> {
 				if (isRightPressed && !collisionRight) {
 					x += speed;
-					if (x + hitboxWidth > GameConstants.SCREEN_WIDTH) x = GameConstants.SCREEN_WIDTH - hitboxWidth; // Non può essere superiore alla larghezza dello schermo
 				}
 			}
 		
 			default -> throw new IllegalArgumentException("Unexpected value: " + getDirection());
 		}
 		
-//		if(!collisionDown) {
-//			inAir = true;
-//		}
-		
-		if (inAir) {
-			y += fallingSpeed;
-			fallingSpeed += GRAVITY;
-			collisionChecker.checkTileCollision(this);
-			if (fallingSpeed > 0 && collisionDown) {
-				inAir = false;
-				fallingSpeed = 0;
-//				while (collisionDown && collisionLeft && collisionRight) {
-//					y -= 1;
-//					collisionChecker.checkTileCollision(this);
-//				}
-			}
-		}
-		
 		
 		updateHitbox();
         setChanged();
         notifyObservers();
+        System.out.println("left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "   fSpeed: " + fallingSpeed + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
+	}
+	
+	private void correctPosition() {
+		Rectangle[][] tilesHitboxes = LevelCreator.getInstance().getTilesHitboxes();
+		
+		int leftX = getHitboxX();
+		int rightX = getHitboxX() + getHitboxWidth();
+		int topY = getHitboxY();
+		int bottomY = getHitboxY() + getHitboxHeight();
+		
+		int leftCol = leftX / GameConstants.TILE_SIZE;
+		int rightCol = rightX / GameConstants.TILE_SIZE;
+		int topRow = topY / GameConstants.TILE_SIZE;
+		int bottomRow = bottomY / GameConstants.TILE_SIZE;
+		
+		while(hitbox.intersects(tilesHitboxes[bottomRow][rightCol]) || hitbox.intersects(tilesHitboxes[topRow][rightCol])) {
+			x--;
+			updateHitbox();
+		}
+		while(hitbox.intersects(tilesHitboxes[bottomRow][leftCol]) || hitbox.intersects(tilesHitboxes[topRow][leftCol])) {
+			x++;
+			updateHitbox();
+		}
 	}
 	
 	public void spawnPlayer() {
@@ -150,7 +184,7 @@ public class Player extends Entity {
 			for (int y = levelFile.length-1; y >= 0; y--) {
                 if (levelFile[y][x] == ' ') {
                 	this.x = x * GameConstants.TILE_SIZE;
-                	this.y = y * GameConstants.TILE_SIZE;
+                	this.y = y * GameConstants.TILE_SIZE + GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE - 1;
                 	return;
                 }
             }
@@ -202,4 +236,8 @@ public class Player extends Entity {
 	public void setLostLife(boolean lostLife) {
         this.lostLife = lostLife;
     }
+	
+	public void setIsJumping(boolean isJumping) {
+		this.isJumping = isJumping;
+	}
 }

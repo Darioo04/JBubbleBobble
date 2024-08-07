@@ -1,10 +1,13 @@
 package controller;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 import model.GameConstants;
 import model.Invader;
 import model.Wall;
@@ -17,6 +20,7 @@ public class LevelCreator {
 	private final String path = "/Levels/level-";
 	private Wall wall;
 	private char[][] file; // [rows][cols]
+	private Rectangle[][] tilesHitboxes;
 	
 	public static LevelCreator getInstance() {
 		if (instance == null) instance = new LevelCreator();
@@ -29,6 +33,24 @@ public class LevelCreator {
 	
 	public void loadSprites() {
 		wall = new Wall(GameController.level);
+	}
+	
+	private void loadTilesHitboxes() {
+		this.tilesHitboxes = new Rectangle[GameConstants.ROWS][GameConstants.COLS];
+		int y = 0;
+		for (int i=0; i<file.length; i++) {
+			int x = 0;
+			for (int j=0; j<file[0].length; j++) {
+				char tile=file[i][j];
+				if (tile == '1') {
+					tilesHitboxes[i][j] = new Rectangle(x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+				}else {
+					tilesHitboxes[i][j] = new Rectangle(0, 0, 1, 1);
+				}
+				x+=GameConstants.TILE_SIZE;
+			}
+			y+=GameConstants.TILE_SIZE;
+		}
 	}
 	
 	public void loadLevel() {
@@ -50,6 +72,7 @@ public class LevelCreator {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		loadTilesHitboxes();
 	}
 	
 	public void draw(Graphics2D g2d) {
@@ -70,5 +93,9 @@ public class LevelCreator {
 	public char[][] getLevel() {
 		return file;
 	}
+	
+	public Rectangle[][] getTilesHitboxes() {
+        return tilesHitboxes;
+    }
 
 }
