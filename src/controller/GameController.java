@@ -52,8 +52,7 @@ public class GameController {
     private PauseScreenView pauseScreenView;
     private GamePanel gamePanel;
     private CollisionChecker collisionChecker;
-    private final int FPS = 60;
-    private int frames = 0;
+    public static int frames = 1;
     private Timer timer;
     private ArrayList<Enemy> enemies;
     private ArrayList<EnemyView> enemyViews;
@@ -108,11 +107,11 @@ public class GameController {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				update();	
+				update();
 				if (gameState == GameState.GAME) {
+					if(frames == 60) frames = 1;
 					frames++;
-                    if(frames == 5) {
-                    	frames = 0;
+                    if(frames % 5 == 0) {
                         playerView.updateAnimation(animationCycle);
                         animationCycle++;
                     }
