@@ -94,18 +94,16 @@ public class Player extends Entity {
 	
 	@Override
 	public void update() {
-		super.update();
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
 		
-
 		if(isJumping) jump();
 		
 		if(!collisionDown) inAir = true;
 		
 		if (inAir) {
-			if ((y + fallingSpeed > GameConstants.SCREEN_HEIGHT - 2*GameConstants.TILE_SIZE)){
-				y = GameConstants.SCREEN_HEIGHT - 2*GameConstants.TILE_SIZE;
+			if ((y + fallingSpeed > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE)){
+				y = GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE;
 			} else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
 				y = GameConstants.TILE_SIZE + 1;
                 fallingSpeed = 5;
@@ -152,7 +150,7 @@ public class Player extends Entity {
 		updateHitbox();
         setChanged();
         notifyObservers();
-        System.out.println("left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "   fSpeed: " + fallingSpeed + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
+        System.out.println("x: " + x + "  y: " + y + "	left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "   fSpeed: " + fallingSpeed + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
 	}
 	
 	private void correctPosition() {
@@ -184,7 +182,7 @@ public class Player extends Entity {
 			for (int y = levelFile.length-1; y >= 0; y--) {
                 if (levelFile[y][x] == ' ') {
                 	this.x = x * GameConstants.TILE_SIZE;
-                	this.y = y * GameConstants.TILE_SIZE + GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE - 1;
+                	this.y = y * GameConstants.TILE_SIZE + GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE;
                 	return;
                 }
             }
