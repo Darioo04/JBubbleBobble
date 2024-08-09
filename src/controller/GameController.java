@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import model.Banebou;
+import model.BubbleBullet;
 import model.CollisionChecker;
 import model.Enemy;
 import model.EnemyFactory;
@@ -21,6 +22,7 @@ import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import model.Tile;
+import view.BubbleBulletView;
 import view.EnemyView;
 import view.GamePanel;
 import view.MainFrame;
@@ -56,6 +58,8 @@ public class GameController {
     private Timer timer;
     private ArrayList<Enemy> enemies;
     private ArrayList<EnemyView> enemyViews;
+    private ArrayList<BubbleBullet> bullets;
+    private ArrayList<BubbleBulletView> bulletsViews;
     private GameState gameState;
     private MainFrame mainFrame;
     private LevelCreator levelCreator;
@@ -135,6 +139,7 @@ public class GameController {
 			case GAME -> {
 				player.update();
 				enemies.stream().forEach(Enemy::update);
+				bullets.stream().forEach(BubbleBullet::update);
 				collisionChecker.checkPlayerEnemeyCollision(player, enemies);
 				if (player.getLostLife()) {			//se perde una vita respawno il player
 					player.spawnPlayer();
@@ -182,6 +187,8 @@ public class GameController {
     	gamePanel.setPlayer(player);
     	enemies = new ArrayList<Enemy>();
     	enemyViews = new ArrayList<EnemyView>();
+    	bullets = new ArrayList<BubbleBullet>();
+    	bulletsViews = new ArrayList<BubbleBulletView>();
     	player.spawnPlayer();
     	spawnEnemies();
     	gamePanel.setFocusable(true);
@@ -200,6 +207,8 @@ public class GameController {
 		gamePanel.remove(playerView);
 		enemies.clear();
 		enemyViews.stream().forEach(gamePanel::remove);
+		bullets.clear();
+		bulletsViews.stream().forEach(gamePanel::remove);
 //		for(EnemyView eView : enemyViews) {
 //			gamePanel.remove(eView);
 //		}
@@ -279,5 +288,22 @@ public class GameController {
                 
             }
     	}
+    }
+    
+    public void bubbleShooted() {
+    	BubbleBullet bullet = player.shot();
+		BubbleBulletView bulletView = new BubbleBulletView(bullet);
+		bullet.addObserver(bulletView);
+		gamePanel.add(bulletView);
+		addBullet(bullet);
+		addBulletView(bulletView);
+    }
+    
+    public void addBullet(BubbleBullet bullet) {
+    	bullets.add(bullet);
+    }
+    
+    public void addBulletView (BubbleBulletView bulletView) {
+    	bulletsViews.add(bulletView);
     }
 }

@@ -27,7 +27,7 @@ public class Player extends Entity {
 	private int fallingSpeed; //velocita di caduta
 	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
-	private List<Bubble> bubbles;
+	private List<BubbleBullet> bubbles;
 	
 	private Player() {
 		setDefaultValues();
@@ -52,7 +52,7 @@ public class Player extends Entity {
 		this.setPath("/sprites/BubAndBob1/");
 		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
-		bubbles = new ArrayList<>();
+		bubbles = new ArrayList<BubbleBullet>();
 	}
 	
 	public void setDirectionAndCollision() {
@@ -77,13 +77,26 @@ public class Player extends Entity {
 		this.score=0;
 	}
 	
-	public void shot() {
-		Random random = new Random();
-		Bubble bubble = BubbleFactory.getInstance().createBubble(random.nextInt(100));
-		bubble.shot();
-		bubbles.add(bubble);
-		setChanged();
-		notifyObservers();
+	public BubbleBullet shot() {
+//		Random random = new Random();
+//		Bubble bubble = BubbleFactory.getInstance().createBubble(random.nextInt(100));
+//		bubble.shot();
+//		bubbles.add(bubble);
+		int bubbleY = this.getHitboxY() + (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
+		int bubbleX = 0;
+		switch (direction){
+		case Direction.RIGHT ->{
+			bubbleX = this.getHitboxX() + this.hitboxWidth + (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
+		}
+		
+		case Direction.LEFT ->{
+            bubbleX = this.getHitboxX() - GameConstants.BUBBLE_SHOT_SIZE - (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
+        }
+		
+		default ->{}
+		}
+		
+		return new BubbleBullet(bubbleX, bubbleY);
 	}
 	
 	public void jump() {
@@ -103,7 +116,7 @@ public class Player extends Entity {
 		if(!collisionDown) inAir = true;
 		
 		if (inAir) {
-			if ((y + fallingSpeed > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE)){
+			if (y + fallingSpeed > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE){
 				y = GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE;
 			} else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
 				y = GameConstants.TILE_SIZE + 1;
@@ -151,7 +164,7 @@ public class Player extends Entity {
 		updateHitbox();
         setChanged();
         notifyObservers();
-        System.out.println("x: " + x + "  y: " + y + "	left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "   fSpeed: " + fallingSpeed + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
+//        System.out.println("x: " + x + "  y: " + y + "	left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "   fSpeed: " + fallingSpeed + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
 	}
 	
 	private void correctPosition() {

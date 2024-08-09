@@ -3,6 +3,7 @@ package controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import model.BubbleBullet;
 import model.GameOverScreen;
 import model.GameState;
 import model.MenuScreen;
@@ -11,6 +12,7 @@ import model.Player;
 import model.SelectLevelScreen;
 import model.SelectProfileScreen;
 import model.WinScreen;
+import view.BubbleBulletView;
 import view.GamePanel;
 import view.MenuScreenView;
 import view.ProfileView;
@@ -131,7 +133,7 @@ public class KeyController implements KeyListener {
 					player.setRightPressed(true);
 				}
 				if (key == KeyEvent.VK_SPACE) {
-					player.shot();
+					gameController.bubbleShooted();
 				}
 				if (key == KeyEvent.VK_ESCAPE) {
 					gameController.changeDisplayedScreen(GamePanel.getInstance(), pauseScreen.getStateScreenView());

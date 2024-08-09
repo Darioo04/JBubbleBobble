@@ -42,7 +42,6 @@ public abstract class EntityView extends JLabel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		this.setBounds(entity.getX(), entity.getY(), entitySize, entitySize);
-		//da aggiungere aggiornamento dello sprite
 		
 	}
 	

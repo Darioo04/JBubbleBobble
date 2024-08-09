@@ -4,6 +4,8 @@ package model;
 import java.awt.Rectangle;
 import java.util.Observable;
 
+import controller.LevelCreator;
+
 
 @SuppressWarnings("deprecation")
 
@@ -22,6 +24,7 @@ public abstract class Entity extends Observable {
 	protected int speed;
 	private int fallingSpeed; //velocita di caduta
 	public static final int GRAVITY = 1 * GameConstants.SCALE; // Gravità costante
+	protected char[][] levelFile;
 	
 	protected Rectangle hitbox;
 	protected int hitboxWidth;
@@ -34,6 +37,7 @@ public abstract class Entity extends Observable {
 	
 	public Entity() {
 		collisionChecker = CollisionChecker.getInstance();
+		levelFile = LevelCreator.getInstance().getLevel();
 	}
 	
 	public Direction getDirection() {

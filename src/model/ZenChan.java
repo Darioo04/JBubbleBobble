@@ -1,6 +1,7 @@
 package model;
 
 import controller.GameController;
+import controller.LevelCreator;
 
 @SuppressWarnings("deprecation")
 
@@ -8,6 +9,7 @@ public class ZenChan extends Enemy {
 	
 	private boolean isChasingPlayer = false;
 	private Player player;
+	private int targetY;
 	
 	public ZenChan(int x,int y) {
 		super(x,y);
@@ -22,12 +24,12 @@ public class ZenChan extends Enemy {
 		this.setDirectionToGo();
 		this.setEnemyCollision();
 		if (isChasingPlayer) {
-			y += speed;
-			if(speed != 0 && !(this.collisionLeft && this.collisionRight) && collisionDown) {
+			if(collisionDown) {
 				isChasingPlayer = false;
-			}
+			} else 
+				y += speed;
 		}
-		else if (GameController.frames % 30 == 0 && Math.random() < 0.1 && player.getCollisionDown() && this.collisionDown) {
+		else if (GameController.frames % 30 == 0 && Math.random() < 0.1 && player.getCollisionDown() && this.collisionDown && hasTilesAbove()) {
 			if(player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) > this.y) {
 				speed = Math.abs(speed);
 				isChasingPlayer = true;
@@ -37,10 +39,9 @@ public class ZenChan extends Enemy {
 			}
 			y += speed;
 		}
-		
-		if(!isChasingPlayer && !collisionDown) {
+		else if(!collisionDown) {
 			y += speed;
-		} else if(!isChasingPlayer) {
+		} else {
 			switch (direction) {
 			case RIGHT -> {
 				if(!collisionRight) {
@@ -102,6 +103,34 @@ public class ZenChan extends Enemy {
 		updateHitbox();
 		setChanged();
         notifyObservers();
+	}
+	
+	private boolean isNextStepOnTile(boolean right) {
+		if (right == true) {
+			x += this.speed;
+			collisionChecker.checkTileCollision(this);
+			x -= this.speed;
+			if (!collisionDown) return false;
+			else return true;
+		} else {
+			x -= this.speed;
+            collisionChecker.checkTileCollision(this);
+            x += this.speed;
+            if (!collisionDown) return false;
+            else return true;
+		}
+	}
+	
+	private boolean hasTilesAbove() {
+		int row = y / GameConstants.TILE_SIZE;
+		int col = x / GameConstants.TILE_SIZE;
+		
+        for (int i = row - 1; i >= 2; i--) {
+        	if (levelFile[i][col] == '1') {
+        		return true;
+        	}
+        }
+        return false;
 	}
 	
 	private boolean canGoUp() {

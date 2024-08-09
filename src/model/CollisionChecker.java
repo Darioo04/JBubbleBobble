@@ -89,4 +89,17 @@ public class CollisionChecker {
             }
 		}
 	}
+	
+	public void checkBubbleEnemyCollision(BubbleBullet bubbleBullet, ArrayList<Enemy> enemyList) {
+		this.levelFile = LevelCreator.getInstance().getLevel();
+        Rectangle bubbleHitbox = bubbleBullet.getHitbox();
+        
+        for (Enemy enemy : enemyList) {
+                Rectangle enemyHitbox = enemy.getHitbox();
+            
+            if (bubbleHitbox.intersects(enemyHitbox)) {
+                //da implementare
+            }
+        }
+	}
 }
