@@ -17,6 +17,8 @@ public final class GameConstants {
 	public static final int ROWS = 14;
 	public static final int SCREEN_WIDTH = TILE_SIZE * COLS;
 	public static final int SCREEN_HEIGHT = TILE_SIZE * ROWS;
-	public static final int BUBBLE_SHOT_SIZE = 8 * SCALE;
-	public static final int BUBBLE_EXPANDED_SIZE = 14 * SCALE;
+	public static final int BUBBLE_SHOT_SIZE = 6 * SCALE;
+	public static final int BUBBLE_EXPANDED_SIZE = 11 * SCALE;
+	public static final int BUBBLE_X_SPEED = 6 * SCALE;
+	public static final int BUBBLE_X_DISTANCE = 72 * SCALE;
 }

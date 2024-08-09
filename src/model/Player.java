@@ -96,7 +96,7 @@ public class Player extends Entity {
 		default ->{}
 		}
 		
-		return new BubbleBullet(bubbleX, bubbleY);
+		return new BubbleBullet(bubbleX, bubbleY, this.direction);
 	}
 	
 	public void jump() {

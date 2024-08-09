@@ -37,7 +37,13 @@ public class BubbleBulletView extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		this.setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
+		if(bubbleBullet.isExpanded()) {
+			this.resizeIcon(defaultSprite);
+	        this.setIcon(resizedIcon);
+			this.setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_EXPANDED_SIZE, GameConstants.BUBBLE_EXPANDED_SIZE);
+		}else {
+			this.setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
+		}
 		
 	}
 	
@@ -63,6 +69,10 @@ public class BubbleBulletView extends JLabel implements Observer {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public BubbleBullet getBubbleBullet() {
+		return bubbleBullet;
 	}
 
 }

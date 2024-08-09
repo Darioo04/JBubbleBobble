@@ -23,12 +23,12 @@ public class CollisionChecker {
 		
 		this.levelFile = LevelCreator.getInstance().getLevel();
 		
-		Rectangle entityHitbox = player.getHitbox();
+		Rectangle playerHitbox = player.getHitbox();
 		
-		int leftX = entityHitbox.x;
-		int rightX = leftX + entityHitbox.width;
-		int topY = entityHitbox.y;
-		int bottomY = topY + entityHitbox.height;
+		int leftX = playerHitbox.x;
+		int rightX = leftX + playerHitbox.width;
+		int topY = playerHitbox.y;
+		int bottomY = topY + playerHitbox.height;
 		
 		int leftCol = leftX / GameConstants.TILE_SIZE;
 		int rightCol = rightX / GameConstants.TILE_SIZE;
@@ -90,8 +90,18 @@ public class CollisionChecker {
 		}
 	}
 	
-	public void checkBubbleEnemyCollision(BubbleBullet bubbleBullet, ArrayList<Enemy> enemyList) {
+	public boolean checkBubblePlayerCollision(BubbleBullet bubbleBullet, Player player) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
+        Rectangle bubbleHitbox = bubbleBullet.getHitbox();
+        Rectangle playerHitbox = player.getHitbox();
+            
+        if (bubbleHitbox.intersects(playerHitbox)) {
+                return true;
+        }
+        return false;
+	}
+	
+	public void checkBubbleEnemyCollision(BubbleBullet bubbleBullet, ArrayList<Enemy> enemyList) {
         Rectangle bubbleHitbox = bubbleBullet.getHitbox();
         
         for (Enemy enemy : enemyList) {

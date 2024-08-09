@@ -17,6 +17,7 @@ public class AudioManager {
     private String path;
     private Clip clip;
     private Clip backgroundClip;
+    private Clip levelClip;
     private FloatControl gainControl;
 
 
@@ -60,6 +61,32 @@ public class AudioManager {
     }
     public void resumeBackgroundMusic() {
         if(backgroundClip != null) backgroundClip.start();
+    }
+    
+    public void playLevelMusic(String filename){
+        try {
+            InputStream in = new BufferedInputStream(new FileInputStream(path+filename+".wav"));
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(in);
+            levelClip = AudioSystem.getClip();
+            levelClip.open(audioIn);
+            gainControl = (FloatControl) levelClip.getControl(FloatControl.Type.MASTER_GAIN);
+            setVolume(0.3f);
+            levelClip.start();
+        } catch (LineUnavailableException | IOException | UnsupportedAudioFileException e1) {
+            e1.printStackTrace();
+        }
+    }
+    public void stopLevelMusic(){
+        if(levelClip != null) {
+        	levelClip.stop();
+        	levelClip.close();
+        }
+    }
+    public void pauseLevelMusic(){
+        if(levelClip != null) levelClip.stop();
+    }
+    public void resumeLevelMusic() {
+        if(levelClip != null) levelClip.start();
     }
 
     public void play(String filename) {

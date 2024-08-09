@@ -141,6 +141,12 @@ public class GameController {
 				enemies.stream().forEach(Enemy::update);
 				bullets.stream().forEach(BubbleBullet::update);
 				collisionChecker.checkPlayerEnemeyCollision(player, enemies);
+//				for(BubbleBullet b : bullets) {
+//					if(collisionChecker.checkBubblePlayerCollision(b, player)) {
+//						bullets.remove(b);
+//						bulletsViews.remove(b.getBubbleBulletView());
+//					}
+//				}
 				if (player.getLostLife()) {			//se perde una vita respawno il player
 					player.spawnPlayer();
 					player.setLostLife(false);
@@ -198,7 +204,7 @@ public class GameController {
         mainFrame.repaint();
         
         audioManager.pauseBackgroundMusic();
-        
+        audioManager.playLevelMusic("level");       
 //        removeDisplayedScreen(menuScreenView);
     }
 	
@@ -209,6 +215,7 @@ public class GameController {
 		enemyViews.stream().forEach(gamePanel::remove);
 		bullets.clear();
 		bulletsViews.stream().forEach(gamePanel::remove);
+		audioManager.pauseLevelMusic();
 //		for(EnemyView eView : enemyViews) {
 //			gamePanel.remove(eView);
 //		}
@@ -293,7 +300,7 @@ public class GameController {
     public void bubbleShooted() {
     	BubbleBullet bullet = player.shot();
 		BubbleBulletView bulletView = new BubbleBulletView(bullet);
-		bullet.addObserver(bulletView);
+		bullet.setBubbleBulletView(bulletView);
 		gamePanel.add(bulletView);
 		addBullet(bullet);
 		addBulletView(bulletView);
