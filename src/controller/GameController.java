@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 
 import model.Banebou;
 import model.BubbleBullet;
@@ -15,6 +16,8 @@ import model.GameModel;
 import model.GameState;
 import model.Hidegons;
 import model.Invader;
+import model.Item;
+import model.ItemFactory;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
@@ -33,7 +36,7 @@ import view.ProfileView;
 import view.SelectLevelView;
 import view.StateScreenView;
 import view.StatusBar;
-
+import view.ItemView;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -56,17 +59,20 @@ public class GameController {
     private CollisionChecker collisionChecker;
     public static int frames = 1;
     private Timer timer;
+    
     private ArrayList<Enemy> enemies;
     private ArrayList<EnemyView> enemyViews;
     private ArrayList<BubbleBullet> bullets;
     private ArrayList<BubbleBulletView> bulletsViews;
+    private ArrayList<Item> items;
+    private ArrayList<ItemView> itemViews;
+    
     private GameState gameState;
     private MainFrame mainFrame;
     private LevelCreator levelCreator;
     private AudioManager audioManager;
-    public static int level;
+    public int level;
     private int animationCycle = 0;
-    
     
     
     private static GameController instance;
@@ -147,8 +153,9 @@ public class GameController {
 //						bulletsViews.remove(b.getBubbleBulletView());
 //					}
 //				}
-				if (player.getLostLife()) {			//se perde una vita respawno il player
+				if (player.getLostLife()) {	//se perde una vita respawno il player
 					player.spawnPlayer();
+					
 					player.setLostLife(false);
 				}
 			}
@@ -191,10 +198,12 @@ public class GameController {
     	
     	gamePanel.add(playerView);
     	gamePanel.setPlayer(player);
-    	enemies = new ArrayList<Enemy>();
-    	enemyViews = new ArrayList<EnemyView>();
-    	bullets = new ArrayList<BubbleBullet>();
-    	bulletsViews = new ArrayList<BubbleBulletView>();
+    	enemies = new ArrayList<>();
+    	enemyViews = new ArrayList<>();
+    	bullets = new ArrayList<>();
+    	bulletsViews = new ArrayList<>();
+    	items = new ArrayList<>();
+    	itemViews = new ArrayList<>();
     	player.spawnPlayer();
     	spawnEnemies();
     	gamePanel.setFocusable(true);
@@ -220,10 +229,6 @@ public class GameController {
 //			gamePanel.remove(eView);
 //		}
 	}
-	
-	public void resumeLevel() {
-		
-	}
     
     public Player getPlayer() {
         return player;
@@ -239,6 +244,9 @@ public class GameController {
     
     public void setLevel(int level) {
     	this.level=level;
+    }
+    public int getLevel() {
+    	return level;
     }
     
 //    public void setDisplayedScreen(JPanel newScreen) {
@@ -297,9 +305,29 @@ public class GameController {
     	}
     }
     
+    public void spawnItems() {
+    	if (enemies.stream().count()==0) {
+    		ItemFactory.getInstance();
+
+    		Item item1 = ItemFactory.getInstance().createItem(new Random().nextInt(101));
+    		Item item2 = ItemFactory.getInstance().createItem(new Random().nextInt(101));
+    		ItemView itemView1 = new ItemView(item1);
+    		item1.addObserver(itemView1);
+    		ItemView itemView2 = new ItemView(item2);
+    		item2.addObserver(itemView2);
+    		
+    		items.add(item1);
+    		items.add(item2);
+    		
+    		itemViews.add(itemView1);
+    		itemViews.add(itemView2);
+    	}
+    }
+    
     public void bubbleShooted() {
     	BubbleBullet bullet = player.shot();
 		BubbleBulletView bulletView = new BubbleBulletView(bullet);
+//		bullet.addObserver(bulletView);
 		bullet.setBubbleBulletView(bulletView);
 		gamePanel.add(bulletView);
 		addBullet(bullet);

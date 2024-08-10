@@ -9,6 +9,7 @@ public class Lightning {
 	private static Lightning instance;
 	private final int DAMAGE=900;
 	private BufferedImage[] sprites;
+	
 	public static Lightning getInstance() {
 		if (instance==null) instance = new Lightning();
 		return instance;

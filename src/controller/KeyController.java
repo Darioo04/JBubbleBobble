@@ -228,11 +228,13 @@ public class KeyController implements KeyListener {
 						case 0 -> {
 							gameController.changeDisplayedScreen(gameOverScreen.getStateScreenView(),GamePanel.getInstance());
 							gameController.setGameState(GameState.GAME);
+							gameController.clearLevel();
 							gameController.startLevel();
 						}
 						case 1 -> {
 							gameController.changeDisplayedScreen(gameOverScreen.getStateScreenView(),menuScreen.getStateScreenView());
 							gameController.setGameState(GameState.MENU);
+							gameController.clearLevel();
 							menuScreen.update();
 						}
 					}

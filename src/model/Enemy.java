@@ -18,4 +18,5 @@ public abstract class Enemy extends Entity {
 		hitboxWidth = GameConstants.TILE_SIZE - 2*GameConstants.SCALE;
 		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));	
 	}
+	
 }

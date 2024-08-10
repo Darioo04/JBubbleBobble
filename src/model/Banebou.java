@@ -1,6 +1,6 @@
 package model;
 
-import model.Entity.Direction;
+@SuppressWarnings("deprecation")
 
 public class Banebou extends Enemy {
 	//si muovono saltando ad arco

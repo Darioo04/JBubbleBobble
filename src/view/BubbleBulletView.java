@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import model.BubbleBullet;
 import model.GameConstants;
 
+@SuppressWarnings("deprecation")
+
 public class BubbleBulletView extends JLabel implements Observer {
 
 	private ImageIcon resizedIcon;

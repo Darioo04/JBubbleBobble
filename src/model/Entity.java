@@ -11,10 +11,6 @@ import controller.LevelCreator;
 
 public abstract class Entity extends Observable {
 	
-	enum Direction {
-		UP,DOWN,LEFT,RIGHT
-	}
-	
 	protected Direction direction;
 	protected CollisionChecker collisionChecker;
 	protected int x, y, col, row;
@@ -34,6 +30,8 @@ public abstract class Entity extends Observable {
 	protected boolean collisionDown;
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
+	private boolean frozen;
+	
 	
 	public Entity() {
 		collisionChecker = CollisionChecker.getInstance();
@@ -197,5 +195,12 @@ public abstract class Entity extends Observable {
     	this.fallingSpeed=fallingSpeed;
     }
     
+	public void freezeEnemy() {
+		frozen=true;
+	}
+	
+	public void unfreezeEnemy() {
+		frozen=false;
+	}
 
 }

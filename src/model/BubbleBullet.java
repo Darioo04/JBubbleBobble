@@ -3,10 +3,10 @@ package model;
 import java.awt.Rectangle;
 import java.util.Observable;
 
-import model.Entity.Direction;
 import view.BubbleBulletView;
 
 @SuppressWarnings("deprecation")
+
 public class BubbleBullet extends Observable {
 		private int x, y;
 		private Direction direction;
@@ -30,7 +30,7 @@ public class BubbleBullet extends Observable {
 			this.x = x;
             this.y = y;
             spawnX = x;
-            targetX = direction == Direction.RIGHT ? spawnX + GameConstants.BUBBLE_X_DISTANCE : spawnX - GameConstants.BUBBLE_X_DISTANCE;
+            targetX = (direction == Direction.RIGHT) ? spawnX + GameConstants.BUBBLE_X_DISTANCE : spawnX - GameConstants.BUBBLE_X_DISTANCE;
             collisionChecker = CollisionChecker.getInstance();
             hitboxWidth = GameConstants.BUBBLE_SHOT_SIZE - 2*GameConstants.SCALE;
             hitboxHeight = GameConstants.BUBBLE_SHOT_SIZE - 2*GameConstants.SCALE;
@@ -42,27 +42,27 @@ public class BubbleBullet extends Observable {
 		public void update() {
 			if(!isExpanded) {
 				switch (direction){
-				case RIGHT -> {
-					if(x != targetX)
-						x += GameConstants.BUBBLE_X_SPEED;
-					if(x > GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE) {
-						x = GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE;
-						targetX = x;
+					case RIGHT -> {
+						if(x != targetX)
+							x += GameConstants.BUBBLE_X_SPEED;
+						if(x > GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE) {
+							x = GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE;
+							targetX = x;
+						}
 					}
+				
+					case LEFT -> {
+						if(x!= targetX)
+							x -= GameConstants.BUBBLE_X_SPEED;
+						if(x < 2*GameConstants.TILE_SIZE) {
+							x = GameConstants.TILE_SIZE / 2 * 3;
+							targetX = x;
+						}
+					}
+				
+					default -> throw new IllegalArgumentException("Unexpected value: " + direction);
 				}
 				
-				case LEFT -> {
-					if(x!= targetX)
-	                    x -= GameConstants.BUBBLE_X_SPEED;
-					if(x < 2*GameConstants.TILE_SIZE) {
-						x = GameConstants.TILE_SIZE / 2 * 3;
-						targetX = x;
-					}
-				}
-				
-				default ->
-				throw new IllegalArgumentException("Unexpected value: " + direction);
-				}
 				if (targetX == x) {
 					isExpanded = true;
 					if (direction == Direction.RIGHT) {

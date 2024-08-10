@@ -21,6 +21,7 @@ public class LevelCreator {
 	private Wall wall;
 	private char[][] file; // [rows][cols]
 	private Rectangle[][] tilesHitboxes;
+//	private GameController gameController;
 	
 	public static LevelCreator getInstance() {
 		if (instance == null) instance = new LevelCreator();
@@ -28,11 +29,11 @@ public class LevelCreator {
 	}
 	
 	private LevelCreator() { 
-
+//		gameController = GameController.getInstance();
 	}
 	
 	public void loadSprites() {
-		wall = new Wall(GameController.level);
+		wall = new Wall(GameController.getInstance().getLevel());
 	}
 	
 	private void loadTilesHitboxes() {
@@ -57,7 +58,7 @@ public class LevelCreator {
 		loadSprites();
 		this.file = new char[GameConstants.ROWS][GameConstants.COLS];
 		try {
-			InputStream inFile= getClass().getResourceAsStream(path + GameController.level + ".txt");
+			InputStream inFile= getClass().getResourceAsStream(path + GameController.getInstance().getLevel() + ".txt");
 			BufferedReader br = new BufferedReader(new InputStreamReader(inFile));
 			int k=0;
 			while (br.ready()) {

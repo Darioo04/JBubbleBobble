@@ -21,7 +21,6 @@ public class Player extends Entity {
 	private boolean isSpacePressed;	
 	private boolean isJumping;
 	private int speed;
-
 	private int lives;
 	private boolean lostLife = false;
 	private int fallingSpeed; //velocita di caduta
@@ -70,7 +69,8 @@ public class Player extends Entity {
 	
 	public void addScore(long score) {
 		this.score+=score;
-		update();
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void resetScore() {
@@ -85,15 +85,15 @@ public class Player extends Entity {
 		int bubbleY = this.getHitboxY() + (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
 		int bubbleX = 0;
 		switch (direction){
-		case Direction.RIGHT ->{
-			bubbleX = this.getHitboxX() + this.hitboxWidth + (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
-		}
+			case RIGHT ->{
+				bubbleX = this.getHitboxX() + this.hitboxWidth + (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
+			}
 		
-		case Direction.LEFT ->{
-            bubbleX = this.getHitboxX() - GameConstants.BUBBLE_SHOT_SIZE - (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
-        }
+			case LEFT ->{
+				bubbleX = this.getHitboxX() - GameConstants.BUBBLE_SHOT_SIZE - (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
+			}
 		
-		default ->{}
+			default ->{}
 		}
 		
 		return new BubbleBullet(bubbleX, bubbleY, this.direction);
