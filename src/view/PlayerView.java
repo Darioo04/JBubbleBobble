@@ -13,7 +13,9 @@ public class PlayerView extends EntityView {
 	enum KeyPressed {
 		LEFT,RIGHT
 	}
+	
 	private static PlayerView instance;
+	
 	private BufferedImage idle1;
 	private BufferedImage idle2;
 	private BufferedImage running1;
@@ -30,6 +32,8 @@ public class PlayerView extends EntityView {
 	private BufferedImage jumping2sx;
 	private BufferedImage falling1sx;
 	private BufferedImage falling2sx;
+	private BufferedImage shooting;
+	private BufferedImage shootingsx;
 	private KeyPressed lastKeyPressed;
 	private Player player;
 	private BufferedImage actualSprite;
@@ -50,23 +54,25 @@ public class PlayerView extends EntityView {
 	protected void loadSprites() {
 		try {
 			
-			this.idle1 = ImageIO.read(getClass().getResource(path + "Bub-idle-1.png"));
-			this.idle2 = ImageIO.read(getClass().getResource(path + "Bub-idle-2.png"));
-			this.running1 = ImageIO.read(getClass().getResource(path + "Bub-running-1.png"));
-			this.running2 = ImageIO.read(getClass().getResource(path + "Bub-running-2.png"));
-			this.jumping1 = ImageIO.read(getClass().getResource(path + "Bub-jumping-1.png"));
-			this.jumping2 = ImageIO.read(getClass().getResource(path + "Bub-jumping-2.png"));
-			this.falling1 = ImageIO.read(getClass().getResource(path + "Bub-falling-1.png"));
-			this.falling2 = ImageIO.read(getClass().getResource(path + "Bub-falling-2.png"));
+			this.idle1 = ImageIO.read(getClass().getResource(path + "idle-1.png"));
+			this.idle2 = ImageIO.read(getClass().getResource(path + "idle-2.png"));
+			this.running1 = ImageIO.read(getClass().getResource(path + "running-1.png"));
+			this.running2 = ImageIO.read(getClass().getResource(path + "running-2.png"));
+			this.jumping1 = ImageIO.read(getClass().getResource(path + "jumping-1.png"));
+			this.jumping2 = ImageIO.read(getClass().getResource(path + "jumping-2.png"));
+			this.falling1 = ImageIO.read(getClass().getResource(path + "falling-1.png"));
+			this.falling2 = ImageIO.read(getClass().getResource(path + "falling-2.png"));
+			this.shooting = ImageIO.read(getClass().getResource(path + "shooting.png"));
 			
-            this.idle1sx = ImageIO.read(getClass().getResource(path + "Bub-idle-sx-1.png"));
-            this.idle2sx = ImageIO.read(getClass().getResource(path + "Bub-idle-sx-2.png"));
-            this.running1sx = ImageIO.read(getClass().getResource(path + "Bub-running-sx-1.png"));
-            this.running2sx = ImageIO.read(getClass().getResource(path + "Bub-running-sx-2.png"));
-            this.jumping1sx = ImageIO.read(getClass().getResource(path + "Bub-jumping-sx-1.png"));
-            this.jumping2sx = ImageIO.read(getClass().getResource(path + "Bub-jumping-sx-2.png"));
-            this.falling1sx = ImageIO.read(getClass().getResource(path + "Bub-falling-sx-1.png"));
-            this.falling2sx = ImageIO.read(getClass().getResource(path + "Bub-falling-sx-2.png"));
+            this.idle1sx = ImageIO.read(getClass().getResource(path + "idle-sx-1.png"));
+            this.idle2sx = ImageIO.read(getClass().getResource(path + "idle-sx-2.png"));
+            this.running1sx = ImageIO.read(getClass().getResource(path + "running-sx-1.png"));
+            this.running2sx = ImageIO.read(getClass().getResource(path + "running-sx-2.png"));
+            this.jumping1sx = ImageIO.read(getClass().getResource(path + "jumping-sx-1.png"));
+            this.jumping2sx = ImageIO.read(getClass().getResource(path + "jumping-sx-2.png"));
+            this.falling1sx = ImageIO.read(getClass().getResource(path + "falling-sx-1.png"));
+            this.falling2sx = ImageIO.read(getClass().getResource(path + "falling-sx-2.png"));
+            this.shootingsx = ImageIO.read(getClass().getResource(path + "shootingsx.png"));
             
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -77,7 +83,7 @@ public class PlayerView extends EntityView {
 	@Override
 	protected void loadDefaultSprite() {
 		try {
-			this.defaultSprite =  ImageIO.read(getClass().getResource(path + "Bub-idle-1.png"));
+			this.defaultSprite =  ImageIO.read(getClass().getResource(path + "idle-1.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -88,38 +94,52 @@ public class PlayerView extends EntityView {
 		if(!player.isMoving() && !player.isFalling()) {				//se il player non si sta muovendo scegli l'idle in base all'ultima direzione
 			switch (lastKeyPressed) {
 				case RIGHT -> {
-					if(actualSprite == idle1) {
-		                actualSprite = idle2;
-		            } else {
-		                actualSprite = idle1;
-		            }
+					actualSprite = (actualSprite == idle1) ? idle2 : idle1;
+//					if(actualSprite == idle1) {
+//		                actualSprite = idle2;
+//		            } else {
+//		                actualSprite = idle1;
+//		            }
 				}
 				case LEFT -> {
-					if(actualSprite == idle1sx) {
-	                    actualSprite = idle2sx;
-	                } else {
-	                    actualSprite = idle1sx;
-	                }
+					actualSprite = (actualSprite == idle1sx) ? idle2sx : idle1sx;
+//					if(actualSprite == idle1sx) {
+//	                    actualSprite = idle2sx;
+//	                } else {
+//	                    actualSprite = idle1sx;
+//	                }
 				}
 			}
 		}
 		else if(player.isFalling()) {
 			switch (lastKeyPressed) {
 				case RIGHT -> {
-					if(actualSprite == falling1) {
-		                actualSprite = falling2;
-		            } else {
-		                actualSprite = falling1;
-		            }
+					actualSprite = (actualSprite == falling1) ? falling2 : falling1;
+//					if(actualSprite == falling1) actualSprite = falling2;
+//		            else actualSprite = falling1;
 				}
 				case LEFT -> {
-					if(actualSprite == falling1sx) {
-	                    actualSprite = falling2sx;
-	                } else {
-	                    actualSprite = falling1sx;
-	                }
+					actualSprite = (actualSprite == falling1sx) ? falling2sx : falling1sx;
+//					if(actualSprite == falling1sx) actualSprite = falling2sx;
+//	                else actualSprite = falling1sx;
+	                
 				}
 			}
+		}
+		
+		else if (player.isJumping()) {
+			switch (lastKeyPressed) {
+				case RIGHT -> {
+					actualSprite = (actualSprite == jumping1) ? jumping2 : jumping1;
+//					if (actualSprite == jumping1) actualSprite = jumping2;
+//					else actualSprite = jumping1;
+				}
+				case LEFT -> {
+					actualSprite = (actualSprite == jumping1sx) ? jumping2sx : jumping1sx;
+//					if (actualSprite == jumping1sx) actualSprite = jumping2sx;
+//					else actualSprite = jumping1sx;
+				}
+			};
 		}
 		else {
 			if (player.isRightPressed()) {
@@ -136,13 +156,16 @@ public class PlayerView extends EntityView {
             if (player.isLeftPressed()) {
             	lastKeyPressed = KeyPressed.LEFT;
             	
-            	
             	actualSprite = switch (animationCycle % 3) {
             		case 0 -> running1sx;
             		case 1 -> running2sx;
             		case 2 -> idle2sx;
             		default -> null;
             	};
+            }
+            
+            if (player.isSpacePressed()) {
+            	actualSprite = (player.isRightPressed()) ? shooting : shootingsx ;
             }
 		}
 		

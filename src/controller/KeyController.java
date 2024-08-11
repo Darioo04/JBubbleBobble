@@ -135,6 +135,7 @@ public class KeyController implements KeyListener {
 					player.setRightPressed(true);
 				}
 				if (key == KeyEvent.VK_SPACE) {
+					player.setSpacePressed(true);
 					gameController.bubbleShooted();
 				}
 				if (key == KeyEvent.VK_ESCAPE) {
@@ -255,13 +256,21 @@ public class KeyController implements KeyListener {
     	int key = e.getKeyCode();
     	
     	if (gameController.getGameState() == GameState.GAME) {
+    		if (key == KeyEvent.VK_UP || key == KeyEvent.VK_W) {
+				player.setIsJumping(false);
+			}
     		if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A) {
 				player.setLeftPressed(false);
 			}
 			if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D) {
 				player.setRightPressed(false);
 			}
+			if (key == KeyEvent.VK_SPACE) {
+				player.setSpacePressed(false);
+			}
+			
     	}
+    	
     }
 
 }

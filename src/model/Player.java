@@ -48,7 +48,7 @@ public class Player extends Entity {
 		this.score = 0;
 		setDead(false);
 		inAir = false;
-		this.setPath("/sprites/BubAndBob1/");
+		this.setPath("/sprites/BubAndBob1/Bub-");
 		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
 		bubbles = new ArrayList<BubbleBullet>();
@@ -224,6 +224,14 @@ public class Player extends Entity {
         return isRightPressed;
     }
 	
+	public void setSpacePressed(boolean isSpacePressed) {
+		this.isSpacePressed = isSpacePressed;
+	}
+	
+	public boolean isSpacePressed() {
+		return isSpacePressed;
+	}
+	
 	@Override
 	public boolean isMoving() {
 		return isLeftPressed || isRightPressed;
@@ -251,5 +259,9 @@ public class Player extends Entity {
 	
 	public void setIsJumping(boolean isJumping) {
 		this.isJumping = isJumping;
+	}
+	
+	public boolean isJumping() {
+		return isJumping;
 	}
 }
