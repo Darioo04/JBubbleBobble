@@ -17,6 +17,7 @@ import controller.FontCreator;
 
 public class NicknamePanel extends StateScreenView {
 	private static NicknamePanel instance;
+	private String nickname;
 	
 	public static NicknamePanel getInstance() {
 		if (instance==null) instance = new NicknamePanel();
@@ -51,7 +52,7 @@ public class NicknamePanel extends StateScreenView {
 						addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent e) {
-								
+								nickname = getText();
 							}
 						});
 						
@@ -61,5 +62,9 @@ public class NicknamePanel extends StateScreenView {
 		}, BorderLayout.CENTER);
 		
 		
+	}
+	
+	public String getNickname() {
+		return nickname;
 	}
 }

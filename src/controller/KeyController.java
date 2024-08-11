@@ -15,6 +15,7 @@ import model.WinScreen;
 import view.BubbleBulletView;
 import view.GamePanel;
 import view.MenuScreenView;
+import view.NicknamePanel;
 import view.ProfileView;
 
 public class KeyController implements KeyListener {
@@ -29,6 +30,7 @@ public class KeyController implements KeyListener {
 	private PauseScreen pauseScreen;
 	private WinScreen winScreen;
 	private GameOverScreen gameOverScreen;
+	private NicknamePanel nicknamePanel;
 	private AudioManager audioManager;
 //	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
 	
@@ -117,7 +119,7 @@ public class KeyController implements KeyListener {
 			}
 			
 			case LOGIN -> {
-				
+				gameController.setNickname(nicknamePanel.getNickname());
 			}
 				
 			case GAME -> {

@@ -342,4 +342,8 @@ public class GameController {
 //    public void addBulletView (BubbleBulletView bulletView) {
 //    	bulletsViews.add(bulletView);
 //    }
+    
+    public void setNickname(String nickname) {
+    	gameModel.setNickname(nickname);
+    }
 }

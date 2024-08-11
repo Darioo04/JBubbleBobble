@@ -54,7 +54,7 @@ public class GameModel extends Observable {
 		gamesLost+=1;
 		update();
 	}
-	public void setNickName(String nickName) {
+	public void setNickname(String nickName) {
 		this.nickName=nickName;
 		update();
 	}
