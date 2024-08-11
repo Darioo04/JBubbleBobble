@@ -78,7 +78,7 @@ public class BubbleBullet extends Observable {
 				}
 				
 			}else {
-				
+				y-=GameConstants.BUBBLE_FLOATING_SPEED;
 			}
 			
 			updateHitbox();

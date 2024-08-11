@@ -27,6 +27,7 @@ public class EnemyView extends EntityView {
 	private BufferedImage jumping2sx;
 	private BufferedImage falling1sx;
 	private BufferedImage falling2sx;
+	private BufferedImage death;
 	
 	private BufferedImage actualSprite;
 	

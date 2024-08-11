@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -9,11 +10,15 @@ import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+
+import controller.FontCreator;
 
 @SuppressWarnings("deprecation")
 
 public class StatusBar extends JPanel implements Observer {
 	private static StatusBar instance;
+	private Font font = FontCreator.getInstance().getFont();
 	private String hp;
 	private String score;
 	
@@ -25,7 +30,7 @@ public class StatusBar extends JPanel implements Observer {
 	private StatusBar() {
 		add(new JPanel(new GridLayout(1,2,0,0)) { //num righe,num colonne, distanza tra le componenti
 			{
-				
+				UIManager.put("Label.font",font);
 		        JPanel panel1 = new JPanel(new GridBagLayout());
 		        panel1.setBackground(Color.BLACK);
 		        GridBagConstraints gbc1 = new GridBagConstraints();
@@ -34,7 +39,8 @@ public class StatusBar extends JPanel implements Observer {
 		        gbc1.weighty = 1;
 		        
 		        gbc1.gridy = 0;
-		        panel1.add(new FontView("HP"), gbc1);
+		        JLabel hp = new JLabel("hp");
+		        panel1.add(hp, gbc1);
 		        
 		        gbc1.gridy = 1;
 //		        panel1.add(new FontView(hp), gbc1);
@@ -50,7 +56,8 @@ public class StatusBar extends JPanel implements Observer {
 		        gbc2.weighty = 1;
 		        
 		        gbc2.gridy = 0;
-		        panel2.add(new FontView("High Score"), gbc2);
+		        JLabel highScore = new JLabel("high score");
+		        panel2.add(highScore, gbc2);
 		        
 		        gbc2.gridy = 1;
 //		        panel2.add(new FontView(score), gbc2);
@@ -76,6 +83,6 @@ public class StatusBar extends JPanel implements Observer {
 	}
 	
 	public void update(Observable o,Object arg) {
-		
+		repaint();
 	}
 }

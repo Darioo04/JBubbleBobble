@@ -330,15 +330,16 @@ public class GameController {
 //		bullet.addObserver(bulletView);
 		bullet.setBubbleBulletView(bulletView);
 		gamePanel.add(bulletView);
-		addBullet(bullet);
-		addBulletView(bulletView);
-    }
-    
-    public void addBullet(BubbleBullet bullet) {
-    	bullets.add(bullet);
-    }
-    
-    public void addBulletView (BubbleBulletView bulletView) {
+		bullets.add(bullet);
     	bulletsViews.add(bulletView);
+//		addBulletView(bulletView);
     }
+    
+//    public void addBullet(BubbleBullet bullet) {
+//    	bullets.add(bullet);
+//    }
+//    
+//    public void addBulletView (BubbleBulletView bulletView) {
+//    	bulletsViews.add(bulletView);
+//    }
 }

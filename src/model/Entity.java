@@ -86,6 +86,7 @@ public abstract class Entity extends Observable {
 	
 	public void setDead(boolean isDead) {
         this.isDead = isDead;
+        
     }
 	
 	public void update() {
