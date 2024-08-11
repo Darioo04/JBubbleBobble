@@ -27,7 +27,7 @@ public class GamePanel extends StateScreenView {
     private Player player;
     private LevelCreator levelCreator;
     private GameController gameController;
- 
+    private StatusBar statusBar = StatusBar.getInstance();
 	
     public static GamePanel getInstance() {
     	if (instance==null) instance = new GamePanel();
@@ -54,8 +54,8 @@ public class GamePanel extends StateScreenView {
 		if (gameController.getGameState() == GameState.GAME) {
 			levelCreator.draw(g2);
 		}
-		player.drawHitbox(g2);
-		add(StatusBar.getInstance(),BorderLayout.PAGE_START);
+//		player.drawHitbox(g2);
+//		statusBar.draw(g2);
 	}
 	
 	public void setPlayer (Player player) {

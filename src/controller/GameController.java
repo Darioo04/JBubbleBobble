@@ -307,8 +307,6 @@ public class GameController {
     
     public void spawnItems() {
     	if (enemies.stream().count()==0) {
-    		ItemFactory.getInstance();
-
     		Item item1 = ItemFactory.getInstance().createItem(new Random().nextInt(101));
     		Item item2 = ItemFactory.getInstance().createItem(new Random().nextInt(101));
     		ItemView itemView1 = new ItemView(item1);
