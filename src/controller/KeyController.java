@@ -49,7 +49,16 @@ public class KeyController implements KeyListener {
     }
     
     @Override
-    public void keyTyped(KeyEvent e) {}
+    public void keyTyped(KeyEvent e) {
+    	int key = e.getKeyCode();
+    	switch (gameController.getGameState()) {
+    		case GAME -> {
+    			if (key == KeyEvent.VK_SPACE) {
+    				player.setSpacePressed(true);
+    			}
+    		}
+    	}
+    }
 
     @Override
     public void keyPressed(KeyEvent e) {

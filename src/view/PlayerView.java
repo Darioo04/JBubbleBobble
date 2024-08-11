@@ -90,7 +90,6 @@ public class PlayerView extends EntityView {
 	}
 	
 	public void updateAnimation(int animationCycle) {
-		
 		if(!player.isMoving() && !player.isFalling()) {				//se il player non si sta muovendo scegli l'idle in base all'ultima direzione
 			switch (lastKeyPressed) {
 				case RIGHT -> {
@@ -165,7 +164,7 @@ public class PlayerView extends EntityView {
             }
             
             if (player.isSpacePressed()) {
-            	actualSprite = (player.isRightPressed()) ? shooting : shootingsx ;
+            	actualSprite = (player.isRightPressed()) ? shooting : shootingsx;
             }
 		}
 		
