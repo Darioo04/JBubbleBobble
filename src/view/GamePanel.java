@@ -37,6 +37,7 @@ public class GamePanel extends StateScreenView {
 	private GamePanel() {
 		gameController = GameController.getInstance();
 		levelCreator = LevelCreator.getInstance();
+		add(statusBar);
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setBackground(Color.BLACK);
