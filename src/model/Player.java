@@ -24,7 +24,7 @@ public class Player extends Entity {
 	private int lives;
 	private boolean lostLife = false;
 	private int fallingSpeed; //velocita di caduta
-	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
+	private int JUMP_STRENGTH = 8 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
 	private List<BubbleBullet> bubbles;
 	
@@ -197,11 +197,14 @@ public class Player extends Entity {
                 if (levelFile[y][x] == ' ') {
                 	this.x = x * GameConstants.TILE_SIZE;
                 	this.y = y * GameConstants.TILE_SIZE + GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE;
+                	setSpawnX(x);
+                	setSpawnY(y);
                 	return;
                 }
             }
 		}
 	}
+	
 	
 	public void drawHitbox(Graphics2D g) {		//per debug, viene chiamata nel gamePanel
 		g.setColor(Color.BLUE);

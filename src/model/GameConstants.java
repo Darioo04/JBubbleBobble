@@ -23,4 +23,6 @@ public final class GameConstants {
 	public static final int BUBBLE_X_DISTANCE = 72 * SCALE;
 	public static final double BUBBLE_FLOATING_SPEED = 0.5 * SCALE;
 	public static final int ITEM_SIZE = 10 * SCALE;
+	public static final double SPEED_MULTIPLIER = 1.5 * SCALE;
+	public static final double SHOOT_MULTIPLIER = 1.5 * SCALE;
 }

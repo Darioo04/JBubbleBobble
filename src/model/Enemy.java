@@ -11,6 +11,8 @@ public abstract class Enemy extends Entity {
 	public Enemy(int x, int y) {
 		this.x = x;
 		this.y = y;
+		setSpawnX(x);
+		setSpawnY(y);
 		player = Player.getInstance();
 		collisionChecker = CollisionChecker.getInstance();
 		hitboxOffsetX = GameConstants.SCALE;
@@ -29,14 +31,13 @@ public abstract class Enemy extends Entity {
 		return inBubble;
 	}
 	
-	public void uodate() {
-		super.update();
+	@Override
+	public void update() {
 		if (isInBubble()) {
-			
+			//implementare il comportamento del nemico quando è dentro la bolla
+//			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
 		}
-		if (isDead()) {
-			
-		}
+		super.update();
 	}
 	
 }

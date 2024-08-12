@@ -57,13 +57,13 @@ public class GameController {
     private PauseScreenView pauseScreenView;
     private GamePanel gamePanel;
     private CollisionChecker collisionChecker;
-    public static int frames = 1;
+    public static int frames = 0;
     private Timer timer;
     
     private ArrayList<Enemy> enemies;
     private ArrayList<EnemyView> enemyViews;
     private ArrayList<BubbleBullet> bullets;
-    private ArrayList<BubbleBulletView> bulletsViews;
+    private ArrayList<BubbleBulletView> bulletViews;
     private ArrayList<Item> items;
     private ArrayList<ItemView> itemViews;
     
@@ -119,7 +119,7 @@ public class GameController {
 			public void actionPerformed(ActionEvent e) {
 				update();
 				if (gameState == GameState.GAME) {
-					if(frames == 60) frames = 1;
+					if(frames == 60) frames = 0;
 					frames++;
                     if(frames % 5 == 0) {
                         playerView.updateAnimation(animationCycle);
@@ -144,19 +144,25 @@ public class GameController {
 			
 			case GAME -> {
 				player.update();
+				
 				enemies.stream().forEach(Enemy::update);
+				enemies.stream().filter(Enemy::isDead).forEach(enemy -> enemies.remove(enemy));
+				
 				bullets.stream().forEach(BubbleBullet::update);
-				collisionChecker.checkPlayerEnemeyCollision(player, enemies);
-//				for(BubbleBullet b : bullets) {
-//					if(collisionChecker.checkBubblePlayerCollision(b, player)) {
-//						bullets.remove(b);
-//						bulletsViews.remove(b.getBubbleBulletView());
-//					}
-//				}
+//				bullets.stream()
+//					.filter(bullet -> collisionChecker.checkBubblePlayerCollision(bullet, player))
+//					.forEach(bullet -> { bullets.remove(bullet); 
+//										bulletViews.remove(bullet.getBubbleBulletView()); });
+//				
+				collisionChecker.checkPlayerEnemyCollision(player, enemies);
+				enemies.stream().forEach( enemy -> {
+					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				});
 				if (player.getLostLife()) {	//se perde una vita respawno il player
 					player.spawnPlayer();
-					
+					respawnEnemies();
 					player.setLostLife(false);
+					removeBubbles();
 				}
 			}
 			
@@ -201,7 +207,7 @@ public class GameController {
     	enemies = new ArrayList<>();
     	enemyViews = new ArrayList<>();
     	bullets = new ArrayList<>();
-    	bulletsViews = new ArrayList<>();
+    	bulletViews = new ArrayList<>();
     	items = new ArrayList<>();
     	itemViews = new ArrayList<>();
     	player.spawnPlayer();
@@ -221,13 +227,9 @@ public class GameController {
 		player.setDefaultValues();
 		gamePanel.remove(playerView);
 		enemies.clear();
-		enemyViews.stream().forEach(gamePanel::remove);
-		bullets.clear();
-		bulletsViews.stream().forEach(gamePanel::remove);
+		enemyViews.stream().forEach(eView -> gamePanel.remove(eView));
+		removeBubbles();
 		audioManager.pauseLevelMusic();
-//		for(EnemyView eView : enemyViews) {
-//			gamePanel.remove(eView);
-//		}
 	}
     
     public Player getPlayer() {
@@ -305,6 +307,18 @@ public class GameController {
     	}
     }
     
+    public void respawnEnemies() {
+    	enemies.stream().forEach(enemy -> {
+    		enemy.setX(enemy.getSpawnX());
+    		enemy.setY(enemy.getSpawnY());
+    	});;
+    }
+    
+    public void respawnPlayer() {
+    	player.setX(player.getSpawnX());
+    	player.setY(player.getSpawnY());
+    }
+    
     public void spawnItems() {
     	if (enemies.stream().count()==0) {
     		Item item1 = ItemFactory.getInstance().createItem(new Random().nextInt(101));
@@ -329,7 +343,7 @@ public class GameController {
 		bullet.setBubbleBulletView(bulletView);
 		gamePanel.add(bulletView);
 		bullets.add(bullet);
-    	bulletsViews.add(bulletView);
+    	bulletViews.add(bulletView);
 //		addBulletView(bulletView);
     }
     
@@ -343,5 +357,10 @@ public class GameController {
     
     public void setNickname(String nickname) {
     	gameModel.setNickname(nickname);
+    }
+    
+    public void removeBubbles() {
+    	bullets.clear();
+		bulletViews.stream().forEach(bView -> gamePanel.remove(bView));
     }
 }

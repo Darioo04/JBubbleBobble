@@ -49,16 +49,7 @@ public class KeyController implements KeyListener {
     }
     
     @Override
-    public void keyTyped(KeyEvent e) {
-    	int key = e.getKeyCode();
-    	switch (gameController.getGameState()) {
-    		case GAME -> {
-    			if (key == KeyEvent.VK_SPACE) {
-    				player.setSpacePressed(true);
-    			}
-    		}
-    	}
-    }
+    public void keyTyped(KeyEvent e) {}
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -147,7 +138,7 @@ public class KeyController implements KeyListener {
 					player.setSpacePressed(true);
 					gameController.bubbleShooted();
 				}
-				if (key == KeyEvent.VK_ESCAPE) {
+				if (key == KeyEvent.VK_ESCAPE || key == KeyEvent.VK_Q) {
 					gameController.changeDisplayedScreen(GamePanel.getInstance(), pauseScreen.getStateScreenView());
 					gameController.setGameState(GameState.PAUSE);
 					pauseScreen.update();

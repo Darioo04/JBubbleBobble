@@ -27,6 +27,7 @@ public class EnemyView extends EntityView {
 	private BufferedImage jumping2sx;
 	private BufferedImage falling1sx;
 	private BufferedImage falling2sx;
+	private BufferedImage[] deathAnimations;
 	private BufferedImage death;
 	
 	private BufferedImage actualSprite;
@@ -37,18 +38,20 @@ public class EnemyView extends EntityView {
 
 	@Override
 	protected void loadSprites() {
-		// TODO Auto-generated method stub
+		try {
+			this.idle1 = ImageIO.read(getClass().getResource(path+"idle1.png"));
+			this.idle1sx = ImageIO.read(getClass().getResource(path+"idle1sx.png"));
+//			this.idle2 = ImageIO.read(getClass().getResource(path + "idle2.png"));
+//			this.idle2sx = ImageIO.read(getClass().getResource(path + "idle2sx.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	protected void loadDefaultSprite() {
-		try {
-			this.defaultSprite = ImageIO.read(getClass().getResource(path + "idle-1.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+			this.defaultSprite = idle1;	
 	}
 	
 	public BufferedImage getSprite() {

@@ -14,6 +14,8 @@ public abstract class Entity extends Observable {
 	protected Direction direction;
 	protected CollisionChecker collisionChecker;
 	protected int x, y, col, row;
+	private int spawnX;
+	private int spawnY;
 	protected String path;
 	private boolean isDead;
 	private boolean isMoving;
@@ -68,6 +70,22 @@ public abstract class Entity extends Observable {
 	public void setY(int y) {
 		this.y = y;
         update();
+	}
+	
+	public int getSpawnX() {
+		return spawnX;
+	}
+	
+	public int getSpawnY() {
+		return spawnY;
+	}
+	
+	public void setSpawnX(int spawnX) {
+		this.spawnX=spawnX;
+	}
+	
+	public void setSpawnY(int spawnY) {
+		this.spawnY=spawnY;
 	}
 	
 	public void move(int dx, int dy) {
@@ -180,6 +198,7 @@ public abstract class Entity extends Observable {
     
     public void setMoving(boolean isMoving) {
         this.isMoving = isMoving;
+        update();
     }
     
     public int getSpeed() {
@@ -196,11 +215,11 @@ public abstract class Entity extends Observable {
     	this.fallingSpeed=fallingSpeed;
     }
     
-	public void freezeEnemy() {
+	public void freezeEntity() {
 		frozen=true;
 	}
 	
-	public void unfreezeEnemy() {
+	public void unfreezeEntity() {
 		frozen=false;
 	}
 

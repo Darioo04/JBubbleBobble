@@ -32,7 +32,7 @@ public class BubbleBulletView extends JLabel implements Observer {
 		loadDefaultSprite();
 		loadSprites();
 		
-		setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
+		setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_EXPANDED_SIZE, GameConstants.BUBBLE_EXPANDED_SIZE);
 		resizeIcon(defaultSprite);
         setIcon(resizedIcon);
         setVisible(true);
@@ -43,7 +43,7 @@ public class BubbleBulletView extends JLabel implements Observer {
 //		if(bubbleBullet.isExpanded()) {
 		resizeIcon(defaultSprite);
 	    setIcon(resizedIcon);
-		setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
+		setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_EXPANDED_SIZE, GameConstants.BUBBLE_EXPANDED_SIZE);
 		
 		
 		
@@ -68,8 +68,8 @@ public class BubbleBulletView extends JLabel implements Observer {
 			
 			this.defaultBubble =  ImageIO.read(getClass().getResource(path + "default.png"));
 			explodedBubbles = new BufferedImage[2];
-			for (int i=1; i<=2; i++) {
-				explodedBubbles[i]=ImageIO.read(getClass().getResource(path+"exploded"+i+".png"));
+			for (int i=0; i<2; i++) {
+				explodedBubbles[i]=ImageIO.read(getClass().getResource(path+"exploded"+(i+1)+".png"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

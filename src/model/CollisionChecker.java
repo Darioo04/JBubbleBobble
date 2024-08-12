@@ -77,34 +77,34 @@ public class CollisionChecker {
 		
 	}
 	
-	public void checkTileCollision(BubbleBullet bubble) {
-		this.levelFile = LevelCreator.getInstance().getLevel();
-		
-		Rectangle bubbleHitbox = bubble.getHitbox();
-		
-		int leftX = bubbleHitbox.x;
-		int rightX = leftX + bubbleHitbox.width;
-		int topY = bubbleHitbox.y;
-		int bottomY = topY + bubbleHitbox.height;
-		
-		int leftCol = leftX / GameConstants.TILE_SIZE;
-		int rightCol = rightX / GameConstants.TILE_SIZE;
-		int topRow = topY / GameConstants.TILE_SIZE;
-		int bottomRow = bottomY / GameConstants.TILE_SIZE;
-		
-		leftCol = (leftX - GameConstants.BUBBLE_X_SPEED - GameConstants.SCALE) / GameConstants.TILE_SIZE;
-		bubble.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
-		
-		rightCol = (rightX + GameConstants.BUBBLE_X_SPEED + GameConstants.SCALE) / GameConstants.TILE_SIZE;
-		bubble.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
-		
-		leftCol = leftX / GameConstants.TILE_SIZE;
-		rightCol = rightX / GameConstants.TILE_SIZE;
-		bottomRow = (int)(bottomY + GameConstants.BUBBLE_FLOATING_SPEED + 1) / GameConstants.TILE_SIZE;
-		bubble.setCollisionUp(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
-	}
+//	public void checkTileCollision(BubbleBullet bubble) {
+//		this.levelFile = LevelCreator.getInstance().getLevel();
+//		
+//		Rectangle bubbleHitbox = bubble.getHitbox();
+//		
+//		int leftX = bubbleHitbox.x;
+//		int rightX = leftX + bubbleHitbox.width;
+//		int topY = bubbleHitbox.y;
+//		int bottomY = topY + bubbleHitbox.height;
+//		
+//		int leftCol = leftX / GameConstants.TILE_SIZE;
+//		int rightCol = rightX / GameConstants.TILE_SIZE;
+//		int topRow = topY / GameConstants.TILE_SIZE;
+//		int bottomRow = bottomY / GameConstants.TILE_SIZE;
+//		
+//		leftCol = (leftX - GameConstants.BUBBLE_X_SPEED - GameConstants.SCALE) / GameConstants.TILE_SIZE;
+//		bubble.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
+//		
+//		rightCol = (rightX + GameConstants.BUBBLE_X_SPEED + GameConstants.SCALE) / GameConstants.TILE_SIZE;
+//		bubble.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
+//		
+//		leftCol = leftX / GameConstants.TILE_SIZE;
+//		rightCol = rightX / GameConstants.TILE_SIZE;
+//		bottomRow = (int)(bottomY + GameConstants.BUBBLE_FLOATING_SPEED + 1) / GameConstants.TILE_SIZE;
+//		bubble.setCollisionUp(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+//	}
 	
-	public void checkPlayerEnemeyCollision(Player player, ArrayList<Enemy> enemyList) {
+	public void checkPlayerEnemyCollision(Player player, ArrayList<Enemy> enemyList) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
 		Rectangle playerHitbox = player.getHitbox();
 		
@@ -126,8 +126,6 @@ public class CollisionChecker {
 		this.levelFile = LevelCreator.getInstance().getLevel();
         Rectangle bubbleHitbox = bubbleBullet.getHitbox();
         Rectangle playerHitbox = player.getHitbox();
-//        Rectangle playerFeetHitbox = new Rectangle(playerHitbox.x, playerHitbox.y + playerHitbox.height - 5, playerHitbox.width, 5);        
-//        return (playerFeetHitbox.intersects(bubbleHitbox));
         
         return (bubbleHitbox.intersects(playerHitbox));
         

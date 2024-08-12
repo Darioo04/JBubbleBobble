@@ -93,7 +93,10 @@ public class PlayerView extends EntityView {
 		if(!player.isMoving() && !player.isFalling()) {				//se il player non si sta muovendo scegli l'idle in base all'ultima direzione
 			switch (lastKeyPressed) {
 				case RIGHT -> {
-					actualSprite = (actualSprite == idle1) ? idle2 : idle1;
+					if (player.isSpacePressed()) actualSprite = shooting;
+					else {
+						actualSprite = (actualSprite == idle1) ? idle2 : idle1;
+					}
 //					if(actualSprite == idle1) {
 //		                actualSprite = idle2;
 //		            } else {
@@ -101,7 +104,10 @@ public class PlayerView extends EntityView {
 //		            }
 				}
 				case LEFT -> {
-					actualSprite = (actualSprite == idle1sx) ? idle2sx : idle1sx;
+					if (player.isSpacePressed()) actualSprite = shootingsx;
+					else {
+						actualSprite = (actualSprite == idle1sx) ? idle2sx : idle1sx;
+					}
 //					if(actualSprite == idle1sx) {
 //	                    actualSprite = idle2sx;
 //	                } else {
@@ -143,29 +149,39 @@ public class PlayerView extends EntityView {
 		else {
 			if (player.isRightPressed()) {
 				lastKeyPressed = KeyPressed.RIGHT;
+				if (player.isSpacePressed()) actualSprite = shooting;
+				else {
+						actualSprite = switch (animationCycle % 3) {  // Ci sono 3 fasi nell'animazione: idle2, running1, running2
+	        			case 0 -> running1;
+	        			case 1 -> running2;
+	        			case 2 -> idle2;
+	        			default -> null;
+						};
+				}
+					
 				
-				actualSprite = switch (animationCycle % 3) {  // Ci sono 3 fasi nell'animazione: idle2, running1, running2
-        			case 0 -> running1;
-        			case 1 -> running2;
-        			case 2 -> idle2;
-        			default -> null;
-				};
+				
 			}
 			
             if (player.isLeftPressed()) {
             	lastKeyPressed = KeyPressed.LEFT;
             	
-            	actualSprite = switch (animationCycle % 3) {
-            		case 0 -> running1sx;
-            		case 1 -> running2sx;
-            		case 2 -> idle2sx;
-            		default -> null;
-            	};
+            	if (player.isSpacePressed()) actualSprite = shootingsx;
+            	else {
+	            		actualSprite = switch (animationCycle % 3) {
+	            		case 0 -> running1sx;
+	            		case 1 -> running2sx;
+	            		case 2 -> idle2sx;
+	            		default -> null;	
+	            		};
+            	}
+	            	
+            	
             }
             
-            if (player.isSpacePressed()) {
-            	actualSprite = (player.isRightPressed()) ? shooting : shootingsx;
-            }
+//            if (player.isSpacePressed()) {
+//            	actualSprite = (player.isRightPressed()) ? shooting : shootingsx;
+//            }
 		}
 		
 		this.resizeIcon(actualSprite);
