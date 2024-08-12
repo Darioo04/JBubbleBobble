@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 
 import model.GameConstants;
 import model.Item;
-import model.ItemType;
 
 @SuppressWarnings("deprecation")
 

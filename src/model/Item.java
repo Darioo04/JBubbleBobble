@@ -8,7 +8,6 @@ import java.util.Observable;
 public class Item extends Observable {
 	private ItemType type;
 	private int points;
-	private String name;
 	private int x;
 	private int y;
 	private Rectangle hitbox;
@@ -20,7 +19,6 @@ public class Item extends Observable {
 	public Item(ItemType type) {
 		this.type=type;
 		this.points=type.getPoint();
-		this.name=type.getName();
 		hitboxWidth = GameConstants.ITEM_SIZE - 2*GameConstants.SCALE;
         hitboxHeight = GameConstants.ITEM_SIZE - 2*GameConstants.SCALE;
         hitboxOffsetX = GameConstants.SCALE;
@@ -30,12 +28,7 @@ public class Item extends Observable {
 
 	public int getPoints() {
 		return points;
-	}
-
-	public String getName() {
-		return name;
-	}
-	
+	}	
 	public ItemType getType() {
 		return type;
 	}
