@@ -1,12 +1,10 @@
-package controller;
+package view;
 
 
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class FontCreator {
 	private static FontCreator instance;

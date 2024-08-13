@@ -11,7 +11,7 @@ public class LetterBubble extends Bubble {
 	
 	
 	@Override
-	public void shot() {
+	public void update() {
 		
 	}
 }

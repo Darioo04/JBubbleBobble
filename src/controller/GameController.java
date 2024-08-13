@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import model.Banebou;
+import model.Bubble;
 import model.BubbleBullet;
 import model.CollisionChecker;
 import model.Enemy;
@@ -25,7 +26,7 @@ import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import model.Tile;
-import view.BubbleBulletView;
+import view.BubbleView;
 import view.EnemyView;
 import view.GamePanel;
 import view.MainFrame;
@@ -62,8 +63,8 @@ public class GameController {
     
     private ArrayList<Enemy> enemies;
     private ArrayList<EnemyView> enemyViews;
-    private ArrayList<BubbleBullet> bullets;
-    private ArrayList<BubbleBulletView> bulletViews;
+    private ArrayList<Bubble> bullets;
+    private ArrayList<BubbleView> bulletViews;
     private ArrayList<Item> items;
     private ArrayList<ItemView> itemViews;
     
@@ -148,7 +149,7 @@ public class GameController {
 				enemies.stream().forEach(Enemy::update);
 				enemies.stream().filter(Enemy::isDead).forEach(enemy -> enemies.remove(enemy));
 				
-				bullets.stream().forEach(BubbleBullet::update);
+				bullets.stream().forEach(Bubble::update);
 //				bullets.stream()
 //					.filter(bullet -> collisionChecker.checkBubblePlayerCollision(bullet, player))
 //					.forEach(bullet -> { bullets.remove(bullet); 
@@ -338,7 +339,7 @@ public class GameController {
     
     public void bubbleShooted() {
     	BubbleBullet bullet = player.shot();
-		BubbleBulletView bulletView = new BubbleBulletView(bullet);
+		BubbleView bulletView = new BubbleView(bullet);
 //		bullet.addObserver(bulletView);
 		bullet.setBubbleBulletView(bulletView);
 		gamePanel.add(bulletView);

@@ -54,25 +54,25 @@ public class PlayerView extends EntityView {
 	protected void loadSprites() {
 		try {
 			
-			this.idle1 = ImageIO.read(getClass().getResource(path + "idle-1.png"));
-			this.idle2 = ImageIO.read(getClass().getResource(path + "idle-2.png"));
-			this.running1 = ImageIO.read(getClass().getResource(path + "running-1.png"));
-			this.running2 = ImageIO.read(getClass().getResource(path + "running-2.png"));
-			this.jumping1 = ImageIO.read(getClass().getResource(path + "jumping-1.png"));
-			this.jumping2 = ImageIO.read(getClass().getResource(path + "jumping-2.png"));
-			this.falling1 = ImageIO.read(getClass().getResource(path + "falling-1.png"));
-			this.falling2 = ImageIO.read(getClass().getResource(path + "falling-2.png"));
-			this.shooting = ImageIO.read(getClass().getResource(path + "shooting.png"));
+			idle1 = ImageIO.read(getClass().getResource(path + "idle-1.png"));
+			idle2 = ImageIO.read(getClass().getResource(path + "idle-2.png"));
+			running1 = ImageIO.read(getClass().getResource(path + "running-1.png"));
+			running2 = ImageIO.read(getClass().getResource(path + "running-2.png"));
+			jumping1 = ImageIO.read(getClass().getResource(path + "jumping-1.png"));
+			jumping2 = ImageIO.read(getClass().getResource(path + "jumping-2.png"));
+			falling1 = ImageIO.read(getClass().getResource(path + "falling-1.png"));
+			falling2 = ImageIO.read(getClass().getResource(path + "falling-2.png"));
+			shooting = ImageIO.read(getClass().getResource(path + "shooting.png"));
 			
-            this.idle1sx = ImageIO.read(getClass().getResource(path + "idle-sx-1.png"));
-            this.idle2sx = ImageIO.read(getClass().getResource(path + "idle-sx-2.png"));
-            this.running1sx = ImageIO.read(getClass().getResource(path + "running-sx-1.png"));
-            this.running2sx = ImageIO.read(getClass().getResource(path + "running-sx-2.png"));
-            this.jumping1sx = ImageIO.read(getClass().getResource(path + "jumping-sx-1.png"));
-            this.jumping2sx = ImageIO.read(getClass().getResource(path + "jumping-sx-2.png"));
-            this.falling1sx = ImageIO.read(getClass().getResource(path + "falling-sx-1.png"));
-            this.falling2sx = ImageIO.read(getClass().getResource(path + "falling-sx-2.png"));
-            this.shootingsx = ImageIO.read(getClass().getResource(path + "shootingsx.png"));
+            idle1sx = ImageIO.read(getClass().getResource(path + "idle-sx-1.png"));
+            idle2sx = ImageIO.read(getClass().getResource(path + "idle-sx-2.png"));
+            running1sx = ImageIO.read(getClass().getResource(path + "running-sx-1.png"));
+            running2sx = ImageIO.read(getClass().getResource(path + "running-sx-2.png"));
+            jumping1sx = ImageIO.read(getClass().getResource(path + "jumping-sx-1.png"));
+            jumping2sx = ImageIO.read(getClass().getResource(path + "jumping-sx-2.png"));
+            falling1sx = ImageIO.read(getClass().getResource(path + "falling-sx-1.png"));
+            falling2sx = ImageIO.read(getClass().getResource(path + "falling-sx-2.png"));
+            shootingsx = ImageIO.read(getClass().getResource(path + "shootingsx.png"));
             
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -82,11 +82,7 @@ public class PlayerView extends EntityView {
 
 	@Override
 	protected void loadDefaultSprite() {
-		try {
-			this.defaultSprite =  ImageIO.read(getClass().getResource(path + "idle-1.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		defaultSprite =  idle1;
 	}
 	
 	public void updateAnimation(int animationCycle) {

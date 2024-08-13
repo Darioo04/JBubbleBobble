@@ -12,7 +12,7 @@ import model.Player;
 import model.SelectLevelScreen;
 import model.SelectProfileScreen;
 import model.WinScreen;
-import view.BubbleBulletView;
+import view.BubbleView;
 import view.GamePanel;
 import view.MenuScreenView;
 import view.NicknamePanel;

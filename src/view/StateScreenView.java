@@ -47,9 +47,12 @@ public abstract class StateScreenView extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		StateScreen stateScreen = (StateScreen) o;
-		this.setImage(stateScreen.getScreens()[stateScreen.getPointer()]);
-        this.repaint();
+		if (o instanceof StateScreen) {
+			StateScreen stateScreen = (StateScreen) o;
+			this.setImage(stateScreen.getScreens()[stateScreen.getPointer()]);
+	        this.repaint();
+		}
+		
 		
 	}
 	

@@ -122,9 +122,9 @@ public class CollisionChecker {
 		}
 	}
 	
-	public boolean checkBubblePlayerCollision(BubbleBullet bubbleBullet, Player player) {
+	public boolean checkBubblePlayerCollision(Bubble bubble, Player player) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
-        Rectangle bubbleHitbox = bubbleBullet.getHitbox();
+        Rectangle bubbleHitbox = bubble.getHitbox();
         Rectangle playerHitbox = player.getHitbox();
         
         return (bubbleHitbox.intersects(playerHitbox));
@@ -135,8 +135,8 @@ public class CollisionChecker {
 //        return false;
 	}
 	
-	public void checkBubbleEnemyCollision(BubbleBullet bubbleBullet, ArrayList<Enemy> enemyList) {
-        Rectangle bubbleHitbox = bubbleBullet.getHitbox();
+	public void checkBubbleEnemyCollision(Bubble bubble, ArrayList<Enemy> enemyList) {
+        Rectangle bubbleHitbox = bubble.getHitbox();
 //        enemyList.stream().filter(enemy -> bubbleHitbox.intersects(enemy.getHitbox())).forEach(enemy -> enemy.setInBubble(true));;
         for (Enemy enemy : enemyList) {
             Rectangle enemyHitbox = enemy.getHitbox();

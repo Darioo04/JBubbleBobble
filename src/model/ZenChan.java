@@ -21,8 +21,8 @@ public class ZenChan extends Enemy {
 	
 	@Override
 	public void update() {
-		this.setDirectionToGo();
-		this.setEnemyCollision();
+		setDirectionToGo();
+		setEnemyCollision();
 		if (isChasingPlayer) {
 			if(collisionDown) {
 				isChasingPlayer = false;

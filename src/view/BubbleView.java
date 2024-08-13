@@ -15,7 +15,7 @@ import model.GameConstants;
 
 @SuppressWarnings("deprecation")
 
-public class BubbleBulletView extends JLabel implements Observer {
+public class BubbleView extends JLabel implements Observer {
 
 	private ImageIcon resizedIcon;
 	private BufferedImage defaultSprite;
@@ -26,7 +26,7 @@ public class BubbleBulletView extends JLabel implements Observer {
 	
 	private BufferedImage defaultBubble;
 	
-	public BubbleBulletView(BubbleBullet bubbleBullet) {
+	public BubbleView(BubbleBullet bubbleBullet) {
 		this.bubbleBullet = bubbleBullet;
 		
 		loadDefaultSprite();

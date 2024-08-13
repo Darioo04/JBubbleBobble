@@ -9,7 +9,7 @@ public class WaterBubble extends Bubble {
 	}
 	
 	@Override
-	public void shot() {
+	public void update() {
 		
 	}
 }

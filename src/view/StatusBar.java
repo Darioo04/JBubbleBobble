@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import controller.FontCreator;
 import model.Player;
 
 @SuppressWarnings("deprecation")
@@ -40,8 +39,10 @@ public class StatusBar extends JPanel implements Observer {
 		        gbc1.weighty = 1;
 		        
 		        gbc1.gridy = 0;
-		        JLabel hp = new JLabel("hp");
-		        panel1.add(hp, gbc1);
+		        JLabel hp1 = new JLabel("hp");
+		        JLabel hp2 = new JLabel(""+hp);
+		        panel1.add(hp1, gbc1);
+		        panel1.add(hp2,gbc1);
 		        
 		        gbc1.gridy = 1;
 //		        panel1.add(new FontView(hp), gbc1);
@@ -57,8 +58,10 @@ public class StatusBar extends JPanel implements Observer {
 		        gbc2.weighty = 1;
 		        
 		        gbc2.gridy = 0;
-		        JLabel highScore = new JLabel("high score");
-		        panel2.add(highScore, gbc2);
+		        JLabel highScore1 = new JLabel("high score");
+		        JLabel highscore2 = new JLabel(""+score);
+		        panel2.add(highScore1, gbc2);
+		        panel2.add(highscore2,gbc2);
 		        
 		        gbc2.gridy = 1;
 //		        panel2.add(new FontView(score), gbc2);

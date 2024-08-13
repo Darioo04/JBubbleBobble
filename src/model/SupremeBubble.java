@@ -9,10 +9,14 @@ public class SupremeBubble extends Bubble {
 	
 	public SupremeBubble(int x,int y) {
 		super(x,y);
+		setExpanded(true);
 	}
 	
 	@Override
-	public void shot() {
-		
+	public void update() {
+		Player player = Player.getInstance();
+		if (getHitbox().intersects(player.getHitbox())) {
+//			player.setBuffed();
+		}
 	}
 }

@@ -28,8 +28,8 @@ public abstract class EntityView extends JLabel implements Observer {
         this.path = entity.getPath();
         this.entitySize = entitySize;
         
-        loadDefaultSprite();
         loadSprites();
+        loadDefaultSprite();
         
         this.setBounds(entity.getX(), entity.getY(), entitySize, entitySize);
         

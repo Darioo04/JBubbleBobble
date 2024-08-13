@@ -10,12 +10,10 @@ import java.awt.GridLayout;
 import java.util.Observable;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import controller.FontCreator;
 import model.GameConstants;
 import model.GameModel;
 import model.GameState;
@@ -37,9 +35,9 @@ public class ProfileView extends StateScreenView {
 	}
 	
 	private ProfileView() {
-		this.setVisible(true);
-		this.setBackground(Color.BLACK);
-		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
+		setVisible(true);
+		setBackground(Color.BLACK);
+		setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
 		
 		JPanel statsPanel= new JPanel(new GridLayout(3,1,5,5));
 		statsPanel.setBackground(Color.BLACK);
@@ -75,9 +73,13 @@ public class ProfileView extends StateScreenView {
 	
 	@Override
 	public void update(Observable o,Object arg) {
-		this.gamesPlayed=gameModel.getGamesPlayed();
-		this.gamesWon=gameModel.getGamesWon();
-		this.gamesLost=gameModel.getGamesLost();
+		if (o instanceof GameModel) {
+			this.gamesPlayed=gameModel.getGamesPlayed();
+			this.gamesWon=gameModel.getGamesWon();
+			this.gamesLost=gameModel.getGamesLost();
+			repaint();
+		}
+		
 	}
 	
 }	
