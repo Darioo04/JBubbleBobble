@@ -6,9 +6,12 @@ import java.awt.Color;
 
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import controller.GameController;
@@ -21,11 +24,13 @@ import java.awt.Graphics2D;
 import model.GameConstants;
 import model.GameState;
 import model.Player;
+import model.Wall;
 
 public class GamePanel extends StateScreenView {
 	private static GamePanel instance;
     private Player player;
     private LevelCreator levelCreator;
+    private BufferedImage wall;
     private GameController gameController;
     private StatusBar statusBar = StatusBar.getInstance();
 	
@@ -37,12 +42,22 @@ public class GamePanel extends StateScreenView {
 	private GamePanel() {
 		gameController = GameController.getInstance();
 		levelCreator = LevelCreator.getInstance();
-		add(statusBar);
+		add(statusBar,BorderLayout.NORTH);
 		this.setVisible(true);
 		this.setLayout(null);
 		this.setBackground(Color.BLACK);
 		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
 		
+		
+	}
+	
+	public void loadWallSprite() {
+		levelCreator.setWall();
+		try {
+			wall = ImageIO.read(getClass().getResource(levelCreator.getWall()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -53,10 +68,25 @@ public class GamePanel extends StateScreenView {
 		g2.setColor(Color.BLACK);
 		g2.fillRect(0, 0, getWidth(), getHeight());
 		if (gameController.getGameState() == GameState.GAME) {
-			levelCreator.draw(g2);
+			draw(g2);
 		}
 //		player.drawHitbox(g2);
-//		statusBar.draw(g2);
+	}
+	
+	public void draw(Graphics2D g2d) {
+		loadWallSprite();
+		levelCreator.loadLevel();
+		char[][] level = levelCreator.getLevel();
+		int y = 0;
+		for (int i=0; i<level.length; i++) {
+			int x = 0;
+			for (int j=0; j<level[0].length; j++) {
+				char tile=level[i][j];
+				if (tile == '1') g2d.drawImage(wall, x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
+				x+=GameConstants.TILE_SIZE;
+			}
+			y+=GameConstants.TILE_SIZE;
+		}	
 	}
 	
 	public void setPlayer (Player player) {

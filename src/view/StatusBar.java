@@ -13,14 +13,15 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import controller.FontCreator;
+import model.Player;
 
 @SuppressWarnings("deprecation")
 
 public class StatusBar extends JPanel implements Observer {
 	private static StatusBar instance;
 	private Font font = FontCreator.getInstance().getFont();
-	private String hp;
-	private String score;
+	private int hp;
+	private long score;
 	
 	public static StatusBar getInstance() {
 		if (instance==null) instance = new StatusBar();
@@ -28,7 +29,7 @@ public class StatusBar extends JPanel implements Observer {
 	}
 	
 	private StatusBar() {
-		add(new JPanel(new GridLayout(1,2,0,0)) { //num righe,num colonne, distanza tra le componenti
+		add(new JPanel(new GridLayout(1,2,0,0)) { 
 			{
 				UIManager.put("Label.font",font);
 		        JPanel panel1 = new JPanel(new GridBagLayout());
@@ -83,6 +84,11 @@ public class StatusBar extends JPanel implements Observer {
 	}
 	
 	public void update(Observable o,Object arg) {
-		repaint();
+		if (o instanceof Player) {
+			Player player = (Player) o;
+			hp = player.getHP();
+			score = player.getScore();
+			repaint();
+		}
 	}
 }

@@ -6,19 +6,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 import model.GameConstants;
-import model.Invader;
 import model.Wall;
-import view.EnemyView;
 
 
 public class LevelCreator {
 	
 	private static LevelCreator instance;
 	private final String path = "/Levels/level-";
-	private Wall wall;
+	private String wallPath;
 	private char[][] file; // [rows][cols]
 	private Rectangle[][] tilesHitboxes;
 //	private GameController gameController;
@@ -29,11 +26,12 @@ public class LevelCreator {
 	}
 	
 	private LevelCreator() { 
-//		gameController = GameController.getInstance();
+		
 	}
 	
-	public void loadSprites() {
-		wall = new Wall(GameController.getInstance().getLevel());
+	public void setWall() {
+		Wall wall = new Wall(GameController.getInstance().getLevel());
+		wallPath = wall.getPath();
 	}
 	
 	private void loadTilesHitboxes() {
@@ -55,7 +53,6 @@ public class LevelCreator {
 	}
 	
 	public void loadLevel() {
-		loadSprites();
 		this.file = new char[GameConstants.ROWS][GameConstants.COLS];
 		try {
 			InputStream inFile= getClass().getResourceAsStream(path + GameController.getInstance().getLevel() + ".txt");
@@ -76,23 +73,12 @@ public class LevelCreator {
 		loadTilesHitboxes();
 	}
 	
-	public void draw(Graphics2D g2d) {
-		
-		int y = 0;
-		for (int i=0; i<file.length; i++) {
-			int x = 0;
-			for (int j=0; j<file[0].length; j++) {
-				char tile=file[i][j];
-				if (tile == '1') g2d.drawImage(wall.getSprite(), x, y, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
-				x+=GameConstants.TILE_SIZE;
-			}
-			y+=GameConstants.TILE_SIZE;
-		}
-		
-	}
-	
 	public char[][] getLevel() {
 		return file;
+	}
+	
+	public String getWall() {
+		return wallPath;
 	}
 	
 	public Rectangle[][] getTilesHitboxes() {

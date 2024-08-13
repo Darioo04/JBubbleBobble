@@ -66,6 +66,9 @@ public class Player extends Entity {
 	public long getScore() {
 		return score;
 	}
+	public int getHP() {
+		return lives;
+	}
 	
 	public void addScore(long score) {
 		this.score+=score;

@@ -97,22 +97,12 @@ public class PlayerView extends EntityView {
 					else {
 						actualSprite = (actualSprite == idle1) ? idle2 : idle1;
 					}
-//					if(actualSprite == idle1) {
-//		                actualSprite = idle2;
-//		            } else {
-//		                actualSprite = idle1;
-//		            }
 				}
 				case LEFT -> {
 					if (player.isSpacePressed()) actualSprite = shootingsx;
 					else {
 						actualSprite = (actualSprite == idle1sx) ? idle2sx : idle1sx;
 					}
-//					if(actualSprite == idle1sx) {
-//	                    actualSprite = idle2sx;
-//	                } else {
-//	                    actualSprite = idle1sx;
-//	                }
 				}
 			}
 		}
@@ -120,13 +110,9 @@ public class PlayerView extends EntityView {
 			switch (lastKeyPressed) {
 				case RIGHT -> {
 					actualSprite = (actualSprite == falling1) ? falling2 : falling1;
-//					if(actualSprite == falling1) actualSprite = falling2;
-//		            else actualSprite = falling1;
 				}
 				case LEFT -> {
 					actualSprite = (actualSprite == falling1sx) ? falling2sx : falling1sx;
-//					if(actualSprite == falling1sx) actualSprite = falling2sx;
-//	                else actualSprite = falling1sx;
 	                
 				}
 			}
@@ -136,13 +122,9 @@ public class PlayerView extends EntityView {
 			switch (lastKeyPressed) {
 				case RIGHT -> {
 					actualSprite = (actualSprite == jumping1) ? jumping2 : jumping1;
-//					if (actualSprite == jumping1) actualSprite = jumping2;
-//					else actualSprite = jumping1;
 				}
 				case LEFT -> {
 					actualSprite = (actualSprite == jumping1sx) ? jumping2sx : jumping1sx;
-//					if (actualSprite == jumping1sx) actualSprite = jumping2sx;
-//					else actualSprite = jumping1sx;
 				}
 			};
 		}

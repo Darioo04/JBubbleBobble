@@ -1,19 +1,9 @@
 package model;
 
-
-import java.awt.image.BufferedImage;
-
-
-
 public abstract class Tile {
-	private BufferedImage sprite;
+	private String path;
 	private boolean collision;
-//	protected String tilePath;
-//	
-//	
-//	public String getPath() {
-//		return tilePath;
-//	}
+
 	public Tile(boolean collision) {
 		this.collision=collision;
 	}
@@ -26,11 +16,11 @@ public abstract class Tile {
 		this.collision = collision;
 	}
 	
-	public BufferedImage getSprite() {
-		return sprite;
+	public String getPath() {
+		return path;
 	}
 	
-	public void setSprite(BufferedImage sprite) {
-		this.sprite = sprite;
+	public void setPath(String path) {
+		this.path = path;
 	} 
 }
