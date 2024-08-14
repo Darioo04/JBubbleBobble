@@ -26,6 +26,13 @@ public abstract class Bubble extends Observable  {
 	public Bubble(int x,int y) {
 		this.x=x;
 		this.y=y;
+		setExpanded(false);
+        setSpawnX(x);
+        setHitboxWidth(GameConstants.BUBBLE_SHOT_SIZE - 2*GameConstants.SCALE);
+        setHitboxHeight(GameConstants.BUBBLE_SHOT_SIZE - 2*GameConstants.SCALE);
+        setHitboxOffsetX(GameConstants.SCALE);
+        setHitboxOffsetY(GameConstants.SCALE);
+        setHitbox(new Rectangle(x + getHitboxOffsetX(), y + getHitboxOffsetY(), getHitboxWidth(), getHitboxHeight()));
 	}
 	
 	public int getX() {

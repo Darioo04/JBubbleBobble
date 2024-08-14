@@ -14,6 +14,7 @@ import model.Entity;
 import model.GameConstants;
 
 @SuppressWarnings("deprecation")
+
 public abstract class EntityView extends JLabel implements Observer {
 	
 	protected Entity entity;

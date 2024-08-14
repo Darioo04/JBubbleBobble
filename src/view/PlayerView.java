@@ -2,8 +2,11 @@ package view;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Observable;
+
 import javax.imageio.ImageIO;
 
+import controller.PlayerAnimationController;
 import model.GameConstants;
 import model.Player;
 
@@ -15,6 +18,7 @@ public class PlayerView extends EntityView {
 	}
 	
 	private static PlayerView instance;
+	private PlayerAnimationController playerAnimationController;
 	
 	private BufferedImage idle1;
 	private BufferedImage idle2;
@@ -47,6 +51,7 @@ public class PlayerView extends EntityView {
 	private PlayerView () {
 		super(Player.getInstance(), GameConstants.PLAYER_SIZE);
 		player = Player.getInstance();
+		this.playerAnimationController = PlayerAnimationController.getInstance();
 		this.lastKeyPressed = KeyPressed.RIGHT;
 	}
 
@@ -82,7 +87,7 @@ public class PlayerView extends EntityView {
 
 	@Override
 	protected void loadDefaultSprite() {
-		defaultSprite =  idle1;
+		defaultSprite = idle1;
 	}
 	
 	public void updateAnimation(int animationCycle) {
@@ -165,6 +170,13 @@ public class PlayerView extends EntityView {
 		this.resizeIcon(actualSprite);
         this.setIcon(resizedIcon);
 	}
-
+	
+	@Override
+	public void update(Observable o,Object arg) {
+		if (o instanceof Player) {
+			super.update(o, arg);
+//			actualSprite = playerAnimationController.updateAnimation();
+		}
+	}
 	
 }

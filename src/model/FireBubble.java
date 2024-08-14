@@ -7,7 +7,7 @@ public class FireBubble extends Bubble {
 	
 	public FireBubble(int x, int y) {
 		super(x,y);
-		this.fire= new Fire();
+		this.fire= new Fire(x,y,getDirection());
 	}
 	
 	@Override

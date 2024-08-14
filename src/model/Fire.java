@@ -6,11 +6,10 @@ public class Fire {
 	private int x;
 	private int y;
 	
-	public Fire(Bubble bubble,Direction direction) {
+	public Fire(int x, int y, Direction direction) {
+		this.x = x;
+		this.y = y;
 		this.direction = direction;
-		this.x = bubble.getX();
-		this.y = bubble.getY();
-		
 	}
 	
 	public void update() {

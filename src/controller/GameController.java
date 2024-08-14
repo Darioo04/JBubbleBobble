@@ -147,7 +147,7 @@ public class GameController {
 				player.update();
 				
 				enemies.stream().forEach(Enemy::update);
-				enemies.stream().filter(Enemy::isDead).forEach(enemy -> enemies.remove(enemy));
+//				enemies.stream().filter(Enemy::isDead).forEach(enemy -> enemies.remove(enemy));
 				
 				bullets.stream().forEach(Bubble::update);
 //				bullets.stream()

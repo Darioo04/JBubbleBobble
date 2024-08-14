@@ -12,14 +12,7 @@ public class BubbleBullet extends Bubble {
 	public BubbleBullet(int x, int y, Direction direction) {
 		super(x,y);
 		setDirection(direction);
-		setExpanded(false);
-        setSpawnX(x);
         setTargetX((direction == Direction.RIGHT) ? getSpawnX() + GameConstants.BUBBLE_X_DISTANCE : getSpawnX() - GameConstants.BUBBLE_X_DISTANCE);
-        setHitboxWidth(GameConstants.BUBBLE_SHOT_SIZE - 2*GameConstants.SCALE);
-        setHitboxHeight(GameConstants.BUBBLE_SHOT_SIZE - 2*GameConstants.SCALE);
-        setHitboxOffsetX(GameConstants.SCALE);
-        setHitboxOffsetY(GameConstants.SCALE);
-        setHitbox(new Rectangle(x + getHitboxOffsetX(), y + getHitboxOffsetY(), getHitboxWidth(), getHitboxHeight()));
 	}
 	
 	@Override
@@ -67,7 +60,8 @@ public class BubbleBullet extends Bubble {
 			}
 				
 		}else {
-			setY( y-=GameConstants.BUBBLE_FLOATING_SPEED );
+			y-=GameConstants.BUBBLE_FLOATING_SPEED;
+			setY(y);
 		}
 			
 		updateHitbox();
