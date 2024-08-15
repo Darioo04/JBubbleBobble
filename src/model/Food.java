@@ -5,8 +5,8 @@ import java.util.Observable;
 
 @SuppressWarnings("deprecation")
 
-public class Item extends Observable {
-	private ItemType type;
+public class Food extends Observable {
+	private FoodType type;
 	private int points;
 	private int x;
 	private int y;
@@ -16,7 +16,7 @@ public class Item extends Observable {
     private int hitboxOffsetX;
     private int hitboxOffsetY;
 	
-	public Item(ItemType type) {
+	public Food(FoodType type) {
 		this.type=type;
 		this.points=type.getPoint();
 		hitboxWidth = GameConstants.ITEM_SIZE - 2*GameConstants.SCALE;
@@ -29,7 +29,7 @@ public class Item extends Observable {
 	public int getPoints() {
 		return points;
 	}	
-	public ItemType getType() {
+	public FoodType getType() {
 		return type;
 	}
 

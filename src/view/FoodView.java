@@ -11,17 +11,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import model.GameConstants;
-import model.Item;
+import model.Food;
 
 @SuppressWarnings("deprecation")
 
-public class ItemView extends JLabel implements Observer {
+public class FoodView extends JLabel implements Observer {
 	
 	private BufferedImage sprite;
 	private ImageIcon resizedIcon;
 	private static final String path = "/sprites/Obj/items-";
 
-	public ItemView(Item item) {
+	public FoodView(Food item) {
 		try {
 			sprite = switch (item.getType()) {
 				case PEPPER -> ImageIO.read(getClass().getResource(path+"pepper.png"));

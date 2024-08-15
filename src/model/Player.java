@@ -28,6 +28,17 @@ public class Player extends Entity {
 	private boolean inAir;
 	private List<BubbleBullet> bubbles;
 	
+    private int bubblesBlown;
+    private int bubbleBulletsPopped;
+    private int fireBubblesPopped;
+    private int lightningBubblesPopped;
+    private int foodCollected;
+    private int blueCandiesCollected;
+    private int yellowCandiesCollected;
+    private int pinkCandiesCollected;
+
+    private int numJumps;
+	
 	private Player() {
 		setDefaultValues();
 		this.hitboxOffsetX = GameConstants.SCALE * 2;
@@ -51,7 +62,7 @@ public class Player extends Entity {
 		this.setPath("/sprites/BubAndBob1/Bub-");
 		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
-		bubbles = new ArrayList<BubbleBullet>();
+		bubbles = new ArrayList<>();
 	}
 	
 	public void setDirectionAndCollision() {
@@ -270,4 +281,85 @@ public class Player extends Entity {
 	public boolean isJumping() {
 		return isJumping;
 	}
+	
+	
+    public void increaseBubbleBulletsPopped() {
+    	bubbleBulletsPopped++;
+    }
+    public int getBubbleBulletsPopped() {
+    	return bubbleBulletsPopped;
+    }
+    public void resetNumBubbleBulletsPopped() {
+    	bubbleBulletsPopped=0;
+    }
+    
+    public void increaseFireBubblesPopped() {
+    	fireBubblesPopped++;
+    }
+    public int getFireBubblesPopped() {
+    	return fireBubblesPopped;
+    }
+    public void resetFireBubblesPopped() {
+    	fireBubblesPopped=0;
+    }
+    
+    public void increaseLightningBubblesPopped() {
+    	lightningBubblesPopped++;
+    }
+    public int getLightningBubblesPopped() {
+    	return lightningBubblesPopped;
+    }
+    public void resetLightningBubblesPopped() {
+    	lightningBubblesPopped=0;
+    }
+    
+    public void increaseBlueCandiesCollected() {
+    	blueCandiesCollected++;
+    }
+    public int getBlueCandiesCollected() {
+    	return blueCandiesCollected;
+    }
+    public void resetBlueCandiesCollected() {
+    	blueCandiesCollected=0;
+    }
+    
+    public void increaseYellowCandiesCollected() {
+    	yellowCandiesCollected++;
+    }
+    public int getYellowCandiesCollected() {
+    	return yellowCandiesCollected;
+    }
+    public void resetYellowCandiesCollected() {
+    	yellowCandiesCollected=0;
+    }
+    
+    public void increasePinkCandiesCollected() {
+    	pinkCandiesCollected++;
+    }
+    public int getPinkCandiesCollected() {
+    	return pinkCandiesCollected;
+    }
+    public void resetPinkCandiesCollected() {
+    	pinkCandiesCollected=0;
+    }
+    
+    public void increaseFoodCollected() {
+    	foodCollected++;
+    }
+    public int getFoodCollected() {
+    	return foodCollected;
+    }
+    public void resetFoodCollected() {
+    	foodCollected=0;
+    }
+    
+    public void increaseNumJumps() {
+    	numJumps++;
+    }
+    public int getNumJumps() {
+    	return numJumps;
+    }
+    public void resetNumJumps() {
+    	numJumps=0;
+    }
 }

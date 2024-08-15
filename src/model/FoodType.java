@@ -1,6 +1,6 @@
 package model;
 
-public enum ItemType {
+public enum FoodType {
 	
 	PEPPER(10),
 	EGGPLANT(20),
@@ -17,7 +17,7 @@ public enum ItemType {
 	
 	private int point;
 	
-	ItemType(int point) {
+	FoodType(int point) {
 		this.point=point;
 	}
 	

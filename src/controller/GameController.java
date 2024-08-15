@@ -17,8 +17,8 @@ import model.GameModel;
 import model.GameState;
 import model.Hidegons;
 import model.Invader;
-import model.Item;
-import model.ItemFactory;
+import model.Food;
+import model.FoodFactory;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
@@ -37,7 +37,7 @@ import view.ProfileView;
 import view.SelectLevelView;
 import view.StateScreenView;
 import view.StatusBar;
-import view.ItemView;
+import view.FoodView;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -65,16 +65,17 @@ public class GameController {
     private ArrayList<EnemyView> enemyViews;
     private ArrayList<Bubble> bullets;
     private ArrayList<BubbleView> bulletViews;
-    private ArrayList<Item> items;
-    private ArrayList<ItemView> itemViews;
+    private ArrayList<Food> items;
+    private ArrayList<FoodView> itemViews;
     
     private GameState gameState;
     private MainFrame mainFrame;
     private LevelCreator levelCreator;
     private AudioManager audioManager;
-    public int level;
-    private int animationCycle = 0;
     
+    private int level;
+    private int animationCycle = 0;
+
     
     private static GameController instance;
     
@@ -322,11 +323,11 @@ public class GameController {
     
     public void spawnItems() {
     	if (enemies.stream().count()==0) {
-    		Item item1 = ItemFactory.getInstance().createItem(new Random().nextInt(101));
-    		Item item2 = ItemFactory.getInstance().createItem(new Random().nextInt(101));
-    		ItemView itemView1 = new ItemView(item1);
+    		Food item1 = FoodFactory.getInstance().createItem(new Random().nextInt(101));
+    		Food item2 = FoodFactory.getInstance().createItem(new Random().nextInt(101));
+    		FoodView itemView1 = new FoodView(item1);
     		item1.addObserver(itemView1);
-    		ItemView itemView2 = new ItemView(item2);
+    		FoodView itemView2 = new FoodView(item2);
     		item2.addObserver(itemView2);
     		
     		items.add(item1);
@@ -364,4 +365,5 @@ public class GameController {
     	bullets.clear();
 		bulletViews.stream().forEach(bView -> gamePanel.remove(bView));
     }
+    
 }
