@@ -157,7 +157,7 @@ public class GameController {
 //				
 				collisionChecker.checkPlayerEnemyCollision(player, enemies);
 				enemies.stream().forEach( enemy -> {
-					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				});
 				if (player.getLostLife()) {	//se perde una vita respawno il player
 					player.spawnPlayer();

@@ -24,7 +24,7 @@ public class Player extends Entity {
 	private int lives;
 	private boolean lostLife = false;
 	private int fallingSpeed; //velocita di caduta
-	private int JUMP_STRENGTH = 8 * GameConstants.SCALE; // Forza del salto
+	private int JUMP_STRENGTH = 10 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
 	private List<BubbleBullet> bubbles;
 	
