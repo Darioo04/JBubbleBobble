@@ -49,7 +49,7 @@ public enum PowerUpType {
 			player.addScore(1000);
 		}
 	},
-	AMETIST_RING{
+	AMETHYST_RING{
 		@Override
 		public void applyPowerUp(Player player) {
 			player.addScore(1000);

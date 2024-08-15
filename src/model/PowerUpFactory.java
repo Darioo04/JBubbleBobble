@@ -50,7 +50,7 @@ public class PowerUpFactory {
 			player.resetBlueCandiesCollected();
 		}
 		if (player.getYellowCandiesCollected()>=3) {
-			powerUps.add(new PowerUp(PowerUpType.AMETIST_RING, x, y));
+			powerUps.add(new PowerUp(PowerUpType.AMETHYST_RING, x, y));
 			player.resetYellowCandiesCollected();
 		}
 		if (player.getPinkCandiesCollected()>=3) {

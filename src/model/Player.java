@@ -219,12 +219,6 @@ public class Player extends Entity {
 		}
 	}
 	
-	
-	public void drawHitbox(Graphics2D g) {		//per debug, viene chiamata nel gamePanel
-		g.setColor(Color.BLUE);
-		g.drawRect(getHitboxX(), getHitboxY(), getHitboxWidth(), getHitboxHeight());
-	}
-	
 	public void setLeftPressed(boolean isLeftPressed) {
 		this.isLeftPressed = isLeftPressed;
 	}

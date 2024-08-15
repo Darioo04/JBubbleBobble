@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Observable;
@@ -169,6 +171,11 @@ public class PlayerView extends EntityView {
 		
 		this.resizeIcon(actualSprite);
         this.setIcon(resizedIcon);
+	}
+	
+	public void drawHitbox(Graphics2D g) {		//per debug, viene chiamata nel gamePanel
+		g.setColor(Color.BLUE);
+		g.drawRect(player.getHitboxX(), player.getHitboxY(), player.getHitboxWidth(), player.getHitboxHeight());
 	}
 	
 	@Override
