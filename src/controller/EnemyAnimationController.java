@@ -17,7 +17,6 @@ public class EnemyAnimationController {
 	private BufferedImage[] inBubbleSprites;
 	private BufferedImage[] deathSprites;
 	private BufferedImage[] finalDeathAnimation;
-	private int numSprite;
 	
 	public EnemyAnimationController(Builder builder) {
 		this.enemy = builder.enemy;
@@ -33,13 +32,12 @@ public class EnemyAnimationController {
 		this.finalDeathAnimation = builder.finalDeathAnimation;
 	}
 	
-	public BufferedImage updateAnimation() {
+	public void updateAnimation(int animationCycle) {
 		if (enemy.isInBubble()) {
-			if (numSprite > 4) numSprite=0;
-			return inBubbleSprites[numSprite++];
+			actualSprite = inBubbleSprites[animationCycle % inBubbleSprites.length];
+			enemy.update(actualSprite);
 		}
 		
-		else return null;
 	}
 	
 	
@@ -72,8 +70,8 @@ public class EnemyAnimationController {
 			return (this);
 		}
 		
-		public Builder setIdleSpritesSX(BufferedImage[] idleSXSprites) {
-			this.idleSpritesSX=idleSXSprites;
+		public Builder setIdleSpritesSX(BufferedImage[] idleSpritesSX) {
+			this.idleSpritesSX=idleSpritesSX;
 			return (this);
 		}
 		
@@ -82,8 +80,8 @@ public class EnemyAnimationController {
 			return (this);
 		}
 		
-		public Builder setRunningSpritesSX(BufferedImage[] runningSXSprites) {
-			this.runningSpritesSX=runningSXSprites;
+		public Builder setRunningSpritesSX(BufferedImage[] runningSpritesSX) {
+			this.runningSpritesSX=runningSpritesSX;
 			return (this);
 		}
 		
@@ -92,8 +90,8 @@ public class EnemyAnimationController {
 			return (this);
 		}
 		
-		public Builder setJumpingSpritesSX(BufferedImage[] jumpingSprites) {
-			this.jumpingSpritesSX = jumpingSprites;
+		public Builder setJumpingSpritesSX(BufferedImage[] jumpingSpritesSX) {
+			this.jumpingSpritesSX = jumpingSpritesSX;
 			return (this);
 		}
 		

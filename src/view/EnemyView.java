@@ -87,10 +87,17 @@ public class EnemyView extends EntityView {
 		return actualSprite;
 	}
 	
+	public EnemyAnimationController getEnemyAnimationController() {
+		return enemyAnimationController;
+	}
+	
 	@Override
 	public void update(Observable o,Object arg) {
-		if (o instanceof Enemy) {
-			super.update(o, arg);
+		super.update(o, arg);
+		if (o instanceof Enemy && arg instanceof BufferedImage) {
+//			actualSprite = (BufferedImage) arg;
+//			resizeIcon(actualSprite);
+//			setIcon(resizedIcon);
 //			actualSprite = enemyAnimationController.updateAnimation();
 		}
 	}

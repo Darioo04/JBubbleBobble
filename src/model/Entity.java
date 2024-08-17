@@ -112,6 +112,11 @@ public abstract class Entity extends Observable {
         notifyObservers();
 	}
 	
+	public void update(Object arg) {
+		setChanged();
+		notifyObservers(arg);
+	}
+	
 //	public abstract int getSpeed();
 //	public abstract int getFallingSpeed();
 	

@@ -85,7 +85,7 @@ public class GameController {
     }
     
     private GameController() {
-
+    	
         gameState = GameState.MENU;
         gameModel = GameModel.getInstance();
         gameModel.addObserver(StatusBar.getInstance());
@@ -98,7 +98,6 @@ public class GameController {
         gameModel.addObserver(profileView);
         
         playerView = PlayerView.getInstance(); 
-        
         menuScreen = MenuScreen.getInstance();
         menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
         pauseScreen = PauseScreen.getInstance();
@@ -124,10 +123,12 @@ public class GameController {
 					if(frames == 60) frames = 0;
 					frames++;
                     if(frames % 5 == 0) {
-                        playerView.updateAnimation(animationCycle);
+                        playerView.getPlayerAnimationController().updateAnimation(animationCycle);
+//                        enemyViews.stream().forEach( eView -> eView.getEnemyAnimationController().updateAnimation(animationCycle));
                         animationCycle++;
                     }
                     if (animationCycle == 3) animationCycle = 0;
+                    
 				}
 			}
 		});
@@ -158,8 +159,8 @@ public class GameController {
 //				
 				collisionChecker.checkPlayerEnemyCollision(player, enemies);
 				enemies.stream().forEach( enemy -> {
-				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
-				});
+						bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+					});
 				if (player.getLostLife()) {	//se perde una vita respawno il player
 					player.spawnPlayer();
 					respawnEnemies();

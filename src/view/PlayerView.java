@@ -12,6 +12,7 @@ import controller.PlayerAnimationController;
 import model.GameConstants;
 import model.Player;
 
+@SuppressWarnings("deprecation")
 
 public class PlayerView extends EntityView {
 	
@@ -21,26 +22,39 @@ public class PlayerView extends EntityView {
 	
 	private static PlayerView instance;
 	private PlayerAnimationController playerAnimationController;
+
+	private BufferedImage[] idleSprites;
+	private BufferedImage[] idleSpritesSX;
+	private BufferedImage[] runningSprites;
+	private BufferedImage[] runningSpritesSX;
+	private BufferedImage[] fallingSprites;
+	private BufferedImage[] fallingSpritesSX;
+	private BufferedImage[] jumpingSprites;
+	private BufferedImage[] jumpingSpritesSX;
+	private BufferedImage shootingSprite;
+	private BufferedImage shootingSpriteSX;
+	private BufferedImage[] deathSprites;
+	private BufferedImage[] finalDeathAnimation;
 	
-	private BufferedImage idle1;
-	private BufferedImage idle2;
-	private BufferedImage running1;
-	private BufferedImage running2;
-	private BufferedImage jumping1;
-	private BufferedImage jumping2;
-	private BufferedImage falling1;
-	private BufferedImage falling2;
-	private BufferedImage idle1sx;
-	private BufferedImage idle2sx;
-	private BufferedImage running1sx;
-	private BufferedImage running2sx;
-	private BufferedImage jumping1sx;
-	private BufferedImage jumping2sx;
-	private BufferedImage falling1sx;
-	private BufferedImage falling2sx;
-	private BufferedImage shooting;
-	private BufferedImage shootingsx;
-	private KeyPressed lastKeyPressed;
+//	private BufferedImage idle1;
+//	private BufferedImage idle2;
+//	private BufferedImage running1;
+//	private BufferedImage running2;
+//	private BufferedImage jumping1;
+//	private BufferedImage jumping2;
+//	private BufferedImage falling1;
+//	private BufferedImage falling2;
+//	private BufferedImage idle1sx;
+//	private BufferedImage idle2sx;
+//	private BufferedImage running1sx;
+//	private BufferedImage running2sx;
+//	private BufferedImage jumping1sx;
+//	private BufferedImage jumping2sx;
+//	private BufferedImage falling1sx;
+//	private BufferedImage falling2sx;
+//	private BufferedImage shooting;
+//	private BufferedImage shootingsx;
+//	private KeyPressed lastKeyPressed;
 	private Player player;
 	private BufferedImage actualSprite;
 	
@@ -53,33 +67,50 @@ public class PlayerView extends EntityView {
 	private PlayerView () {
 		super(Player.getInstance(), GameConstants.PLAYER_SIZE);
 		player = Player.getInstance();
-		this.playerAnimationController = PlayerAnimationController.getInstance();
-		this.lastKeyPressed = KeyPressed.RIGHT;
+		inizializeAnimationController();
 	}
 
 	@Override
 	protected void loadSprites() {
+		idleSprites = new BufferedImage[2];
+		idleSpritesSX = new BufferedImage[2];
+		runningSprites = new BufferedImage[2];
+		runningSpritesSX = new BufferedImage[2];
+		fallingSprites = new BufferedImage[2];
+		fallingSpritesSX = new BufferedImage[2];
+		jumpingSprites = new BufferedImage[2];
+		jumpingSpritesSX = new BufferedImage[2];
+		deathSprites = new BufferedImage[4];
+		finalDeathAnimation = new BufferedImage[2];
 		try {
 			
-			idle1 = ImageIO.read(getClass().getResource(path + "idle-1.png"));
-			idle2 = ImageIO.read(getClass().getResource(path + "idle-2.png"));
-			running1 = ImageIO.read(getClass().getResource(path + "running-1.png"));
-			running2 = ImageIO.read(getClass().getResource(path + "running-2.png"));
-			jumping1 = ImageIO.read(getClass().getResource(path + "jumping-1.png"));
-			jumping2 = ImageIO.read(getClass().getResource(path + "jumping-2.png"));
-			falling1 = ImageIO.read(getClass().getResource(path + "falling-1.png"));
-			falling2 = ImageIO.read(getClass().getResource(path + "falling-2.png"));
-			shooting = ImageIO.read(getClass().getResource(path + "shooting.png"));
+			idleSprites[0] = ImageIO.read(getClass().getResource(path + "idle-1.png"));
+			idleSprites[1] = ImageIO.read(getClass().getResource(path + "idle-2.png"));
+			runningSprites[0] = ImageIO.read(getClass().getResource(path + "running-1.png"));
+			runningSprites[1] = ImageIO.read(getClass().getResource(path + "running-2.png"));
+			jumpingSprites[0] = ImageIO.read(getClass().getResource(path + "jumping-1.png"));
+			jumpingSprites[1] = ImageIO.read(getClass().getResource(path + "jumping-2.png"));
+			fallingSprites[0] = ImageIO.read(getClass().getResource(path + "falling-1.png"));
+			fallingSprites[1] = ImageIO.read(getClass().getResource(path + "falling-2.png"));
+			shootingSprite = ImageIO.read(getClass().getResource(path + "shooting.png"));
 			
-            idle1sx = ImageIO.read(getClass().getResource(path + "idle-sx-1.png"));
-            idle2sx = ImageIO.read(getClass().getResource(path + "idle-sx-2.png"));
-            running1sx = ImageIO.read(getClass().getResource(path + "running-sx-1.png"));
-            running2sx = ImageIO.read(getClass().getResource(path + "running-sx-2.png"));
-            jumping1sx = ImageIO.read(getClass().getResource(path + "jumping-sx-1.png"));
-            jumping2sx = ImageIO.read(getClass().getResource(path + "jumping-sx-2.png"));
-            falling1sx = ImageIO.read(getClass().getResource(path + "falling-sx-1.png"));
-            falling2sx = ImageIO.read(getClass().getResource(path + "falling-sx-2.png"));
-            shootingsx = ImageIO.read(getClass().getResource(path + "shootingsx.png"));
+            idleSpritesSX[0] = ImageIO.read(getClass().getResource(path + "idle-sx-1.png"));
+            idleSpritesSX[1] = ImageIO.read(getClass().getResource(path + "idle-sx-2.png"));
+            runningSpritesSX[0] = ImageIO.read(getClass().getResource(path + "running-sx-1.png"));
+            runningSpritesSX[1] = ImageIO.read(getClass().getResource(path + "running-sx-2.png"));
+            jumpingSpritesSX[0] = ImageIO.read(getClass().getResource(path + "jumping-sx-1.png"));
+            jumpingSpritesSX[1] = ImageIO.read(getClass().getResource(path + "jumping-sx-2.png"));
+            fallingSpritesSX[0] = ImageIO.read(getClass().getResource(path + "falling-sx-1.png"));
+            fallingSpritesSX[1] = ImageIO.read(getClass().getResource(path + "falling-sx-2.png"));
+            shootingSpriteSX = ImageIO.read(getClass().getResource(path + "shootingsx.png"));
+            
+            for (int i=0; i<4;i++) {
+            	deathSprites[i] = ImageIO.read(getClass().getResource(path + "death"+(i+1)+".png"));
+            }
+            
+            finalDeathAnimation[0] = ImageIO.read(getClass().getResource(path + "death5.png"));
+            finalDeathAnimation[1] = ImageIO.read(getClass().getResource(path + "death6.png"));
+
             
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -89,88 +120,26 @@ public class PlayerView extends EntityView {
 
 	@Override
 	protected void loadDefaultSprite() {
-		defaultSprite = idle1;
+		defaultSprite = idleSprites[0];
 	}
 	
-	public void updateAnimation(int animationCycle) {
-		if(!player.isMoving() && !player.isFalling()) {				//se il player non si sta muovendo scegli l'idle in base all'ultima direzione
-			switch (lastKeyPressed) {
-				case RIGHT -> {
-					if (player.isSpacePressed()) actualSprite = shooting;
-					else {
-						actualSprite = (actualSprite == idle1) ? idle2 : idle1;
-					}
-				}
-				case LEFT -> {
-					if (player.isSpacePressed()) actualSprite = shootingsx;
-					else {
-						actualSprite = (actualSprite == idle1sx) ? idle2sx : idle1sx;
-					}
-				}
-			}
-		}
-		else if(player.isFalling()) {
-			switch (lastKeyPressed) {
-				case RIGHT -> {
-					actualSprite = (actualSprite == falling1) ? falling2 : falling1;
-				}
-				case LEFT -> {
-					actualSprite = (actualSprite == falling1sx) ? falling2sx : falling1sx;
-	                
-				}
-			}
-		}
-		
-		else if (player.isJumping()) {
-			switch (lastKeyPressed) {
-				case RIGHT -> {
-					actualSprite = (actualSprite == jumping1) ? jumping2 : jumping1;
-				}
-				case LEFT -> {
-					actualSprite = (actualSprite == jumping1sx) ? jumping2sx : jumping1sx;
-				}
-			};
-		}
-		else {
-			if (player.isRightPressed()) {
-				lastKeyPressed = KeyPressed.RIGHT;
-				if (player.isSpacePressed()) actualSprite = shooting;
-				else {
-						actualSprite = switch (animationCycle % 3) {  // Ci sono 3 fasi nell'animazione: idle2, running1, running2
-	        			case 0 -> running1;
-	        			case 1 -> running2;
-	        			case 2 -> idle2;
-	        			default -> null;
-						};
-				}
-					
-				
-				
-			}
-			
-            if (player.isLeftPressed()) {
-            	lastKeyPressed = KeyPressed.LEFT;
-            	
-            	if (player.isSpacePressed()) actualSprite = shootingsx;
-            	else {
-	            		actualSprite = switch (animationCycle % 3) {
-	            		case 0 -> running1sx;
-	            		case 1 -> running2sx;
-	            		case 2 -> idle2sx;
-	            		default -> null;	
-	            		};
-            	}
-	            	
-            	
-            }
-            
-//            if (player.isSpacePressed()) {
-//            	actualSprite = (player.isRightPressed()) ? shooting : shootingsx;
-//            }
-		}
-		
-		this.resizeIcon(actualSprite);
-        this.setIcon(resizedIcon);
+	public void inizializeAnimationController() {
+		playerAnimationController = new PlayerAnimationController.Builder()
+				.setPlayer(player)
+				.setActualSprite(actualSprite)
+				.setIdleSprites(idleSprites)
+				.setIdleSpritesSX(idleSpritesSX)
+				.setRunningSprites(runningSprites)
+				.setRunningSpritesSX(runningSpritesSX)
+				.setFallingSprites(fallingSprites)
+				.setFallingSpritesSX(fallingSpritesSX)
+				.setJumpingSprites(jumpingSprites)
+				.setJumpingSpritesSX(jumpingSpritesSX)
+				.setShootingSprite(shootingSprite)
+				.setShootingSpriteSX(shootingSpriteSX)
+				.setDeathSprites(deathSprites)
+				.setFinalDeathAnimation(finalDeathAnimation)
+				.builder();
 	}
 	
 	public void drawHitbox(Graphics2D g) {		//per debug, viene chiamata nel gamePanel
@@ -178,11 +147,17 @@ public class PlayerView extends EntityView {
 		g.drawRect(player.getHitboxX(), player.getHitboxY(), player.getHitboxWidth(), player.getHitboxHeight());
 	}
 	
+	public PlayerAnimationController getPlayerAnimationController() {
+		return playerAnimationController;
+	}
+	
 	@Override
 	public void update(Observable o,Object arg) {
-		if (o instanceof Player) {
-			super.update(o, arg);
-//			actualSprite = playerAnimationController.updateAnimation();
+		super.update(o, arg);
+		if (o instanceof Player && arg instanceof BufferedImage) {
+			actualSprite = (BufferedImage) arg;
+			resizeIcon(actualSprite);
+			setIcon(resizedIcon);
 		}
 	}
 	
