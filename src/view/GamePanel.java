@@ -32,7 +32,7 @@ public class GamePanel extends StateScreenView {
     private LevelCreator levelCreator;
     private BufferedImage wall;
     private GameController gameController;
-    private StatusBar statusBar = StatusBar.getInstance();
+    private StatusBar statusBar;
 	
     public static GamePanel getInstance() {
     	if (instance==null) instance = new GamePanel();
@@ -40,13 +40,15 @@ public class GamePanel extends StateScreenView {
     }
 
 	private GamePanel() {
+		this.setVisible(true);
+		this.setLayout(new BorderLayout());
+		this.setBackground(Color.BLACK);
+		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT-40));
 		gameController = GameController.getInstance();
 		levelCreator = LevelCreator.getInstance();
+		statusBar  = StatusBar.getInstance();
 		add(statusBar,BorderLayout.NORTH);
-		this.setVisible(true);
-		this.setLayout(null);
-		this.setBackground(Color.BLACK);
-		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
+
 		
 		
 	}
