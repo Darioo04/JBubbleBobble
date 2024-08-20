@@ -60,19 +60,19 @@ public class PlayerAnimationController {
             } else {
                 actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getIdleSprite(idleSprites) : getIdleSprite(idleSpritesSX);
             }
-            player.update(actualSprite);
             
-        } else if (player.isFalling()) {
+        } 
+        else if (player.isFalling()) {
         	
         	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getFallingSprite(fallingSprites) : getFallingSprite(fallingSpritesSX);
-            player.update(actualSprite);
             
-        } else if (player.isJumping()) {
+        } 
+        else if (player.isJumping()) {
         	
         	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getJumpingSprite(jumpingSprites) : getJumpingSprite(jumpingSpritesSX);
-            player.update(actualSprite);
             
-        } else {
+        } 
+        else {
         	
         	if (player.isRightPressed()) {
         		
@@ -85,8 +85,18 @@ public class PlayerAnimationController {
                 actualSprite = (player.isSpacePressed()) ? shootingSpriteSX : getRunningSprite(runningSpritesSX, animationCycle);
                 
             }
-            player.update(actualSprite);
+            
+        } 
+        
+        if (player.isDead()) {
+        	actualSprite = deathSprites[animationCycle % 4];
+        	if (actualSprite == deathSprites[3]) {
+        		actualSprite = (actualSprite ==finalDeathAnimation[0]) ? finalDeathAnimation[1] : finalDeathAnimation[0];
+//        		if (actualSprite == finalDeathAnimation[1]) ;
+        	}
         }
+        
+    	player.update(actualSprite);
     }
 
     private BufferedImage getIdleSprite(BufferedImage[] idle) {

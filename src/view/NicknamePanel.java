@@ -11,6 +11,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
+import model.GameConstants;
 
 public class NicknamePanel extends StateScreenView {
 	private static NicknamePanel instance;
@@ -23,26 +27,21 @@ public class NicknamePanel extends StateScreenView {
 	
 	private NicknamePanel() {
 		setVisible(true);
-		Dimension dimension = new Dimension(400,300);
+		Dimension dimension = new Dimension(GameConstants.SCREEN_WIDTH,GameConstants.SCREEN_HEIGHT);
 		setPreferredSize(dimension);
 		setMinimumSize(dimension);
 		setMaximumSize(dimension);
 		Font font = FontCreator.getInstance().getFont();
+		UIManager.put("Label.font", font);
 		add(new JPanel(new GridLayout(2,1,0,0)) {
 			{
-				add(new JPanel(new BorderLayout()) {
-					{
-						setBackground(Color.BLACK);
-						
-						JLabel label = new JLabel("choose your nickname!!!");
-						label.setFont(font);
-						add(label);
-						
-					}
-				},BorderLayout.CENTER);
+				setBackground(Color.BLACK);
+				JLabel label = new JLabel("choose your nickname!!!");
+				label.setHorizontalAlignment(SwingConstants.CENTER);
+				add(label);
+				
 				add(new JTextField() {
 					{
-						setFont(font);
 						setCaretPosition(0);
 						setBackground(Color.BLACK);
 						setForeground(Color.WHITE);
@@ -51,14 +50,11 @@ public class NicknamePanel extends StateScreenView {
 							public void actionPerformed(ActionEvent e) {
 								nickname = getText();
 							}
-						});
-						
+						});	
 					}
-				},BorderLayout.SOUTH);
+				});
 			}
-		}, BorderLayout.CENTER);
-		
-		
+		});	
 	}
 	
 	public String getNickname() {

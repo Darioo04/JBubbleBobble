@@ -120,7 +120,7 @@ public class GameController {
 			public void actionPerformed(ActionEvent e) {
 				update();
 				if (gameState == GameState.GAME) {
-					if(frames == 60) frames = 0;
+					if(frames == 60) frames = 1;
 					frames++;
                     if(frames % 5 == 0) {
                         playerView.getPlayerAnimationController().updateAnimation(animationCycle);
@@ -162,10 +162,7 @@ public class GameController {
 						bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 					});
 				if (player.getLostLife()) {	//se perde una vita respawno il player
-					player.spawnPlayer();
-					respawnEnemies();
-					player.setLostLife(false);
-					removeBubbles();
+					resetLevel();
 				}
 			}
 			
@@ -233,6 +230,13 @@ public class GameController {
 		enemyViews.stream().forEach(eView -> gamePanel.remove(eView));
 		removeBubbles();
 		audioManager.pauseLevelMusic();
+	}
+	
+	public void resetLevel() {
+		player.spawnPlayer();
+		respawnEnemies();
+		player.setLostLife(false);
+		removeBubbles();
 	}
     
     public Player getPlayer() {

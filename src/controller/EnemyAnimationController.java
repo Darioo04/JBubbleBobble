@@ -35,9 +35,9 @@ public class EnemyAnimationController {
 	public void updateAnimation(int animationCycle) {
 		if (enemy.isInBubble()) {
 			actualSprite = inBubbleSprites[animationCycle % inBubbleSprites.length];
-			enemy.update(actualSprite);
 		}
 		
+		enemy.update(actualSprite);
 	}
 	
 	
