@@ -83,10 +83,6 @@ public class EnemyView extends EntityView {
 				.builder();
 	}
 	
-	public BufferedImage getSprite() {
-		return actualSprite;
-	}
-	
 	public EnemyAnimationController getEnemyAnimationController() {
 		return enemyAnimationController;
 	}

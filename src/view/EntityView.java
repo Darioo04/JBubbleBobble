@@ -55,5 +55,4 @@ public abstract class EntityView extends JLabel implements Observer {
 	
 	protected abstract void loadDefaultSprite();
 
-
 }

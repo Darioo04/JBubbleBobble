@@ -49,6 +49,7 @@ public class GameController {
     private GameModel gameModel;
     private Player player;
     private PlayerView playerView;
+    private StatusBar statusBar;
     private MenuScreen menuScreen;
     private MenuScreenView menuScreenView;
     private SelectLevelScreen selectLevelScreen;
@@ -124,6 +125,9 @@ public class GameController {
 					frames++;
                     if(frames % 5 == 0) {
                         playerView.getPlayerAnimationController().updateAnimation(animationCycle);
+//                        enemyViews.stream()
+//                        	.map(eView -> eView.getEnemyAnimationController())
+//                        	.forEach(eController -> eController.updateAnimation(animationCycle));
 //                        enemyViews.stream().forEach( eView -> eView.getEnemyAnimationController().updateAnimation(animationCycle));
                         animationCycle++;
                     }
@@ -149,7 +153,12 @@ public class GameController {
 				player.update();
 				
 				enemies.stream().forEach(Enemy::update);
-//				enemies.stream().filter(Enemy::isDead).forEach(enemy -> enemies.remove(enemy));
+				enemies.stream().forEach( enemy -> {
+					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				});
+//				enemies.stream().filter(Enemy::isDead).forEach( enemy -> {
+//						enemies.remove(enemy);
+//					});
 				
 				bullets.stream().forEach(Bubble::update);
 //				bullets.stream()
@@ -158,9 +167,7 @@ public class GameController {
 //										bulletViews.remove(bullet.getBubbleBulletView()); });
 //				
 				collisionChecker.checkPlayerEnemyCollision(player, enemies);
-				enemies.stream().forEach( enemy -> {
-						bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
-					});
+				
 				if (player.getLostLife()) {	//se perde una vita respawno il player
 					resetLevel();
 				}
@@ -196,8 +203,9 @@ public class GameController {
     	playerView = PlayerView.getInstance();
     	gamePanel = GamePanel.getInstance();
     	player.addObserver(playerView);
-    	
-    	
+    	statusBar = StatusBar.getInstance();
+    	statusBar.setHP(player.getHP());
+    	player.addObserver(statusBar);
     	mainFrame.add(gamePanel);
     	gamePanel.addKeyListener(keyController);
     	gamePanel.setIsThereKeyController(true);

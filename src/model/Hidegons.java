@@ -4,6 +4,7 @@ package model;
 
 public class Hidegons extends Enemy{
 	// spara palle di fuoco, si muove solo a destra e a sinistra
+	private FireBall fireBall;
 	public Hidegons(int x,int y) {
 		super(x,y);
 		setDirection(Direction.RIGHT);
@@ -13,6 +14,27 @@ public class Hidegons extends Enemy{
 	
 	@Override
 	public void update() {
+		collisionChecker.checkTileCollision(this);
+		
+//		if (inAir) {
+//			if (y + fallingSpeed > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE){
+//				y = GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE;
+//			} else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
+//				y = GameConstants.TILE_SIZE + 1;
+//                fallingSpeed = 5;
+//			}else {
+//				y += fallingSpeed;
+//				fallingSpeed += GRAVITY;
+//			}
+//				
+//			updateHitbox();
+//			collisionChecker.checkTileCollision(this);
+//			if (fallingSpeed > 0 && collisionDown) {
+//				inAir = false;
+//				fallingSpeed = 0;
+//				isJumping = false;
+//			}
+//		}
 		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
             randomizeDirection();
         }
@@ -36,24 +58,6 @@ public class Hidegons extends Enemy{
 				}
 			}
 			
-			case DOWN -> {
-	            if (y < GameConstants.SCREEN_HEIGHT - 3*GameConstants.TILE_SIZE - speed) {
-	                y += speed;
-	            }
-	            else {
-					randomizeDirection();
-				}
-	        }
-			
-			case UP -> {
-				if (y > 2*GameConstants.TILE_SIZE + speed) {
-	                y -= speed;
-	            }
-				else {
-					randomizeDirection();
-				}
-	        }
-			
 			default ->{}
 		}
 		setChanged();
@@ -62,12 +66,10 @@ public class Hidegons extends Enemy{
 	
 	private void randomizeDirection() {
 		double randomNumber = Math.random();
+        setDirection((randomNumber<=0.5) ? Direction.LEFT : Direction.RIGHT);
+	}
+	
+	private void shot() {
 		
-        if (randomNumber <= 0.25) {
-        	setDirection(Direction.LEFT);
-        }
-        else if (randomNumber <= 0.5) {
-            setDirection(Direction.RIGHT);
-        }
 	}
 }
