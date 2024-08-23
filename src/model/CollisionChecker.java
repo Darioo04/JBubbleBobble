@@ -36,10 +36,10 @@ public class CollisionChecker {
 		int topRow = topY / GameConstants.TILE_SIZE;
 		int bottomRow = bottomY / GameConstants.TILE_SIZE;
 		
-		leftCol = (leftX - player.getSpeed() - 3*GameConstants.SCALE) / GameConstants.TILE_SIZE;
+		leftCol = (leftX - player.getSpeed() - GameConstants.SCALE) / GameConstants.TILE_SIZE;
 		player.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
 		
-		rightCol = (rightX + player.getSpeed() + GameConstants.SCALE) / GameConstants.TILE_SIZE;
+		rightCol = (rightX + player.getSpeed() + 2*GameConstants.SCALE) / GameConstants.TILE_SIZE;
 		player.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
 		
 		leftCol = leftX / GameConstants.TILE_SIZE;
@@ -47,26 +47,6 @@ public class CollisionChecker {
 		bottomRow = (bottomY + player.getFallingSpeed() + 1) / GameConstants.TILE_SIZE;
 		player.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
-	}
-	
-	public void checkIntersection(Player player) {
-		boolean flag = false;
-		this.tilesHitboxes = LevelCreator.getInstance().getTilesHitboxes();
-		
-		
-		Rectangle playerHitbox = player.getHitbox();
-		
-		for (Rectangle[] tileRow : tilesHitboxes) {
-			for (Rectangle tile : tileRow) {
-				while(playerHitbox.intersects(tile) && player.getFallingSpeed() > 0) {
-					player.setY(player.getY() - 1);
-					player.updateHitbox();
-					flag = true;
-				}
-				
-            }
-		}
-		if (flag) player.setY(player.getY() - 1);
 	}
 	
 	public void checkTileCollision(Enemy enemy) {

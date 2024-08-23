@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.image.BufferedImage;
 
+import model.Direction;
 import model.Enemy;
 
 public class EnemyAnimationController {
@@ -33,6 +34,9 @@ public class EnemyAnimationController {
 	}
 	
 	public void updateAnimation(int animationCycle) {
+		if (enemy.isMoving()) {
+			actualSprite = (enemy.getDirection()==Direction.RIGHT) ? getRunningSprite(runningSprites,animationCycle) : getRunningSprite(runningSpritesSX,animationCycle);
+		}
 		if (enemy.isInBubble()) {
 			actualSprite = inBubbleSprites[animationCycle % inBubbleSprites.length];
 		}
@@ -40,7 +44,9 @@ public class EnemyAnimationController {
 		enemy.update(actualSprite);
 	}
 	
-	
+	public BufferedImage getRunningSprite(BufferedImage[] running, int animationCycle) {
+		return running[animationCycle % running.length];
+	}
 	
 	public static class Builder {
 		private Enemy enemy;
@@ -110,7 +116,10 @@ public class EnemyAnimationController {
 			return (this);
 		}
 		
-		public EnemyAnimationController builder() {
+		public EnemyAnimationController build() {
+			if (this.enemy == null) {
+		        throw new IllegalStateException("Enemy non può essere null");
+		    }
 			return new EnemyAnimationController(this);
 		}
 	}

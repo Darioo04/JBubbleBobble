@@ -139,11 +139,7 @@ public class PlayerView extends EntityView {
 				.setShootingSpriteSX(shootingSpriteSX)
 				.setDeathSprites(deathSprites)
 				.setFinalDeathAnimation(finalDeathAnimation)
-				.builder();
-	}
-	
-	public PlayerAnimationController getPlayerAnimationController() {
-		return playerAnimationController;
+				.build();
 	}
 	
 	public void drawHitbox(Graphics2D g) {		//per debug, viene chiamata nel gamePanel

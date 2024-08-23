@@ -72,6 +72,7 @@ public class Player extends Entity {
 		collisionLeft = false;
 		collisionRight = false;
 		collisionDown = false;
+		collisionUp = false;
 	}
 	
 	public long getScore() {
@@ -135,7 +136,9 @@ public class Player extends Entity {
 			} else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
 				y = GameConstants.TILE_SIZE + 1;
                 fallingSpeed = 5;
-			}else {
+			}else if(collisionUp){
+				fallingSpeed = 5;
+			} else {
 				y += fallingSpeed;
 				fallingSpeed += GRAVITY;
 			}
@@ -146,18 +149,18 @@ public class Player extends Entity {
 				inAir = false;
 				fallingSpeed = 0;
 				isJumping = false;
+				y -= GameConstants.TILE_SIZE;
+				updateHitbox();
+				collisionDown = false;						//il player resta incastrato nel tile quando atterra, quindi porto il player sopra di un tile e lo abbasso un pixel alla volta finche non trova la collisione sotto
+				collisionChecker.checkTileCollision(this);
+				while(!collisionDown) {
+					y += 1;
+					updateHitbox();
+					collisionDown = false;
+					collisionChecker.checkTileCollision(this);
+				}
 			}
 		}
-
-		while (collisionDown && (collisionLeft || collisionRight) && fallingSpeed == 0) {
-			y -= 1;
-			collisionDown = false;
-			collisionLeft = false;
-			collisionRight = false;
-			updateHitbox();
-            collisionChecker.checkTileCollision(this);
-		}
-//		collisionChecker.checkIntersection(this);
 		
 		switch (getDirection()){
 			case LEFT -> {
@@ -182,36 +185,13 @@ public class Player extends Entity {
 //        System.out.println("x: " + x + "  y: " + y + "	left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "   fSpeed: " + fallingSpeed + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
 	}
 	
-	private void correctPosition() {
-		Rectangle[][] tilesHitboxes = LevelCreator.getInstance().getTilesHitboxes();
-		
-		int leftX = getHitboxX();
-		int rightX = getHitboxX() + getHitboxWidth();
-		int topY = getHitboxY();
-		int bottomY = getHitboxY() + getHitboxHeight();
-		
-		int leftCol = leftX / GameConstants.TILE_SIZE;
-		int rightCol = rightX / GameConstants.TILE_SIZE;
-		int topRow = topY / GameConstants.TILE_SIZE;
-		int bottomRow = bottomY / GameConstants.TILE_SIZE;
-		
-		while(hitbox.intersects(tilesHitboxes[bottomRow][rightCol]) || hitbox.intersects(tilesHitboxes[topRow][rightCol])) {
-			x--;
-			updateHitbox();
-		}
-		while(hitbox.intersects(tilesHitboxes[bottomRow][leftCol]) || hitbox.intersects(tilesHitboxes[topRow][leftCol])) {
-			x++;
-			updateHitbox();
-		}
-	}
-	
 	public void spawnPlayer() {
 		char[][] levelFile = LevelCreator.getInstance().getLevel();
 		for (int x = 0; x < levelFile[0].length; x++) {
 			for (int y = levelFile.length-1; y >= 0; y--) {
                 if (levelFile[y][x] == ' ') {
-                	this.x = x * GameConstants.TILE_SIZE;
-                	this.y = y * GameConstants.TILE_SIZE + GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE;
+                	this.x = x * GameConstants.TILE_SIZE + GameConstants.SCALE;
+                	this.y = y * GameConstants.TILE_SIZE + GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE - 1;
                 	setSpawnX(x);
                 	setSpawnY(y);
                 	return;

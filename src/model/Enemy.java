@@ -24,7 +24,6 @@ public abstract class Enemy extends Entity {
 	
 	public void setInBubble(boolean inBubble) {
 		this.inBubble=inBubble;
-		update();
 	}
 	
 	public boolean isInBubble() {
@@ -35,7 +34,7 @@ public abstract class Enemy extends Entity {
 	public void update() {
 		if (isInBubble()) {
 			//implementare il comportamento del nemico quando è dentro la bolla
-//			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
+			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
 		}
 		super.update();
 	}

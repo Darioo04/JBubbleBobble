@@ -23,6 +23,11 @@ public class ZenChan extends Enemy {
 	public void update() {
 		setDirectionToGo();
 		setEnemyCollision();
+		if (isInBubble()) {
+			isChasingPlayer=false;
+			setInBubble(true);
+			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
+		}
 		if (isChasingPlayer) {
 			if(collisionDown) {
 				isChasingPlayer = false;

@@ -87,6 +87,9 @@ public class PlayerAnimationController {
             }
             
         } 
+        if (player.isSpacePressed()) {
+            actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? shootingSprite : shootingSpriteSX;
+        }
         
         if (player.isDead()) {
         	actualSprite = deathSprites[animationCycle % deathSprites.length];
@@ -206,7 +209,7 @@ public class PlayerAnimationController {
 			return (this);
 		}
 		
-		public PlayerAnimationController builder() {
+		public PlayerAnimationController build() {
 			return PlayerAnimationController.getInstance(this);
 		}
 	}

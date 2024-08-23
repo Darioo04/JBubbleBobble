@@ -14,6 +14,7 @@ public class Banebou extends Enemy {
 	
 	@Override
 	public void update() {
+		super.update();
 		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
             randomizeDirection(); 
         }
@@ -46,8 +47,6 @@ public class Banebou extends Enemy {
 	}
 	
 	private void randomizeDirection() {
-		double randomNumber = Math.random();
-        setDirection((randomNumber<=0.5) ? Direction.LEFT : Direction.RIGHT);
-
+        setDirection((Math.random()<=0.5) ? Direction.LEFT : Direction.RIGHT);
 	}
 }

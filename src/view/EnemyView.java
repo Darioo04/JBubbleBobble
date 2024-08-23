@@ -15,7 +15,6 @@ import model.GameConstants;
 
 public class EnemyView extends EntityView {
 	
-	private Enemy enemy;
 	private BufferedImage idle1;
 	private BufferedImage idle2;
 	private BufferedImage running1;
@@ -37,10 +36,10 @@ public class EnemyView extends EntityView {
 	private BufferedImage[] inBubbleSprites;
 	
 	private BufferedImage actualSprite;
+	private EnemyAnimationController enemyAnimationController;
 		
 	public EnemyView(Enemy enemy) {
 		super(enemy, GameConstants.TILE_SIZE);
-		this.enemy = enemy;
 	}
 
 	@Override
@@ -62,12 +61,12 @@ public class EnemyView extends EntityView {
 
 	@Override
 	protected void loadDefaultSprite() {
-			this.defaultSprite = idle1;	
+		this.defaultSprite = idle1;	
 	}
 	
 	public void inizializeAnimationController() {
-		EnemyAnimationController enemyAnimationController = new EnemyAnimationController.Builder()
-				.setEnemy(enemy)
+		enemyAnimationController = new EnemyAnimationController.Builder()
+				.setEnemy((Enemy)entity)
 				.setActualSprite(actualSprite)
 				.setIdleSprites(new BufferedImage[] {idle1})
 				.setIdleSpritesSX(new BufferedImage[] {idle1sx})
@@ -78,11 +77,9 @@ public class EnemyView extends EntityView {
 				.setDeathSprites(deathAnimations)
 				.setFinalDeathAnimation(new BufferedImage[] {})
 				.setInBubbleSprites(inBubbleSprites)
-				.builder();
+				.build();
 		GameController.getInstance().addEnemyAnimationController(enemyAnimationController);
 	}
-	
-	
 	
 	@Override
 	public void update(Observable o,Object arg) {
@@ -91,7 +88,6 @@ public class EnemyView extends EntityView {
 //			actualSprite = (BufferedImage) arg;
 //			resizeIcon(actualSprite);
 //			setIcon(resizedIcon);
-//			actualSprite = enemyAnimationController.updateAnimation();
 		}
 	}
 	

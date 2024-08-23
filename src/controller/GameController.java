@@ -127,7 +127,7 @@ public class GameController {
 					frames++;
                     if(frames % 5 == 0) {
                         playerAnimationController.updateAnimation(animationCycle);
-//                      eControllers.stream().forEach(eController -> eController.updateAnimation(animationCycle));
+                        eControllers.stream().forEach(eController -> eController.updateAnimation(animationCycle));
 //                        enemyViews.stream().forEach( eView -> eView.getEnemyAnimationController().updateAnimation(animationCycle));
                         animationCycle++;
                     }
@@ -153,9 +153,10 @@ public class GameController {
 				player.update();
 				
 				enemies.stream().forEach(Enemy::update);
-				enemies.stream().forEach( enemy -> {
-					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
-				});
+				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+//				enemies.stream().forEach( enemy -> {
+//					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+//				});
 //				enemies.stream().filter(Enemy::isDead).forEach( enemy -> {
 //						enemies.remove(enemy);
 //					});
@@ -210,7 +211,7 @@ public class GameController {
     	statusBar = StatusBar.getInstance();
     	statusBar.setHP(player.getHP());
     	player.addObserver(statusBar);
-    	playerAnimationController = playerView.getPlayerAnimationController();
+    	playerAnimationController = PlayerAnimationController.getInstance(null);
     	mainFrame.add(gamePanel);
     	gamePanel.addKeyListener(keyController);
     	gamePanel.setIsThereKeyController(true);
