@@ -37,9 +37,7 @@ public class EnemyView extends EntityView {
 	private BufferedImage[] inBubbleSprites;
 	
 	private BufferedImage actualSprite;
-	
-	private EnemyAnimationController enemyAnimationController;
-	
+		
 	public EnemyView(Enemy enemy) {
 		super(enemy, GameConstants.TILE_SIZE);
 		this.enemy = enemy;
@@ -68,7 +66,7 @@ public class EnemyView extends EntityView {
 	}
 	
 	public void inizializeAnimationController() {
-		enemyAnimationController = new EnemyAnimationController.Builder()
+		EnemyAnimationController enemyAnimationController = new EnemyAnimationController.Builder()
 				.setEnemy(enemy)
 				.setActualSprite(actualSprite)
 				.setIdleSprites(new BufferedImage[] {idle1})
@@ -81,11 +79,10 @@ public class EnemyView extends EntityView {
 				.setFinalDeathAnimation(new BufferedImage[] {})
 				.setInBubbleSprites(inBubbleSprites)
 				.builder();
+		GameController.getInstance().addEnemyAnimationController(enemyAnimationController);
 	}
 	
-	public EnemyAnimationController getEnemyAnimationController() {
-		return enemyAnimationController;
-	}
+	
 	
 	@Override
 	public void update(Observable o,Object arg) {

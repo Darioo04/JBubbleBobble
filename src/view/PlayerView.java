@@ -8,6 +8,7 @@ import java.util.Observable;
 
 import javax.imageio.ImageIO;
 
+import controller.GameController;
 import controller.PlayerAnimationController;
 import model.GameConstants;
 import model.Player;
@@ -21,7 +22,6 @@ public class PlayerView extends EntityView {
 	}
 	
 	private static PlayerView instance;
-	private PlayerAnimationController playerAnimationController;
 
 	private BufferedImage[] idleSprites;
 	private BufferedImage[] idleSpritesSX;
@@ -57,7 +57,7 @@ public class PlayerView extends EntityView {
 //	private KeyPressed lastKeyPressed;
 	private Player player;
 	private BufferedImage actualSprite;
-	
+	PlayerAnimationController playerAnimationController;
 	
 	public static PlayerView getInstance() {
 		if (instance == null) instance = new PlayerView();
@@ -142,14 +142,16 @@ public class PlayerView extends EntityView {
 				.builder();
 	}
 	
+	public PlayerAnimationController getPlayerAnimationController() {
+		return playerAnimationController;
+	}
+	
 	public void drawHitbox(Graphics2D g) {		//per debug, viene chiamata nel gamePanel
 		g.setColor(Color.BLUE);
 		g.drawRect(player.getHitboxX(), player.getHitboxY(), player.getHitboxWidth(), player.getHitboxHeight());
 	}
 	
-	public PlayerAnimationController getPlayerAnimationController() {
-		return playerAnimationController;
-	}
+
 	
 	@Override
 	public void update(Observable o,Object arg) {

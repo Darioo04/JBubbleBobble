@@ -58,18 +58,18 @@ public class PlayerAnimationController {
         	if (player.isSpacePressed()) {
                 actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? shootingSprite : shootingSpriteSX;
             } else {
-                actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getIdleSprite(idleSprites) : getIdleSprite(idleSpritesSX);
+                actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getIdleSprite(idleSprites,animationCycle) : getIdleSprite(idleSpritesSX,animationCycle);
             }
             
         } 
         else if (player.isFalling()) {
         	
-        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getFallingSprite(fallingSprites) : getFallingSprite(fallingSpritesSX);
+        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getFallingSprite(fallingSprites,animationCycle) : getFallingSprite(fallingSpritesSX,animationCycle);
             
         } 
         else if (player.isJumping()) {
         	
-        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getJumpingSprite(jumpingSprites) : getJumpingSprite(jumpingSpritesSX);
+        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getJumpingSprite(jumpingSprites,animationCycle) : getJumpingSprite(jumpingSpritesSX,animationCycle);
             
         } 
         else {
@@ -89,9 +89,9 @@ public class PlayerAnimationController {
         } 
         
         if (player.isDead()) {
-        	actualSprite = deathSprites[animationCycle % 4];
-        	if (actualSprite == deathSprites[3]) {
-        		actualSprite = finalDeathAnimation[animationCycle%2];
+        	actualSprite = deathSprites[animationCycle % deathSprites.length];
+        	if (actualSprite == deathSprites[deathSprites.length-1]) {
+        		actualSprite = finalDeathAnimation[animationCycle % finalDeathAnimation.length];
 //        		if (actualSprite == finalDeathAnimation[1]) ;
         	}
         }
@@ -99,8 +99,8 @@ public class PlayerAnimationController {
     	player.update(actualSprite);
     }
 
-    private BufferedImage getIdleSprite(BufferedImage[] idle) {
-        return (actualSprite == idle[0]) ? idle[1] : idle[0];
+    private BufferedImage getIdleSprite(BufferedImage[] idle, int animationCycle) {
+        return idle[animationCycle % idle.length];
     }
 
     private BufferedImage getRunningSprite(BufferedImage[] running, int animationCycle) {
@@ -112,112 +112,14 @@ public class PlayerAnimationController {
         };
     }
 
-    private BufferedImage getFallingSprite(BufferedImage[] falling) {
-        return (actualSprite == falling[0]) ? falling[1] : falling[0];
+    private BufferedImage getFallingSprite(BufferedImage[] falling, int animationCycle) {
+        return falling[animationCycle % falling.length];
     }
 
-    private BufferedImage getJumpingSprite(BufferedImage[] jumping) {
-        return (actualSprite == jumping[0]) ? jumping[1] : jumping[0];
+    private BufferedImage getJumpingSprite(BufferedImage[] jumping, int animationCycle) {
+        return jumping[animationCycle % jumping.length];
     }
-	
-//	public void updateAnimation(int animationCycle) {
-//		if(!player.isMoving() && !player.isFalling()) {				//se il player non si sta muovendo scegli l'idle in base all'ultima direzione
-//			switch (lastKeyPressed) {
-//				case RIGHT -> {
-//					if (player.isSpacePressed()) {
-//						actualSprite = shootingSprite;
-//						player.update(actualSprite);
-//					}
-//					else {
-//						actualSprite = (actualSprite == idleSprites[0]) ? idleSprites[1] : idleSprites[0];
-//						player.update(actualSprite);						
-//					}
-//				}
-//				case LEFT -> {
-//					if (player.isSpacePressed()) {
-//						actualSprite = shootingSpriteSX;
-//						player.update(actualSprite);
-//					}
-//					else {
-//						actualSprite = (actualSprite == idleSpritesSX[0]) ? idleSpritesSX[1] : idleSpritesSX[0];
-//						player.update(actualSprite);
-//					}
-//				}
-//			}
-//		}
-//		else if(player.isFalling()) {
-//			switch (lastKeyPressed) {
-//				case RIGHT -> {
-//					actualSprite = (actualSprite == fallingSprites[0]) ? fallingSprites[1] : fallingSprites[0];
-//					player.update(actualSprite);
-//				}
-//				case LEFT -> {
-//					actualSprite = (actualSprite == fallingSpritesSX[0]) ? fallingSpritesSX[1] : fallingSpritesSX[0];
-//					player.update(actualSprite);	           
-//				}
-//			}
-//		}
-//		
-//		else if (player.isJumping()) {
-//			switch (lastKeyPressed) {
-//				case RIGHT -> {
-//					actualSprite = (actualSprite == jumpingSprites[0]) ? jumpingSprites[1] : jumpingSprites[0];
-//					player.update(actualSprite);
-//
-//				}
-//				case LEFT -> {
-//					actualSprite = (actualSprite == jumpingSpritesSX[0]) ? jumpingSpritesSX[1] : jumpingSpritesSX[0];
-//					player.update(actualSprite);
-//				}
-//			};
-//		}
-//		else {
-//			if (player.isRightPressed()) {
-//				lastKeyPressed = LastKeyPressed.RIGHT;
-//				if (player.isSpacePressed()) {
-//					actualSprite = shootingSprite;
-//					player.update(actualSprite);
-//				}
-//				else {
-//						actualSprite = switch (animationCycle % 3) {  // Ci sono 3 fasi nell'animazione: idle2, running1, running2
-//	        				case 0 -> runningSprites[0];
-//	        				case 1 -> runningSprites[1];
-//	        				case 2 -> idleSprites[1];
-//	        				default -> null;
-//						};
-//						player.update(actualSprite);
-//				}
-//					
-//				
-//				
-//			}
-//			
-//            if (player.isLeftPressed()) {
-//            	lastKeyPressed = LastKeyPressed.LEFT;
-//            	
-//            	if (player.isSpacePressed()) {
-//            		actualSprite = shootingSpriteSX;
-//					player.update(actualSprite);
-//            	}
-//            	else {
-//	            		actualSprite = switch (animationCycle % 3) {
-//	            			case 0 -> runningSpritesSX[0];
-//	            			case 1 -> runningSpritesSX[1];
-//	            			case 2 -> idleSpritesSX[1];
-//	            			default -> null;	
-//	            		};
-//						player.update(actualSprite);
-//            	}
-//	            	
-//            	
-//            }  
-////            if (player.isSpacePressed()) {
-////            	actualSprite = (player.isRightPressed()) ? shooting : shootingsx;
-////            }
-//		}
-//	}
-	
-	
+		
 	public static class Builder {
 		private Player player;
 		private BufferedImage actualSprite;

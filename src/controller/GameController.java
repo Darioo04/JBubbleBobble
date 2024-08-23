@@ -69,6 +69,8 @@ public class GameController {
     private ArrayList<BubbleView> bulletViews;
     private ArrayList<Food> items;
     private ArrayList<FoodView> itemViews;
+    private ArrayList<EnemyAnimationController> eControllers;
+    private PlayerAnimationController playerAnimationController;
     
     private GameState gameState;
     private MainFrame mainFrame;
@@ -87,7 +89,6 @@ public class GameController {
     }
     
     private GameController() {
-    	
         gameState = GameState.MENU;
         gameModel = GameModel.getInstance();
         gameModel.addObserver(StatusBar.getInstance());
@@ -125,10 +126,8 @@ public class GameController {
 					if(frames == 60) frames = 1;
 					frames++;
                     if(frames % 5 == 0) {
-                        playerView.getPlayerAnimationController().updateAnimation(animationCycle);
-//                        enemyViews.stream()
-//                        	.map(eView -> eView.getEnemyAnimationController())
-//                        	.forEach(eController -> eController.updateAnimation(animationCycle));
+                        playerAnimationController.updateAnimation(animationCycle);
+//                      eControllers.stream().forEach(eController -> eController.updateAnimation(animationCycle));
 //                        enemyViews.stream().forEach( eView -> eView.getEnemyAnimationController().updateAnimation(animationCycle));
                         animationCycle++;
                     }
@@ -211,6 +210,7 @@ public class GameController {
     	statusBar = StatusBar.getInstance();
     	statusBar.setHP(player.getHP());
     	player.addObserver(statusBar);
+    	playerAnimationController = playerView.getPlayerAnimationController();
     	mainFrame.add(gamePanel);
     	gamePanel.addKeyListener(keyController);
     	gamePanel.setIsThereKeyController(true);
@@ -223,6 +223,7 @@ public class GameController {
     	bulletViews = new ArrayList<>();
     	items = new ArrayList<>();
     	itemViews = new ArrayList<>();
+    	eControllers = new ArrayList<>();
     	player.spawnPlayer();
     	spawnEnemies();
     	gamePanel.setFocusable(true);
@@ -384,4 +385,15 @@ public class GameController {
 		bulletViews.stream().forEach(bView -> gamePanel.remove(bView));
     }
     
+    public void addEnemyAnimationController(EnemyAnimationController eController) {
+    	eControllers.add(eController);
+    }
+    
+    public void setPlayerAnimationController(PlayerAnimationController playerAnimationController) {
+    	this.playerAnimationController=playerAnimationController;
+    }
+    
+    public PlayerAnimationController getPlayerAnimationController() {
+    	return playerAnimationController;
+    }
 }
