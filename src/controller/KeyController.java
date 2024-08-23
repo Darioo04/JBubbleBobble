@@ -14,6 +14,7 @@ import model.SelectProfileScreen;
 import model.WinScreen;
 import view.BubbleView;
 import view.GamePanel;
+import view.LevelEditorView;
 import view.MenuScreenView;
 import view.NicknamePanel;
 import view.ProfileView;
@@ -84,9 +85,8 @@ public class KeyController implements KeyListener {
 //							profileScreen.update();
 						}
 						case 2 -> {
-							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), selectLevelScreen.getStateScreenView());
+							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), LevelEditorView.getInstance());
 							gameController.setGameState(GameState.LEVEL_EDITOR);
-							selectLevelScreen.update();
 						}
 						default -> {
 							
@@ -242,6 +242,14 @@ public class KeyController implements KeyListener {
 						}
 					}
 				}
+			}
+			
+			case LEVEL_EDITOR -> {
+				if (key == KeyEvent.VK_ESCAPE) {
+                    gameController.changeDisplayedScreen(LevelEditorView.getInstance(), menuScreen.getStateScreenView());
+                    gameController.setGameState(GameState.MENU);
+                    menuScreen.update();
+                }
 			}
 			
 			default -> {

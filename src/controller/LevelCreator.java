@@ -1,6 +1,4 @@
 package controller;
-
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.BufferedReader;
 import java.io.IOException;

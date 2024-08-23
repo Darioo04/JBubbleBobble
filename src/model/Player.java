@@ -149,7 +149,7 @@ public class Player extends Entity {
 			}
 		}
 
-		while (collisionDown && collisionLeft && collisionRight) {
+		while (collisionDown && (collisionLeft || collisionRight) && fallingSpeed == 0) {
 			y -= 1;
 			collisionDown = false;
 			collisionLeft = false;
@@ -157,6 +157,7 @@ public class Player extends Entity {
 			updateHitbox();
             collisionChecker.checkTileCollision(this);
 		}
+//		collisionChecker.checkIntersection(this);
 		
 		switch (getDirection()){
 			case LEFT -> {
@@ -178,7 +179,7 @@ public class Player extends Entity {
 		updateHitbox();
         setChanged();
         notifyObservers();
-//        System.out.println("x: " + x + "  y: " + y + "	left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "   fSpeed: " + fallingSpeed + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
+        System.out.println("x: " + x + "  y: " + y + "	left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "   fSpeed: " + fallingSpeed + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
 	}
 	
 	private void correctPosition() {
@@ -245,7 +246,7 @@ public class Player extends Entity {
 	
 	@Override
 	public boolean isMoving() {
-		return isLeftPressed || isRightPressed;
+		return isLeftPressed || isRightPressed || isSpacePressed;
 	}
 	
 	public boolean isFalling() {

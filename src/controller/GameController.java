@@ -29,6 +29,7 @@ import model.Tile;
 import view.BubbleView;
 import view.EnemyView;
 import view.GamePanel;
+import view.LevelEditorView;
 import view.MainFrame;
 import view.MenuScreenView;
 import view.PauseScreenView;
@@ -179,6 +180,10 @@ public class GameController {
             
             case SELECT_PROFILE -> {
             	profileView.repaint();
+            }
+            
+            case LEVEL_EDITOR -> {
+                LevelEditorView.getInstance().repaint();
             }
 		
 			default -> {
