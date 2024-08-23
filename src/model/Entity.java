@@ -32,6 +32,7 @@ public abstract class Entity extends Observable {
 	protected boolean collisionDown;
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
+	protected boolean collisionUp;
 	private boolean frozen;
 	
 	
@@ -193,6 +194,14 @@ public abstract class Entity extends Observable {
     
     public void setCollisionRight(boolean collisionRight) {
         this.collisionRight = collisionRight;
+    }
+    
+    public boolean getCollisionUp() {
+        return collisionUp;
+    }
+    
+    public void setCollisionUp(boolean collisionUp) {
+        this.collisionUp = collisionUp;
     }
     
     public boolean isMoving() {
