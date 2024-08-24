@@ -7,7 +7,7 @@ import controller.LevelCreator;
 
 public class ZenChan extends Enemy {
 	
-	private boolean isChasingPlayer = false;
+	
 	private Player player;
 	private int targetY;
 	
@@ -15,7 +15,11 @@ public class ZenChan extends Enemy {
 		super(x,y);
 		setPath("/sprites/zen-chan/");
 		setDirection(Math.random() > 0.5 ? Direction.RIGHT : Direction.LEFT);	 //prima direzione random
-		speed = 5;
+		setSpeed(5);
+		setNumIdleSprites(1);
+		setNumRunningSprites(2);
+		setNumJumpingSprites(0);
+		setIsChasingPlayer(false);
 		player = Player.getInstance();
 	}
 	
@@ -23,24 +27,20 @@ public class ZenChan extends Enemy {
 	public void update() {
 		setDirectionToGo();
 		setEnemyCollision();
-		if (isInBubble()) {
-			isChasingPlayer=false;
-			setInBubble(true);
-			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
-		}
-		if (isChasingPlayer) {
+		super.update();
+		if (isChasingPlayer()) {
 			if(collisionDown) {
-				isChasingPlayer = false;
+				setIsChasingPlayer(false);
 			} else 
 				y += speed;
 		}
 		else if (GameController.frames % 30 == 0 && Math.random() < 0.1 && player.getCollisionDown() && this.collisionDown && hasTilesAbove()) {
 			if(player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) > this.y) {
 				speed = Math.abs(speed);
-				isChasingPlayer = true;
+				setIsChasingPlayer(true);
 			} else if (player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) < this.y) {
 				speed = -speed;
-				isChasingPlayer = true;
+				setIsChasingPlayer(true);
 			}
 			y += speed;
 		}

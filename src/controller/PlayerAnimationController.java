@@ -58,18 +58,18 @@ public class PlayerAnimationController {
         	if (player.isSpacePressed()) {
                 actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? shootingSprite : shootingSpriteSX;
             } else {
-                actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getIdleSprite(idleSprites,animationCycle) : getIdleSprite(idleSpritesSX,animationCycle);
+                actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getSprite(idleSprites,animationCycle) : getSprite(idleSpritesSX,animationCycle);
             }
             
         } 
         else if (player.isFalling()) {
         	
-        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getFallingSprite(fallingSprites,animationCycle) : getFallingSprite(fallingSpritesSX,animationCycle);
+        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getSprite(fallingSprites,animationCycle) : getSprite(fallingSpritesSX,animationCycle);
             
         } 
         else if (player.isJumping()) {
         	
-        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getJumpingSprite(jumpingSprites,animationCycle) : getJumpingSprite(jumpingSpritesSX,animationCycle);
+        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getSprite(jumpingSprites,animationCycle) : getSprite(jumpingSpritesSX,animationCycle);
             
         } 
         else {
@@ -102,8 +102,8 @@ public class PlayerAnimationController {
     	player.update(actualSprite);
     }
 
-    private BufferedImage getIdleSprite(BufferedImage[] idle, int animationCycle) {
-        return idle[animationCycle % idle.length];
+    private BufferedImage getSprite(BufferedImage[] sprites, int animationCycle) {
+        return sprites[animationCycle % sprites.length];
     }
 
     private BufferedImage getRunningSprite(BufferedImage[] running, int animationCycle) {
@@ -113,14 +113,6 @@ public class PlayerAnimationController {
             case 2 -> running[0];
             default -> null;
         };
-    }
-
-    private BufferedImage getFallingSprite(BufferedImage[] falling, int animationCycle) {
-        return falling[animationCycle % falling.length];
-    }
-
-    private BufferedImage getJumpingSprite(BufferedImage[] jumping, int animationCycle) {
-        return jumping[animationCycle % jumping.length];
     }
 		
 	public static class Builder {

@@ -318,7 +318,7 @@ public class GameController {
     		for (int j = 0; j < levelFile[i].length; j++) {
     			Enemy enemy = enemyFactory.createEnemy(levelFile[i][j], i, j);
                 if (enemy!=null) {
-                	EnemyView enemyView = new EnemyView(enemy);
+                	EnemyView enemyView = new EnemyView(enemy,enemy.getNumIdleSprites(),enemy.getNumRunningSprites(),enemy.getNumJumpingSprites());
     				enemy.addObserver(enemyView);
     				gamePanel.add(enemyView);
     				enemies.add(enemy);

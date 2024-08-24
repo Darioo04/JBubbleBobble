@@ -17,7 +17,7 @@ public class EnemyAnimationController {
 	private BufferedImage[] jumpingSpritesSX;
 	private BufferedImage[] inBubbleSprites;
 	private BufferedImage[] deathSprites;
-	private BufferedImage[] finalDeathAnimation;
+	private BufferedImage finalDeathAnimation;
 	
 	public EnemyAnimationController(Builder builder) {
 		this.enemy = builder.enemy;
@@ -35,17 +35,20 @@ public class EnemyAnimationController {
 	
 	public void updateAnimation(int animationCycle) {
 		if (enemy.isMoving()) {
-			actualSprite = (enemy.getDirection()==Direction.RIGHT) ? getRunningSprite(runningSprites,animationCycle) : getRunningSprite(runningSpritesSX,animationCycle);
+			actualSprite = (enemy.getDirection()==Direction.RIGHT) ? getSprite(runningSprites,animationCycle) : getSprite(runningSpritesSX,animationCycle);
 		}
-		if (enemy.isInBubble()) {
+//		else if (enemy.isJumping()) {
+//			actualSprite = (enemy.getDirection() == Direction.RIGHT) ? getSprite(jumpingSprites, animationCycle) : getSprite(jumpingSpritesSX, animationCycle);
+//		}
+		else if (enemy.isInBubble()) {
 			actualSprite = inBubbleSprites[animationCycle % inBubbleSprites.length];
 		}
 		
 		enemy.update(actualSprite);
 	}
 	
-	public BufferedImage getRunningSprite(BufferedImage[] running, int animationCycle) {
-		return running[animationCycle % running.length];
+	public BufferedImage getSprite(BufferedImage[] sprites, int animationCycle) {
+		return sprites[animationCycle % sprites.length];
 	}
 	
 	public static class Builder {
@@ -59,7 +62,7 @@ public class EnemyAnimationController {
 		private BufferedImage[] jumpingSpritesSX;
 		private BufferedImage[] inBubbleSprites;
 		private BufferedImage[] deathSprites;
-		private BufferedImage[] finalDeathAnimation;
+		private BufferedImage finalDeathAnimation;
 		
 		public Builder setEnemy(Enemy enemy) {
 			this.enemy=enemy;
@@ -111,7 +114,7 @@ public class EnemyAnimationController {
 			return (this);
 		}
 		
-		public Builder setFinalDeathAnimation(BufferedImage[] finalDeathAnimation) {
+		public Builder setFinalDeathAnimation(BufferedImage finalDeathAnimation) {
 			this.finalDeathAnimation=finalDeathAnimation;
 			return (this);
 		}

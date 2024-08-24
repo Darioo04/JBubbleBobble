@@ -7,6 +7,10 @@ public abstract class Enemy extends Entity {
 	protected Player player;
 	protected CollisionChecker collisionChecker;
 	private boolean inBubble;
+	private boolean isChasingPlayer = false;
+	private int numIdleSprites;
+	private int numRunningSprites;
+	private int numJumpingSprites;
 	
 	public Enemy(int x, int y) {
 		this.x = x;
@@ -30,13 +34,45 @@ public abstract class Enemy extends Entity {
 		return inBubble;
 	}
 	
+	public void setIsChasingPlayer(boolean isChasingPlayer) {
+		this.isChasingPlayer=isChasingPlayer;
+	}
+	
+	public boolean isChasingPlayer() {
+		return isChasingPlayer;
+	}
+	
+	public void setNumIdleSprites(int numIdleSprites) {
+		this.numIdleSprites=numIdleSprites;
+	}
+	
+	public int getNumIdleSprites() {
+		return numIdleSprites;
+	}
+	
+	public void setNumRunningSprites(int numRunningSprites) {
+		this.numRunningSprites = numRunningSprites;
+	}
+	
+	public int getNumRunningSprites() {
+		return numRunningSprites;
+	}
+	
+	public void setNumJumpingSprites(int numJumpingSprites) {
+		this.numJumpingSprites = numJumpingSprites;
+	}
+	
+	public int getNumJumpingSprites() {
+		return numJumpingSprites;
+	}
+	
 	@Override
 	public void update() {
 		if (isInBubble()) {
 			//implementare il comportamento del nemico quando è dentro la bolla
 			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
+			setIsChasingPlayer(false);
 		}
-		super.update();
 	}
 	
 }

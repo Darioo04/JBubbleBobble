@@ -15,44 +15,66 @@ import model.GameConstants;
 
 public class EnemyView extends EntityView {
 	
-	private BufferedImage idle1;
-	private BufferedImage idle2;
-	private BufferedImage running1;
-	private BufferedImage running2;
-	private BufferedImage jumping1;
-	private BufferedImage jumping2;
+	private BufferedImage[] idleSprites;
+	private BufferedImage[] runningSprites;
+	private BufferedImage[] jumpingSprites;
 	private BufferedImage falling1;
 	private BufferedImage falling2;
-	private BufferedImage idle1sx;
-	private BufferedImage idle2sx;
-	private BufferedImage running1sx;
-	private BufferedImage running2sx;
-	private BufferedImage jumping1sx;
-	private BufferedImage jumping2sx;
+	private BufferedImage[] idleSpritesSX;
+	private BufferedImage[] runningSpritesSX;
+	private BufferedImage[] jumpingSpritesSX;
 	private BufferedImage falling1sx;
 	private BufferedImage falling2sx;
-	private BufferedImage[] deathAnimations;
+	private BufferedImage[] deathSprites;
 	private BufferedImage death;
 	private BufferedImage[] inBubbleSprites;
 	
 	private BufferedImage actualSprite;
-	private EnemyAnimationController enemyAnimationController;
-		
-	public EnemyView(Enemy enemy) {
+	
+	private int numIdleSprites;
+	private int numRunningSprites;
+	private int numJumpingSprites;
+	
+	public EnemyView(Enemy enemy, int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
 		super(enemy, GameConstants.TILE_SIZE);
+		this.numIdleSprites = numIdleSprites;
+		this.numRunningSprites = numRunningSprites;
+		this.numJumpingSprites = numJumpingSprites;
 	}
 
 	@Override
 	protected void loadSprites() {
 		inBubbleSprites = new BufferedImage[3];
+		idleSprites = new BufferedImage[numIdleSprites];
+		idleSpritesSX = new BufferedImage[numIdleSprites];
+		runningSprites = new BufferedImage[numRunningSprites];
+		runningSpritesSX = new BufferedImage[numRunningSprites];
+		jumpingSprites = new BufferedImage[numJumpingSprites];
+		jumpingSpritesSX = new BufferedImage[numJumpingSprites];
 		try {
-			this.idle1 = ImageIO.read(getClass().getResource(path+"idle-1.png"));
-			this.idle1sx = ImageIO.read(getClass().getResource(path+"idle-1sx.png"));
-//			this.idle2 = ImageIO.read(getClass().getResource(path + "idle2.png"));
-//			this.idle2sx = ImageIO.read(getClass().getResource(path + "idle2sx.png"));
+			for (int i=0; i<numIdleSprites; i++) {
+				idleSprites[i] = ImageIO.read(getClass().getResource(path + "idle-" + (i+1) + ".png"));
+				idleSpritesSX[i] = ImageIO.read(getClass().getResource(path + "idle-sx-" + (i+1) + ".png"));
+			}
+			
+			for (int i=0; i<numRunningSprites; i++) {
+				runningSprites[i] = ImageIO.read(getClass().getResource(path + "running-" + (i+1) + ".png"));
+				runningSpritesSX[i] = ImageIO.read(getClass().getResource(path + "running-sx-" + (i+1) + ".png"));
+			}
+			
+			for (int i=0; i<numJumpingSprites; i++) {
+				jumpingSprites[i] = ImageIO.read(getClass().getResource(path + "jumping-" + (i+1) + ".png"));
+				jumpingSpritesSX[i] = ImageIO.read(getClass().getResource(path + "jumping-sx-" + (i+1) + ".png"));
+			}
+
 			for (int i=0; i<3; i++) {
 				inBubbleSprites[i] = ImageIO.read(getClass().getResource(path + "inBubble-"+(i+1)+".png"));
 			}
+			
+			for (int i=0; i<4; i++) {
+				deathSprites[i] = ImageIO.read(getClass().getResource(path + "death-" + (i+1) + ".png"));
+			}
+			this.death = ImageIO.read(getClass().getResource(path + "death.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,21 +83,21 @@ public class EnemyView extends EntityView {
 
 	@Override
 	protected void loadDefaultSprite() {
-		this.defaultSprite = idle1;	
+		this.defaultSprite = idleSprites[0];	
 	}
 	
 	public void inizializeAnimationController() {
-		enemyAnimationController = new EnemyAnimationController.Builder()
+		EnemyAnimationController enemyAnimationController = new EnemyAnimationController.Builder()
 				.setEnemy((Enemy)entity)
 				.setActualSprite(actualSprite)
-				.setIdleSprites(new BufferedImage[] {idle1})
-				.setIdleSpritesSX(new BufferedImage[] {idle1sx})
-				.setRunningSprites(new BufferedImage[] {})
-				.setRunningSpritesSX(new BufferedImage[] {})
-				.setJumpingSprites(new BufferedImage[] {})
-				.setJumpingSpritesSX(new BufferedImage[] {})
-				.setDeathSprites(deathAnimations)
-				.setFinalDeathAnimation(new BufferedImage[] {})
+				.setIdleSprites(idleSprites)
+				.setIdleSpritesSX(idleSpritesSX)
+				.setRunningSprites(runningSprites)
+				.setRunningSpritesSX(runningSpritesSX)
+				.setJumpingSprites(jumpingSprites)
+				.setJumpingSpritesSX(jumpingSpritesSX)
+				.setDeathSprites(deathSprites)
+				.setFinalDeathAnimation(death)
 				.setInBubbleSprites(inBubbleSprites)
 				.build();
 		GameController.getInstance().addEnemyAnimationController(enemyAnimationController);
@@ -85,9 +107,9 @@ public class EnemyView extends EntityView {
 	public void update(Observable o,Object arg) {
 		super.update(o, arg);
 		if (o instanceof Enemy && arg instanceof BufferedImage) {
-//			actualSprite = (BufferedImage) arg;
-//			resizeIcon(actualSprite);
-//			setIcon(resizedIcon);
+			actualSprite = (BufferedImage) arg;
+			resizeIcon(actualSprite);
+			setIcon(resizedIcon);
 		}
 	}
 	
