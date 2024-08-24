@@ -205,7 +205,7 @@ public class GameController {
 	public void startLevel() {
 		levelCreator.loadLevel();
     	player = Player.getInstance();
-    	playerView = PlayerView.getInstance(player.getNumIdleSprites(),player.getNumRunningSprites(),player.getNumJumpingSprites()); ;
+    	playerView = PlayerView.getInstance(player.getNumIdleSprites(),player.getNumRunningSprites(),player.getNumJumpingSprites(), player.getNumFallingSprites()); ;
     	gamePanel = GamePanel.getInstance();
     	player.addObserver(playerView);
     	statusBar = StatusBar.getInstance();
@@ -318,7 +318,7 @@ public class GameController {
     		for (int j = 0; j < levelFile[i].length; j++) {
     			Enemy enemy = enemyFactory.createEnemy(levelFile[i][j], i, j);
                 if (enemy!=null) {
-                	EnemyView enemyView = new EnemyView(enemy,enemy.getNumIdleSprites(),enemy.getNumRunningSprites(),enemy.getNumJumpingSprites());
+                	EnemyView enemyView = new EnemyView(enemy,enemy.getNumIdleSprites(),enemy.getNumRunningSprites(),enemy.getNumJumpingSprites(), enemy.getNumFallingSprites());
     				enemy.addObserver(enemyView);
     				gamePanel.add(enemyView);
     				enemies.add(enemy);

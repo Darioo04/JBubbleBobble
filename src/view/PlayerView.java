@@ -40,19 +40,19 @@ public class PlayerView extends EntityView {
 	private BufferedImage actualSprite;
 	PlayerAnimationController playerAnimationController;
 	
-	public static PlayerView getInstance(int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
-		if (instance == null) instance = new PlayerView(numIdleSprites, numRunningSprites, numJumpingSprites);
+	public static PlayerView getInstance(int numIdleSprites, int numRunningSprites, int numJumpingSprites, int numFallingSprites) {
+		if (instance == null) instance = new PlayerView(numIdleSprites, numRunningSprites, numJumpingSprites, numFallingSprites);
 		return instance;
 	}
 	
-	private PlayerView (int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
-		super(Player.getInstance(), GameConstants.PLAYER_SIZE, numIdleSprites, numRunningSprites, numJumpingSprites);
+	private PlayerView (int numIdleSprites, int numRunningSprites, int numJumpingSprites, int numFallingSprites) {
+		super(Player.getInstance(), GameConstants.PLAYER_SIZE, numIdleSprites, numRunningSprites, numJumpingSprites, numFallingSprites);
 		player = Player.getInstance();
 		inizializeAnimationController();
 	}
 
 	@Override
-	protected void loadSprites(int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
+	protected void loadSprites(int numIdleSprites, int numRunningSprites, int numJumpingSprites, int numFallingSprites) {
 		idleSprites = new BufferedImage[numIdleSprites];
 		idleSpritesSX = new BufferedImage[numIdleSprites];
 		runningSprites = new BufferedImage[numRunningSprites];
@@ -64,30 +64,32 @@ public class PlayerView extends EntityView {
 		deathSprites = new BufferedImage[4];
 		finalDeathAnimation = new BufferedImage[2];
 		try {
+			for (int i=0; i<numIdleSprites; i++) {
+				idleSprites[i] = ImageIO.read(getClass().getResource(path + "idle-" + (i+1) + ".png"));
+				idleSpritesSX[i] = ImageIO.read(getClass().getResource(path + "idle-sx-" + (i+1) + ".png"));
+			}
 			
-			idleSprites[0] = ImageIO.read(getClass().getResource(path + "idle-1.png"));
-			idleSprites[1] = ImageIO.read(getClass().getResource(path + "idle-2.png"));
-			runningSprites[0] = ImageIO.read(getClass().getResource(path + "running-1.png"));
-			runningSprites[1] = ImageIO.read(getClass().getResource(path + "running-2.png"));
-			jumpingSprites[0] = ImageIO.read(getClass().getResource(path + "jumping-1.png"));
-			jumpingSprites[1] = ImageIO.read(getClass().getResource(path + "jumping-2.png"));
-			fallingSprites[0] = ImageIO.read(getClass().getResource(path + "falling-1.png"));
-			fallingSprites[1] = ImageIO.read(getClass().getResource(path + "falling-2.png"));
+			for (int i=0; i<numRunningSprites; i++) {
+				runningSprites[i] = ImageIO.read(getClass().getResource(path + "running-" + (i+1) + ".png"));
+				runningSpritesSX[i] = ImageIO.read(getClass().getResource(path + "running-sx-" + (i+1) + ".png"));
+			}
+			
+			for (int i=0; i<numJumpingSprites; i++) {
+				jumpingSprites[i] = ImageIO.read(getClass().getResource(path + "jumping-" + (i+1) + ".png"));
+				jumpingSpritesSX[i] = ImageIO.read(getClass().getResource(path + "jumping-sx-" + (i+1) + ".png"));
+			}
+			
+			for (int i=0; i<numFallingSprites; i++) {
+				fallingSprites[i] = ImageIO.read(getClass().getResource(path + "falling-" + (i+1) +".png"));
+				fallingSpritesSX[i] = ImageIO.read(getClass().getResource(path + "falling-sx-" + (i+1) +".png"));
+			}
+			
+			for (int i=0; i<4; i++) {
+				deathSprites[i] = ImageIO.read(getClass().getResource(path + "death" + (i+1) + ".png"));
+			}
+			
 			shootingSprite = ImageIO.read(getClass().getResource(path + "shooting.png"));
-			
-            idleSpritesSX[0] = ImageIO.read(getClass().getResource(path + "idle-sx-1.png"));
-            idleSpritesSX[1] = ImageIO.read(getClass().getResource(path + "idle-sx-2.png"));
-            runningSpritesSX[0] = ImageIO.read(getClass().getResource(path + "running-sx-1.png"));
-            runningSpritesSX[1] = ImageIO.read(getClass().getResource(path + "running-sx-2.png"));
-            jumpingSpritesSX[0] = ImageIO.read(getClass().getResource(path + "jumping-sx-1.png"));
-            jumpingSpritesSX[1] = ImageIO.read(getClass().getResource(path + "jumping-sx-2.png"));
-            fallingSpritesSX[0] = ImageIO.read(getClass().getResource(path + "falling-sx-1.png"));
-            fallingSpritesSX[1] = ImageIO.read(getClass().getResource(path + "falling-sx-2.png"));
             shootingSpriteSX = ImageIO.read(getClass().getResource(path + "shootingsx.png"));
-            
-            for (int i=0; i<4;i++) {
-            	deathSprites[i] = ImageIO.read(getClass().getResource(path + "death"+(i+1)+".png"));
-            }
             
             finalDeathAnimation[0] = ImageIO.read(getClass().getResource(path + "death5.png"));
             finalDeathAnimation[1] = ImageIO.read(getClass().getResource(path + "death6.png"));

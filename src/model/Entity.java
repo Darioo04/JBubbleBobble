@@ -37,6 +37,7 @@ public abstract class Entity extends Observable {
 	private int numIdleSprites;
 	private int numRunningSprites;
 	private int numJumpingSprites;
+	private int numFallingSprites;
 	
 	public Entity() {
 		collisionChecker = CollisionChecker.getInstance();
@@ -259,6 +260,14 @@ public abstract class Entity extends Observable {
 	
 	public int getNumJumpingSprites() {
 		return numJumpingSprites;
+	}
+	
+	public void setNumFallingSprites(int numFallingSprites) {
+		this.numFallingSprites = numFallingSprites;
+	}
+	
+	public int getNumFallingSprites() {
+		return numFallingSprites;
 	}
 
 }

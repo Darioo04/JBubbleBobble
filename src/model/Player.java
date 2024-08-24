@@ -66,6 +66,7 @@ public class Player extends Entity {
 		setNumIdleSprites(2);
 		setNumRunningSprites(2);
 		setNumJumpingSprites(2);
+		setNumFallingSprites(2);
 	}
 	
 	public void setDirectionAndCollision() {

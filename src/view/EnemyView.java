@@ -31,12 +31,12 @@ public class EnemyView extends EntityView {
 	
 	private BufferedImage actualSprite;
 	
-	public EnemyView(Enemy enemy, int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
-		super(enemy, GameConstants.TILE_SIZE, numIdleSprites, numRunningSprites, numJumpingSprites);
+	public EnemyView(Enemy enemy, int numIdleSprites, int numRunningSprites, int numJumpingSprites, int numFallingSprites) {
+		super(enemy, GameConstants.TILE_SIZE, numIdleSprites, numRunningSprites, numJumpingSprites, numFallingSprites);
 	}
 
 	@Override
-	protected void loadSprites(int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
+	protected void loadSprites(int numIdleSprites, int numRunningSprites, int numJumpingSprites, int numFallingSprites) {
 		inBubbleSprites = new BufferedImage[3];
 		deathSprites = new BufferedImage[4];
 		idleSprites = new BufferedImage[numIdleSprites];
@@ -59,6 +59,10 @@ public class EnemyView extends EntityView {
 			for (int i=0; i<numJumpingSprites; i++) {
 				jumpingSprites[i] = ImageIO.read(getClass().getResource(path + "jumping-" + (i+1) + ".png"));
 				jumpingSpritesSX[i] = ImageIO.read(getClass().getResource(path + "jumping-sx-" + (i+1) + ".png"));
+			}
+			
+			for (int i=0; i<numFallingSprites; i++) {
+				
 			}
 
 			for (int i=0; i<3; i++) {
