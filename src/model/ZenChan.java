@@ -68,43 +68,6 @@ public class ZenChan extends Enemy {
 			throw new IllegalArgumentException("Unexpected value: " + direction);
 			}
 		}
-//		if (collisionDown && collisionLeft && collisionRight) {
-//			y -= GameConstants.SCALE;
-//		}
-//		if (isGoingUp && !collisionDown && getHitboxY() > 2*GameConstants.TILE_SIZE) {
-//			y -= speed;
-//		}
-//		else if(!collisionDown && player.getY() > y) {
-//	            y +=speed; // Aggiorna la posizione verticale
-//		}
-//		
-//		else if (collisionDown) {
-//			isGoingUp = false;
-//			if (player.getY() > y && canGoUp() && getHitboxY() > 2*GameConstants.TILE_SIZE) {
-//				y -= speed;
-//				isGoingUp = true;
-//			} else {
-//				switch (direction) {
-//				case RIGHT -> {
-//					if(!collisionRight) {
-//						x += speed;
-//					}
-//				}
-//				
-//				case LEFT -> {
-//					if(!collisionLeft) {
-//	                    x -= speed;
-//	                }
-//				}
-//				
-//				default ->
-//				throw new IllegalArgumentException("Unexpected value: " + direction);
-//				}
-//			}
-//		}
-//		else {
-//			y -= speed;
-//		}
 		updateHitbox();
 		setChanged();
         notifyObservers();
