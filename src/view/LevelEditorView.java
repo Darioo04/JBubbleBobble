@@ -14,12 +14,12 @@ public class LevelEditorView extends StateScreenView {
 	}
 
 	private LevelEditorView() {
-		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
-        this.setDoubleBuffered(true);
-        this.setLayout(null);
-        this.setBackground(Color.BLACK);
-        loadTiles();
-        this.setVisible(true);
+//		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
+//        this.setDoubleBuffered(true);
+//        this.setLayout(null);
+//        this.setBackground(Color.BLACK);
+//        loadTiles();
+//        this.setVisible(true);
 	}
 	
 	private void loadTiles() {

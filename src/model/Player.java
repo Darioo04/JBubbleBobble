@@ -135,9 +135,12 @@ public class Player extends Entity {
 		if(!collisionDown) inAir = true;
 		
 		if (inAir) {
-			if (y + fallingSpeed > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE){
-				y = GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE;
-			} else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
+			if (y > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+				y = GameConstants.TILE_SIZE/2;
+				fallingSpeed = 5;
+				inAir = true;
+			}
+			else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
 				y = GameConstants.TILE_SIZE + 1;
                 fallingSpeed = 5;
 			}else if(collisionUp){

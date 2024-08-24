@@ -205,7 +205,7 @@ public class GameController {
 	public void startLevel() {
 		levelCreator.loadLevel();
     	player = Player.getInstance();
-    	playerView = PlayerView.getInstance(player.getNumIdleSprites(),player.getNumRunningSprites(),player.getNumJumpingSprites(), player.getNumFallingSprites()); ;
+    	playerView = PlayerView.getInstance(player.getNumIdleSprites(),player.getNumRunningSprites(),player.getNumJumpingSprites(), player.getNumFallingSprites());
     	gamePanel = GamePanel.getInstance();
     	player.addObserver(playerView);
     	statusBar = StatusBar.getInstance();

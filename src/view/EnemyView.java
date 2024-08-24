@@ -48,7 +48,11 @@ public class EnemyView extends EntityView {
 		try {
 			for (int i=0; i<numIdleSprites; i++) {
 				idleSprites[i] = ImageIO.read(getClass().getResource(path + "idle-" + (i+1) + ".png"));
-				idleSpritesSX[i] = ImageIO.read(getClass().getResource(path + "idle-sx-" + (i+1) + ".png"));
+				try {
+					idleSpritesSX[i] = ImageIO.read(getClass().getResource(path + "idle-sx-" + (i+1) + ".png"));
+				} catch (Exception e) {
+					idleSpritesSX[i] = null;
+				}
 			}
 			
 			for (int i=0; i<numRunningSprites; i++) {

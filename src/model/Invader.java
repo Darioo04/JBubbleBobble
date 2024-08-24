@@ -10,6 +10,9 @@ public class Invader extends Enemy {
 		this.setPath("/sprites/invader/");
 		this.setDirection(Direction.RIGHT);
 		setSpeed(8);
+		setNumIdleSprites(2);
+		setNumRunningSprites(0);
+		setNumJumpingSprites(0);
 	}
 
 	@Override

@@ -32,7 +32,7 @@ public class BubbleView extends JLabel implements Observer {
 		loadDefaultSprite();
 		loadSprites();
 		
-		setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_EXPANDED_SIZE, GameConstants.BUBBLE_EXPANDED_SIZE);
+		this.setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
 		resizeIcon(defaultSprite);
         setIcon(resizedIcon);
         setVisible(true);
@@ -40,12 +40,13 @@ public class BubbleView extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-//		if(bubbleBullet.isExpanded()) {
-		resizeIcon(defaultSprite);
-	    setIcon(resizedIcon);
-		setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_EXPANDED_SIZE, GameConstants.BUBBLE_EXPANDED_SIZE);
-		
-		
+		if(bubbleBullet.isExpanded()) {
+			this.resizeIcon(defaultSprite);
+	        this.setIcon(resizedIcon);
+			this.setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_EXPANDED_SIZE, GameConstants.BUBBLE_EXPANDED_SIZE);
+		}else {
+			this.setBounds(bubbleBullet.getX(), bubbleBullet.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
+		}
 		
 	}
 	
