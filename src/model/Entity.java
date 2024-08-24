@@ -34,7 +34,9 @@ public abstract class Entity extends Observable {
 	protected boolean collisionRight;
 	protected boolean collisionUp;
 	private boolean frozen;
-	
+	private int numIdleSprites;
+	private int numRunningSprites;
+	private int numJumpingSprites;
 	
 	public Entity() {
 		collisionChecker = CollisionChecker.getInstance();
@@ -233,6 +235,30 @@ public abstract class Entity extends Observable {
 	
 	public void unfreezeEntity() {
 		frozen=false;
+	}
+	
+	public void setNumIdleSprites(int numIdleSprites) {
+		this.numIdleSprites=numIdleSprites;
+	}
+	
+	public int getNumIdleSprites() {
+		return numIdleSprites;
+	}
+	
+	public void setNumRunningSprites(int numRunningSprites) {
+		this.numRunningSprites = numRunningSprites;
+	}
+	
+	public int getNumRunningSprites() {
+		return numRunningSprites;
+	}
+	
+	public void setNumJumpingSprites(int numJumpingSprites) {
+		this.numJumpingSprites = numJumpingSprites;
+	}
+	
+	public int getNumJumpingSprites() {
+		return numJumpingSprites;
 	}
 
 }

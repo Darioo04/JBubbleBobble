@@ -8,9 +8,6 @@ public abstract class Enemy extends Entity {
 	protected CollisionChecker collisionChecker;
 	private boolean inBubble;
 	private boolean isChasingPlayer = false;
-	private int numIdleSprites;
-	private int numRunningSprites;
-	private int numJumpingSprites;
 	
 	public Enemy(int x, int y) {
 		this.x = x;
@@ -40,30 +37,6 @@ public abstract class Enemy extends Entity {
 	
 	public boolean isChasingPlayer() {
 		return isChasingPlayer;
-	}
-	
-	public void setNumIdleSprites(int numIdleSprites) {
-		this.numIdleSprites=numIdleSprites;
-	}
-	
-	public int getNumIdleSprites() {
-		return numIdleSprites;
-	}
-	
-	public void setNumRunningSprites(int numRunningSprites) {
-		this.numRunningSprites = numRunningSprites;
-	}
-	
-	public int getNumRunningSprites() {
-		return numRunningSprites;
-	}
-	
-	public void setNumJumpingSprites(int numJumpingSprites) {
-		this.numJumpingSprites = numJumpingSprites;
-	}
-	
-	public int getNumJumpingSprites() {
-		return numJumpingSprites;
 	}
 	
 	@Override

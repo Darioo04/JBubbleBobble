@@ -23,13 +23,16 @@ public abstract class EntityView extends JLabel implements Observer {
 	protected BufferedImage defaultSprite;
 	protected int entitySize;
 	
+	protected int numIdleSprites;
+	protected int numRunningSprites;
+	protected int numJumpingSprites;
 	
-	public EntityView(Entity entity, int entitySize) {
+	public EntityView(Entity entity, int entitySize, int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
         this.entity = entity;
         this.path = entity.getPath();
         this.entitySize = entitySize;
         
-        loadSprites();
+        loadSprites(numIdleSprites,numRunningSprites,numJumpingSprites);
         loadDefaultSprite();
         
         this.setBounds(entity.getX(), entity.getY(), entitySize, entitySize);
@@ -51,7 +54,7 @@ public abstract class EntityView extends JLabel implements Observer {
         resizedIcon = new ImageIcon(resizedImage);
     }
 	
-	protected abstract void loadSprites();
+	protected abstract void loadSprites(int numIdleSprites, int numRunningSprites, int numJumpingSprites);
 	
 	protected abstract void loadDefaultSprite();
 

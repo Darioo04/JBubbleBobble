@@ -36,50 +36,31 @@ public class PlayerView extends EntityView {
 	private BufferedImage[] deathSprites;
 	private BufferedImage[] finalDeathAnimation;
 	
-//	private BufferedImage idle1;
-//	private BufferedImage idle2;
-//	private BufferedImage running1;
-//	private BufferedImage running2;
-//	private BufferedImage jumping1;
-//	private BufferedImage jumping2;
-//	private BufferedImage falling1;
-//	private BufferedImage falling2;
-//	private BufferedImage idle1sx;
-//	private BufferedImage idle2sx;
-//	private BufferedImage running1sx;
-//	private BufferedImage running2sx;
-//	private BufferedImage jumping1sx;
-//	private BufferedImage jumping2sx;
-//	private BufferedImage falling1sx;
-//	private BufferedImage falling2sx;
-//	private BufferedImage shooting;
-//	private BufferedImage shootingsx;
-//	private KeyPressed lastKeyPressed;
 	private Player player;
 	private BufferedImage actualSprite;
 	PlayerAnimationController playerAnimationController;
 	
-	public static PlayerView getInstance() {
-		if (instance == null) instance = new PlayerView();
+	public static PlayerView getInstance(int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
+		if (instance == null) instance = new PlayerView(numIdleSprites, numRunningSprites, numJumpingSprites);
 		return instance;
 	}
 	
-	private PlayerView () {
-		super(Player.getInstance(), GameConstants.PLAYER_SIZE);
+	private PlayerView (int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
+		super(Player.getInstance(), GameConstants.PLAYER_SIZE, numIdleSprites, numRunningSprites, numJumpingSprites);
 		player = Player.getInstance();
 		inizializeAnimationController();
 	}
 
 	@Override
-	protected void loadSprites() {
-		idleSprites = new BufferedImage[2];
-		idleSpritesSX = new BufferedImage[2];
-		runningSprites = new BufferedImage[2];
-		runningSpritesSX = new BufferedImage[2];
+	protected void loadSprites(int numIdleSprites, int numRunningSprites, int numJumpingSprites) {
+		idleSprites = new BufferedImage[numIdleSprites];
+		idleSpritesSX = new BufferedImage[numIdleSprites];
+		runningSprites = new BufferedImage[numRunningSprites];
+		runningSpritesSX = new BufferedImage[numRunningSprites];
 		fallingSprites = new BufferedImage[2];
 		fallingSpritesSX = new BufferedImage[2];
-		jumpingSprites = new BufferedImage[2];
-		jumpingSpritesSX = new BufferedImage[2];
+		jumpingSprites = new BufferedImage[numJumpingSprites];
+		jumpingSpritesSX = new BufferedImage[numJumpingSprites];
 		deathSprites = new BufferedImage[4];
 		finalDeathAnimation = new BufferedImage[2];
 		try {

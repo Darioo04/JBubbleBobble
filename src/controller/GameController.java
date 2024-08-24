@@ -99,8 +99,8 @@ public class GameController {
         selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
         profileView = ProfileView.getInstance();
         gameModel.addObserver(profileView);
+                
         
-        playerView = PlayerView.getInstance(); 
         menuScreen = MenuScreen.getInstance();
         menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
         pauseScreen = PauseScreen.getInstance();
@@ -205,7 +205,7 @@ public class GameController {
 	public void startLevel() {
 		levelCreator.loadLevel();
     	player = Player.getInstance();
-    	playerView = PlayerView.getInstance();
+    	playerView = PlayerView.getInstance(player.getNumIdleSprites(),player.getNumRunningSprites(),player.getNumJumpingSprites()); ;
     	gamePanel = GamePanel.getInstance();
     	player.addObserver(playerView);
     	statusBar = StatusBar.getInstance();

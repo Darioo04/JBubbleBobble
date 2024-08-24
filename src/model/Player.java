@@ -63,6 +63,9 @@ public class Player extends Entity {
 		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
 		bubbles = new ArrayList<>();
+		setNumIdleSprites(2);
+		setNumRunningSprites(2);
+		setNumJumpingSprites(2);
 	}
 	
 	public void setDirectionAndCollision() {
