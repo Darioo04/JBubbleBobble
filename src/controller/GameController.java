@@ -4,7 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import model.Banebou;
 import model.Bubble;
@@ -14,6 +16,7 @@ import model.Enemy;
 import model.EnemyFactory;
 import model.GameConstants;
 import model.GameModel;
+import model.GameOverScreen;
 import model.GameState;
 import model.Hidegons;
 import model.Invader;
@@ -39,6 +42,8 @@ import view.SelectLevelView;
 import view.StateScreenView;
 import view.StatusBar;
 import view.FoodView;
+import view.GameOverView;
+
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -58,18 +63,19 @@ public class GameController {
     private ProfileView profileView;
     private PauseScreen pauseScreen;
     private PauseScreenView pauseScreenView;
+    private GameOverScreen gameOverScreen;
     private GamePanel gamePanel;
     private CollisionChecker collisionChecker;
     public static int frames = 0;
     private Timer timer;
     
-    private ArrayList<Enemy> enemies;
-    private ArrayList<EnemyView> enemyViews;
-    private ArrayList<Bubble> bullets;
-    private ArrayList<BubbleView> bulletViews;
-    private ArrayList<Food> items;
-    private ArrayList<FoodView> itemViews;
-    private ArrayList<EnemyAnimationController> eControllers;
+    private List<Enemy> enemies;
+    private List<EnemyView> enemyViews;
+    private List<Bubble> bullets;
+    private List<BubbleView> bulletViews;
+    private List<Food> items;
+    private List<FoodView> itemViews;
+    private List<EnemyAnimationController> eControllers;
     private PlayerAnimationController playerAnimationController;
     
     private GameState gameState;
@@ -105,6 +111,7 @@ public class GameController {
         menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
         pauseScreen = PauseScreen.getInstance();
         pauseScreenView = (PauseScreenView) pauseScreen.getStateScreenView();
+        gameOverScreen = GameOverScreen.getInstance();
         keyController = KeyController.getInstance();
         audioManager = AudioManager.getInstance();
         collisionChecker = CollisionChecker.getInstance();
@@ -153,25 +160,32 @@ public class GameController {
 				player.update();
 				
 				enemies.stream().forEach(Enemy::update);
+				
 				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				bullets.stream().forEach(Bubble::update);
 //				enemies.stream().forEach( enemy -> {
 //					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 //				});
-//				enemies.stream().filter(Enemy::isDead).forEach( enemy -> {
-//						enemies.remove(enemy);
-//					});
+//				enemies = enemies.stream()
+//						.filter(enemy -> !enemy.isDead())
+//						.collect(Collectors.toList());
+//				
 				
-				bullets.stream().forEach(Bubble::update);
 //				bullets.stream()
 //					.filter(bullet -> collisionChecker.checkBubblePlayerCollision(bullet, player))
 //					.forEach(bullet -> { bullets.remove(bullet); 
 //										bulletViews.remove(bullet.getBubbleBulletView()); });
-//				
+				
 				collisionChecker.checkPlayerEnemyCollision(player, enemies);
 				
-				if (player.getLostLife()) {	//se perde una vita respawno il player
+				if (player.getLostLife() && !player.isDead()) {	//se perde una vita respawno il player
 					resetLevel();
 				}
+//				else if (player.isDead()) {
+//					changeDisplayedScreen(gamePanel,gameOverScreen.getStateScreenView());
+//					setGameState(GameState.GAME_OVER);
+//					gameOverScreen.update();
+//				}
 			}
 			
             case PAUSE -> {
@@ -184,6 +198,10 @@ public class GameController {
             
             case LEVEL_EDITOR -> {
                 LevelEditorView.getInstance().repaint();
+            }
+            
+            case GAME_OVER -> {
+				gameOverScreen.update();
             }
 		
 			default -> {
@@ -249,6 +267,7 @@ public class GameController {
 	
 	public void resetLevel() {
 		player.spawnPlayer();
+		enemies.stream().forEach(enemy -> enemy.setInBubble(false));
 		respawnEnemies();
 		player.setLostLife(false);
 		removeBubbles();
@@ -384,6 +403,11 @@ public class GameController {
     public void removeBubbles() {
     	bullets.clear();
 		bulletViews.stream().forEach(bView -> gamePanel.remove(bView));
+    }
+    
+    public void removeBubble(Bubble bubble) {
+    	bulletViews.remove(bubble.getBubbleBulletView());
+    	
     }
     
     public void addEnemyAnimationController(EnemyAnimationController eController) {

@@ -77,12 +77,12 @@ public class PlayerAnimationController {
         	if (player.isRightPressed()) {
         		
                 lastKeyPressed = LastKeyPressed.RIGHT;
-                actualSprite = (player.isSpacePressed()) ? shootingSprite : getRunningSprite(runningSprites, animationCycle);
+                actualSprite = (player.isSpacePressed()) ? shootingSprite : getSprite(runningSprites, animationCycle);
                 
             } else if (player.isLeftPressed()) {
             	
                 lastKeyPressed = LastKeyPressed.LEFT;
-                actualSprite = (player.isSpacePressed()) ? shootingSpriteSX : getRunningSprite(runningSpritesSX, animationCycle);
+                actualSprite = (player.isSpacePressed()) ? shootingSpriteSX : getSprite(runningSpritesSX, animationCycle);
                 
             }
             
@@ -106,14 +106,14 @@ public class PlayerAnimationController {
         return sprites[animationCycle % sprites.length];
     }
 
-    private BufferedImage getRunningSprite(BufferedImage[] running, int animationCycle) {
-        return switch (animationCycle % 3) {
-            case 0 -> running[0];
-            case 1 -> running[1];
-            case 2 -> running[0];
-            default -> null;
-        };
-    }
+//    private BufferedImage getRunningSprite(BufferedImage[] running, int animationCycle) {
+//        return switch (animationCycle % 3) {
+//            case 0 -> running[0];
+//            case 1 -> running[1];
+//            case 2 -> running[0];
+//            default -> null;
+//        };
+//    }
 		
 	public static class Builder {
 		private Player player;

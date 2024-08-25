@@ -241,7 +241,8 @@ public class Player extends Entity {
 	}
 	
 	public void decreaseLives() {
-        if (lives-- == 0) {
+		lives--;
+        if (lives == 0) {
             setDead(true);
         }
         lostLife = true;

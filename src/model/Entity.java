@@ -213,7 +213,6 @@ public abstract class Entity extends Observable {
     
     public void setMoving(boolean isMoving) {
         this.isMoving = isMoving;
-        update();
     }
     
     public int getSpeed() {

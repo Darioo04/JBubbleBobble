@@ -2,7 +2,9 @@ package model;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.List;
 
+import controller.GameController;
 import controller.LevelCreator;
 
 public class CollisionChecker {
@@ -105,7 +107,7 @@ public class CollisionChecker {
 //		bubble.setCollisionUp(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 //	}
 	
-	public void checkPlayerEnemyCollision(Player player, ArrayList<Enemy> enemyList) {
+	public void checkPlayerEnemyCollision(Player player, List<Enemy> enemyList) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
 		Rectangle playerHitbox = player.getHitbox();
 		
@@ -114,8 +116,9 @@ public class CollisionChecker {
             
             if (playerHitbox.intersects(enemyHitbox)) {
             	if (enemy.isInBubble()) {
+            		enemy.setInBubble(false);
             		enemy.setDead(true);
-            	} else {
+            	} else if (!enemy.isInBubble() && !enemy.isDead()) {
                 	player.decreaseLives();
             	}
             }
@@ -136,7 +139,7 @@ public class CollisionChecker {
 //        return false;
 	}
 	
-	public void checkBubbleEnemyCollision(Bubble bubble, ArrayList<Enemy> enemyList) {
+	public void checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
         Rectangle bubbleHitbox = bubble.getHitbox();
 //        enemyList.stream().filter(enemy -> bubbleHitbox.intersects(enemy.getHitbox())).forEach(enemy -> enemy.setInBubble(true));;
         for (Enemy enemy : enemyList) {

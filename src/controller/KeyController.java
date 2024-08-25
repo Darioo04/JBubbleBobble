@@ -43,6 +43,7 @@ public class KeyController implements KeyListener {
     private KeyController() {
     	menuScreen = MenuScreen.getInstance();
     	selectLevelScreen = SelectLevelScreen.getInstance();
+    	gameOverScreen = GameOverScreen.getInstance();
     	player = Player.getInstance();
     	pauseScreen = PauseScreen.getInstance();
     	winScreen = WinScreen.getInstance();

@@ -34,8 +34,11 @@ public class EnemyAnimationController {
 	}
 	
 	public void updateAnimation(int animationCycle) {
+		if (!enemy.isMoving()) {
+			actualSprite = (enemy.getDirection() == Direction.RIGHT) ? getSprite(idleSprites, animationCycle) : getSprite(idleSpritesSX, animationCycle);
+		}
 		if (enemy.isMoving()) {
-			actualSprite = (enemy.getDirection()==Direction.RIGHT) ? getSprite(runningSprites,animationCycle) : getSprite(runningSpritesSX,animationCycle);
+			actualSprite = (enemy.getDirection() == Direction.RIGHT) ? getSprite(runningSprites,animationCycle) : getSprite(runningSpritesSX,animationCycle);
 		}
 //		else if (enemy.isJumping()) {
 //			actualSprite = (enemy.getDirection() == Direction.RIGHT) ? getSprite(jumpingSprites, animationCycle) : getSprite(jumpingSpritesSX, animationCycle);
@@ -43,12 +46,21 @@ public class EnemyAnimationController {
 		else if (enemy.isInBubble()) {
 			actualSprite = inBubbleSprites[animationCycle % inBubbleSprites.length];
 		}
+		else if (enemy.isDead() && !enemy.getCollisionDown()) {
+			actualSprite = deathSprites[animationCycle % deathSprites.length];
+		}
+		else if (enemy.isDead() && enemy.getCollisionDown()) {
+			actualSprite = finalDeathAnimation;
+		}
 		
 		enemy.update(actualSprite);
+		if (actualSprite == finalDeathAnimation) {
+			//mando il messaggio al gamecontroller per cancellare il nemico
+		}
 	}
 	
 	public BufferedImage getSprite(BufferedImage[] sprites, int animationCycle) {
-		return sprites[animationCycle % sprites.length];
+		return (sprites.length>0) ? sprites[animationCycle % sprites.length] : actualSprite;
 	}
 	
 	public static class Builder {

@@ -27,30 +27,33 @@ public class Invader extends Enemy {
 
 	@Override
 	public void update() {
-		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
-            randomizeDirection();
-        }
-		int speed = getSpeed();
-		switch (getDirection()) {
-			case RIGHT -> {
-				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed) {
-					x += speed;
+		super.update();
+		if (!isDead()) {
+			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
+	            randomizeDirection();
+	        }
+			int speed = getSpeed();
+			switch (getDirection()) {
+				case RIGHT -> {
+					if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed) {
+						x += speed;
+					}
+					else {
+						randomizeDirection();
+					}
 				}
-				else {
-					randomizeDirection();
+				
+				case LEFT -> {
+					if (x > 2*GameConstants.TILE_SIZE + speed) {
+		                x -= speed;
+		            }
+					else {
+						randomizeDirection();
+					}
 				}
+				
+				default ->{}
 			}
-			
-			case LEFT -> {
-				if (x > 2*GameConstants.TILE_SIZE + speed) {
-	                x -= speed;
-	            }
-				else {
-					randomizeDirection();
-				}
-			}
-			
-			default ->{}
 		}
 		updateHitbox();
 		setChanged();

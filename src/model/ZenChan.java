@@ -28,44 +28,48 @@ public class ZenChan extends Enemy {
 		setDirectionToGo();
 		setEnemyCollision();
 		super.update();
-		if (isChasingPlayer()) {
-			if(collisionDown) {
-				setIsChasingPlayer(false);
-			} else 
-				y += speed;
-		}
-		else if (GameController.frames % 30 == 0 && Math.random() < 0.1 && player.getCollisionDown() && this.collisionDown && hasTilesAbove()) {
-			if(player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) > this.y) {
-				speed = Math.abs(speed);
-				setIsChasingPlayer(true);
-			} else if (player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) < this.y) {
-				speed = -speed;
-				setIsChasingPlayer(true);
+		if (!isDead()) {	
+			if (isChasingPlayer()) {
+				if(collisionDown) {
+					setIsChasingPlayer(false);
+				} else 
+					y += speed;
 			}
-			y += speed;
-		}
-		else if(!collisionDown) {
-			y += speed;
-		} else {
-			switch (direction) {
-			case RIGHT -> {
-				if(!collisionRight) {
-					x += speed;
-				}else {
-					direction = Direction.LEFT;
+			else if (!isInBubble()) {
+				if (GameController.frames % 30 == 0 && Math.random() < 0.1 && player.getCollisionDown() && this.collisionDown && hasTilesAbove()) {
+					if(player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) > this.y) {
+						speed = Math.abs(speed);
+						setIsChasingPlayer(true);
+					} else if (player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) < this.y) {
+						speed = -speed;
+						setIsChasingPlayer(true);
+					}
+					y += speed;
 				}
-			}
-			
-			case LEFT -> {
-				if(!collisionLeft) {
-                    x -= speed;
-                }else {
-					direction = Direction.RIGHT;
+				else if(!collisionDown) {
+					y += speed;
+				} else {
+					switch (direction) {
+					case RIGHT -> {
+						if(!collisionRight) {
+							x += speed;
+						}else {
+							direction = Direction.LEFT;
+						}
+					}
+					
+					case LEFT -> {
+						if(!collisionLeft) {
+		                    x -= speed;
+		                }else {
+							direction = Direction.RIGHT;
+						}
+					}
+					
+					default ->
+					throw new IllegalArgumentException("Unexpected value: " + direction);
+					}
 				}
-			}
-			
-			default ->
-			throw new IllegalArgumentException("Unexpected value: " + direction);
 			}
 		}
 		updateHitbox();

@@ -21,10 +21,12 @@ public abstract class Enemy extends Entity {
 		hitboxHeight = GameConstants.TILE_SIZE - 2*GameConstants.SCALE;
 		hitboxWidth = GameConstants.TILE_SIZE - 2*GameConstants.SCALE;
 		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));	
+		
+		setMoving(true);
 	}
 	
 	public void setInBubble(boolean inBubble) {
-		this.inBubble=inBubble;
+		if (!isDead()) this.inBubble=inBubble;
 	}
 	
 	public boolean isInBubble() {
@@ -39,12 +41,20 @@ public abstract class Enemy extends Entity {
 		return isChasingPlayer;
 	}
 	
+	public void isDying() {
+		
+	}
+	
 	@Override
 	public void update() {
 		if (isInBubble()) {
 			//implementare il comportamento del nemico quando è dentro la bolla
 			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
 			setIsChasingPlayer(false);
+			setMoving(false);
+		}
+		else if (isDead() && getCollisionDown()) {
+			
 		}
 	}
 	
