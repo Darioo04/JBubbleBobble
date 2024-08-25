@@ -17,7 +17,7 @@ public class EnemyFactory {
 			switch (tile) {
 				case 'R' -> new Invader(j * GameConstants.TILE_SIZE, i * GameConstants.TILE_SIZE);
 			
-				case 'B' -> new Banebou(j * GameConstants.TILE_SIZE, i * GameConstants.TILE_SIZE);
+				case 'B' -> new Monsta(j * GameConstants.TILE_SIZE, i * GameConstants.TILE_SIZE);
 			
 				case 'H' -> new Hidegons(j * GameConstants.TILE_SIZE, i * GameConstants.TILE_SIZE);
 			
