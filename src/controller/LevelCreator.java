@@ -1,6 +1,7 @@
 package controller;
 import java.awt.Rectangle;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -52,8 +53,16 @@ public class LevelCreator {
 	
 	public void loadLevel() {
 		this.file = new char[GameConstants.ROWS][GameConstants.COLS];
+		InputStream inFile;
 		try {
-			InputStream inFile= getClass().getResourceAsStream(path + GameController.getInstance().getLevel() + ".txt");
+			if (GameController.getInstance().getLevel() == 25) {
+				String projectPath = System.getProperty("user.dir");
+		        String path = projectPath + "/custom-level/custom-level.txt";
+		        inFile = new FileInputStream(path);
+			}
+			else {
+				inFile = getClass().getResourceAsStream(path + GameController.getInstance().getLevel() + ".txt");
+			}
 			BufferedReader br = new BufferedReader(new InputStreamReader(inFile));
 			int k=0;
 			while (br.ready()) {

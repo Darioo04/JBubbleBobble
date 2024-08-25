@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -19,7 +20,7 @@ public class LevelEditorView extends StateScreenView {
 	private Image choseTile;
 	private Image levelCreated;
 	private boolean tileSelected = false;
-	private Image tile;
+	private BufferedImage tile;
 	private char[][] levelFile;
 	private int x, y;
 	private boolean addTile = false;
@@ -37,6 +38,7 @@ public class LevelEditorView extends StateScreenView {
 			e.printStackTrace();
 		}
 		resetEditor();
+		setTile(0);
 	}
 	
 	@Override
@@ -71,7 +73,8 @@ public class LevelEditorView extends StateScreenView {
         		x = 1;
         		y += 1;
         	}
-        	if (y == GameConstants.ROWS - 1) {
+        	if (y == GameConstants.ROWS) {
+        		addEnemies();
         		saveLevel();
         		g2.drawImage(levelCreated, 0, 0, this.getWidth(), this.getHeight(), null);
         	}
@@ -79,6 +82,9 @@ public class LevelEditorView extends StateScreenView {
     }
 	
 	public void saveLevel() {
+		levelFile[GameConstants.ROWS-2][1] = ' ';		//lascio 2 spazi liberi allo spawn del player
+		levelFile[GameConstants.ROWS-2][2] = ' ';
+		levelFile[GameConstants.ROWS-1][1] = '1';        //mi assicuro che ci sia un blocco per spawnare il player
 		StringBuilder sb = new StringBuilder();
         for (char[] row : levelFile) {
             for (char c : row) {
@@ -87,8 +93,9 @@ public class LevelEditorView extends StateScreenView {
             sb.append('\n');
         }
         String levelString = sb.toString();
-        
-        File file = new File("/Levels/level-25.txt");
+        String projectPath = System.getProperty("user.dir");
+        String path = projectPath + "/custom-level/custom-level.txt";
+        File file = new File(path);
         if(file.exists()) {
         	file.delete();
         }
@@ -102,6 +109,36 @@ public class LevelEditorView extends StateScreenView {
             fileWriter.close();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	private void addEnemies() {
+		for (int y = 0; y < GameConstants.ROWS; y++) {
+			for (int x = 0; x < GameConstants.COLS; x++) {
+				if (levelFile[y][x] == ' ' && levelFile[y+1][x] == '1' && Math.random() < 0.06) {		//5% probabilita di spawnare un nemico
+					int random = (int) (Math.random() * 5);
+					switch (random) {
+					case 0 -> {
+						levelFile[y][x] = 'P';
+					}
+					case 1 -> {
+                        levelFile[y][x] = 'R';
+                    }
+					case 2 -> {
+                        levelFile[y][x] = 'B';
+                    }
+					case 3 -> {
+                        levelFile[y][x] = 'H';
+                    }
+					case 4 -> {
+                        levelFile[y][x] = 'Z';
+                    }
+					
+					default ->
+					throw new IllegalArgumentException("Unexpected value: " + random);
+					}
+				}
+			}
 		}
 	}
 	
@@ -125,70 +162,70 @@ public class LevelEditorView extends StateScreenView {
 		switch (num) {
 		case 0 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-60.png")).getScaledInstance(GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-60.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		case 1 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-134.png")).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-134.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         }
 		case 2 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-40.png")).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-40.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		case 3 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-229.png")).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-229.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		case 4 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-39.png")).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-39.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         }
 		case 5 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-55.png")).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-55.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         }
 		case 6 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-106.png")).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-106.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         }
 		case 7 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-88.png")).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-88.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         }
 		case 8 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-67.png")).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-67.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
         }
 		case 9 -> {
 			try {
-				tile = ImageIO.read(getClass().getResourceAsStream("/sprites/Tiles/LevelTiles-65.png")).getScaledInstance(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT, Image.SCALE_DEFAULT);
+				tile = ImageIO.read(getClass().getResource("/sprites/Tiles/LevelTiles-65.png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -201,5 +238,9 @@ public class LevelEditorView extends StateScreenView {
 	
 	public void setAddTile(boolean addTile) {
 		this.addTile = addTile;
+	}
+	
+	public BufferedImage getTile() {
+		return tile;
 	}
 }

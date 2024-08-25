@@ -56,7 +56,12 @@ public class GamePanel extends StateScreenView {
 	public void loadWallSprite() {
 		levelCreator.setWall();
 		try {
-			wall = ImageIO.read(getClass().getResource(levelCreator.getWall()));
+			if (GameController.getInstance().getLevel() == 25) {
+				wall = LevelEditorView.getInstance().getTile();
+			} 
+			else {
+				wall = ImageIO.read(getClass().getResource(levelCreator.getWall()));
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
