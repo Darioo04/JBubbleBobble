@@ -197,7 +197,7 @@ public class GameController {
             }
             
             case LEVEL_EDITOR -> {
-                LevelEditorView.getInstance().repaint();
+            	
             }
             
             case GAME_OVER -> {

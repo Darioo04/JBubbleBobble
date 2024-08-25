@@ -33,6 +33,7 @@ public class KeyController implements KeyListener {
 	private GameOverScreen gameOverScreen;
 	private NicknamePanel nicknamePanel;
 	private AudioManager audioManager;
+	private LevelEditorView levelEditorView;
 //	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
 	
 	public static KeyController getInstance() {
@@ -48,6 +49,7 @@ public class KeyController implements KeyListener {
     	pauseScreen = PauseScreen.getInstance();
     	winScreen = WinScreen.getInstance();
     	audioManager = AudioManager.getInstance();
+    	levelEditorView = LevelEditorView.getInstance();
     }
     
     @Override
@@ -248,8 +250,77 @@ public class KeyController implements KeyListener {
 			case LEVEL_EDITOR -> {
 				if (key == KeyEvent.VK_ESCAPE) {
                     gameController.changeDisplayedScreen(LevelEditorView.getInstance(), menuScreen.getStateScreenView());
+                    levelEditorView.resetEditor();
                     gameController.setGameState(GameState.MENU);
                     menuScreen.update();
+                }
+				if (key == KeyEvent.VK_0) {
+					levelEditorView.setTile(0);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+				}
+				if (key == KeyEvent.VK_1) {
+					levelEditorView.setTile(1);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+				}
+				if (key == KeyEvent.VK_2) {
+					levelEditorView.setTile(2);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+                }
+				if (key == KeyEvent.VK_3) {
+					levelEditorView.setTile(3);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+                }
+				if (key == KeyEvent.VK_4) {
+					levelEditorView.setTile(4);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+                }
+				if (key == KeyEvent.VK_5) {
+					levelEditorView.setTile(5);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+                }
+				if (key == KeyEvent.VK_6) {
+					levelEditorView.setTile(6);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+                }
+				if (key == KeyEvent.VK_7) {
+					levelEditorView.setTile(7);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+                }
+				if (key == KeyEvent.VK_8) {
+					levelEditorView.setTile(8);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+                }
+				if (key == KeyEvent.VK_9) {
+					levelEditorView.setTile(9);
+					levelEditorView.setTileSelected(true);
+					levelEditorView.repaint();
+					levelEditorView.setAddTile(true);
+                }
+				if (key == KeyEvent.VK_W) {
+                    levelEditorView.setAddTile(true);
+                    levelEditorView.repaint();
+                }
+				if (key == KeyEvent.VK_S) {
+                    levelEditorView.setAddTile(false);
+                    levelEditorView.repaint();
                 }
 			}
 			
