@@ -229,7 +229,7 @@ public class GameController {
     	statusBar = StatusBar.getInstance();
     	statusBar.setHP(player.getHP());
     	player.addObserver(statusBar);
-    	playerAnimationController = PlayerAnimationController.getInstance(null);
+    	playerAnimationController = PlayerAnimationController.getInstance();
     	mainFrame.add(gamePanel);
     	gamePanel.addKeyListener(keyController);
     	gamePanel.setIsThereKeyController(true);

@@ -18,13 +18,11 @@ public class EnemyView extends EntityView {
 	private BufferedImage[] idleSprites;
 	private BufferedImage[] runningSprites;
 	private BufferedImage[] jumpingSprites;
-	private BufferedImage falling1;
-	private BufferedImage falling2;
+	private BufferedImage[] fallingSprites;
 	private BufferedImage[] idleSpritesSX;
 	private BufferedImage[] runningSpritesSX;
 	private BufferedImage[] jumpingSpritesSX;
-	private BufferedImage falling1sx;
-	private BufferedImage falling2sx;
+	private BufferedImage[] fallingSpritesSX;
 	private BufferedImage[] deathSprites;
 	private BufferedImage death;
 	private BufferedImage[] inBubbleSprites;
@@ -66,7 +64,8 @@ public class EnemyView extends EntityView {
 			}
 			
 			for (int i=0; i<numFallingSprites; i++) {
-				
+				fallingSprites[i] = ImageIO.read(getClass().getResource(path + "falling-" + (i+1) + ".png"));
+				fallingSpritesSX[i] = ImageIO.read(getClass().getResource(path + "falling-sx-" + (i+1) + ".png"));
 			}
 
 			for (int i=0; i<3; i++) {

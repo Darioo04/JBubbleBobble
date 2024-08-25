@@ -161,6 +161,13 @@ public abstract class Bubble extends Observable  {
         this.addObserver(bubbleBulletView);
     }  
 	
-	public abstract void update(); //metodo astratto implementato da tutte le bolle
+	public void update() {
+		setChanged();
+		notifyObservers();
+	}
 	
+	public void update(Object arg) {
+		setChanged();
+		notifyObservers(arg);
+	}
 }

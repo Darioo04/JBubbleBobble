@@ -145,7 +145,7 @@ public class CollisionChecker {
         for (Enemy enemy : enemyList) {
             Rectangle enemyHitbox = enemy.getHitbox();
             
-            if (bubbleHitbox.intersects(enemyHitbox)) {
+            if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded()) {
                 //da implementare
             	enemy.setInBubble(true);
             }

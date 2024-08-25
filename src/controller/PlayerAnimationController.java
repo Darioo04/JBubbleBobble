@@ -2,6 +2,7 @@ package controller;
 
 import java.awt.image.BufferedImage;
 
+import model.GameState;
 import model.Player;
 
 public class PlayerAnimationController {
@@ -12,6 +13,7 @@ public class PlayerAnimationController {
 	
 	private static PlayerAnimationController instance;
 	private Player player;
+	private static Builder builder;
 	
 	private BufferedImage actualSprite;
 	private BufferedImage[] idleSprites;
@@ -30,9 +32,15 @@ public class PlayerAnimationController {
 	private LastKeyPressed lastKeyPressed = LastKeyPressed.RIGHT;
 	
 	
-	public static PlayerAnimationController getInstance(Builder builder) {
-		if (instance == null) instance = new PlayerAnimationController(builder);
+	public static PlayerAnimationController getInstance() {
+		if (instance == null) {
+			instance = new PlayerAnimationController(builder);
+		}
 		return instance;
+	}
+	
+	private static void setBuilder(Builder builder) {
+		PlayerAnimationController.builder = builder;
 	}
 	
 	private PlayerAnimationController(Builder builder) {
@@ -62,11 +70,11 @@ public class PlayerAnimationController {
             }
             
         } 
+        
         else if (player.isFalling()) {
-        	
         	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getSprite(fallingSprites,animationCycle) : getSprite(fallingSpritesSX,animationCycle);
-            
         } 
+        
         else if (player.isJumping()) {
         	
         	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getSprite(jumpingSprites,animationCycle) : getSprite(jumpingSpritesSX,animationCycle);
@@ -95,7 +103,6 @@ public class PlayerAnimationController {
         	actualSprite = deathSprites[animationCycle % deathSprites.length];
         	if (actualSprite == deathSprites[deathSprites.length-1]) {
         		actualSprite = finalDeathAnimation[animationCycle % finalDeathAnimation.length];
-//        		if (actualSprite == finalDeathAnimation[1]) ;
         	}
         }
         
@@ -105,15 +112,6 @@ public class PlayerAnimationController {
     private BufferedImage getSprite(BufferedImage[] sprites, int animationCycle) {
         return sprites[animationCycle % sprites.length];
     }
-
-//    private BufferedImage getRunningSprite(BufferedImage[] running, int animationCycle) {
-//        return switch (animationCycle % 3) {
-//            case 0 -> running[0];
-//            case 1 -> running[1];
-//            case 2 -> running[0];
-//            default -> null;
-//        };
-//    }
 		
 	public static class Builder {
 		private Player player;
@@ -202,7 +200,8 @@ public class PlayerAnimationController {
 		}
 		
 		public PlayerAnimationController build() {
-			return PlayerAnimationController.getInstance(this);
+			PlayerAnimationController.setBuilder(this);
+			return PlayerAnimationController.getInstance();
 		}
 	}
 }

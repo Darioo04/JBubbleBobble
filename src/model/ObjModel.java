@@ -1,6 +1,9 @@
 package model;
 
+
 import java.util.Observable;
+
+@SuppressWarnings("deprecation")
 
 public abstract class ObjModel extends Observable {
 	
@@ -36,5 +39,10 @@ public abstract class ObjModel extends Observable {
 	
 	public String getPath() {
 		return path;
+	}
+	
+	public void update() {
+		setChanged();
+		notifyObservers();
 	}
 }

@@ -9,32 +9,12 @@ public class Hidegons extends Enemy{
 		super(x,y);
 		setDirection(Direction.RIGHT);
 		setPath("/sprites/hidegons/");
-		setSpeed(6);
+		setSpeed(3);
 	}
 	
 	@Override
 	public void update() {
 		collisionChecker.checkTileCollision(this);
-		
-//		if (inAir) {
-//			if (y + fallingSpeed > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE){
-//				y = GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE;
-//			} else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
-//				y = GameConstants.TILE_SIZE + 1;
-//                fallingSpeed = 5;
-//			}else {
-//				y += fallingSpeed;
-//				fallingSpeed += GRAVITY;
-//			}
-//				
-//			updateHitbox();
-//			collisionChecker.checkTileCollision(this);
-//			if (fallingSpeed > 0 && collisionDown) {
-//				inAir = false;
-//				fallingSpeed = 0;
-//				isJumping = false;
-//			}
-//		}
 		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
             randomizeDirection();
         }
@@ -65,11 +45,10 @@ public class Hidegons extends Enemy{
 	}
 	
 	private void randomizeDirection() {
-		double randomNumber = Math.random();
-        setDirection((randomNumber<=0.5) ? Direction.LEFT : Direction.RIGHT);
+        setDirection((Math.random()<=0.5) ? Direction.LEFT : Direction.RIGHT);
 	}
 	
 	private void shot() {
-		
+//		new Fireball(getX(),getY(),getDirection());
 	}
 }
