@@ -17,52 +17,54 @@ public class BubbleBullet extends Bubble {
 	
 	@Override
 	public void update() {
+//		getCollisionChecker().checkTileCollision(this);
 		Direction direction = getDirection();
 		int x = getX();
 		int y = getY();
 		int targetX = getTargetX();
-		if(!isExpanded()) {
-			switch (direction){
-				case RIGHT -> {
-					if(x != targetX)
-						setX(x += GameConstants.BUBBLE_X_SPEED);
-					if(x > GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE) {
-						setX(GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE);
-						targetX = x;
+		if (!getCollisionUp())
+			if(!isExpanded()) {
+				switch (direction){
+					case RIGHT -> {
+						if(x != targetX)
+							setX(x += GameConstants.BUBBLE_X_SPEED);
+						if(x > GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE && !getCollisionRight()) {
+							setX(GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE);
+							targetX = x;
+						}
 					}
-				}
-				
-				case LEFT -> {
-					if(x!= targetX)
-						setX(x - GameConstants.BUBBLE_X_SPEED);
-					if(x < 2*GameConstants.TILE_SIZE) {
-						setX(GameConstants.TILE_SIZE / 2 * 3);
-						targetX = x;
+					
+					case LEFT -> {
+						if(x!= targetX)
+							setX(x - GameConstants.BUBBLE_X_SPEED);
+						if(x < 2*GameConstants.TILE_SIZE && !getCollisionLeft()) {
+							setX(GameConstants.TILE_SIZE / 2 * 3);
+							targetX = x;
+						}
 					}
+					
+					default -> throw new IllegalArgumentException("Unexpected value: " + direction);
 				}
-				
-				default -> throw new IllegalArgumentException("Unexpected value: " + direction);
+					
+				if (targetX == x) {
+					setExpanded(true);
+					if (direction == Direction.RIGHT) {
+						setX(x - (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
+					}
+					else {
+						setX(x + (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
+					}
+					setY(y - (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
+					
+					setHitboxWidth(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
+			        setHitboxHeight(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
+			        setHitbox(new Rectangle(x + getHitboxOffsetX(), y + getHitboxOffsetY(), getHitboxWidth(), getHitboxHeight()));
+				}
+					
+			}else {
+				y-=GameConstants.BUBBLE_FLOATING_SPEED;
+				setY(y);
 			}
-				
-			if (targetX == x) {
-				setExpanded(true);
-				if (direction == Direction.RIGHT) {
-					setX(x - (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
-				}
-				else {
-					setX(x + (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
-				}
-				setY(y - (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
-				
-				setHitboxWidth(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
-		        setHitboxHeight(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
-		        setHitbox(new Rectangle(x + getHitboxOffsetX(), y + getHitboxOffsetY(), getHitboxWidth(), getHitboxHeight()));
-			}
-				
-		}else {
-			y-=GameConstants.BUBBLE_FLOATING_SPEED;
-			setY(y);
-		}
 			
 		updateHitbox();
         setChanged();

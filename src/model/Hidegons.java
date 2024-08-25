@@ -1,5 +1,7 @@
 package model;
 
+import controller.GameController;
+
 @SuppressWarnings("deprecation")
 
 public class Hidegons extends Enemy{
@@ -40,6 +42,7 @@ public class Hidegons extends Enemy{
 			
 			default ->{}
 		}
+		shot();
 		setChanged();
         notifyObservers();
 	}
@@ -49,6 +52,49 @@ public class Hidegons extends Enemy{
 	}
 	
 	private void shot() {
+		if (isPlayerForward()) {
+			GameController.getInstance().addObj( new FireBall(getX(),getY(),direction) );
+		}
 //		new Fireball(getX(),getY(),getDirection());
+	}
+	
+	private boolean isPlayerForward() {
+		switch (direction) {
+			case RIGHT -> {
+				int x = getX();
+				while (!getCollisionRight()) {
+					x++;
+					setHitboxX(x);
+					collisionChecker.checkTileCollision(this);
+					
+				}
+				setHitboxX(getX());
+				int diff = x - getX();
+				for (int i=0; i<diff; i++) {
+					if (getX()+i==player.getX()) return true;
+				}
+			}
+			
+			case LEFT -> {
+				int x = getX();
+				while (!getCollisionLeft()) {
+					x--;
+					setHitboxX(x);
+					collisionChecker.checkTileCollision(this);
+					
+				}
+				setHitboxX(getX());
+				int diff = x - getX();
+				for (int i=0; i<diff; i++) {
+					if (getX() - i==player.getX()) return true;
+				}
+			}
+			
+			default -> {
+				
+			}
+		
+		}
+		return false;
 	}
 }

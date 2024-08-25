@@ -10,6 +10,7 @@ public abstract class ObjModel extends Observable {
 	private int x;
 	private int y;
 	private String path;
+	private int numSprites;
 	
 	public ObjModel(int x, int y, String path) {
 		this.x=x;
@@ -39,6 +40,14 @@ public abstract class ObjModel extends Observable {
 	
 	public String getPath() {
 		return path;
+	}
+	
+	public void setNumSprites(int numSprites) {
+		this.numSprites = numSprites;
+	}
+	
+	public int getNumSprites() {
+		return numSprites;
 	}
 	
 	public void update() {

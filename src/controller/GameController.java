@@ -23,6 +23,7 @@ import model.Invader;
 import model.Food;
 import model.FoodFactory;
 import model.MenuScreen;
+import model.ObjModel;
 import model.PauseScreen;
 import model.Player;
 import model.PulPul;
@@ -72,10 +73,12 @@ public class GameController {
     private List<Enemy> enemies;
     private List<EnemyView> enemyViews;
     private List<Bubble> bullets;
+    private List<Bubble> removedBubbles;
     private List<BubbleView> bulletViews;
     private List<Food> items;
     private List<FoodView> itemViews;
     private List<EnemyAnimationController> eControllers;
+    private List<ObjModel> objs;
     private PlayerAnimationController playerAnimationController;
     
     private GameState gameState;
@@ -141,6 +144,7 @@ public class GameController {
                     if (animationCycle == 3) animationCycle = 0;
                     
 				}
+				
 			}
 		});
     }
@@ -160,9 +164,10 @@ public class GameController {
 				player.update();
 				
 				enemies.stream().forEach(Enemy::update);
-				
-				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				bullets.stream().forEach(Bubble::update);
+				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				removeBubble();
+				objs.stream().forEach(ObjModel::update);
 //				enemies.stream().forEach( enemy -> {
 //					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 //				});
@@ -239,10 +244,12 @@ public class GameController {
     	enemies = new ArrayList<>();
     	enemyViews = new ArrayList<>();
     	bullets = new ArrayList<>();
+    	removedBubbles = new ArrayList<>();
     	bulletViews = new ArrayList<>();
     	items = new ArrayList<>();
     	itemViews = new ArrayList<>();
     	eControllers = new ArrayList<>();
+    	objs = new ArrayList<>();
     	player.spawnPlayer();
     	spawnEnemies();
     	gamePanel.setFocusable(true);
@@ -406,8 +413,16 @@ public class GameController {
     }
     
     public void removeBubble(Bubble bubble) {
-    	bulletViews.remove(bubble.getBubbleBulletView());
-    	
+    	removedBubbles.add(bubble);
+    }
+    
+    public void removeBubble() {
+    	removedBubbles.stream().forEach( bubble -> {
+			bullets.remove(bubble);
+			bulletViews.remove(bubble.getBubbleBulletView());
+			gamePanel.remove(bubble.getBubbleBulletView());
+		});
+		removedBubbles.clear();
     }
     
     public void addEnemyAnimationController(EnemyAnimationController eController) {
@@ -420,5 +435,9 @@ public class GameController {
     
     public PlayerAnimationController getPlayerAnimationController() {
     	return playerAnimationController;
+    }
+    
+    public void addObj(ObjModel obj) {
+    	objs.add(obj);
     }
 }

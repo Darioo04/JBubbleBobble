@@ -28,6 +28,7 @@ public class Invader extends Enemy {
 	@Override
 	public void update() {
 		super.update();
+		collisionChecker.checkTileCollision(this);
 		if (!isDead()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
 	            randomizeDirection();
@@ -35,7 +36,7 @@ public class Invader extends Enemy {
 			int speed = getSpeed();
 			switch (getDirection()) {
 				case RIGHT -> {
-					if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed) {
+					if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
 						x += speed;
 					}
 					else {
@@ -44,7 +45,7 @@ public class Invader extends Enemy {
 				}
 				
 				case LEFT -> {
-					if (x > 2*GameConstants.TILE_SIZE + speed) {
+					if (x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
 		                x -= speed;
 		            }
 					else {

@@ -22,6 +22,10 @@ public abstract class Bubble extends Observable  {
 	private int hitboxHeight;
 	private int hitboxOffsetX;
 	private int hitboxOffsetY;
+	private boolean collisionDown;
+	private boolean collisionLeft;
+	private boolean collisionRight;
+	private boolean collisionUp;
 	
 	public Bubble(int x,int y) {
 		this.x=x;
@@ -139,6 +143,38 @@ public abstract class Bubble extends Observable  {
 	public int getHitboxY() {
 	    return hitbox.y;
 	}
+	
+    public boolean getCollisionDown() {
+    	return collisionDown;
+    }
+    
+    public void setCollisionDown(boolean collisionDown) {
+        this.collisionDown = collisionDown;
+    }
+    
+    public boolean getCollisionLeft() {
+        return collisionLeft;
+    }
+    
+    public void setCollisionLeft(boolean collisionLeft) {
+        this.collisionLeft = collisionLeft;
+    }
+    
+    public boolean getCollisionRight() {
+        return collisionRight;
+    }
+    
+    public void setCollisionRight(boolean collisionRight) {
+        this.collisionRight = collisionRight;
+    }
+    
+    public boolean getCollisionUp() {
+        return collisionUp;
+    }
+    
+    public void setCollisionUp(boolean collisionUp) {
+        this.collisionUp = collisionUp;
+    }
 	
 	public CollisionChecker getCollisionChecker() {
 		return collisionChecker;
