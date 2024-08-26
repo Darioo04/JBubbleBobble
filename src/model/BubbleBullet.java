@@ -12,8 +12,6 @@ public class BubbleBullet extends Bubble {
 	public BubbleBullet(int x, int y, Direction direction) {
 		super(x,y);
 		setDirection(direction);
-		setExpanded(false);
-		setFloating(false);
         setTargetX((direction == Direction.RIGHT) ? getSpawnX() + GameConstants.BUBBLE_X_DISTANCE : getSpawnX() - GameConstants.BUBBLE_X_DISTANCE);
 	}
 	
@@ -21,15 +19,13 @@ public class BubbleBullet extends Bubble {
 	public void update() {
 //		getCollisionChecker().checkTileCollision(this);
 		Direction direction = getDirection();
-		int x = getX();
-		int y = getY();
 		int targetX = getTargetX();
 		if (!getCollisionUp())
 			if(!isExpanded()) {
 				switch (direction){
 					case RIGHT -> {
 						if(x != targetX)
-							setX(x + GameConstants.BUBBLE_X_SPEED);
+							setX(x += GameConstants.BUBBLE_X_SPEED);
 						if(x > GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE && !getCollisionRight()) {
 							setX(GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE);
 							targetX = x;
@@ -51,12 +47,12 @@ public class BubbleBullet extends Bubble {
 				if (targetX == x) {
 					setExpanded(true);
 					if (direction == Direction.RIGHT) {
-						setX(x - (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
+						x -= (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2;
 					}
 					else {
-						setX(x + (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
+						x += (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2;
 					}
-					setY(y - (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
+					y -= (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2;
 					
 					setHitboxWidth(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
 			        setHitboxHeight(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
@@ -64,9 +60,7 @@ public class BubbleBullet extends Bubble {
 				}
 					
 			}else {
-				setFloating(false);
-				y-=GameConstants.BUBBLE_FLOATING_SPEED;
-				setY(y);
+				y -= GameConstants.BUBBLE_FLOATING_SPEED;
 			}
 			
 		updateHitbox();

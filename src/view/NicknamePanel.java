@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import controller.GameController;
 import model.GameConstants;
 
 public class NicknamePanel extends StateScreenView {
@@ -49,6 +50,7 @@ public class NicknamePanel extends StateScreenView {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								nickname = getText();
+								GameController.getInstance().setPlayerName(nickname);
 							}
 						});	
 					}

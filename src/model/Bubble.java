@@ -8,7 +8,7 @@ import view.BubbleView;
 @SuppressWarnings("deprecation")
 
 public abstract class Bubble extends Observable  {
-	private int x, y;
+	protected int x, y;
 	private Direction direction;
 	private static CollisionChecker collisionChecker = CollisionChecker.getInstance();
 	private BubbleView bubbleBulletView;
@@ -50,14 +50,10 @@ public abstract class Bubble extends Observable  {
 		
 	public void setX(int x) {
         this.x = x;
-        setChanged();
-        notifyObservers();
     }
 		
 	public void setY(int y) {
         this.y = y;
-        setChanged();
-        notifyObservers();
     }
 	
 	public void setSpawnX(int spawnX) {
