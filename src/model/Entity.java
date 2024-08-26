@@ -20,7 +20,7 @@ public abstract class Entity extends Observable {
 	private boolean isDead;
 	private boolean isMoving;
 	protected int speed;
-	private int fallingSpeed; //velocita di caduta
+	protected int fallingSpeed; //velocita di caduta
 	public static final int GRAVITY = 1 * GameConstants.SCALE; // Gravità costante
 	protected char[][] levelFile;
 	
