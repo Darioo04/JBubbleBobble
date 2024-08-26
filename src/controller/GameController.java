@@ -155,21 +155,25 @@ public class GameController {
 			public void actionPerformed(ActionEvent e) {
 				update();
 				if (gameState == GameState.GAME) {
-					if(frames == 60) frames = 1;
+					if(frames == 60) frames = 0;
 					frames++;
                     if(frames % 5 == 0) {
-                        playerAnimationController.updateAnimation(animationCycle);
-                        eControllers.stream().forEach(eController -> eController.updateAnimation(animationCycle));
-                        bControllers.stream().forEach(bController -> bController.updateAnimation(animationCycle));
+                    	updateAnimation();
 //                        enemyViews.stream().forEach( eView -> eView.getEnemyAnimationController().updateAnimation(animationCycle));
-                        animationCycle++;
+                        animationCycle = (animationCycle+1)%3;
                     }
-                    if (animationCycle == 3) animationCycle = 0;
+//                    if (animationCycle == 3) animationCycle = 0;
                     
 				}
 				
 			}
 		});
+    }
+    
+    public void updateAnimation() {
+    	playerAnimationController.updateAnimation(animationCycle);
+        eControllers.parallelStream().forEach(eController -> eController.updateAnimation(animationCycle));
+        bControllers.parallelStream().forEach(bController -> bController.updateAnimation(animationCycle));
     }
     
     public void update() {
@@ -186,11 +190,14 @@ public class GameController {
 			case GAME -> {
 				player.update();
 				
-				enemies.stream().forEach(Enemy::update);
-				bullets.stream().forEach(Bubble::update);
-				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				enemies.parallelStream().forEach(Enemy::update);
+				removeEnemies();
+				bullets.parallelStream().forEach(Bubble::update);
+				bullets.parallelStream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				bullets.parallelStream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
+				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleBubbleCollision(bubble, bullets));
 				removeBubble();
-				objs.stream().forEach(ObjModel::update);
+				objs.parallelStream().forEach(ObjModel::update);
 //				enemies.stream().forEach( enemy -> {
 //					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 //				});
@@ -489,6 +496,12 @@ public class GameController {
 			gamePanel.remove(bubble.getBubbleBulletView());
 		});
 		removedBubbles.clear();
+    }
+    
+    public void removeEnemies() {
+    	for (Enemy e : enemies.stream().filter(Enemy::isDead).collect(Collectors.toList())) {
+    		enemies.remove(e);
+    	}
     }
     
     public void addEnemyAnimationController(EnemyAnimationController eController) {

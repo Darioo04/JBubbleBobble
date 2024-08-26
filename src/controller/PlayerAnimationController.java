@@ -61,7 +61,7 @@ public class PlayerAnimationController {
 	}
 	
     public void updateAnimation(int animationCycle) {
-        if (!player.isMoving() && !player.isFalling()) {
+        if (!player.isMoving() && !player.isInAir()) {
         	
         	if (player.isSpacePressed()) {
                 actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? shootingSprite : shootingSpriteSX;
@@ -71,7 +71,7 @@ public class PlayerAnimationController {
             
         } 
         
-        else if (player.isFalling()) {
+        else if (player.isInAir()) {
         	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getSprite(fallingSprites,animationCycle) : getSprite(fallingSpritesSX,animationCycle);
         } 
         
@@ -85,12 +85,12 @@ public class PlayerAnimationController {
         	if (player.isRightPressed()) {
         		
                 lastKeyPressed = LastKeyPressed.RIGHT;
-                actualSprite = (player.isSpacePressed()) ? shootingSprite : getSprite(runningSprites, animationCycle);
+                actualSprite = getSprite(runningSprites, animationCycle);
                 
             } else if (player.isLeftPressed()) {
             	
                 lastKeyPressed = LastKeyPressed.LEFT;
-                actualSprite = (player.isSpacePressed()) ? shootingSpriteSX : getSprite(runningSpritesSX, animationCycle);
+                actualSprite = getSprite(runningSpritesSX, animationCycle);
                 
             }
             

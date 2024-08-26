@@ -17,7 +17,6 @@ public class EnemyAnimationController {
 	private BufferedImage[] jumpingSpritesSX;
 	private BufferedImage[] inBubbleSprites;
 	private BufferedImage[] deathSprites;
-	private BufferedImage finalDeathAnimation;
 	
 	public EnemyAnimationController(Builder builder) {
 		this.enemy = builder.enemy;
@@ -30,7 +29,6 @@ public class EnemyAnimationController {
 		this.jumpingSpritesSX = builder.jumpingSpritesSX;
 		this.inBubbleSprites = builder.inBubbleSprites;
 		this.deathSprites = builder.deathSprites;
-		this.finalDeathAnimation = builder.finalDeathAnimation;
 	}
 	
 	public void updateAnimation(int animationCycle) {
@@ -40,23 +38,17 @@ public class EnemyAnimationController {
 		if (enemy.isMoving()) {
 			actualSprite = (enemy.getDirection() == Direction.RIGHT) ? getSprite(runningSprites,animationCycle) : getSprite(runningSpritesSX,animationCycle);
 		}
-//		else if (enemy.isJumping()) {
-//			actualSprite = (enemy.getDirection() == Direction.RIGHT) ? getSprite(jumpingSprites, animationCycle) : getSprite(jumpingSpritesSX, animationCycle);
-//		}
+		else if (enemy.isJumping()) {
+			actualSprite = (enemy.getDirection() == Direction.RIGHT) ? getSprite(jumpingSprites, animationCycle) : getSprite(jumpingSpritesSX, animationCycle);
+		}
 		else if (enemy.isInBubble()) {
-			actualSprite = inBubbleSprites[animationCycle % inBubbleSprites.length];
+			actualSprite = getSprite(inBubbleSprites,animationCycle);
 		}
-		else if (enemy.isDead() && !enemy.getCollisionDown()) {
-			actualSprite = deathSprites[animationCycle % deathSprites.length];
-		}
-		else if (enemy.isDead() && enemy.getCollisionDown()) {
-			actualSprite = finalDeathAnimation;
+		else if (enemy.getBubbleExploded() && !enemy.getCollisionDown()) {
+			actualSprite = getSprite(deathSprites,animationCycle);
 		}
 		
 		enemy.update(actualSprite);
-		if (actualSprite == finalDeathAnimation) {
-			//mando il messaggio al gamecontroller per cancellare il nemico
-		}
 	}
 	
 	public BufferedImage getSprite(BufferedImage[] sprites, int animationCycle) {
@@ -126,15 +118,10 @@ public class EnemyAnimationController {
 			return (this);
 		}
 		
-		public Builder setFinalDeathAnimation(BufferedImage finalDeathAnimation) {
-			this.finalDeathAnimation=finalDeathAnimation;
-			return (this);
-		}
-		
 		public EnemyAnimationController build() {
-			if (this.enemy == null) {
-		        throw new IllegalStateException("Enemy non può essere null");
-		    }
+//			if (this.enemy == null) {
+//		        throw new IllegalStateException("Enemy non può essere null");
+//		    }
 			return new EnemyAnimationController(this);
 		}
 	}

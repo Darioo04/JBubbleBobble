@@ -12,6 +12,8 @@ public class Hidegons extends Enemy{
 		setDirection(Direction.RIGHT);
 		setPath("/sprites/hidegons/");
 		setSpeed(3);
+		setNumIdleSprites(1);
+		setNumRunningSprites(3);
 	}
 	
 	@Override

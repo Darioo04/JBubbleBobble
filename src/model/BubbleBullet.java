@@ -59,7 +59,8 @@ public class BubbleBullet extends Bubble {
 			        setHitbox(new Rectangle(x + getHitboxOffsetX(), y + getHitboxOffsetY(), getHitboxWidth(), getHitboxHeight()));
 				}
 					
-			}else {
+			}
+			else if (isExpanded()) {
 				y -= GameConstants.BUBBLE_FLOATING_SPEED;
 			}
 			

@@ -7,7 +7,6 @@ import controller.LevelCreator;
 
 public class ZenChan extends Enemy {
 	
-	
 	private Player player;
 	private int targetY;
 	

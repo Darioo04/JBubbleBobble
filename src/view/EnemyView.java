@@ -24,7 +24,6 @@ public class EnemyView extends EntityView {
 	private BufferedImage[] jumpingSpritesSX;
 	private BufferedImage[] fallingSpritesSX;
 	private BufferedImage[] deathSprites;
-	private BufferedImage death;
 	private BufferedImage[] inBubbleSprites;
 	
 	private BufferedImage actualSprite;
@@ -43,6 +42,9 @@ public class EnemyView extends EntityView {
 		runningSpritesSX = new BufferedImage[numRunningSprites];
 		jumpingSprites = new BufferedImage[numJumpingSprites];
 		jumpingSpritesSX = new BufferedImage[numJumpingSprites];
+		fallingSprites = new BufferedImage[numFallingSprites];
+		fallingSpritesSX = new BufferedImage[numFallingSprites];
+		
 		try {
 			for (int i=0; i<numIdleSprites; i++) {
 				idleSprites[i] = ImageIO.read(getClass().getResource(path + "idle-" + (i+1) + ".png"));
@@ -52,7 +54,6 @@ public class EnemyView extends EntityView {
 					idleSpritesSX[i] = null;
 				}
 			}
-			
 			for (int i=0; i<numRunningSprites; i++) {
 				runningSprites[i] = ImageIO.read(getClass().getResource(path + "running-" + (i+1) + ".png"));
 				runningSpritesSX[i] = ImageIO.read(getClass().getResource(path + "running-sx-" + (i+1) + ".png"));
@@ -75,7 +76,6 @@ public class EnemyView extends EntityView {
 			for (int i=0; i<4; i++) {
 				deathSprites[i] = ImageIO.read(getClass().getResource(path + "death-" + (i+1) + ".png"));
 			}
-			this.death = ImageIO.read(getClass().getResource(path + "death.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -98,7 +98,6 @@ public class EnemyView extends EntityView {
 				.setJumpingSprites(jumpingSprites)
 				.setJumpingSpritesSX(jumpingSpritesSX)
 				.setDeathSprites(deathSprites)
-				.setFinalDeathAnimation(death)
 				.setInBubbleSprites(inBubbleSprites)
 				.build();
 		GameController.getInstance().addEnemyAnimationController(enemyAnimationController);

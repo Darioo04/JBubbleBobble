@@ -232,6 +232,10 @@ public class Player extends Entity {
 		return fallingSpeed > 0;
 	}
 	
+	public boolean isInAir() {
+		return inAir;
+	}
+	
 	public void decreaseLives() {
 		lives--;
         if (lives == 0) {

@@ -33,7 +33,7 @@ public abstract class Entity extends Observable {
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
 	protected boolean collisionUp;
-	private boolean frozen;
+	
 	private int numIdleSprites;
 	private int numRunningSprites;
 	private int numJumpingSprites;
@@ -228,14 +228,6 @@ public abstract class Entity extends Observable {
     public void setFallingSpeed(int fallingSpeed) {
     	this.fallingSpeed=fallingSpeed;
     }
-    
-	public void freezeEntity() {
-		frozen=true;
-	}
-	
-	public void unfreezeEntity() {
-		frozen=false;
-	}
 	
 	public void setNumIdleSprites(int numIdleSprites) {
 		this.numIdleSprites=numIdleSprites;

@@ -38,7 +38,7 @@ public class StatusBar extends JPanel implements Observer {
 	private StatusBar() {
 		setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.TILE_SIZE/4*3));
 		setVisible(true);
-		setLayout(new GridLayout(1, 3));
+		setLayout(new GridLayout(1, 2));
 		UIManager.put("Label.font", font);
 		UIManager.put("Label.foreground", Color.WHITE);
 		

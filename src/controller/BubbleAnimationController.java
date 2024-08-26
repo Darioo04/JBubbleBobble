@@ -25,7 +25,6 @@ public class BubbleAnimationController {
 		else if (bubble.isExploded()) {
 			actualSprite = explodedSprites[animationCycle % explodedSprites.length];
 		}
-		
 		bubble.update(actualSprite);
 	}
 	

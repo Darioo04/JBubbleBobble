@@ -7,7 +7,9 @@ public abstract class Enemy extends Entity {
 	protected Player player;
 	protected CollisionChecker collisionChecker;
 	private boolean inBubble;
+	private boolean isJumping;
 	private boolean isChasingPlayer = false;
+	private boolean bubbleExploded;
 	
 	public Enemy(int x, int y) {
 		this.x = x;
@@ -33,6 +35,14 @@ public abstract class Enemy extends Entity {
 		return inBubble;
 	}
 	
+	public void setJumping(boolean isJumping) {
+		this.isJumping = isJumping;
+	}
+	
+	public boolean isJumping() {
+		return isJumping;
+	}
+	
 	public void setIsChasingPlayer(boolean isChasingPlayer) {
 		this.isChasingPlayer=isChasingPlayer;
 	}
@@ -41,21 +51,28 @@ public abstract class Enemy extends Entity {
 		return isChasingPlayer;
 	}
 	
-	public void isDying() {
-		
+	public void setBubbleExploded(boolean bubbleExploded) {
+		this.bubbleExploded = bubbleExploded;
+	}
+	
+	public boolean getBubbleExploded() {
+		return bubbleExploded;
 	}
 	
 	@Override
 	public void update() {
-		if (isInBubble()) {
+		if (inBubble) {
 			//implementare il comportamento del nemico quando è dentro la bolla
 			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
 			if (y < GameConstants.TILE_SIZE) y = GameConstants.TILE_SIZE;
 			setIsChasingPlayer(false);
 			setMoving(false);
 		}
-		else if (isDead() && getCollisionDown()) {
-			
+		else if (bubbleExploded) {
+			y -= (int)GameConstants.BUBBLE_FLOATING_SPEED;
+			if (getCollisionDown()) {
+				setDead(true);
+			}
 		}
 	}
 	

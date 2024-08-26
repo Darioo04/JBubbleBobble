@@ -52,7 +52,13 @@ public class Food extends Observable {
 	public void setHitbox(Rectangle hitBox) {
         this.hitbox = hitBox;
     }
+	
 	public Rectangle getHitbox() {
 		return hitbox;
+	}
+	
+	public void update() {
+		setChanged();
+		notifyObservers();
 	}
 }
