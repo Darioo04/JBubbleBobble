@@ -49,6 +49,7 @@ import view.StatusBar;
 import view.FoodView;
 import view.GameOverView;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -106,6 +107,18 @@ public class GameController {
     
     private GameController() {
     	loadGameData();
+    	if (firstTimePlaying) {
+    		playerName = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:", "Benvenuto", JOptionPane.PLAIN_MESSAGE);
+    		if (playerName == null) {System.exit(0);}
+    		while (playerName.trim().isEmpty()) {
+    			JOptionPane.showMessageDialog(null, "Nome non valido. Riprova.");
+                playerName = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:", "Benvenuto", JOptionPane.PLAIN_MESSAGE);
+                if (playerName == null) {
+                	System.exit(0);
+                }
+            }
+    		firstTimePlaying = false;
+    	}
         gameState = GameState.MENU;
         gameModel = GameModel.getInstance();
         gameModel.addObserver(StatusBar.getInstance());
@@ -207,6 +220,10 @@ public class GameController {
             
             case SELECT_PROFILE -> {
             	profileView.repaint();
+            }
+            
+            case LOGIN -> {
+            	
             }
             
             case LEVEL_EDITOR -> {
@@ -496,5 +513,9 @@ public class GameController {
     
     public void addObj(ObjModel obj) {
     	objs.add(obj);
+    }
+    
+    public void setPlayerName(String name) {
+    	playerName = name;
     }
 }

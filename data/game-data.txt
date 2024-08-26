@@ -1,4 +1,4 @@
-first time playing: false
-name: player
+first time playing: true
+name: marcello
 top scores: 0 0 0
 custom tile: 8

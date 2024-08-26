@@ -19,8 +19,6 @@ public class BubbleBullet extends Bubble {
 	public void update() {
 //		getCollisionChecker().checkTileCollision(this);
 		Direction direction = getDirection();
-		int x = getX();
-		int y = getY();
 		int targetX = getTargetX();
 		if (!getCollisionUp())
 			if(!isExpanded()) {
@@ -49,12 +47,12 @@ public class BubbleBullet extends Bubble {
 				if (targetX == x) {
 					setExpanded(true);
 					if (direction == Direction.RIGHT) {
-						setX(x - (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
+						x -= (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2;
 					}
 					else {
-						setX(x + (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
+						x += (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2;
 					}
-					setY(y - (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2);
+					y -= (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2;
 					
 					setHitboxWidth(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
 			        setHitboxHeight(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
@@ -62,8 +60,7 @@ public class BubbleBullet extends Bubble {
 				}
 					
 			}else {
-				y-=GameConstants.BUBBLE_FLOATING_SPEED;
-				setY(y);
+				y -= GameConstants.BUBBLE_FLOATING_SPEED;
 			}
 			
 		updateHitbox();
