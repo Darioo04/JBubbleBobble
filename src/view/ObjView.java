@@ -13,7 +13,7 @@ public class ObjView extends JLabel implements Observer {
 	
 	private BufferedImage defaultSprite;
 	private ImageIcon resizedIcon;
-
+	
 	
 	public ObjView() {
 		
@@ -22,6 +22,7 @@ public class ObjView extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o,Object arg) {
-		
+//		this.setBounds(obj.getX(), obj.getY(), entitySize, entitySize);
+
 	}
 }

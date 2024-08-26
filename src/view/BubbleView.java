@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import controller.BubbleAnimationController;
+import controller.GameController;
 import model.Bubble;
 import model.BubbleBullet;
 import model.GameConstants;
@@ -21,7 +23,7 @@ public class BubbleView extends JLabel implements Observer {
 	private ImageIcon resizedIcon;
 	private BufferedImage defaultSprite;
 	private BufferedImage[] explodedSprites;
-	private BufferedImage[] extendsBubbles;
+	private BufferedImage[] floatingBubbles;
 	private Bubble bubble;
 	private static final String path = "/sprites/Bubbles/bubble-";
 	
@@ -37,22 +39,11 @@ public class BubbleView extends JLabel implements Observer {
 		resizeIcon(defaultSprite);
         setIcon(resizedIcon);
         setVisible(true);
+        
+        inizializeAnimationController();
 	}
 	
-	@Override
-	public void update(Observable o, Object arg) {
-//		if (o instanceof Bubble && arg instanceof BufferedImage) {
-//			defaultSprite = (BufferedImage) arg;
-//		}
-		if(bubble.isExpanded()) {
-			this.resizeIcon(defaultSprite);
-	        this.setIcon(resizedIcon);
-			this.setBounds(bubble.getX(), bubble.getY(), GameConstants.BUBBLE_EXPANDED_SIZE, GameConstants.BUBBLE_EXPANDED_SIZE);
-		}else {
-			this.setBounds(bubble.getX(), bubble.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
-		}
-		
-	}
+
 	
 	public void resizeIcon(BufferedImage originalImage) {
 		Image resizedImage = originalImage.getScaledInstance(this.getWidth(), this.getHeight(),Image.SCALE_FAST);
@@ -80,8 +71,28 @@ public class BubbleView extends JLabel implements Observer {
 		
 	}
 	
-	public Bubble getBubbleBullet() {
-		return bubble;
+	private void inizializeAnimationController() {
+		BubbleAnimationController bController = new BubbleAnimationController.Builder()
+				.setBubble(bubble)
+				.setActualSprite(defaultBubble)
+				.setExplodedSprites(explodedSprites)
+				.setFloatingSprites(new BufferedImage[] {})
+				.build();
+		GameController.getInstance().addBubbleAnimationController(bController);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o instanceof Bubble) {
+			Bubble b = (Bubble) o;
+			int size = b.isExpanded() ? GameConstants.BUBBLE_EXPANDED_SIZE : GameConstants.BUBBLE_SHOT_SIZE;
+			setBounds(b.getX(), b.getY(), size, size);
+			if (arg instanceof BufferedImage) {
+				defaultSprite = (BufferedImage) arg;
+				resizeIcon(defaultSprite);
+				setIcon(resizedIcon);
+			}
+		}
 	}
 
 }

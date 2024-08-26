@@ -12,6 +12,8 @@ public class BubbleBullet extends Bubble {
 	public BubbleBullet(int x, int y, Direction direction) {
 		super(x,y);
 		setDirection(direction);
+		setExpanded(false);
+		setFloating(false);
         setTargetX((direction == Direction.RIGHT) ? getSpawnX() + GameConstants.BUBBLE_X_DISTANCE : getSpawnX() - GameConstants.BUBBLE_X_DISTANCE);
 	}
 	
@@ -27,7 +29,7 @@ public class BubbleBullet extends Bubble {
 				switch (direction){
 					case RIGHT -> {
 						if(x != targetX)
-							setX(x += GameConstants.BUBBLE_X_SPEED);
+							setX(x + GameConstants.BUBBLE_X_SPEED);
 						if(x > GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE && !getCollisionRight()) {
 							setX(GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE);
 							targetX = x;
@@ -62,6 +64,7 @@ public class BubbleBullet extends Bubble {
 				}
 					
 			}else {
+				setFloating(false);
 				y-=GameConstants.BUBBLE_FLOATING_SPEED;
 				setY(y);
 			}

@@ -85,6 +85,7 @@ public class GameController {
     private List<Food> items;
     private List<FoodView> itemViews;
     private List<EnemyAnimationController> eControllers;
+    private List<BubbleAnimationController> bControllers;
     private List<ObjModel> objs;
     private PlayerAnimationController playerAnimationController;
     
@@ -146,6 +147,7 @@ public class GameController {
                     if(frames % 5 == 0) {
                         playerAnimationController.updateAnimation(animationCycle);
                         eControllers.stream().forEach(eController -> eController.updateAnimation(animationCycle));
+                        bControllers.stream().forEach(bController -> bController.updateAnimation(animationCycle));
 //                        enemyViews.stream().forEach( eView -> eView.getEnemyAnimationController().updateAnimation(animationCycle));
                         animationCycle++;
                     }
@@ -306,6 +308,7 @@ public class GameController {
     	items = new ArrayList<>();
     	itemViews = new ArrayList<>();
     	eControllers = new ArrayList<>();
+    	bControllers = new ArrayList<>();
     	objs = new ArrayList<>();
     	player.spawnPlayer();
     	spawnEnemies();
@@ -486,12 +489,8 @@ public class GameController {
     	eControllers.add(eController);
     }
     
-    public void setPlayerAnimationController(PlayerAnimationController playerAnimationController) {
-    	this.playerAnimationController=playerAnimationController;
-    }
-    
-    public PlayerAnimationController getPlayerAnimationController() {
-    	return playerAnimationController;
+    public void addBubbleAnimationController(BubbleAnimationController bController) {
+    	bControllers.add(bController);
     }
     
     public void addObj(ObjModel obj) {

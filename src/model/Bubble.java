@@ -16,6 +16,8 @@ public abstract class Bubble extends Observable  {
 	private int spawnX;
 	private int targetX;
 	private boolean isExpanded;
+	private boolean isFloating;
+	private boolean isExploded;
 		
 	private Rectangle hitbox;
 	private int hitboxWidth;
@@ -30,7 +32,6 @@ public abstract class Bubble extends Observable  {
 	public Bubble(int x,int y) {
 		this.x=x;
 		this.y=y;
-		setExpanded(false);
         setSpawnX(x);
         setHitboxWidth(GameConstants.BUBBLE_SHOT_SIZE - 2*GameConstants.SCALE);
         setHitboxHeight(GameConstants.BUBBLE_SHOT_SIZE - 2*GameConstants.SCALE);
@@ -186,6 +187,22 @@ public abstract class Bubble extends Observable  {
 	    
 	public void setExpanded(boolean isExpanded) {
 		this.isExpanded=isExpanded;
+	}
+	
+	public boolean isFloating() {
+		return isFloating;
+	}
+	
+	public void setFloating(boolean isFloating) {
+		this.isFloating = isFloating;
+	}
+	
+	public boolean isExploded() {
+		return isExploded;
+	}
+	
+	public void setExploded(boolean isExploded) {
+		this.isExploded = isExploded;
 	}
 	    
 	public BubbleView getBubbleBulletView() {

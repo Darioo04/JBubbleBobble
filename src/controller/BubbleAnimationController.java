@@ -19,7 +19,12 @@ public class BubbleAnimationController {
 	}
 	
 	public void updateAnimation(int animationCycle) {
-		
+		if (bubble.isFloating()) {
+			actualSprite = floatingSprites[animationCycle % floatingSprites.length];
+		}
+		else if (bubble.isExploded()) {
+			actualSprite = explodedSprites[animationCycle % explodedSprites.length];
+		}
 		
 		bubble.update(actualSprite);
 	}

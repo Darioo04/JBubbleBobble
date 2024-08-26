@@ -65,9 +65,9 @@ public class StatusBar extends JPanel implements Observer {
 	
 	public void update(Observable o,Object arg) {
 		if (o instanceof Player) {
-			Player player = (Player) o;
-			setHP(player.getHP());
-			setScore(player.getScore());
+			Player p = (Player) o;
+			setHP(p.getHP());
+			setScore(p.getScore());
 			repaint();
 		}
 	}

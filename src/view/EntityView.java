@@ -42,7 +42,8 @@ public abstract class EntityView extends JLabel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.setBounds(entity.getX(), entity.getY(), entitySize, entitySize);
+		Entity e = (Entity) o;
+		this.setBounds(e.getX(), e.getY(), entitySize, entitySize);
 		
 	}
 	

@@ -13,10 +13,10 @@ public class FireBall extends ObjModel {
 	public void update() {
 		switch (direction) {
 			case LEFT -> {
-				setX( getX() - GameConstants.BUBBLE_X_SPEED / 2 );
-			}
+				setX( getX() - GameConstants.BUBBLE_X_SPEED );
+			} 
 			case RIGHT -> {
-				setX( getX() + GameConstants.BUBBLE_X_SPEED / 2 );
+				setX( getX() + GameConstants.BUBBLE_X_SPEED );
 			}
 			
 			default -> {
