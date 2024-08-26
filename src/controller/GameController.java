@@ -160,9 +160,9 @@ public class GameController {
                     if(frames % 5 == 0) {
                     	updateAnimation();
 //                        enemyViews.stream().forEach( eView -> eView.getEnemyAnimationController().updateAnimation(animationCycle));
-                        animationCycle = (animationCycle+1)%3;
+                        animationCycle++;
                     }
-//                    if (animationCycle == 3) animationCycle = 0;
+                    if (animationCycle == 3) animationCycle = 0;
                     
 				}
 				
