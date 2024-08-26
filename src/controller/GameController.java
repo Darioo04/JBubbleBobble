@@ -224,10 +224,6 @@ public class GameController {
             	profileView.repaint();
             }
             
-            case LOGIN -> {
-            	
-            }
-            
             case LEVEL_EDITOR -> {
             	
             }
@@ -345,6 +341,7 @@ public class GameController {
 		gamePanel.remove(playerView);
 		enemies.clear();
 		enemyViews.stream().forEach(eView -> gamePanel.remove(eView));
+		enemyViews.clear();
 		removeBubbles();
 		audioManager.pauseLevelMusic();
 	}
@@ -471,14 +468,6 @@ public class GameController {
     	bulletViews.add(bulletView);
 //		addBulletView(bulletView);
     }
-    
-//    public void addBullet(BubbleBullet bullet) {
-//    	bullets.add(bullet);
-//    }
-//    
-//    public void addBulletView (BubbleBulletView bulletView) {
-//    	bulletsViews.add(bulletView);
-//    }
     
     public void setNickname(String nickname) {
     	gameModel.setNickname(nickname);

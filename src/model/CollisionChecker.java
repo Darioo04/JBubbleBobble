@@ -37,7 +37,11 @@ public class CollisionChecker {
 		int rightCol = rightX / GameConstants.TILE_SIZE;
 		int topRow = topY / GameConstants.TILE_SIZE;
 		int bottomRow = bottomY / GameConstants.TILE_SIZE;
-		
+
+		topY += GameConstants.SCALE;
+		topRow = topY / GameConstants.TILE_SIZE;
+		player.setCollisionUp((levelFile[topRow][leftCol] == '1' || levelFile[topRow][rightCol] == '1'));
+			
 		leftCol = (leftX - player.getSpeed() - GameConstants.SCALE) / GameConstants.TILE_SIZE;
 		player.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
 		
@@ -47,7 +51,7 @@ public class CollisionChecker {
 		leftCol = leftX / GameConstants.TILE_SIZE;
 		rightCol = rightX / GameConstants.TILE_SIZE;
 		bottomRow = (bottomY + player.getFallingSpeed() + 1) / GameConstants.TILE_SIZE;
-		player.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+		if (bottomRow < GameConstants.ROWS) player.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
 	}
 	

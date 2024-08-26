@@ -1,13 +1,8 @@
 package model;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import controller.GameController;
 import controller.LevelCreator;
 
 @SuppressWarnings("deprecation")
@@ -23,8 +18,7 @@ public class Player extends Entity {
 	private int speed;
 	private int lives;
 	private boolean lostLife = false;
-	private int fallingSpeed; //velocita di caduta
-	private int JUMP_STRENGTH = 10 * GameConstants.SCALE; // Forza del salto
+	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
 	private List<BubbleBullet> bubbles;
 	
@@ -72,7 +66,6 @@ public class Player extends Entity {
 	public void setDirectionAndCollision() {
 		if(isLeftPressed) setDirection(Direction.LEFT);
 		else if(isRightPressed) setDirection(Direction.RIGHT);
-		//direction = (isLeftPressed) ? Direction.LEFT : Direction.RIGHT;
 		collisionLeft = false;
 		collisionRight = false;
 		collisionDown = false;
@@ -135,16 +128,14 @@ public class Player extends Entity {
 		if(!collisionDown) inAir = true;
 		
 		if (inAir) {
-			if (y > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+			if (y + fallingSpeed > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
 				y = GameConstants.TILE_SIZE/2;
-				fallingSpeed = 5;
+				fallingSpeed = 0;
 				inAir = true;
 			}
 			else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
 				y = GameConstants.TILE_SIZE + 1;
                 fallingSpeed = 5;
-			}else if(collisionUp){
-				fallingSpeed = 5;
 			} else {
 				y += fallingSpeed;
 				fallingSpeed += GRAVITY;
@@ -152,7 +143,7 @@ public class Player extends Entity {
 				
 			updateHitbox();
 			collisionChecker.checkTileCollision(this);
-			if (fallingSpeed > 0 && collisionDown) {
+			if (fallingSpeed > 0 && collisionDown && !collisionUp) {
 				inAir = false;
 				fallingSpeed = 0;
 				isJumping = false;
@@ -160,12 +151,13 @@ public class Player extends Entity {
 				updateHitbox();
 				collisionDown = false;						//il player resta incastrato nel tile quando atterra, quindi porto il player sopra di un tile e lo abbasso un pixel alla volta finche non trova la collisione sotto
 				collisionChecker.checkTileCollision(this);
-				while(!collisionDown) {
+				while(!collisionDown || collisionUp) {
 					y += 1;
 					updateHitbox();
 					collisionDown = false;
 					collisionChecker.checkTileCollision(this);
 				}
+				
 			}
 		}
 		
@@ -189,7 +181,7 @@ public class Player extends Entity {
 		updateHitbox();
         setChanged();
         notifyObservers();
-//        System.out.println("x: " + x + "  y: " + y + "	left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "   fSpeed: " + fallingSpeed + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
+//        System.out.println("x: " + x + "  y: " + y + "	left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "  up: " + collisionUp + "   fSpeed: " + fallingSpeed + "   inAir: " + inAir + "   isJumping: " + isJumping + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
 	}
 	
 	public void spawnPlayer() {

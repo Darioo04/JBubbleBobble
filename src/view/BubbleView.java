@@ -3,6 +3,8 @@ package view;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,6 +19,7 @@ import model.GameConstants;
 
 public class BubbleView extends JLabel implements Observer {
 
+	private Map<Integer, ImageIcon> resizedIconsCache = new HashMap<>();
 	private ImageIcon resizedIcon;
 	private BufferedImage defaultSprite;
 	private BufferedImage[] explodedSprites;
@@ -33,8 +36,7 @@ public class BubbleView extends JLabel implements Observer {
 		loadSprites();
 		
 		this.setBounds(bubble.getX(), bubble.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
-		resizeIcon(defaultSprite);
-        setIcon(resizedIcon);
+		updateIcon(GameConstants.BUBBLE_SHOT_SIZE);
         setVisible(true);
 	}
 	
@@ -46,15 +48,22 @@ public class BubbleView extends JLabel implements Observer {
 			setBounds(b.getX(), b.getY(), size, size);
 			if (arg instanceof BufferedImage) {
 				defaultSprite = (BufferedImage) arg;
-				resizeIcon(defaultSprite);
-				setIcon(resizedIcon);
 			}
+			updateIcon(size);
 		}
 	}
 	
 	public void resizeIcon(BufferedImage originalImage) {
 		Image resizedImage = originalImage.getScaledInstance(this.getWidth(), this.getHeight(),Image.SCALE_FAST);
         resizedIcon = new ImageIcon(resizedImage);
+    }
+	
+	private void updateIcon(int size) {
+        if (!resizedIconsCache.containsKey(size)) {
+            Image resizedImage = defaultSprite.getScaledInstance(size, size, Image.SCALE_FAST);
+            resizedIconsCache.put(size, new ImageIcon(resizedImage));
+        }
+        setIcon(resizedIconsCache.get(size));
     }
 	
 	private void loadDefaultSprite() {
@@ -77,10 +86,6 @@ public class BubbleView extends JLabel implements Observer {
 		}
 		
 	}
-	
-//	public Bubble getBubbleBullet() {
-//		return bubble;
-//	}
 
 }
 
