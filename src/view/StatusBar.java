@@ -36,9 +36,9 @@ public class StatusBar extends JPanel implements Observer {
 	}
 	
 	private StatusBar() {
-		setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, 40));
+		setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.TILE_SIZE/4*3));
 		setVisible(true);
-		setLayout(new GridLayout(1,2));
+		setLayout(new GridLayout(1, 3));
 		UIManager.put("Label.font", font);
 		UIManager.put("Label.foreground", Color.WHITE);
 		
@@ -56,7 +56,7 @@ public class StatusBar extends JPanel implements Observer {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.BLACK);
+		g2.setColor(Color.decode("#7700c8"));
 		g2.fillRect(0, 0, getWidth(), getHeight());
 		hpLabel.setText("hp " + hp);
 		scoreLabel.setText("score " + score);

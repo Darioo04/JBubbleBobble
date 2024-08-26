@@ -21,6 +21,7 @@ public class LevelEditorView extends StateScreenView {
 	private Image levelCreated;
 	private boolean tileSelected = false;
 	private BufferedImage tile;
+	private int tileNum;
 	private char[][] levelFile;
 	private int x, y;
 	private boolean addTile = false;
@@ -38,7 +39,6 @@ public class LevelEditorView extends StateScreenView {
 			e.printStackTrace();
 		}
 		resetEditor();
-		setTile(0);
 	}
 	
 	@Override
@@ -159,6 +159,7 @@ public class LevelEditorView extends StateScreenView {
 	}
 	
 	public void setTile(int num) {
+		tileNum = num;
 		switch (num) {
 		case 0 -> {
 			try {
@@ -242,5 +243,9 @@ public class LevelEditorView extends StateScreenView {
 	
 	public BufferedImage getTile() {
 		return tile;
+	}
+	
+	public int getTileNum() {
+		return tileNum;
 	}
 }

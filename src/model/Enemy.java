@@ -50,6 +50,7 @@ public abstract class Enemy extends Entity {
 		if (isInBubble()) {
 			//implementare il comportamento del nemico quando è dentro la bolla
 			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
+			if (y < GameConstants.TILE_SIZE) y = GameConstants.TILE_SIZE;
 			setIsChasingPlayer(false);
 			setMoving(false);
 		}

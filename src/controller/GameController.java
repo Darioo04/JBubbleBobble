@@ -3,6 +3,10 @@ package controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -69,6 +73,9 @@ public class GameController {
     private CollisionChecker collisionChecker;
     public static int frames = 0;
     private Timer timer;
+    private int[] topScores;
+    private boolean firstTimePlaying;
+    private String playerName;
     
     private List<Enemy> enemies;
     private List<EnemyView> enemyViews;
@@ -98,6 +105,7 @@ public class GameController {
     }
     
     private GameController() {
+    	loadGameData();
         gameState = GameState.MENU;
         gameModel = GameModel.getInstance();
         gameModel.addObserver(StatusBar.getInstance());
@@ -212,6 +220,55 @@ public class GameController {
 			default -> {
 				throw new IllegalArgumentException("Unexpected value: " + gameState);
 			}	
+		}
+    }
+    
+    public void loadGameData() {
+    	String projectPath = System.getProperty("user.dir");
+        String path = projectPath + "/data/game-data.txt";
+        
+        try (BufferedReader reader = new BufferedReader(new FileReader(path))){
+			String line;
+			while ((line = reader.readLine())!= null) {
+				String parts[] = line.split(": ");
+				switch (parts[0]) {
+				case "first time playing" -> {
+					firstTimePlaying = Boolean.parseBoolean(parts[1]);
+				}
+				case "name" -> {
+					playerName = parts[1];
+				}
+				case "top scores" -> {
+					topScores = new int[3];
+					String[] scores = parts[1].split(" ");
+					topScores[0] = Integer.parseInt(scores[0]);
+					topScores[1] = Integer.parseInt(scores[1]);
+					topScores[2] = Integer.parseInt(scores[2]);
+				}
+				case "custom tile" -> {
+					LevelEditorView.getInstance().setTile(Integer.parseInt(parts[1]));
+				}
+				
+				default ->
+				throw new IllegalArgumentException("Unexpected value: " + parts[0]);
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+    }
+    
+    public void saveGameData() {
+    	String projectPath = System.getProperty("user.dir");
+        String path = projectPath + "/data/game-data.txt";
+        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))){
+			writer.write("first time playing: " + firstTimePlaying + "\n");
+			writer.write("name: " + playerName + "\n");
+			writer.write("top scores: " + topScores[0] + " " + topScores[1] + " " + topScores[2] + "\n");
+			writer.write("custom tile: " + LevelEditorView.getInstance().getTileNum() + "\n");
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
     }
     

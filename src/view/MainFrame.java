@@ -1,10 +1,14 @@
 package view;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
+import controller.GameController;
 
 @SuppressWarnings("deprecation")
 
@@ -23,8 +27,15 @@ public class MainFrame extends JFrame {
 			setIconImage(image); 
 		}
 		catch ( IOException e ) { e.printStackTrace(); }
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(false);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                GameController.getInstance().saveGameData();
+                System.exit(0);
+            }
+        });
     }
 	 
 }
