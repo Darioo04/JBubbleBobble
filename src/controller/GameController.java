@@ -198,7 +198,7 @@ public class GameController {
 				bullets.parallelStream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
 //				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleBubbleCollision(bubble, bullets));
 				bullets.parallelStream().forEach(Bubble::update);
-				removeBubble();
+				removeExplodedBubbles();
 				objs.parallelStream().forEach(ObjModel::update);
 //				enemies.stream().forEach( enemy -> {
 //					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
@@ -465,7 +465,7 @@ public class GameController {
     	player.setY(player.getSpawnY());
     }
     
-    public void spawnItems() {
+    public void endLevel() {
     	if (enemies.stream().count()==0) {
     		Food item1 = FoodFactory.getInstance().createItem(new Random().nextInt(101));
     		Food item2 = FoodFactory.getInstance().createItem(new Random().nextInt(101));
@@ -506,12 +506,13 @@ public class GameController {
     	removedBubbles.add(bubble);
     }
     
-    public void removeBubble() {
+    public void removeExplodedBubbles() {
     	removedBubbles.stream().forEach( bubble -> {
 			bullets.remove(bubble);
 			bulletViews.remove(bubble.getBubbleBulletView());
 			gamePanel.remove(bubble.getBubbleBulletView());
 		});
+//    	bullets = bullets.stream().filter(bubble -> !bubble.canBeDeleted()).collect(Collectors.toList());
 		removedBubbles.clear();
     }
     

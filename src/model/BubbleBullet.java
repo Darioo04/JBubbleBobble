@@ -44,7 +44,7 @@ public class BubbleBullet extends Bubble {
 					default -> throw new IllegalArgumentException("Unexpected value: " + direction);
 				}
 					
-				if (targetX == x) {
+				if (targetX == x || getCollisionLeft() || getCollisionRight()) {
 					setExpanded(true);
 					if (direction == Direction.RIGHT) {
 						x -= (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2;
@@ -60,12 +60,18 @@ public class BubbleBullet extends Bubble {
 				}
 					
 			}
-			else if (isExploded()) {
-				
-			}
 			else if (isExpanded()) {
 				y -= GameConstants.BUBBLE_FLOATING_SPEED;
 			}
+			else if (isExploded()) {
+				explosionTime++;
+				if (explosionTime>=EXPLOSION_DELAY) {
+					setCanBeDeleted(true);
+				}
+			}
+		else {
+			
+		}
 			
 		updateHitbox();
         setChanged();

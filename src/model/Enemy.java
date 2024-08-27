@@ -6,6 +6,8 @@ import java.util.TimerTask;
 
 import view.EnemyView;
 
+@SuppressWarnings("deprecation")
+
 public abstract class Enemy extends Entity {
 	
 	protected Player player;

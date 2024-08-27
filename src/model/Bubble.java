@@ -18,6 +18,7 @@ public abstract class Bubble extends Observable  {
 	private boolean isExpanded;
 	private boolean isFloating;
 	private boolean isExploded;
+	private boolean canBeDeleted;
 		
 	private Rectangle hitbox;
 	private int hitboxWidth;
@@ -28,6 +29,9 @@ public abstract class Bubble extends Observable  {
 	private boolean collisionLeft;
 	private boolean collisionRight;
 	private boolean collisionUp;
+	
+	protected int explosionTime;
+	protected static final int EXPLOSION_DELAY = 20; 
 	
 	public Bubble(int x,int y) {
 		this.x=x;
@@ -199,6 +203,14 @@ public abstract class Bubble extends Observable  {
 	
 	public void setExploded(boolean isExploded) {
 		this.isExploded = isExploded;
+	}
+	
+	public void setCanBeDeleted(boolean canBeDeleted) {
+		this.canBeDeleted = canBeDeleted;
+	}
+	
+	public boolean canBeDeleted() {
+		return canBeDeleted;
 	}
 	    
 	public BubbleView getBubbleBulletView() {
