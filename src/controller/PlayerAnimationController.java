@@ -70,16 +70,14 @@ public class PlayerAnimationController {
             }
             
         } 
-        
+        else if (player.isJumping()) {
+        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getSprite(jumpingSprites,animationCycle) : getSprite(jumpingSpritesSX,animationCycle);
+        } 
         else if (player.isInAir()) {
         	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getSprite(fallingSprites,animationCycle) : getSprite(fallingSpritesSX,animationCycle);
         } 
         
-        else if (player.isJumping()) {
-        	
-        	actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? getSprite(jumpingSprites,animationCycle) : getSprite(jumpingSpritesSX,animationCycle);
-            
-        } 
+       
         else {
         	
         	if (player.isRightPressed()) {
@@ -90,7 +88,10 @@ public class PlayerAnimationController {
             } else if (player.isLeftPressed()) {
             	
                 lastKeyPressed = LastKeyPressed.LEFT;
-                actualSprite = getSprite(runningSpritesSX, animationCycle);
+                if (player.isSpacePressed()) {
+                    actualSprite = (lastKeyPressed == LastKeyPressed.RIGHT) ? shootingSprite : shootingSpriteSX;
+                }
+                else actualSprite = getSprite(runningSpritesSX, animationCycle);
                 
             }
             
