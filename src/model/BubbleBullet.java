@@ -17,10 +17,12 @@ public class BubbleBullet extends Bubble {
 	
 	@Override
 	public void update() {
-//		getCollisionChecker().checkTileCollision(this);
+		collisionLeft = false;
+		collisionRight = false;
+		getCollisionChecker().checkTileCollision(this);
 		Direction direction = getDirection();
 		int targetX = getTargetX();
-		if (!getCollisionUp())
+		if (y > GameConstants.TILE_SIZE)
 			if(!isExpanded()) {
 				switch (direction){
 					case RIGHT -> {
@@ -60,14 +62,14 @@ public class BubbleBullet extends Bubble {
 				}
 					
 			}
-			else if (isExpanded()) {
-				y -= GameConstants.BUBBLE_FLOATING_SPEED;
-			}
 			else if (isExploded()) {
 				explosionTime++;
 				if (explosionTime>=EXPLOSION_DELAY) {
 					setCanBeDeleted(true);
 				}
+			}
+			else if (isExpanded()) {
+				y -= GameConstants.BUBBLE_FLOATING_SPEED;
 			}
 		else {
 			

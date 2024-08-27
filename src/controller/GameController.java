@@ -34,6 +34,7 @@ import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import model.Tile;
+import model.WinScreen;
 import view.BubbleView;
 import view.EnemyView;
 import view.GamePanel;
@@ -46,6 +47,7 @@ import view.ProfileView;
 import view.SelectLevelView;
 import view.StateScreenView;
 import view.StatusBar;
+import view.WinScreenView;
 import view.FoodView;
 import view.GameOverView;
 
@@ -70,6 +72,7 @@ public class GameController {
     private PauseScreen pauseScreen;
     private PauseScreenView pauseScreenView;
     private GameOverScreen gameOverScreen;
+    private WinScreen winScreen;
     private GamePanel gamePanel;
     private CollisionChecker collisionChecker;
     public static int frames = 0;
@@ -85,6 +88,7 @@ public class GameController {
     private List<Bubble> removedBubbles;
     private List<BubbleView> bulletViews;
     private List<Food> items;
+    private List<Food> collectedItems;
     private List<FoodView> itemViews;
     private List<EnemyAnimationController> eControllers;
     private List<BubbleAnimationController> bControllers;
@@ -139,6 +143,7 @@ public class GameController {
         pauseScreen = PauseScreen.getInstance();
         pauseScreenView = (PauseScreenView) pauseScreen.getStateScreenView();
         gameOverScreen = GameOverScreen.getInstance();
+        winScreen = WinScreen.getInstance();
         keyController = KeyController.getInstance();
         audioManager = AudioManager.getInstance();
         collisionChecker = CollisionChecker.getInstance();
@@ -174,8 +179,8 @@ public class GameController {
     
     public void updateAnimation() {
     	playerAnimationController.updateAnimation(animationCycle);
-        eControllers.parallelStream().forEach(eController -> eController.updateAnimation(animationCycle));
-        bControllers.parallelStream().forEach(bController -> bController.updateAnimation(animationCycle));
+        eControllers.stream().forEach(eController -> eController.updateAnimation(animationCycle));
+        bControllers.stream().forEach(bController -> bController.updateAnimation(animationCycle));
     }
     
     public void update() {
@@ -191,15 +196,34 @@ public class GameController {
 			
 			case GAME -> {
 				player.update();
-				
-				enemies.parallelStream().forEach(Enemy::update);
+				enemies.stream().forEach(Enemy::update);
 				removeDeadEnemies();
-				bullets.parallelStream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
-				bullets.parallelStream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
-//				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleBubbleCollision(bubble, bullets));
-				bullets.parallelStream().forEach(Bubble::update);
+				
+				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				bullets.stream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
+				bullets.stream().forEach(Bubble::update);
 				removeExplodedBubbles();
-				objs.parallelStream().forEach(ObjModel::update);
+				
+				objs.stream().forEach(ObjModel::update);
+				
+				if(enemies.isEmpty() && items.isEmpty() && collectedItems.isEmpty()) {
+					spawnFood();
+				}
+				if(!items.isEmpty()) { 
+					for (Food item : items) {
+						if (collisionChecker.checkFoodPlayerCollision(item, player)) {
+							score += item.getPoints();
+							audioManager.play("points");
+							collectedItems.add(item);
+							itemViews.remove(item.getFoodView());
+						}
+					}
+				}
+				if (collectedItems.size() == 2) {
+					changeDisplayedScreen(gamePanel, winScreen.getStateScreenView());
+                    setGameState(GameState.WIN);
+                    winScreen.update();
+				}
 //				enemies.stream().forEach( enemy -> {
 //					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 //				});
@@ -235,6 +259,10 @@ public class GameController {
             
             case LEVEL_EDITOR -> {
             	
+            }
+            
+            case WIN -> {
+            	winScreen.update();
             }
             
             case GAME_OVER -> {
@@ -344,6 +372,7 @@ public class GameController {
     	bulletViews = new ArrayList<>();
     	items = new ArrayList<>();
     	itemViews = new ArrayList<>();
+    	collectedItems = new ArrayList<>();
     	eControllers = new ArrayList<>();
     	bControllers = new ArrayList<>();
     	objs = new ArrayList<>();
@@ -364,7 +393,11 @@ public class GameController {
 		player.setDefaultValues();
 		gamePanel.remove(playerView);
 		enemies.clear();
+		items.clear();
+		collectedItems.clear();
 		enemyViews.stream().forEach(eView -> gamePanel.remove(eView));
+		itemViews.stream().forEach(item -> gamePanel.remove(item));
+		itemViews.clear();
 		enemyViews.clear();
 		removeBubbles();
 		audioManager.pauseLevelMusic();
@@ -465,21 +498,59 @@ public class GameController {
     	player.setY(player.getSpawnY());
     }
     
-    public void endLevel() {
-    	if (enemies.stream().count()==0) {
-    		Food item1 = FoodFactory.getInstance().createItem(new Random().nextInt(101));
-    		Food item2 = FoodFactory.getInstance().createItem(new Random().nextInt(101));
-    		FoodView itemView1 = new FoodView(item1);
-    		item1.addObserver(itemView1);
-    		FoodView itemView2 = new FoodView(item2);
-    		item2.addObserver(itemView2);
+    public void spawnFood() {
+//    	int localx = 0;
+//    	int localy = 0;
+//    	char[][] levelFile = levelCreator.getLevel();
+//    	
+//    	outerloop:
+//    	for (int y = 0; y < GameConstants.ROWS; y++) {
+//			for (int x = 0; x < GameConstants.COLS; x++) {
+//				if (levelFile[y][x] == ' ' && levelFile[y+1][x] == '1' && Math.random() < 0.06) {		//5% probabilita 
+//					localx = x * GameConstants.TILE_SIZE;
+//					localy = y * GameConstants.TILE_SIZE;
+//					break outerloop;
+//				}
+//			}
+//		}
+//    	Food item1 = FoodFactory.getInstance().createItem(Math.random(), localx, localy);
+//    	
+//    	outerloop2:
+//        	for (int y = 0; y < GameConstants.ROWS; y++) {
+//    			for (int x = 0; x < GameConstants.COLS; x++) {
+//    				if (levelFile[y][x] == ' ' && levelFile[y+1][x] == '1' && Math.random() < 0.06) {		
+//    					if (localx != x * GameConstants.TILE_SIZE || localy != y * GameConstants.TILE_SIZE) {
+//    						localx = x * GameConstants.TILE_SIZE;
+//    						localy = y * GameConstants.TILE_SIZE;
+//    					}
+//    					else {
+//    						for (int i = 1; i< GameConstants.COLS; i++) {
+//    							if (levelFile[y][i] == ' ' && levelFile[y+1][i] == '1') {
+//    								localx = x * GameConstants.TILE_SIZE;
+//    	    						localy = y * GameConstants.TILE_SIZE;
+//    							}
+//    						}
+//    					}
+//    					break outerloop2;
+//    				}
+//    			}
+//    		}
+//    	Food item2 = FoodFactory.getInstance().createItem(Math.random(), localx, localy);
+    	Food item1 = FoodFactory.getInstance().createItem(Math.random(), 3*GameConstants.TILE_SIZE, 11*GameConstants.TILE_SIZE);
+    	Food item2 = FoodFactory.getInstance().createItem(Math.random(), 7*GameConstants.TILE_SIZE, 11*GameConstants.TILE_SIZE);
+    	
+    	FoodView itemView1 = new FoodView(item1);
+    	item1.setFoodView(itemView1);
+    	FoodView itemView2 = new FoodView(item2);
+    	item2.setFoodView(itemView2);
     		
-    		items.add(item1);
-    		items.add(item2);
+    	items.add(item1);
+    	items.add(item2);
     		
-    		itemViews.add(itemView1);
-    		itemViews.add(itemView2);
-    	}
+    	itemViews.add(itemView1);
+    	itemViews.add(itemView2);
+    	gamePanel.add(itemView1);
+    	gamePanel.add(itemView2);
     }
     
     public void bubbleShooted() {
@@ -520,6 +591,7 @@ public class GameController {
     	for (Enemy e : enemies.stream().filter(Enemy::isDead).collect(Collectors.toList())) {
     		if (e.getCanBeDeleted()) {
     			score += e.getScoreWhenKilled();
+    			audioManager.play("points");
     			enemies.remove(e);
     			enemyViews.remove(e.getEnemyView());
     			gamePanel.remove(e.getEnemyView());

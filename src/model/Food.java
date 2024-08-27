@@ -3,10 +3,13 @@ package model;
 import java.awt.Rectangle;
 import java.util.Observable;
 
+import view.FoodView;
+
 @SuppressWarnings("deprecation")
 
 public class Food extends Observable {
 	private FoodType type;
+	private FoodView foodView;
 	private int points;
 	private int x;
 	private int y;
@@ -16,7 +19,9 @@ public class Food extends Observable {
     private int hitboxOffsetX;
     private int hitboxOffsetY;
 	
-	public Food(FoodType type) {
+	public Food(FoodType type, int x, int y) {
+		this.x = x;
+		this.y = y;
 		this.type=type;
 		this.points=type.getPoint();
 		hitboxWidth = GameConstants.ITEM_SIZE - 2*GameConstants.SCALE;
@@ -56,6 +61,15 @@ public class Food extends Observable {
 	public Rectangle getHitbox() {
 		return hitbox;
 	}
+	
+	public void setFoodView(FoodView foodView) {
+        this.foodView = foodView;
+        this.addObserver(foodView);
+    }
+	
+	public FoodView getFoodView() {
+        return foodView;
+    }
 	
 	public void update() {
 		setChanged();

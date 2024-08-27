@@ -19,7 +19,7 @@ public class FoodView extends JLabel implements Observer {
 	
 	private BufferedImage sprite;
 	private ImageIcon resizedIcon;
-	private static final String path = "/sprites/Obj/items-";
+	private static final String path = "/sprites/items/items-";
 
 	public FoodView(Food item) {
 		try {
