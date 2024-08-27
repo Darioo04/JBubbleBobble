@@ -74,7 +74,8 @@ public class GameController {
     private CollisionChecker collisionChecker;
     public static int frames = 0;
     private Timer timer;
-    private int[] topScores;
+    private long[] topScores;
+    private long score;
     private boolean firstTimePlaying;
     private String playerName;
     
@@ -108,6 +109,7 @@ public class GameController {
     
     private GameController() {
     	loadGameData();
+    	score = 0;
     	if (firstTimePlaying) {
     		playerName = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:", "Benvenuto", JOptionPane.PLAIN_MESSAGE);
     		if (playerName == null) {System.exit(0);}
@@ -191,11 +193,11 @@ public class GameController {
 				player.update();
 				
 				enemies.parallelStream().forEach(Enemy::update);
-				removeEnemies();
-				bullets.parallelStream().forEach(Bubble::update);
+				removeDeadEnemies();
 				bullets.parallelStream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				bullets.parallelStream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
-				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleBubbleCollision(bubble, bullets));
+//				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleBubbleCollision(bubble, bullets));
+				bullets.parallelStream().forEach(Bubble::update);
 				removeBubble();
 				objs.parallelStream().forEach(ObjModel::update);
 //				enemies.stream().forEach( enemy -> {
@@ -248,6 +250,7 @@ public class GameController {
     public void loadGameData() {
     	String projectPath = System.getProperty("user.dir");
         String path = projectPath + "/data/game-data.txt";
+        topScores = new long[3];
         
         try (BufferedReader reader = new BufferedReader(new FileReader(path))){
 			String line;
@@ -259,13 +262,15 @@ public class GameController {
 				}
 				case "name" -> {
 					playerName = parts[1];
+					profileView.setPlayerName(playerName);
 				}
 				case "top scores" -> {
-					topScores = new int[3];
+					topScores = new long[3];
 					String[] scores = parts[1].split(" ");
 					topScores[0] = Integer.parseInt(scores[0]);
 					topScores[1] = Integer.parseInt(scores[1]);
 					topScores[2] = Integer.parseInt(scores[2]);
+					profileView.setTopScores(topScores);
 				}
 				case "custom tile" -> {
 					LevelEditorView.getInstance().setTile(Integer.parseInt(parts[1]));
@@ -287,10 +292,22 @@ public class GameController {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))){
 			writer.write("first time playing: " + firstTimePlaying + "\n");
 			writer.write("name: " + playerName + "\n");
+			if(score > topScores[0]) {
+				topScores[2] = topScores[1];
+                topScores[1] = topScores[0];
+                topScores[0] = score;
+			}
+			else if(score > topScores[1]) {
+                topScores[2] = topScores[1];
+                topScores[1] = score;
+            }
+			else if(score > topScores[2]) {
+                topScores[2] = score;
+            }
 			writer.write("top scores: " + topScores[0] + " " + topScores[1] + " " + topScores[2] + "\n");
 			writer.write("custom tile: " + LevelEditorView.getInstance().getTileNum() + "\n");
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
     }
     
@@ -426,7 +443,7 @@ public class GameController {
     			Enemy enemy = enemyFactory.createEnemy(levelFile[i][j], i, j);
                 if (enemy!=null) {
                 	EnemyView enemyView = new EnemyView(enemy,enemy.getNumIdleSprites(),enemy.getNumRunningSprites(),enemy.getNumJumpingSprites(), enemy.getNumFallingSprites());
-    				enemy.addObserver(enemyView);
+    				enemy.setEnemyView(enemyView);
     				gamePanel.add(enemyView);
     				enemies.add(enemy);
     				enemyViews.add(enemyView);
@@ -498,9 +515,14 @@ public class GameController {
 		removedBubbles.clear();
     }
     
-    public void removeEnemies() {
+    public void removeDeadEnemies() {
     	for (Enemy e : enemies.stream().filter(Enemy::isDead).collect(Collectors.toList())) {
-    		enemies.remove(e);
+    		if (e.getCanBeDeleted()) {
+    			score += e.getScoreWhenKilled();
+    			enemies.remove(e);
+    			enemyViews.remove(e.getEnemyView());
+    			gamePanel.remove(e.getEnemyView());
+    		}
     	}
     }
     
@@ -518,5 +540,9 @@ public class GameController {
     
     public void setPlayerName(String name) {
     	playerName = name;
+    }
+    
+    public long getScore() {
+    	return score;
     }
 }

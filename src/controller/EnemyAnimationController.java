@@ -17,6 +17,7 @@ public class EnemyAnimationController {
 	private BufferedImage[] jumpingSpritesSX;
 	private BufferedImage[] inBubbleSprites;
 	private BufferedImage[] deathSprites;
+	private BufferedImage finalDeathAnimation;
 	
 	public EnemyAnimationController(Builder builder) {
 		this.enemy = builder.enemy;
@@ -44,7 +45,7 @@ public class EnemyAnimationController {
 		else if (enemy.isInBubble()) {
 			actualSprite = getSprite(inBubbleSprites,animationCycle);
 		}
-		else if (enemy.getBubbleExploded() && !enemy.getCollisionDown()) {
+		else if (enemy.getBubbleExploded()) {
 			actualSprite = getSprite(deathSprites,animationCycle);
 		}
 		
@@ -116,6 +117,11 @@ public class EnemyAnimationController {
 		public Builder setDeathSprites(BufferedImage[] deathSprites) {
 			this.deathSprites=deathSprites;
 			return (this);
+		}
+		
+		public Builder setFinalDeathSprite(BufferedImage finalDeathSprite) {
+			this.finalDeathAnimation = finalDeathSprite;
+            return (this);
 		}
 		
 		public EnemyAnimationController build() {

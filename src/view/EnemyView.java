@@ -25,6 +25,7 @@ public class EnemyView extends EntityView {
 	private BufferedImage[] fallingSpritesSX;
 	private BufferedImage[] deathSprites;
 	private BufferedImage[] inBubbleSprites;
+	private BufferedImage finalDeathAnimation;
 	
 	private BufferedImage actualSprite;
 	
@@ -76,6 +77,9 @@ public class EnemyView extends EntityView {
 			for (int i=0; i<4; i++) {
 				deathSprites[i] = ImageIO.read(getClass().getResource(path + "death-" + (i+1) + ".png"));
 			}
+			
+			finalDeathAnimation = ImageIO.read(getClass().getResource(path + "death.png"));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -99,6 +103,7 @@ public class EnemyView extends EntityView {
 				.setJumpingSpritesSX(jumpingSpritesSX)
 				.setDeathSprites(deathSprites)
 				.setInBubbleSprites(inBubbleSprites)
+				.setFinalDeathSprite(finalDeathAnimation)
 				.build();
 		GameController.getInstance().addEnemyAnimationController(enemyAnimationController);
 	}

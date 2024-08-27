@@ -50,6 +50,7 @@ public class KeyController implements KeyListener {
     	winScreen = WinScreen.getInstance();
     	audioManager = AudioManager.getInstance();
     	levelEditorView = LevelEditorView.getInstance();
+    	profileView = ProfileView.getInstance();
     }
     
     @Override
@@ -85,7 +86,7 @@ public class KeyController implements KeyListener {
 						case 1 -> {
 							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), ProfileView.getInstance());
 							gameController.setGameState(GameState.SELECT_PROFILE);
-//							profileScreen.update();
+							profileView.repaint();
 						}
 						case 2 -> {
 							gameController.changeDisplayedScreen(menuScreen.getStateScreenView(), LevelEditorView.getInstance());

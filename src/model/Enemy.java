@@ -1,6 +1,10 @@
 package model;
 
 import java.awt.Rectangle;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import view.EnemyView;
 
 public abstract class Enemy extends Entity {
 	
@@ -10,6 +14,12 @@ public abstract class Enemy extends Entity {
 	private boolean isJumping;
 	private boolean isChasingPlayer = false;
 	private boolean bubbleExploded;
+	private EnemyView enemyView;
+	private boolean canBeDeleted;
+	protected int scoreWhenKilled;
+	
+	private int deathCounter;
+	private final int DEATH_DELAY = 20;
 	
 	public Enemy(int x, int y) {
 		this.x = x;
@@ -28,7 +38,7 @@ public abstract class Enemy extends Entity {
 	}
 	
 	public void setInBubble(boolean inBubble) {
-		if (!isDead()) this.inBubble=inBubble;
+		this.inBubble=inBubble;
 	}
 	
 	public boolean isInBubble() {
@@ -59,10 +69,30 @@ public abstract class Enemy extends Entity {
 		return bubbleExploded;
 	}
 	
+	public EnemyView getEnemyView() {
+        return enemyView;
+    }
+	
+	public void setEnemyView(EnemyView enemyView) {
+        this.enemyView = enemyView;
+        this.addObserver(enemyView);
+    }
+	
+	public void setCanBeDeleted(boolean canBeDeleted) {
+        this.canBeDeleted = canBeDeleted;
+    }
+	
+	public boolean getCanBeDeleted() {
+        return canBeDeleted;
+    }
+	
+	public int getScoreWhenKilled() {
+        return scoreWhenKilled;
+    }
+	
 	@Override
 	public void update() {
 		if (inBubble) {
-			//implementare il comportamento del nemico quando è dentro la bolla
 			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
 			if (y < GameConstants.TILE_SIZE) y = GameConstants.TILE_SIZE;
 			setIsChasingPlayer(false);
@@ -72,8 +102,19 @@ public abstract class Enemy extends Entity {
 			y -= (int)GameConstants.BUBBLE_FLOATING_SPEED;
 			if (getCollisionDown()) {
 				setDead(true);
-			}
-		}
+				
+				if (deathCounter == 0) {
+	                deathCounter = 1;
+	            }
+	        }
+	    }
+	    
+	    if (deathCounter > 0) {
+	        deathCounter++;
+	        if (deathCounter >= DEATH_DELAY) {
+	            setCanBeDeleted(true);
+	        }
+	    }
 	}
 	
 }

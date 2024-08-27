@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import controller.GameController;
 import model.GameConstants;
 import model.Player;
 
@@ -67,7 +68,7 @@ public class StatusBar extends JPanel implements Observer {
 		if (o instanceof Player) {
 			Player p = (Player) o;
 			setHP(p.getHP());
-			setScore(p.getScore());
+			setScore(GameController.getInstance().getScore());
 			repaint();
 		}
 	}

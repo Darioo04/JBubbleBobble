@@ -60,6 +60,9 @@ public class BubbleBullet extends Bubble {
 				}
 					
 			}
+			else if (isExploded()) {
+				
+			}
 			else if (isExpanded()) {
 				y -= GameConstants.BUBBLE_FLOATING_SPEED;
 			}

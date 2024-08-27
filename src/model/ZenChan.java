@@ -7,11 +7,11 @@ import controller.LevelCreator;
 
 public class ZenChan extends Enemy {
 	
-	private Player player;
 	private int targetY;
 	
 	public ZenChan(int x,int y) {
 		super(x,y);
+		scoreWhenKilled = 100;
 		setPath("/sprites/zen-chan/");
 		setDirection(Math.random() > 0.5 ? Direction.RIGHT : Direction.LEFT);	 //prima direzione random
 		setSpeed(5);
@@ -19,14 +19,13 @@ public class ZenChan extends Enemy {
 		setNumRunningSprites(2);
 		setNumJumpingSprites(0);
 		setIsChasingPlayer(false);
-		player = Player.getInstance();
 	}
 	
 	@Override
 	public void update() {
+		super.update();
 		setDirectionToGo();
 		setEnemyCollision();
-		super.update();
 		if (!isDead()) {	
 			if (isChasingPlayer()) {
 				if(Math.abs(targetY - y) <= 9) {
