@@ -23,6 +23,9 @@ public abstract class Enemy extends Entity {
 	private int deathCounter;
 	private final int DEATH_DELAY = 20;
 	
+	private int rebornCounter;
+	private final int REBORN_DELAY = 600;
+	
 	public Enemy(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -99,6 +102,9 @@ public abstract class Enemy extends Entity {
 			if (y < GameConstants.TILE_SIZE) y = GameConstants.TILE_SIZE;
 			setIsChasingPlayer(false);
 			setMoving(false);
+			if (rebornCounter == 0) {
+				rebornCounter = 1;
+			}
 		}
 		else if (bubbleExploded) {
 			y -= (int)GameConstants.BUBBLE_FLOATING_SPEED;
@@ -116,6 +122,16 @@ public abstract class Enemy extends Entity {
 	        if (deathCounter >= DEATH_DELAY) {
 	            setCanBeDeleted(true);
 	        }
+	    }
+	    
+	    if (rebornCounter > 0) {
+	    	rebornCounter++;
+	    	if (rebornCounter >= REBORN_DELAY) {
+	    		rebornCounter = 0;
+	    		setInBubble(false);
+	    		setBubbleExploded(false);
+	    		setMoving(true);
+	    	}
 	    }
 	}
 	

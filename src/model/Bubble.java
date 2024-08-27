@@ -25,10 +25,10 @@ public abstract class Bubble extends Observable  {
 	private int hitboxHeight;
 	private int hitboxOffsetX;
 	private int hitboxOffsetY;
-	private boolean collisionDown;
-	private boolean collisionLeft;
-	private boolean collisionRight;
-	private boolean collisionUp;
+	protected boolean collisionDown;
+	protected boolean collisionLeft;
+	protected boolean collisionRight;
+	protected boolean collisionUp;
 	
 	protected int explosionTime;
 	protected static final int EXPLOSION_DELAY = 20; 

@@ -211,7 +211,9 @@ public class KeyController implements KeyListener {
 						case 1 -> {
 							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),menuScreen.getStateScreenView());
 							gameController.setGameState(GameState.MENU);
+							gameController.clearLevel();
 							menuScreen.update();
+							audioManager.resumeBackgroundMusic();
 						}
 						default -> {
 							

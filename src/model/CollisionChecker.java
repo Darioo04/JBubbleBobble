@@ -105,10 +105,10 @@ public class CollisionChecker {
 		rightCol = (rightX + GameConstants.BUBBLE_X_SPEED + GameConstants.SCALE) / GameConstants.TILE_SIZE;
 		bubble.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
 		
-		leftCol = leftX / GameConstants.TILE_SIZE;
-		rightCol = rightX / GameConstants.TILE_SIZE;
-		bottomRow = (int)(bottomY + GameConstants.BUBBLE_FLOATING_SPEED + 1) / GameConstants.TILE_SIZE;
-		bubble.setCollisionUp(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+//		leftCol = leftX / GameConstants.TILE_SIZE;
+//		rightCol = rightX / GameConstants.TILE_SIZE;
+//		bottomRow = (int)(bottomY + GameConstants.BUBBLE_FLOATING_SPEED + 1) / GameConstants.TILE_SIZE;
+//		bubble.setCollisionUp(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 	}
 	
 	public void checkPlayerEnemyCollision(Player player, List<Enemy> enemyList) {
@@ -135,15 +135,29 @@ public class CollisionChecker {
         Rectangle bubbleHitbox = bubble.getHitbox();
         Rectangle playerHitbox = player.getHitbox();
         
-        if (bubbleHitbox.intersects(playerHitbox));{
+//        System.out.println("xb: " + bubbleHitbox.getX() + "   yb: " + bubbleHitbox.getY());
+//        System.out.println("x: " + playerHitbox.getX() + "   y: " + playerHitbox.getY());
+        
+        if (bubbleHitbox.intersects(playerHitbox)){
         	bubble.setExploded(true);
         	bubble.setFloating(false);
-//        	System.out.println("collision");
+        	System.out.println("collision");
         }
 //        if (bubbleHitbox.intersects(playerHitbox)) {
 //             return true;
 //        }
 //        return false;
+	}
+	
+	public boolean checkFoodPlayerCollision(Food food, Player player) {
+		this.levelFile = LevelCreator.getInstance().getLevel();
+        Rectangle foodHitbox = food.getHitbox();
+        Rectangle playerHitbox = player.getHitbox();
+
+        if (foodHitbox.intersects(playerHitbox)){
+        	return true;
+        }
+        return false;
 	}
 	
 	public void checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
