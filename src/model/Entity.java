@@ -24,6 +24,9 @@ public abstract class Entity extends Observable {
 	public static final int GRAVITY = 1 * GameConstants.SCALE; // Gravità costante
 	protected char[][] levelFile;
 	
+	protected int deathCounter;
+	protected final int DEATH_DELAY = 20;
+	
 	protected Rectangle hitbox;
 	protected int hitboxWidth;
 	protected int hitboxHeight;

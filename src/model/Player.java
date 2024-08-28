@@ -3,6 +3,8 @@ package model;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+
+import controller.GameController;
 import controller.LevelCreator;
 
 @SuppressWarnings("deprecation")
@@ -177,6 +179,21 @@ public class Player extends Entity {
 			default -> throw new IllegalArgumentException("Unexpected value: " + getDirection());
 		}
 		
+		if (isDead()) {
+			if (deathCounter == 0) {
+				deathCounter = 1;
+			}
+			
+			if (deathCounter > 0) {
+			    deathCounter++;
+			    if (deathCounter >= DEATH_DELAY) {
+			    	GameController.getInstance().setGameOver();
+			    	deathCounter = 0;
+			    	lives = 3;
+			    	score = 0;
+			    }
+			}
+		}
 		
 		updateHitbox();
         setChanged();

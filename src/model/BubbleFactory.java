@@ -11,6 +11,7 @@ public class BubbleFactory {
 	private char[][] levelFile;
 	private int spawnY;
 	private Player player;
+	List<Integer> spawnPoints;
 	public static BubbleFactory getInstance() {
 		if (instance==null) instance = new BubbleFactory();
 		return instance;
@@ -32,7 +33,7 @@ public class BubbleFactory {
 	}
 	
 	private void spawnBubbles() {
-    	List<Integer> spawnPoints = new ArrayList<>();
+		spawnPoints = new ArrayList<>();
     	levelFile = LevelCreator.getInstance().getLevel();
     	spawnY = levelFile.length-1;
     	int rowLength = levelFile[0].length;

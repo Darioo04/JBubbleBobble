@@ -20,9 +20,6 @@ public abstract class Enemy extends Entity {
 	private boolean canBeDeleted;
 	protected int scoreWhenKilled;
 	
-	private int deathCounter;
-	private final int DEATH_DELAY = 20;
-	
 	private int rebornCounter;
 	private final int REBORN_DELAY = 600;
 	

@@ -9,6 +9,8 @@ public class PulPul extends Enemy {
 		setPath("/sprites/pulpul/");
 		setDirection(Direction.RIGHT);
 		setSpeed(3);
+		setNumIdleSprites(1);
+		setNumRunningSprites(3);
 	}
 	
 	@Override

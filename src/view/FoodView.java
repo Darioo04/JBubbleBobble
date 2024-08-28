@@ -19,7 +19,7 @@ public class FoodView extends JLabel implements Observer {
 	
 	private BufferedImage sprite;
 	private ImageIcon resizedIcon;
-	private static final String path = "/sprites/items/items-";
+	private static final String path = "/sprites/items/";
 
 	public FoodView(Food item) {
 		try {
@@ -30,19 +30,20 @@ public class FoodView extends JLabel implements Observer {
 				case CORN -> ImageIO.read(getClass().getResource(path+"corn.png"));
 				case BANANA -> ImageIO.read(getClass().getResource(path+"banana.png"));
 				case WATERMELON -> ImageIO.read(getClass().getResource(path+"watermelon.png"));
-				case ICE_CREAM -> ImageIO.read(getClass().getResource(path+"IceCream.png"));
+				case ICE_CREAM -> ImageIO.read(getClass().getResource(path+"iceCream.png"));
 				case HAMBURGER -> ImageIO.read(getClass().getResource(path+"hamburger.png"));
-				case COCKTAIL -> ImageIO.read(getClass().getResource(path+"Cocktail.png"));
-				case CURRY_RICE -> ImageIO.read(getClass().getResource(path+"CurryRyce.png"));
-				case GOLD_CROWN -> ImageIO.read(getClass().getResource(path+"GoldCrown.png"));
+				case COCKTAIL -> ImageIO.read(getClass().getResource(path+"cocktail.png"));
+				case CURRY_RICE -> ImageIO.read(getClass().getResource(path+"curryRice.png"));
+				case GOLD_CROWN -> ImageIO.read(getClass().getResource(path+"goldCrown.png"));
 			};
+			setBounds(item.getX(),item.getY(),GameConstants.ITEM_SIZE,GameConstants.ITEM_SIZE);
+			resizeIcon(sprite);
+		    setIcon(resizedIcon); 
+		    setVisible(true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		setBounds(item.getX(),item.getY(),GameConstants.ITEM_SIZE,GameConstants.ITEM_SIZE);
-		resizeIcon(sprite);
-	    setIcon(resizedIcon); 
-	    setVisible(true);
+		
 		
 	}
 	
@@ -57,6 +58,10 @@ public class FoodView extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o,Object arg) {
-//		setBounds(item.getX(),item.getY(),GameConstants.ITEM_SIZE,GameConstants.ITEM_SIZE);
+		if (o instanceof Food) {
+			Food item = (Food) o;
+			setBounds(item.getX(),item.getY(),GameConstants.ITEM_SIZE,GameConstants.ITEM_SIZE);
+		}
+		
 	}
 }
