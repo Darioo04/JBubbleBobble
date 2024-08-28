@@ -11,17 +11,24 @@ public class PulPul extends Enemy {
 		setSpeed(3);
 		setNumIdleSprites(1);
 		setNumRunningSprites(3);
+		setNumJumpingSprites(0);
 	}
 	
 	@Override
 	public void update() {
+		super.update();
+		collisionChecker.checkTileCollision(this);
+		if (!isDead() && !isInBubble()) {
+			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
+	            randomizeDirection();
+	        }
 		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
             randomizeDirection();
         }
 		int speed = getSpeed();
 		switch (getDirection()) {
 			case RIGHT -> {
-				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed) {
+				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
 					x += speed;
 				}
 				else {
@@ -30,7 +37,7 @@ public class PulPul extends Enemy {
 			}
 			
 			case LEFT -> {
-				if (x > 2*GameConstants.TILE_SIZE + speed) {
+				if (x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
 	                x -= speed;
 	            }
 				else {
@@ -39,7 +46,7 @@ public class PulPul extends Enemy {
 			}
 			
 			case DOWN -> {
-	            if (y < GameConstants.SCREEN_HEIGHT - 3*GameConstants.TILE_SIZE - speed) {
+	            if (y < GameConstants.SCREEN_HEIGHT - 3*GameConstants.TILE_SIZE - speed && !getCollisionDown()) {
 	                y += speed;
 	            }
 	            else {
@@ -48,18 +55,23 @@ public class PulPul extends Enemy {
 	        }
 			
 			case UP -> {
-				if (y > 2*GameConstants.TILE_SIZE + speed) {
+				if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp()) {
 	                y -= speed;
 	            }
 				else {
 					randomizeDirection();
 				}
 	        }
+		
+		
 			
 			default ->{}
+			}
 		}
+		updateHitbox();
 		setChanged();
         notifyObservers();
+	
 	}
 	
 	private void randomizeDirection() {
@@ -77,5 +89,19 @@ public class PulPul extends Enemy {
         else {
             setDirection(Direction.UP);
         }
+	}
+	private void setDirectionToGo() {
+		if (collisionLeft) {
+			setDirection(Direction.RIGHT);
+		}
+		else if (collisionRight) {
+            setDirection(Direction.LEFT);
+        }
+	}
+	private void setEnemyCollision() {
+		collisionLeft = false;
+		collisionRight = false;
+		collisionDown = false;
+		collisionChecker.checkTileCollision(this);
 	}
 }
