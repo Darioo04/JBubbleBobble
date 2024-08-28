@@ -4,12 +4,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;

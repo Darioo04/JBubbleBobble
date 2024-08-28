@@ -1,9 +1,18 @@
 package model;
 
-public class Wall extends Tile  {
+public class Wall {
+	
+	private String path;
 	
 	public Wall(int level) {
-		super(true);
-        setPath("/sprites/Tiles/LevelTiles-"+(level-1)+".png");
+        path = "/sprites/Tiles/LevelTiles-"+(level-1)+".png";
 	}
+	
+	public String getPath() {
+		return path;
+	}
+	
+	public void setPath(String path) {
+		this.path = path;
+	} 
 }

@@ -202,11 +202,14 @@ public class KeyController implements KeyListener {
 					audioManager.play("click");
 					switch (winScreen.getPointer()) {
 						case 0 -> {
+							gameController.clearLevel();
 							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),GamePanel.getInstance());
 							gameController.setGameState(GameState.GAME);
 							selectLevelScreen.increasePointer();
 							gameController.setLevel(selectLevelScreen.getPointer()+1);
 							gameController.startLevel();
+							audioManager.stopLevelMusic();
+							audioManager.playLevelMusic("level");
 						}
 						case 1 -> {
 							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),menuScreen.getStateScreenView());

@@ -123,7 +123,7 @@ public abstract class Enemy extends Entity {
 	    
 	    if (rebornCounter > 0) {
 	    	rebornCounter++;
-	    	if (rebornCounter >= REBORN_DELAY) {
+	    	if (rebornCounter >= REBORN_DELAY && !bubbleExploded) {
 	    		rebornCounter = 0;
 	    		setInBubble(false);
 	    		setBubbleExploded(false);

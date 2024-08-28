@@ -7,13 +7,19 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Observable;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import controller.GameController;
 import model.GameConstants;
 import model.GameModel;
 import model.GameState;
@@ -23,45 +29,76 @@ import model.GameState;
 public class ProfileView extends StateScreenView {
 	public static ProfileView instance;
 	private String playerName;
-	private long topScores[] = new long[3];
+	private long topScores[];
 	private JLabel nameLabel;
     private JLabel[] scoreLabels;
 	private Font font = FontCreator.getInstance().getFont();
-//	private GameModel gameModel = GameModel.getInstance();
-//	private int gamesPlayed;
-//	private int gamesWon;
-//	private int gamesLost;
-//
-//	
+	private BufferedImage bubPng;
+	private ImageIcon bubPngIcon;
+	private JLabel bubLabel;
+	private int gamesPlayed;
+	private int gamesWon;
+	private int gamesLost;
+
+	
 	public static ProfileView getInstance() {
 		if (instance==null) instance = new ProfileView();
 		return instance;
 	}
 	
 	private ProfileView() {
-		setLayout(new BorderLayout());
-        setBackground(Color.LIGHT_GRAY);
+		topScores = new long[3];
+		setLayout(null);
+        setBackground(Color.BLACK);
         setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
+        try {
+			bubPng = ImageIO.read(getClass().getResource("/sprites/profile-bub.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		bubLabel = new JLabel();
+		bubLabel.setBounds(7*GameConstants.TILE_SIZE, 3*GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE);
+		bubPngIcon = new ImageIcon(bubPng.getScaledInstance(bubLabel.getWidth(), bubLabel.getHeight(),Image.SCALE_SMOOTH));
+		bubLabel.setIcon(bubPngIcon);
+		add(bubLabel);
 
-        // Create and configure the name label
-        nameLabel = new JLabel("Player: " + playerName, JLabel.CENTER);
+		font = font.deriveFont(36f);
+        nameLabel = new JLabel("hello " + playerName + "!");
+        nameLabel.setBounds(5*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
         nameLabel.setFont(font);
-        add(nameLabel, BorderLayout.NORTH);
-
-        // Create a panel to hold the scores
-        JPanel scoresPanel = new JPanel();
-        scoresPanel.setLayout(new GridLayout(topScores.length, 1)); // One row per score
-
-        // Create and add score labels to the panel
+        add(nameLabel);
+        
+        font = font.deriveFont(20f);
         scoreLabels = new JLabel[topScores.length];
         for (int i = 0; i < topScores.length; i++) {
-            scoreLabels[i] = new JLabel("Top Score " + (i + 1) + ": " + topScores[i], JLabel.CENTER);
-            scoreLabels[i].setFont(new Font("Arial", Font.PLAIN, 18));
-            scoresPanel.add(scoreLabels[i]);
+            scoreLabels[i] = new JLabel((i+1) + " top score! " + topScores[i]);
+            scoreLabels[i].setBounds(GameConstants.TILE_SIZE, i*GameConstants.TILE_SIZE + 3*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+            scoreLabels[i].setFont(font);
+            add(scoreLabels[i]);
         }
-
-        // Add the scores panel to the center of the main panel
-        add(scoresPanel, BorderLayout.CENTER);
+        
+        JLabel gamesPlayedLabel = new JLabel("games played!  " + gamesPlayed);
+        gamesPlayedLabel.setBounds(GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
+        gamesPlayedLabel.setFont(font);
+        JLabel gamesWonLabel = new JLabel("games won!  " + gamesWon);
+        gamesWonLabel.setBounds(GameConstants.TILE_SIZE, 6*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
+        gamesWonLabel.setFont(font);
+        JLabel gamesLostLabel = new JLabel("games lost!  " + gamesLost);
+        gamesLostLabel.setBounds(GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
+        gamesLostLabel.setFont(font);
+        
+        add(gamesPlayedLabel);
+        add(gamesWonLabel);
+        add(gamesLostLabel);
+	}
+	
+	public void update() {
+		playerName = GameController.getInstance().getPlayerName();
+		topScores = GameController.getInstance().getTopScores();
+		nameLabel.setText("hello " + playerName + "!");
+		for (int i = 0; i < topScores.length; i++) {
+            scoreLabels[i].setText((i+1)+ " top score!  " + topScores[i]);
+        }
 	}
 	
 	public void setPlayerName(String name) {
@@ -101,23 +138,24 @@ public class ProfileView extends StateScreenView {
 //
 //	}
 //	
-//	@Override
-//	public void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-////		Graphics2D g2 = (Graphics2D) g;
-////		g2.setColor(Color.BLACK);
-////		g2.fillRect(0, 0, getWidth(), getHeight());
-//	}
-//	
-//	@Override
-//	public void update(Observable o,Object arg) {
-//		if (o instanceof GameModel) {
-//			this.gamesPlayed=gameModel.getGamesPlayed();
-//			this.gamesWon=gameModel.getGamesWon();
-//			this.gamesLost=gameModel.getGamesLost();
-//			repaint();
-//		}
-//		
-//	}
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.decode("#7700c8"));
+		g2.fillRect(0, 0, getWidth(), getHeight());
+	}
+	
+	@Override
+	public void update(Observable o,Object arg) {
+		if (o instanceof GameModel) {
+			GameModel gm = (GameModel) o;
+			this.gamesPlayed=gm.getGamesPlayed();
+			this.gamesWon=gm.getGamesWon();
+			this.gamesLost=gm.getGamesLost();
+		}
+		revalidate();
+		repaint();
+	}
 	
 }	

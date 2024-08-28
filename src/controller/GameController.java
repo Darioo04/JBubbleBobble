@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -8,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -33,7 +35,6 @@ import model.Player;
 import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
-import model.Tile;
 import model.WinScreen;
 import view.BubbleView;
 import view.EnemyView;
@@ -135,8 +136,6 @@ public class GameController {
         selectLevelScreen = SelectLevelScreen.getInstance();
         selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
         profileView = ProfileView.getInstance();
-        gameModel.addObserver(profileView);
-                
         
         menuScreen = MenuScreen.getInstance();
         menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
@@ -199,10 +198,22 @@ public class GameController {
 				enemies.stream().forEach(Enemy::update);
 				removeDeadEnemies();
 				
+				bullets.stream().forEach(Bubble::update);
 				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				bullets.stream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
-				bullets.stream().forEach(Bubble::update);
-				removeExplodedBubbles();
+				bullets.stream()
+			       .filter(Bubble::canBeDeleted)
+			       .forEach(bubble -> {
+			           removeBubble(bubble);
+			           score += 20;
+			           audioManager.play("points");
+			       });
+				deleteRemovedBubbles();
+				
+//				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+//				bullets.stream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
+//				bullets.stream().forEach(Bubble::update);
+//				removeExplodedBubbles();
 				
 				objs.stream().forEach(ObjModel::update);
 				
@@ -212,10 +223,13 @@ public class GameController {
 				if(!items.isEmpty()) { 
 					for (Food item : items) {
 						if (collisionChecker.checkFoodPlayerCollision(item, player)) {
+							item.setHitbox(new Rectangle(0, 0, 1, 1));
 							score += item.getPoints();
 							audioManager.play("points");
 							collectedItems.add(item);
 							itemViews.remove(item.getFoodView());
+							gamePanel.remove(item.getFoodView());
+							System.out.println("rimosso food");
 						}
 					}
 				}
@@ -254,7 +268,7 @@ public class GameController {
             }
             
             case SELECT_PROFILE -> {
-            	profileView.repaint();
+            	profileView.update();
             }
             
             case LEVEL_EDITOR -> {
@@ -290,7 +304,6 @@ public class GameController {
 				}
 				case "name" -> {
 					playerName = parts[1];
-					profileView.setPlayerName(playerName);
 				}
 				case "top scores" -> {
 					topScores = new long[3];
@@ -298,7 +311,6 @@ public class GameController {
 					topScores[0] = Integer.parseInt(scores[0]);
 					topScores[1] = Integer.parseInt(scores[1]);
 					topScores[2] = Integer.parseInt(scores[2]);
-					profileView.setTopScores(topScores);
 				}
 				case "custom tile" -> {
 					LevelEditorView.getInstance().setTile(Integer.parseInt(parts[1]));
@@ -498,46 +510,28 @@ public class GameController {
     	player.setY(player.getSpawnY());
     }
     
-    public void spawnFood() {
-//    	int localx = 0;
-//    	int localy = 0;
-//    	char[][] levelFile = levelCreator.getLevel();
-//    	
-//    	outerloop:
-//    	for (int y = 0; y < GameConstants.ROWS; y++) {
-//			for (int x = 0; x < GameConstants.COLS; x++) {
-//				if (levelFile[y][x] == ' ' && levelFile[y+1][x] == '1' && Math.random() < 0.06) {		//5% probabilita 
-//					localx = x * GameConstants.TILE_SIZE;
-//					localy = y * GameConstants.TILE_SIZE;
-//					break outerloop;
-//				}
-//			}
-//		}
-//    	Food item1 = FoodFactory.getInstance().createItem(Math.random(), localx, localy);
-//    	
-//    	outerloop2:
-//        	for (int y = 0; y < GameConstants.ROWS; y++) {
-//    			for (int x = 0; x < GameConstants.COLS; x++) {
-//    				if (levelFile[y][x] == ' ' && levelFile[y+1][x] == '1' && Math.random() < 0.06) {		
-//    					if (localx != x * GameConstants.TILE_SIZE || localy != y * GameConstants.TILE_SIZE) {
-//    						localx = x * GameConstants.TILE_SIZE;
-//    						localy = y * GameConstants.TILE_SIZE;
-//    					}
-//    					else {
-//    						for (int i = 1; i< GameConstants.COLS; i++) {
-//    							if (levelFile[y][i] == ' ' && levelFile[y+1][i] == '1') {
-//    								localx = x * GameConstants.TILE_SIZE;
-//    	    						localy = y * GameConstants.TILE_SIZE;
-//    							}
-//    						}
-//    					}
-//    					break outerloop2;
-//    				}
-//    			}
-//    		}
-//    	Food item2 = FoodFactory.getInstance().createItem(Math.random(), localx, localy);
-    	Food item1 = FoodFactory.getInstance().createItem(Math.random(), 3*GameConstants.TILE_SIZE, 11*GameConstants.TILE_SIZE);
-    	Food item2 = FoodFactory.getInstance().createItem(Math.random(), 7*GameConstants.TILE_SIZE, 11*GameConstants.TILE_SIZE);
+    public void spawnFood() {;
+    	char[][] levelFile = levelCreator.getLevel();
+    	FoodFactory foodFactory = FoodFactory.getInstance();
+    	
+    	int randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
+    	int randomX = new Random().nextInt(GameConstants.COLS-1)+1;
+    	
+    	while (levelFile[randomY][randomX] != ' ') {
+    		randomX = new Random().nextInt(GameConstants.COLS-1)+1;
+    		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
+    	}
+    	Food item1 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
+    	System.out.println("x: " + randomX + "   y: " + randomY);
+    	
+    	randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
+    	randomX = new Random().nextInt(GameConstants.COLS-1)+1;
+    	while (levelFile[randomY][randomX] != ' ') {
+    		randomX = new Random().nextInt(GameConstants.COLS-1)+1;
+    		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
+    	}
+    	Food item2 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
+    	System.out.println("x: " + randomX + "   y: " + randomY);
     	
     	FoodView itemView1 = new FoodView(item1);
     	item1.setFoodView(itemView1);
@@ -576,14 +570,12 @@ public class GameController {
     public void removeBubble(Bubble bubble) {
     	removedBubbles.add(bubble);
     }
-    
-    public void removeExplodedBubbles() {
+    public void deleteRemovedBubbles() {
     	removedBubbles.stream().forEach( bubble -> {
 			bullets.remove(bubble);
 			bulletViews.remove(bubble.getBubbleBulletView());
 			gamePanel.remove(bubble.getBubbleBulletView());
 		});
-//    	bullets = bullets.stream().filter(bubble -> !bubble.canBeDeleted()).collect(Collectors.toList());
 		removedBubbles.clear();
     }
     
@@ -623,5 +615,13 @@ public class GameController {
     	changeDisplayedScreen(gamePanel,gameOverScreen.getStateScreenView());
     	setGameState(GameState.GAME_OVER);
     	gameOverScreen.update();
+    }
+    
+    public String getPlayerName() {
+    	return playerName;
+    }
+    
+    public long[] getTopScores() {
+    	return topScores;
     }
 }

@@ -12,6 +12,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import controller.BubbleAnimationController;
+import controller.GameController;
 import model.Bubble;
 import model.GameConstants;
 
@@ -19,13 +21,14 @@ import model.GameConstants;
 
 public class BubbleView extends JLabel implements Observer {
 
-	private Map<Integer, ImageIcon> resizedIconsCache = new HashMap<>();
+	private static Map<Integer, ImageIcon> resizedIconsCache = new HashMap<>();
+	private static final String path = "/sprites/Bubbles/bubble-";
 	private ImageIcon resizedIcon;
 	private BufferedImage defaultSprite;
 	private BufferedImage[] explodedSprites;
 	private BufferedImage[] extendsBubbles;
 	private Bubble bubble;
-	private static final String path = "/sprites/Bubbles/bubble-";
+	
 	
 	private BufferedImage defaultBubble;
 	
@@ -36,7 +39,7 @@ public class BubbleView extends JLabel implements Observer {
 		loadSprites();
 		
 		this.setBounds(bubble.getX(), bubble.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
-		updateIcon(GameConstants.BUBBLE_SHOT_SIZE);
+//		updateIcon(GameConstants.BUBBLE_SHOT_SIZE);
         setVisible(true);
 	}
 	
@@ -48,9 +51,12 @@ public class BubbleView extends JLabel implements Observer {
 			setBounds(b.getX(), b.getY(), size, size);
 			if (arg instanceof BufferedImage) {
 				defaultSprite = (BufferedImage) arg;
+				resizeIcon(defaultSprite);
+				setIcon(resizedIcon);
 			}
-			updateIcon(size);
+			
 		}
+		
 	}
 	
 	public void resizeIcon(BufferedImage originalImage) {
@@ -58,13 +64,13 @@ public class BubbleView extends JLabel implements Observer {
         resizedIcon = new ImageIcon(resizedImage);
     }
 	
-	private void updateIcon(int size) {
-        if (!resizedIconsCache.containsKey(size)) {
-            Image resizedImage = defaultSprite.getScaledInstance(size, size, Image.SCALE_FAST);
-            resizedIconsCache.put(size, new ImageIcon(resizedImage));
-        }
-        setIcon(resizedIconsCache.get(size));
-    }
+//	private void updateIcon(int size) {
+//        if (!resizedIconsCache.containsKey(size)) {
+//            Image resizedImage = defaultSprite.getScaledInstance(size, size, Image.SCALE_FAST);
+//            resizedIconsCache.put(size, new ImageIcon(resizedImage));
+//        }
+//        setIcon(resizedIconsCache.get(size));
+//    }
 	
 	private void loadDefaultSprite() {
 		try {
@@ -77,15 +83,25 @@ public class BubbleView extends JLabel implements Observer {
 	private void loadSprites() {
 		try {
 			this.defaultBubble =  ImageIO.read(getClass().getResource(path + "default.png"));
-			explodedSprites = new BufferedImage[2];
-			for (int i=0; i<2; i++) {
-				explodedSprites[i]=ImageIO.read(getClass().getResource(path+"exploded"+(i+1)+".png"));
+			explodedSprites = new BufferedImage[4];
+			for (int i=0; i<4; i++) {
+				explodedSprites[i] = ImageIO.read(getClass().getResource(path+"exploded"+(i+1)+".png"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		inizializeAnimationController();
 	}
 
+	
+	private void inizializeAnimationController() {
+		BubbleAnimationController bubbleAnimationController = new BubbleAnimationController.Builder()
+				.setBubble(bubble)
+				.setActualSprite(defaultSprite)
+				.setExplodedSprites(explodedSprites)
+				.setFloatingSprites(new BufferedImage[0])
+				.build();
+		GameController.getInstance().addBubbleAnimationController(bubbleAnimationController);
+	}
 }
 

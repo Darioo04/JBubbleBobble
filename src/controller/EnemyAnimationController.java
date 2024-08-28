@@ -19,7 +19,7 @@ public class EnemyAnimationController {
 	private BufferedImage[] deathSprites;
 	private BufferedImage finalDeathAnimation;
 	
-	public EnemyAnimationController(Builder builder) {
+	private EnemyAnimationController(Builder builder) {
 		this.enemy = builder.enemy;
 		this.actualSprite = builder.actualSprite;
 		this.idleSprites = builder.idleSprites;

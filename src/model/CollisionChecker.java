@@ -84,7 +84,7 @@ public class CollisionChecker {
 		
 	}
 	
-	public void checkTileCollision(BubbleBullet bubble) {
+	public void checkTileCollision(Bubble bubble) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
 		
 		Rectangle bubbleHitbox = bubble.getHitbox();
@@ -109,6 +109,29 @@ public class CollisionChecker {
 //		rightCol = rightX / GameConstants.TILE_SIZE;
 //		bottomRow = (int)(bottomY + GameConstants.BUBBLE_FLOATING_SPEED + 1) / GameConstants.TILE_SIZE;
 //		bubble.setCollisionUp(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+	}
+	
+	public void checkTileCollision(Food food) {
+		
+		this.levelFile = LevelCreator.getInstance().getLevel();
+		
+		Rectangle foodHitbox = food.getHitbox();
+		
+		int leftX = foodHitbox.x;
+		int rightX = leftX + foodHitbox.width;
+		int topY = foodHitbox.y;
+		int bottomY = topY + foodHitbox.height;
+		
+		int leftCol = leftX / GameConstants.TILE_SIZE;
+		int rightCol = rightX / GameConstants.TILE_SIZE;
+		int topRow = topY / GameConstants.TILE_SIZE;
+		int bottomRow = bottomY / GameConstants.TILE_SIZE;
+		
+		leftCol = leftX / GameConstants.TILE_SIZE;
+		rightCol = rightX / GameConstants.TILE_SIZE;
+		bottomRow = (bottomY) / GameConstants.TILE_SIZE;
+		food.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+		
 	}
 	
 	public void checkPlayerEnemyCollision(Player player, List<Enemy> enemyList) {
@@ -141,13 +164,21 @@ public class CollisionChecker {
         if (bubbleHitbox.intersects(playerHitbox)){
         	bubble.setExploded(true);
         	bubble.setFloating(false);
-        	System.out.println("collision");
+        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
+//        	System.out.println("collision");
         }
 //        if (bubbleHitbox.intersects(playerHitbox)) {
 //             return true;
 //        }
 //        return false;
 	}
+	
+//	public boolean checkBubblePlayerCollisionBoolean(Bubble bubble, Player player) {
+//		Rectangle bubbleHitbox = bubble.getHitbox();
+//        Rectangle playerHitbox = player.getHitbox();
+//        
+//        return bubbleHitbox.intersects(playerHitbox);
+//	}
 	
 	public boolean checkFoodPlayerCollision(Food food, Player player) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
@@ -161,17 +192,16 @@ public class CollisionChecker {
 	}
 	
 	public void checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
-        Rectangle bubbleHitbox = bubble.getHitbox();
-//        enemyList.stream().filter(enemy -> bubbleHitbox.intersects(enemy.getHitbox())).forEach(enemy -> enemy.setInBubble(true));;
-        for (Enemy enemy : enemyList) {
-            Rectangle enemyHitbox = enemy.getHitbox();
-            
-            if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded() && !enemy.isInBubble()) {
-                //da implementare
-            	enemy.setInBubble(true);
-            	GameController.getInstance().removeBubble(bubble);
-            }
-        }
+		Rectangle bubbleHitbox = bubble.getHitbox();
+      for (Enemy enemy : enemyList) {
+          Rectangle enemyHitbox = enemy.getHitbox();
+          
+          if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded()) {
+              //da implementare
+          	enemy.setInBubble(true);
+          	GameController.getInstance().removeBubble(bubble);
+          }
+      }
 	}
 	
 	public void checkBubbleBubbleCollision(Bubble bubble1, List<Bubble> bubbles) {

@@ -1,5 +1,7 @@
 package model;
 
+import controller.GameController;
+
 @SuppressWarnings("deprecation")
 
 public class Invader extends Enemy {
@@ -9,6 +11,7 @@ public class Invader extends Enemy {
 		super(x, y);
 		this.setPath("/sprites/invader/");
 		this.setDirection(Direction.RIGHT);
+		setMoving(false);
 		setSpeed(6);
 		setNumIdleSprites(2);
 		setNumRunningSprites(0);
@@ -55,10 +58,21 @@ public class Invader extends Enemy {
 				
 				default ->{}
 			}
+//			if (isPlayerBelow()) {
+//				GameController.getInstance().addObj( new Laser(getX(),getY()) );
+//			}
 		}
 		updateHitbox();
 		setChanged();
         notifyObservers();
+	}
+	
+	private boolean isPlayerBelow() {
+		int diff = GameConstants.SCREEN_HEIGHT - getY();
+		for (int i=0; i<diff; i++) {
+			if (getY() + i == Player.getInstance().getX()) return true;
+		}
+		return false;
 	}
 	
 	private void randomizeDirection() {

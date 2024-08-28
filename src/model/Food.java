@@ -7,7 +7,7 @@ import view.FoodView;
 
 @SuppressWarnings("deprecation")
 
-public class Food extends Observable {
+public class Food extends Observable{
 	private FoodType type;
 	private FoodView foodView;
 	private int points;
@@ -18,6 +18,7 @@ public class Food extends Observable {
     private int hitboxHeight;
     private int hitboxOffsetX;
     private int hitboxOffsetY;
+    private boolean collisionDown;
 	
 	public Food(FoodType type, int x, int y) {
 		this.x = x;
@@ -62,9 +63,17 @@ public class Food extends Observable {
 		return hitbox;
 	}
 	
+    public void setCollisionDown(boolean collisionDown) {
+        this.collisionDown = collisionDown;
+    }
+    
+    public boolean getCollisionDown() {
+        return collisionDown;
+    }
+    
+	
 	public void setFoodView(FoodView foodView) {
         this.foodView = foodView;
-        this.addObserver(foodView);
     }
 	
 	public FoodView getFoodView() {
@@ -72,7 +81,12 @@ public class Food extends Observable {
     }
 	
 	public void update() {
+		CollisionChecker.getInstance().checkTileCollision(this);
+		if (!getCollisionDown()) {
+			y-=30*GameConstants.SCALE;
+		}
 		setChanged();
 		notifyObservers();
 	}
+	
 }

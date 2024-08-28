@@ -22,25 +22,17 @@ public class BubbleBullet extends Bubble {
 		getCollisionChecker().checkTileCollision(this);
 		Direction direction = getDirection();
 		int targetX = getTargetX();
-		if (y > GameConstants.TILE_SIZE)
+		if (y > GameConstants.TILE_SIZE && !isExploded()) {
 			if(!isExpanded()) {
 				switch (direction){
 					case RIGHT -> {
 						if(x != targetX)
-							setX(x += GameConstants.BUBBLE_X_SPEED);
-						if(x > GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE && !getCollisionRight()) {
-							setX(GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE);
-							targetX = x;
-						}
+							x += GameConstants.BUBBLE_X_SPEED;
 					}
 					
 					case LEFT -> {
 						if(x!= targetX)
-							setX(x - GameConstants.BUBBLE_X_SPEED);
-						if(x < 2*GameConstants.TILE_SIZE && !getCollisionLeft()) {
-							setX(GameConstants.TILE_SIZE / 2 * 3);
-							targetX = x;
-						}
+							x -= GameConstants.BUBBLE_X_SPEED;
 					}
 					
 					default -> throw new IllegalArgumentException("Unexpected value: " + direction);
@@ -62,17 +54,15 @@ public class BubbleBullet extends Bubble {
 				}
 					
 			}
-			else if (isExploded()) {
-				explosionTime++;
-				if (explosionTime>=EXPLOSION_DELAY) {
-					setCanBeDeleted(true);
-				}
-			}
-			else if (isExpanded()) {
+			else {
 				y -= GameConstants.BUBBLE_FLOATING_SPEED;
 			}
-		else {
-			
+		}
+		else if (isExploded()) {
+			explosionTime++;
+			if (explosionTime>=EXPLOSION_DELAY) {
+				setCanBeDeleted(true);
+			}
 		}
 			
 		updateHitbox();

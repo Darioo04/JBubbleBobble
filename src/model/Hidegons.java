@@ -18,7 +18,7 @@ public class Hidegons extends Enemy{
 	
 	@Override
 	public void update() {
-		
+		super.update();
 		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
             randomizeDirection();
         }

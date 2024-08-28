@@ -5,7 +5,8 @@ public class FireBall extends ObjModel {
 	private Direction direction;
 	
 	public FireBall(int x, int y, Direction direction) {
-		super(x,y,"/sprites/Obj/fireball");
+		super(x,y);
+		setPath("/sprites/Obj/fireball");
 		this.direction = direction;
 	}
 	

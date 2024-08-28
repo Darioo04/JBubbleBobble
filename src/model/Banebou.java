@@ -53,6 +53,7 @@ public class Banebou extends Enemy {
 			
 			default ->{}
 			}
+			y-=JUMP_STRENGHT;
 		}
 		
 		updateHitbox();

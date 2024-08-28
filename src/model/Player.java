@@ -11,7 +11,6 @@ import controller.LevelCreator;
 
 public class Player extends Entity {
 	
-	private long score;
 	private static Player instance;
 	private boolean isLeftPressed;
 	private boolean isRightPressed;
@@ -22,7 +21,10 @@ public class Player extends Entity {
 	private boolean lostLife = false;
 	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
-	private List<BubbleBullet> bubbles;
+	private boolean isPowered;
+	
+	private int poweredCounter;
+	private final int POWERED_TIME = 480;	//8 secondi
 	
     private int bubblesBlown;
     private int bubbleBulletsPopped;
@@ -52,13 +54,11 @@ public class Player extends Entity {
 	public void setDefaultValues() {
 		this.speed = 7;
 		this.lives = 3;
-		this.score = 0;
 		setDead(false);
 		inAir = false;
 		this.setPath("/sprites/BubAndBob1/Bub-");
 		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
-		bubbles = new ArrayList<>();
 		setNumIdleSprites(2);
 		setNumRunningSprites(2);
 		setNumJumpingSprites(2);
@@ -74,28 +74,11 @@ public class Player extends Entity {
 		collisionUp = false;
 	}
 	
-	public long getScore() {
-		return score;
-	}
 	public int getHP() {
 		return lives;
 	}
 	
-	public void addScore(long score) {
-		this.score+=score;
-		setChanged();
-		notifyObservers();
-	}
-	
-	public void resetScore() {
-		this.score=0;
-	}
-	
 	public BubbleBullet shot() {
-//		Random random = new Random();
-//		Bubble bubble = BubbleFactory.getInstance().createBubble(random.nextInt(100));
-//		bubble.shot();
-//		bubbles.add(bubble);
 		int bubbleY = this.getHitboxY() + (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
 		int bubbleX = 0;
 		switch (direction){
@@ -124,6 +107,10 @@ public class Player extends Entity {
 	public void update() {
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
+		
+		if(isPowered && poweredCounter == 0) {
+			poweredCounter = 1;
+		}
 		
 		if(isJumping) jump();
 		
@@ -190,9 +177,16 @@ public class Player extends Entity {
 			    	GameController.getInstance().setGameOver();
 			    	deathCounter = 0;
 			    	lives = 3;
-			    	score = 0;
 			    }
 			}
+		}
+		
+		if (poweredCounter > 0) {
+			poweredCounter++;
+            if (poweredCounter >= POWERED_TIME) {
+                poweredCounter = 0;
+                isPowered = false;
+            }
 		}
 		
 		updateHitbox();
@@ -215,6 +209,14 @@ public class Player extends Entity {
             }
 		}
 	}
+	
+	public void setIsPowered(boolean isPowered) {
+		this.isPowered = isPowered;
+	}
+	
+	public boolean isPowered() {
+        return isPowered;
+    }
 	
 	public void setLeftPressed(boolean isLeftPressed) {
 		this.isLeftPressed = isLeftPressed;

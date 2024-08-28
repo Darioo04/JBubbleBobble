@@ -30,20 +30,20 @@ public class FoodView extends JLabel implements Observer {
 				case CORN -> ImageIO.read(getClass().getResource(path+"corn.png"));
 				case BANANA -> ImageIO.read(getClass().getResource(path+"banana.png"));
 				case WATERMELON -> ImageIO.read(getClass().getResource(path+"watermelon.png"));
-				case ICE_CREAM -> ImageIO.read(getClass().getResource(path+"iceCream.png"));
+				case POTATO -> ImageIO.read(getClass().getResource(path+"potato.png"));
 				case HAMBURGER -> ImageIO.read(getClass().getResource(path+"hamburger.png"));
 				case COCKTAIL -> ImageIO.read(getClass().getResource(path+"cocktail.png"));
 				case CURRY_RICE -> ImageIO.read(getClass().getResource(path+"curryRice.png"));
 				case GOLD_CROWN -> ImageIO.read(getClass().getResource(path+"goldCrown.png"));
 			};
-			setBounds(item.getX(),item.getY(),GameConstants.ITEM_SIZE,GameConstants.ITEM_SIZE);
-			resizeIcon(sprite);
-		    setIcon(resizedIcon); 
-		    setVisible(true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		setBounds(item.getX(),item.getY(),GameConstants.ITEM_SIZE,GameConstants.ITEM_SIZE);
+		resizeIcon(sprite);
+	    setIcon(resizedIcon); 
+	    setVisible(true);
 		
 	}
 	
@@ -56,12 +56,11 @@ public class FoodView extends JLabel implements Observer {
 		return sprite;
 	}
 	
-	@Override
 	public void update(Observable o,Object arg) {
 		if (o instanceof Food) {
-			Food item = (Food) o;
-			setBounds(item.getX(),item.getY(),GameConstants.ITEM_SIZE,GameConstants.ITEM_SIZE);
+			Food food = (Food) o;
+			setBounds(food.getX(), food.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
 		}
-		
 	}
+	
 }

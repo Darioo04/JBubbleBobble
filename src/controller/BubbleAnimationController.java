@@ -11,7 +11,7 @@ public class BubbleAnimationController {
 	private BufferedImage[] explodedSprites;
 	private BufferedImage[] floatingSprites;
 	
-	public BubbleAnimationController(Builder builder) {
+	private BubbleAnimationController(Builder builder) {
 		this.bubble = builder.bubble;
 		this.actualSprite = builder.actualSprite;
 		this.explodedSprites = builder.explodedSprites;
@@ -20,12 +20,16 @@ public class BubbleAnimationController {
 	
 	public void updateAnimation(int animationCycle) {
 		if (bubble.isFloating()) {
-			actualSprite = floatingSprites[animationCycle % floatingSprites.length];
+			actualSprite = getSprite(floatingSprites, animationCycle);
 		}
 		else if (bubble.isExploded()) {
-			actualSprite = explodedSprites[animationCycle % explodedSprites.length];
+			actualSprite = getSprite(explodedSprites, animationCycle);
 		}
 		bubble.update(actualSprite);
+	}
+	
+	private BufferedImage getSprite(BufferedImage[] sprites, int animationCycle) {
+		return sprites[animationCycle % sprites.length];
 	}
 	
 	public static class Builder {

@@ -7,6 +7,9 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import model.GameConstants;
+import model.ObjModel;
+
 @SuppressWarnings("deprecation")
 
 public class ObjView extends JLabel implements Observer {
@@ -22,7 +25,7 @@ public class ObjView extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o,Object arg) {
-//		this.setBounds(obj.getX(), obj.getY(), entitySize, entitySize);
-
+		ObjModel om = (ObjModel) o;
+		this.setBounds(om.getX(), om.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
 	}
 }
