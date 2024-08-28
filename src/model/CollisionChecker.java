@@ -141,6 +141,7 @@ public class CollisionChecker {
         if (bubbleHitbox.intersects(playerHitbox)){
         	bubble.setExploded(true);
         	bubble.setFloating(false);
+        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
         	System.out.println("collision");
         }
 //        if (bubbleHitbox.intersects(playerHitbox)) {
@@ -148,6 +149,13 @@ public class CollisionChecker {
 //        }
 //        return false;
 	}
+	
+//	public boolean checkBubblePlayerCollisionBoolean(Bubble bubble, Player player) {
+//		Rectangle bubbleHitbox = bubble.getHitbox();
+//        Rectangle playerHitbox = player.getHitbox();
+//        
+//        return bubbleHitbox.intersects(playerHitbox);
+//	}
 	
 	public boolean checkFoodPlayerCollision(Food food, Player player) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
@@ -160,19 +168,17 @@ public class CollisionChecker {
         return false;
 	}
 	
-	public boolean checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
-        Rectangle bubbleHitbox = bubble.getHitbox();
-//        enemyList.stream().filter(enemy -> bubbleHitbox.intersects(enemy.getHitbox())).forEach(enemy -> enemy.setInBubble(true));;
-        for (Enemy enemy : enemyList) {
-            Rectangle enemyHitbox = enemy.getHitbox();
-            
-            if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded() && !enemy.isInBubble()) {
-                //da implementare
-            	enemy.setInBubble(true);
-            	return true;
-            }
-        }
-        return false;
+	public void checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
+		Rectangle bubbleHitbox = bubble.getHitbox();
+      for (Enemy enemy : enemyList) {
+          Rectangle enemyHitbox = enemy.getHitbox();
+          
+          if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded()) {
+              //da implementare
+          	enemy.setInBubble(true);
+          	GameController.getInstance().removeBubble(bubble);
+          }
+      }
 	}
 	
 	public void checkBubbleBubbleCollision(Bubble bubble1, List<Bubble> bubbles) {

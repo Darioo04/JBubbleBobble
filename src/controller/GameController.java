@@ -35,7 +35,6 @@ import model.Player;
 import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
-import model.Tile;
 import model.WinScreen;
 import view.BubbleView;
 import view.EnemyView;
@@ -114,6 +113,7 @@ public class GameController {
     }
     
     private GameController() {
+    	loadGameData();
     	score = 0;
     	if (firstTimePlaying) {
     		playerName = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:", "Benvenuto", JOptionPane.PLAIN_MESSAGE);
@@ -136,7 +136,6 @@ public class GameController {
         selectLevelScreen = SelectLevelScreen.getInstance();
         selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
         profileView = ProfileView.getInstance();
-                
         
         menuScreen = MenuScreen.getInstance();
         menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
@@ -147,7 +146,6 @@ public class GameController {
         keyController = KeyController.getInstance();
         audioManager = AudioManager.getInstance();
         collisionChecker = CollisionChecker.getInstance();
-        loadGameData();
         mainFrame.add(menuScreenView);
         menuScreenView.addKeyListener(keyController);
         menuScreenView.setIsThereKeyController(true);
@@ -200,17 +198,18 @@ public class GameController {
 				enemies.stream().forEach(Enemy::update);
 				removeDeadEnemies();
 				
-				Iterator<Bubble> iterator = bullets.iterator();
-				while (iterator.hasNext()) {
-				    Bubble bullet = iterator.next();
-				    bullet.update();
-				    if (collisionChecker.checkBubbleEnemyCollision(bullet, enemies)) {
-				        iterator.remove();
-				        bulletViews.remove(bullet.getBubbleBulletView());
-				        gamePanel.remove(bullet.getBubbleBulletView());
-				        System.out.println("bullet rimosso");
-				    }
-				}
+				bullets.stream().forEach(Bubble::update);
+				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				bullets.stream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
+				bullets.stream()
+			       .filter(Bubble::canBeDeleted)
+			       .forEach(bubble -> {
+			           removeBubble(bubble);
+			           score += 20;
+			           audioManager.play("points");
+			       });
+				deleteRemovedBubbles();
+				
 //				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 //				bullets.stream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
 //				bullets.stream().forEach(Bubble::update);
@@ -269,7 +268,7 @@ public class GameController {
             }
             
             case SELECT_PROFILE -> {
-            	profileView.repaint();
+            	profileView.update();
             }
             
             case LEVEL_EDITOR -> {
@@ -305,7 +304,6 @@ public class GameController {
 				}
 				case "name" -> {
 					playerName = parts[1];
-					profileView.setPlayerName(playerName);
 				}
 				case "top scores" -> {
 					topScores = new long[3];
@@ -313,7 +311,6 @@ public class GameController {
 					topScores[0] = Integer.parseInt(scores[0]);
 					topScores[1] = Integer.parseInt(scores[1]);
 					topScores[2] = Integer.parseInt(scores[2]);
-					profileView.setTopScores(topScores);
 				}
 				case "custom tile" -> {
 					LevelEditorView.getInstance().setTile(Integer.parseInt(parts[1]));
@@ -572,14 +569,12 @@ public class GameController {
     public void removeBubble(Bubble bubble) {
     	removedBubbles.add(bubble);
     }
-    
-    public void removeExplodedBubbles() {
+    public void deleteRemovedBubbles() {
     	removedBubbles.stream().forEach( bubble -> {
 			bullets.remove(bubble);
 			bulletViews.remove(bubble.getBubbleBulletView());
 			gamePanel.remove(bubble.getBubbleBulletView());
 		});
-//    	bullets = bullets.stream().filter(bubble -> !bubble.canBeDeleted()).collect(Collectors.toList());
 		removedBubbles.clear();
     }
     
@@ -619,5 +614,13 @@ public class GameController {
     	changeDisplayedScreen(gamePanel,gameOverScreen.getStateScreenView());
     	setGameState(GameState.GAME_OVER);
     	gameOverScreen.update();
+    }
+    
+    public String getPlayerName() {
+    	return playerName;
+    }
+    
+    public long[] getTopScores() {
+    	return topScores;
     }
 }

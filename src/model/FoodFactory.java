@@ -26,7 +26,7 @@ public class FoodFactory {
             return new Food(FoodType.HAMBURGER, x, y);
         }
 		else if (num <= 0.19) {
-            return new Food(FoodType.ICE_CREAM, x, y);
+            return new Food(FoodType.POTATO, x, y);
         }
 		else if (num <= 0.28) {
             return new Food(FoodType.WATERMELON, x, y);

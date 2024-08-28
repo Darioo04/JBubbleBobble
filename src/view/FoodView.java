@@ -29,7 +29,7 @@ public class FoodView extends JLabel {
 				case CORN -> sprite = ImageIO.read(getClass().getResource(path+"corn.png"));
 				case BANANA -> sprite = ImageIO.read(getClass().getResource(path+"banana.png"));
 				case WATERMELON -> sprite = ImageIO.read(getClass().getResource(path+"watermelon.png"));
-				case ICE_CREAM -> sprite = ImageIO.read(getClass().getResource(path+"iceCream.png"));
+				case POTATO -> sprite = ImageIO.read(getClass().getResource(path+"potato.png"));
 				case HAMBURGER -> sprite = ImageIO.read(getClass().getResource(path+"hamburger.png"));
 				case COCKTAIL -> sprite = ImageIO.read(getClass().getResource(path+"cocktail.png"));
 				case CURRY_RICE -> sprite = ImageIO.read(getClass().getResource(path+"curryRice.png"));

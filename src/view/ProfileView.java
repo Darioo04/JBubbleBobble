@@ -7,13 +7,19 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Observable;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import controller.GameController;
 import model.GameConstants;
 import model.GameModel;
 import model.GameState;
@@ -27,6 +33,9 @@ public class ProfileView extends StateScreenView {
 	private JLabel nameLabel;
     private JLabel[] scoreLabels;
 	private Font font = FontCreator.getInstance().getFont();
+	private BufferedImage bubPng;
+	private ImageIcon bubPngIcon;
+	private JLabel bubLabel;
 //	private GameModel gameModel = GameModel.getInstance();
 //	private int gamesPlayed;
 //	private int gamesWon;
@@ -43,16 +52,25 @@ public class ProfileView extends StateScreenView {
 		setLayout(null);
         setBackground(Color.BLACK);
         setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
+        
+        try {
+			bubPng = ImageIO.read(getClass().getResource("/sprites/profile-bub.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		bubLabel = new JLabel();
+		bubLabel.setBounds(7*GameConstants.TILE_SIZE, 3*GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE);
+		bubPngIcon = new ImageIcon(bubPng.getScaledInstance(bubLabel.getWidth(), bubLabel.getHeight(),Image.SCALE_SMOOTH));
+		bubLabel.setIcon(bubPngIcon);
+		add(bubLabel);
 
-        // Create and configure the name label
-        nameLabel = new JLabel("Player: " + playerName);
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 24));
+
+        nameLabel = new JLabel("Hello " + playerName + "!");
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 30));
         nameLabel.setBounds(GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
         add(nameLabel);
         
         
-
-        // Create and add score labels to the panel
         scoreLabels = new JLabel[topScores.length];
         for (int i = 0; i < topScores.length; i++) {
             scoreLabels[i] = new JLabel("Top Score " + (i + 1) + ": " + topScores[i]);
@@ -60,6 +78,19 @@ public class ProfileView extends StateScreenView {
             scoreLabels[i].setFont(new Font("Arial", Font.PLAIN, 18));
             add(scoreLabels[i]);
         }
+        
+        
+	}
+	
+	public void update() {
+		playerName = GameController.getInstance().getPlayerName();
+		topScores = GameController.getInstance().getTopScores();
+		nameLabel.setText("Hello " + playerName + "!");
+		for (int i = 0; i < topScores.length; i++) {
+            scoreLabels[i].setText("Top Score " + (i + 1) + ": " + topScores[i]);
+        }
+		revalidate();
+		repaint();
 	}
 	
 	public void setPlayerName(String name) {
@@ -103,7 +134,7 @@ public class ProfileView extends StateScreenView {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.BLACK);
+		g2.setColor(Color.decode("#7700c8"));
 		g2.fillRect(0, 0, getWidth(), getHeight());
 	}
 //	

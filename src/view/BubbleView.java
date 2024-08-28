@@ -42,15 +42,12 @@ public class BubbleView extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		if (o instanceof Bubble) {
-			Bubble b = (Bubble) o;
-			int size = b.isExpanded() ? GameConstants.BUBBLE_EXPANDED_SIZE : GameConstants.BUBBLE_SHOT_SIZE;
-			setBounds(b.getX(), b.getY(), size, size);
-			if (arg instanceof BufferedImage) {
-				defaultSprite = (BufferedImage) arg;
-			}
-			updateIcon(size);
+		int size = bubble.isExpanded() ? GameConstants.BUBBLE_EXPANDED_SIZE : GameConstants.BUBBLE_SHOT_SIZE;
+		setBounds(bubble.getX(), bubble.getY(), size, size);
+		if (arg instanceof BufferedImage) {
+			defaultSprite = (BufferedImage) arg;
 		}
+		updateIcon(size);
 	}
 	
 	public void resizeIcon(BufferedImage originalImage) {
