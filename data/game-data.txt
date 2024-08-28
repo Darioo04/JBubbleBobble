@@ -1,4 +1,4 @@
 first time playing: false
 name: beppe
-top scores: 0 0 0
+top scores: 40 0 0
 custom tile: 0
