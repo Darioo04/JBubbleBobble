@@ -7,7 +7,7 @@ import view.FoodView;
 
 @SuppressWarnings("deprecation")
 
-public class Food extends Observable {
+public class Food {
 	private FoodType type;
 	private FoodView foodView;
 	private int points;
@@ -64,15 +64,10 @@ public class Food extends Observable {
 	
 	public void setFoodView(FoodView foodView) {
         this.foodView = foodView;
-        this.addObserver(foodView);
     }
 	
 	public FoodView getFoodView() {
         return foodView;
     }
 	
-	public void update() {
-		setChanged();
-		notifyObservers();
-	}
 }

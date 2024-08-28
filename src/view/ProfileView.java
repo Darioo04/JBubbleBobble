@@ -23,7 +23,7 @@ import model.GameState;
 public class ProfileView extends StateScreenView {
 	public static ProfileView instance;
 	private String playerName;
-	private long topScores[] = new long[3];
+	private long topScores[];
 	private JLabel nameLabel;
     private JLabel[] scoreLabels;
 	private Font font = FontCreator.getInstance().getFont();
@@ -39,29 +39,27 @@ public class ProfileView extends StateScreenView {
 	}
 	
 	private ProfileView() {
-		setLayout(new BorderLayout());
-        setBackground(Color.LIGHT_GRAY);
+		topScores = new long[3];
+		setLayout(null);
+        setBackground(Color.BLACK);
         setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
 
         // Create and configure the name label
-        nameLabel = new JLabel("Player: " + playerName, JLabel.CENTER);
-        nameLabel.setFont(font);
-        add(nameLabel, BorderLayout.NORTH);
-
-        // Create a panel to hold the scores
-        JPanel scoresPanel = new JPanel();
-        scoresPanel.setLayout(new GridLayout(topScores.length, 1)); // One row per score
+        nameLabel = new JLabel("Player: " + playerName);
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        nameLabel.setBounds(GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+        add(nameLabel);
+        
+        
 
         // Create and add score labels to the panel
         scoreLabels = new JLabel[topScores.length];
         for (int i = 0; i < topScores.length; i++) {
-            scoreLabels[i] = new JLabel("Top Score " + (i + 1) + ": " + topScores[i], JLabel.CENTER);
+            scoreLabels[i] = new JLabel("Top Score " + (i + 1) + ": " + topScores[i]);
+            scoreLabels[i].setBounds(GameConstants.TILE_SIZE, i*GameConstants.TILE_SIZE + 3*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             scoreLabels[i].setFont(new Font("Arial", Font.PLAIN, 18));
-            scoresPanel.add(scoreLabels[i]);
+            add(scoreLabels[i]);
         }
-
-        // Add the scores panel to the center of the main panel
-        add(scoresPanel, BorderLayout.CENTER);
 	}
 	
 	public void setPlayerName(String name) {
@@ -101,13 +99,13 @@ public class ProfileView extends StateScreenView {
 //
 //	}
 //	
-//	@Override
-//	public void paintComponent(Graphics g) {
-//		super.paintComponent(g);
-////		Graphics2D g2 = (Graphics2D) g;
-////		g2.setColor(Color.BLACK);
-////		g2.fillRect(0, 0, getWidth(), getHeight());
-//	}
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.BLACK);
+		g2.fillRect(0, 0, getWidth(), getHeight());
+	}
 //	
 //	@Override
 //	public void update(Observable o,Object arg) {

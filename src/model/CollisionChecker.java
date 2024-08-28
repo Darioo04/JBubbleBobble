@@ -160,7 +160,7 @@ public class CollisionChecker {
         return false;
 	}
 	
-	public void checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
+	public boolean checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
         Rectangle bubbleHitbox = bubble.getHitbox();
 //        enemyList.stream().filter(enemy -> bubbleHitbox.intersects(enemy.getHitbox())).forEach(enemy -> enemy.setInBubble(true));;
         for (Enemy enemy : enemyList) {
@@ -169,9 +169,10 @@ public class CollisionChecker {
             if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded() && !enemy.isInBubble()) {
                 //da implementare
             	enemy.setInBubble(true);
-            	GameController.getInstance().removeBubble(bubble);
+            	return true;
             }
         }
+        return false;
 	}
 	
 	public void checkBubbleBubbleCollision(Bubble bubble1, List<Bubble> bubbles) {

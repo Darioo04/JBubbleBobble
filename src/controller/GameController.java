@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
@@ -8,6 +9,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -112,7 +114,6 @@ public class GameController {
     }
     
     private GameController() {
-    	loadGameData();
     	score = 0;
     	if (firstTimePlaying) {
     		playerName = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:", "Benvenuto", JOptionPane.PLAIN_MESSAGE);
@@ -135,7 +136,6 @@ public class GameController {
         selectLevelScreen = SelectLevelScreen.getInstance();
         selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
         profileView = ProfileView.getInstance();
-        gameModel.addObserver(profileView);
                 
         
         menuScreen = MenuScreen.getInstance();
@@ -147,6 +147,7 @@ public class GameController {
         keyController = KeyController.getInstance();
         audioManager = AudioManager.getInstance();
         collisionChecker = CollisionChecker.getInstance();
+        loadGameData();
         mainFrame.add(menuScreenView);
         menuScreenView.addKeyListener(keyController);
         menuScreenView.setIsThereKeyController(true);
@@ -199,10 +200,21 @@ public class GameController {
 				enemies.stream().forEach(Enemy::update);
 				removeDeadEnemies();
 				
-				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
-				bullets.stream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
-				bullets.stream().forEach(Bubble::update);
-				removeExplodedBubbles();
+				Iterator<Bubble> iterator = bullets.iterator();
+				while (iterator.hasNext()) {
+				    Bubble bullet = iterator.next();
+				    bullet.update();
+				    if (collisionChecker.checkBubbleEnemyCollision(bullet, enemies)) {
+				        iterator.remove();
+				        bulletViews.remove(bullet.getBubbleBulletView());
+				        gamePanel.remove(bullet.getBubbleBulletView());
+				        System.out.println("bullet rimosso");
+				    }
+				}
+//				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+//				bullets.stream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
+//				bullets.stream().forEach(Bubble::update);
+//				removeExplodedBubbles();
 				
 				objs.stream().forEach(ObjModel::update);
 				
@@ -212,10 +224,13 @@ public class GameController {
 				if(!items.isEmpty()) { 
 					for (Food item : items) {
 						if (collisionChecker.checkFoodPlayerCollision(item, player)) {
+							item.setHitbox(new Rectangle(0, 0, 1, 1));
 							score += item.getPoints();
 							audioManager.play("points");
 							collectedItems.add(item);
 							itemViews.remove(item.getFoodView());
+							gamePanel.remove(item.getFoodView());
+							System.out.println("rimosso food");
 						}
 					}
 				}
@@ -498,46 +513,27 @@ public class GameController {
     	player.setY(player.getSpawnY());
     }
     
-    public void spawnFood() {
-//    	int localx = 0;
-//    	int localy = 0;
-//    	char[][] levelFile = levelCreator.getLevel();
-//    	
-//    	outerloop:
-//    	for (int y = 0; y < GameConstants.ROWS; y++) {
-//			for (int x = 0; x < GameConstants.COLS; x++) {
-//				if (levelFile[y][x] == ' ' && levelFile[y+1][x] == '1' && Math.random() < 0.06) {		//5% probabilita 
-//					localx = x * GameConstants.TILE_SIZE;
-//					localy = y * GameConstants.TILE_SIZE;
-//					break outerloop;
-//				}
-//			}
-//		}
-//    	Food item1 = FoodFactory.getInstance().createItem(Math.random(), localx, localy);
-//    	
-//    	outerloop2:
-//        	for (int y = 0; y < GameConstants.ROWS; y++) {
-//    			for (int x = 0; x < GameConstants.COLS; x++) {
-//    				if (levelFile[y][x] == ' ' && levelFile[y+1][x] == '1' && Math.random() < 0.06) {		
-//    					if (localx != x * GameConstants.TILE_SIZE || localy != y * GameConstants.TILE_SIZE) {
-//    						localx = x * GameConstants.TILE_SIZE;
-//    						localy = y * GameConstants.TILE_SIZE;
-//    					}
-//    					else {
-//    						for (int i = 1; i< GameConstants.COLS; i++) {
-//    							if (levelFile[y][i] == ' ' && levelFile[y+1][i] == '1') {
-//    								localx = x * GameConstants.TILE_SIZE;
-//    	    						localy = y * GameConstants.TILE_SIZE;
-//    							}
-//    						}
-//    					}
-//    					break outerloop2;
-//    				}
-//    			}
-//    		}
-//    	Food item2 = FoodFactory.getInstance().createItem(Math.random(), localx, localy);
-    	Food item1 = FoodFactory.getInstance().createItem(Math.random(), 3*GameConstants.TILE_SIZE, 11*GameConstants.TILE_SIZE);
-    	Food item2 = FoodFactory.getInstance().createItem(Math.random(), 7*GameConstants.TILE_SIZE, 11*GameConstants.TILE_SIZE);
+    public void spawnFood() {;
+    	char[][] levelFile = levelCreator.getLevel();
+    	
+    	int randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
+    	int randomX = new Random().nextInt(GameConstants.COLS-1)+1;
+    	
+    	while (levelFile[randomY][randomX] != ' ') {
+    		randomX = new Random().nextInt(GameConstants.COLS-1)+1;
+    		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
+    	}
+    	Food item1 = FoodFactory.getInstance().createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
+    	System.out.println("x: " + randomX + "   y: " + randomY);
+    	
+    	randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
+    	randomX = new Random().nextInt(GameConstants.COLS-1)+1;
+    	while (levelFile[randomY][randomX] != ' ') {
+    		randomX = new Random().nextInt(GameConstants.COLS-1)+1;
+    		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
+    	}
+    	Food item2 = FoodFactory.getInstance().createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
+    	System.out.println("x: " + randomX + "   y: " + randomY);
     	
     	FoodView itemView1 = new FoodView(item1);
     	item1.setFoodView(itemView1);
