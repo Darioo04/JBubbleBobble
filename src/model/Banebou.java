@@ -8,6 +8,9 @@ public class Banebou extends Enemy {
 	//si muovono saltando ad arco
 	private static final int JUMP_STRENGHT = 4*GameConstants.SCALE;
 	private int targetY;
+	private boolean isJumping=false;
+	private boolean inAir=false;
+	private int fallingSpeed = 0;
 	
 	public Banebou(int x, int y) {
 		super(x,y);
@@ -23,18 +26,32 @@ public class Banebou extends Enemy {
 	@Override
 	public void update() {
 		super.update();
-		setEnemyCollision();
-		setDirectionToGo();
+		collisionChecker.checkTileCollision(this);
 		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
             randomizeDirection(); 
         }
 		int speed = getSpeed();
-		if (getCollisionDown()) {
+		if(!getCollisionDown()) inAir = true;
+		
+		if (inAir) {
+			if (y + fallingSpeed > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+				y = GameConstants.TILE_SIZE/2;
+				fallingSpeed = 0;
+				inAir = true;
+			}
+			else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
+				y = GameConstants.TILE_SIZE + 1;
+                fallingSpeed = 5;
+			} else {
+				y += fallingSpeed;
+				fallingSpeed += GRAVITY;
+			}
+		}
 			switch (getDirection()) {
 			case RIGHT -> {
-				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed) {
+				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && getCollisionRight()) {
 					x += speed;
-					y += JUMP_STRENGHT;
+					jump();
 				}
 				else {
 					randomizeDirection();
@@ -42,19 +59,36 @@ public class Banebou extends Enemy {
 			}
 			
 			case LEFT -> {
-				if (x > 2*GameConstants.TILE_SIZE + speed) {
+				if (x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
 	                x -= speed;
-	                y += JUMP_STRENGHT;
+	                jump();
 	            }
 				else {
 					randomizeDirection();
 				}
 			}
+			case DOWN -> {
+	            if (y < GameConstants.SCREEN_HEIGHT - 3*GameConstants.TILE_SIZE - speed && !getCollisionDown()) {
+	                y -= speed;
+	                jump();
+	            }
+	            else {
+					randomizeDirection();
+				}
+	        }
+			
+			case UP -> {
+				if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp()) {
+	                y -= speed;
+	                jump();
+	            }
+				else {
+					randomizeDirection();
+				}
+	        }
 			
 			default ->{}
 			}
-			y-=JUMP_STRENGHT;
-		}
 		
 		updateHitbox();
 		setChanged();
@@ -63,42 +97,29 @@ public class Banebou extends Enemy {
 	
 	
 	private void randomizeDirection() {
-        setDirection((Math.random()<=0.5) ? Direction.LEFT : Direction.RIGHT);
-	}
-	
-	
-	private boolean isNextStepOnTile(boolean right) {
-		if (right == true) {
-			x += this.speed;
-			collisionChecker.checkTileCollision(this);
-			x -= this.speed;
-			if (!collisionDown) return false;
-			else return true;
-		} else {
-			x -= this.speed;
-            collisionChecker.checkTileCollision(this);
-            x += this.speed;
-            if (!collisionDown) return false;
-            else return true;
-		}
-	}
-	
-	
-	private void setDirectionToGo() {
-		if (collisionLeft) {
-			setDirection(Direction.RIGHT);
-		}
-		else if (collisionRight) {
-            setDirection(Direction.LEFT);
+		double randomNumber = Math.random();
+		
+        if (randomNumber <= 0.25) {
+        	setDirection(Direction.LEFT);
         }
+        else if (randomNumber <= 0.5) {
+            setDirection(Direction.RIGHT);
+        }
+        else if (randomNumber <= 0.75) {
+            setDirection(Direction.DOWN);
+        }
+        else {
+            setDirection(Direction.UP);
+        }
+        
+	}
+	public void jump() {
+		if( !inAir) {
+			fallingSpeed = -JUMP_STRENGHT;
+			inAir = true;
+		}
 	}
 	
 	
-	private void setEnemyCollision() {
-		collisionLeft = false;
-		collisionRight = false;
-		collisionDown = false;
-		collisionChecker.checkTileCollision(this);
-	}
 	
 }

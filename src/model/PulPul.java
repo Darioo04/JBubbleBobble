@@ -108,3 +108,4 @@ public class PulPul extends Enemy {
 		collisionChecker.checkTileCollision(this);
 	}
 }
+
