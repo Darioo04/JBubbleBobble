@@ -143,8 +143,9 @@ public class CollisionChecker {
             
             if (playerHitbox.intersects(enemyHitbox)) {
             	if (enemy.isInBubble()) {
-            		enemy.setInBubble(false);
             		enemy.setBubbleExploded(true);
+            		enemy.setInBubble(false);
+            		
             	} else if (!enemy.isInBubble() && !enemy.getBubbleExploded()) {
                 	player.decreaseLives();
             	}
@@ -154,7 +155,7 @@ public class CollisionChecker {
 	}
 	
 	public void checkBubblePlayerCollision(Bubble bubble, Player player) {
-		this.levelFile = LevelCreator.getInstance().getLevel();
+//		this.levelFile = LevelCreator.getInstance().getLevel();
         Rectangle bubbleHitbox = bubble.getHitbox();
         Rectangle playerHitbox = player.getHitbox();
         
@@ -166,6 +167,15 @@ public class CollisionChecker {
         	bubble.setFloating(false);
         	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
 //        	System.out.println("collision");
+        	if (bubble instanceof BubbleBullet) {
+        		player.increaseBubbleBulletsPopped();
+        	}
+        	else if (bubble instanceof LightningBubble) {
+        		player.increaseLightningBubblesPopped();
+        	}
+        	else if (bubble instanceof FireBubble) {
+        		player.increaseFireBubblesPopped();
+        	}
         }
 //        if (bubbleHitbox.intersects(playerHitbox)) {
 //             return true;
@@ -193,23 +203,33 @@ public class CollisionChecker {
 	
 	public void checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
 		Rectangle bubbleHitbox = bubble.getHitbox();
-      for (Enemy enemy : enemyList) {
-          Rectangle enemyHitbox = enemy.getHitbox();
+		for (Enemy enemy : enemyList) {
+			Rectangle enemyHitbox = enemy.getHitbox();
           
-          if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded()) {
-              //da implementare
-          	enemy.setInBubble(true);
-          	GameController.getInstance().removeBubble(bubble);
-          }
-      }
+			if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded()) {
+				//da implementare
+				enemy.setInBubble(true);
+				GameController.getInstance().removeBubble(bubble);
+			}
+		}
 	}
 	
-	public void checkBubbleBubbleCollision(Bubble bubble1, List<Bubble> bubbles) {
-		Rectangle bubbleHitbox = bubble1.getHitbox();
-		Rectangle playerHitbox = Player.getInstance().getHitbox();
-		if (playerHitbox.intersects(bubbleHitbox)) {
-			bubbles.stream().filter(b -> b.getHitbox().intersects(bubbleHitbox)).forEach(b -> b.setExploded(true));;
+	public void checkBubbleBubbleCollision(List<Bubble> bubbles,Player player) {
+		Rectangle playerHitbox = player.getHitbox();
+		for (Bubble bubble : bubbles) {
+			Rectangle bubbleHitbox = bubble.getHitbox();
+			if (playerHitbox.intersects(bubbleHitbox)) {
+				bubble.setExploded(true);
+	        	bubble.setFloating(false);
+	        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
+				bubbles.stream().filter(b -> b.getHitbox().intersects(bubbleHitbox)).forEach(b -> { 
+					b.setExploded(true);
+					bubble.setFloating(false);
+		        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
+				});
+			}
 		}
+		
 //			if (bubbleHitbox1.intersects(bubbleHitbox2)) {
 //				// crea un effetto rimbalzo tra le bolle
 //			}

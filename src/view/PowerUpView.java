@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import model.GameConstants;
+import model.PowerUp;
 import model.PowerUpType;
 
 @SuppressWarnings("deprecation") 
@@ -19,9 +21,9 @@ public class PowerUpView extends JLabel implements Observer {
 	private BufferedImage sprite;
 	private ImageIcon resizedIcon;
 	private static final String path = "/sprites/PowerUp/";
-	public PowerUpView(PowerUpType powerUp) {
+	public PowerUpView(PowerUp powerUp) {
 		try {
-			sprite = switch (powerUp) {
+			sprite = switch (powerUp.getType()) {
 				case PINK_CANDY -> ImageIO.read(getClass().getResource(path+"pinkCandy.png"));
 				case BLUE_CANDY -> ImageIO.read(getClass().getResource(path+"blueCandy.png"));
 				case YELLOW_CANDY -> ImageIO.read(getClass().getResource(path+"yellowCandy.png"));
@@ -38,9 +40,10 @@ public class PowerUpView extends JLabel implements Observer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		setBounds(powerUp.getX(), powerUp.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
 		resizeIcon(sprite);
 		setIcon(resizedIcon);
+		setVisible(true);
 	}
 	
 	public void resizeIcon(BufferedImage originalImage) {
@@ -49,7 +52,10 @@ public class PowerUpView extends JLabel implements Observer {
     }
 	
 	public void update(Observable o,Object arg) {
-		
+		if (o instanceof PowerUp) {
+			PowerUp powerUp = (PowerUp) o;
+			setBounds(powerUp.getX(), powerUp.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
+		}
 	}
 	
 }

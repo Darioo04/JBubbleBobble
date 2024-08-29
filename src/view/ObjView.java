@@ -1,12 +1,16 @@
 package view;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import controller.ObjAnimationController;
 import model.GameConstants;
 import model.ObjModel;
 
@@ -14,18 +18,65 @@ import model.ObjModel;
 
 public class ObjView extends JLabel implements Observer {
 	
-	private BufferedImage defaultSprite;
+	private ObjModel obj;
+	private BufferedImage actualSprite;
+	private BufferedImage[] sprites;
 	private ImageIcon resizedIcon;
+	private String path;
 	
-	
-	public ObjView() {
+	public ObjView(ObjModel obj) {
+		this.obj=obj;
+		path = obj.getPath();
+		setBounds(obj.getX(), obj.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
+		loadSprites(obj.getNumSprites());
+		loadActualSprite();
 		
+		resizeIcon(actualSprite);
+        setIcon(resizedIcon);
+        
+		setVisible(true);
 	}
 	
+	private void loadSprites(int numSprites) {
+		sprites = new BufferedImage[numSprites];
+		try {
+			for (int i=0; i<numSprites; i++) {
+				sprites[i] = ImageIO.read(getClass().getResource(path + (i+1) + ".png"));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		inizializeAnimationController();
+	}
+	
+	private void loadActualSprite() {
+		actualSprite = sprites[0];
+	}
+	
+	private void resizeIcon(BufferedImage actualSprite) {
+		Image resizedImage = actualSprite.getScaledInstance(this.getWidth(), this.getHeight(),Image.SCALE_FAST);
+        resizedIcon = new ImageIcon(resizedImage);	
+    }
+	
+	private void inizializeAnimationController() {
+		ObjAnimationController objAnimationController = new ObjAnimationController.Builder()
+				.setObj(obj)
+				.setActualSprite(actualSprite)
+				.setIdleSprites(sprites)
+				.build();
+	}
 	
 	@Override
 	public void update(Observable o,Object arg) {
-		ObjModel om = (ObjModel) o;
-		this.setBounds(om.getX(), om.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
+		if (o instanceof ObjModel) {
+			ObjModel om = (ObjModel) o;
+			if (arg instanceof BufferedImage) {
+				actualSprite = (BufferedImage) arg;
+				resizeIcon(actualSprite);
+				setIcon(resizedIcon);
+			}
+			this.setBounds(om.getX(), om.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
+		}
+		
 	}
 }

@@ -2,13 +2,15 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import controller.GameController;
+import controller.LevelCreator;
 
 public class PowerUpFactory {
+	
 	private static PowerUpFactory instance;
 	private Player player = Player.getInstance();
-	private List<PowerUp> powerUps;
 	private int x;
 	private int y;
 	
@@ -22,6 +24,7 @@ public class PowerUpFactory {
 	}
 	
 	public List<PowerUp> createPowerUp() {
+		getSpawnPoint();
 		List<PowerUp> powerUps = new ArrayList<>();
 		
 		if (player.getBubbleBulletsPopped()>=35) { 
@@ -66,5 +69,22 @@ public class PowerUpFactory {
 		// mancano le shoes da ma non so come impostare la condizione di spawn (devi camminare l'equivalente di 15 volte la lunghezza del livello)
 	
 		return powerUps;
+	}
+	
+	public void getSpawnPoint() {
+		char[][] level = LevelCreator.getInstance().getLevel();
+		List<Integer> xPoints = new ArrayList<>();
+		List<Integer> yPoints = new ArrayList<>();
+		for (int i=0; i<level.length; i++) {
+			for (int j=0; j<level[0].length; j++) {
+				if (level[i][j]==0) {
+					xPoints.add(i);
+					yPoints.add(j);
+				}
+			}
+		}
+		int point = new Random().nextInt(xPoints.size());
+		x = xPoints.get(point);
+		y = yPoints.get(point);
 	}
 }

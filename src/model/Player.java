@@ -101,6 +101,7 @@ public class Player extends Entity {
 			fallingSpeed = -JUMP_STRENGTH;
 			inAir = true;
 		}
+		numJumps++;
 	}
 	
 	@Override
