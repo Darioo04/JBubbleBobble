@@ -21,7 +21,6 @@ import model.GameConstants;
 
 public class BubbleView extends JLabel implements Observer {
 
-	private static Map<Integer, ImageIcon> resizedIconsCache = new HashMap<>();
 	private static final String path = "/sprites/Bubbles/bubble-";
 	private ImageIcon resizedIcon;
 	private BufferedImage defaultSprite;
@@ -39,7 +38,8 @@ public class BubbleView extends JLabel implements Observer {
 		loadSprites();
 		
 		this.setBounds(bubble.getX(), bubble.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
-//		updateIcon(GameConstants.BUBBLE_SHOT_SIZE);
+		resizeIcon(defaultSprite);
+		setIcon(resizedIcon);
         setVisible(true);
 	}
 	
@@ -54,7 +54,6 @@ public class BubbleView extends JLabel implements Observer {
 				resizeIcon(defaultSprite);
 				setIcon(resizedIcon);
 			}
-			
 		}
 		
 	}

@@ -215,7 +215,7 @@ public class GameController {
 //				bullets.stream().forEach(Bubble::update);
 //				removeExplodedBubbles();
 				
-				objs.stream().forEach(ObjModel::update);
+//				objs.stream().forEach(ObjModel::update);
 				
 				if(enemies.isEmpty() && items.isEmpty() && collectedItems.isEmpty()) {
 					spawnFood();
@@ -550,12 +550,12 @@ public class GameController {
     public void bubbleShooted() {
     	BubbleBullet bullet = player.shot();
 		BubbleView bulletView = new BubbleView(bullet);
-//		bullet.addObserver(bulletView);
+
 		bullet.setBubbleBulletView(bulletView);
 		gamePanel.add(bulletView);
 		bullets.add(bullet);
+		System.out.println("bolla");
     	bulletViews.add(bulletView);
-//		addBulletView(bulletView);
     }
     
     public void setNickname(String nickname) {

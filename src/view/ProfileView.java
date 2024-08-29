@@ -1,28 +1,23 @@
 package view;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Observable;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 import controller.GameController;
 import model.GameConstants;
 import model.GameModel;
-import model.GameState;
 
 @SuppressWarnings("deprecation")
 
@@ -77,13 +72,13 @@ public class ProfileView extends StateScreenView {
             add(scoreLabels[i]);
         }
         
-        JLabel gamesPlayedLabel = new JLabel("games played!  " + gamesPlayed);
+        JLabel gamesPlayedLabel = new JLabel("games played:  " + gamesPlayed);
         gamesPlayedLabel.setBounds(GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
         gamesPlayedLabel.setFont(font);
-        JLabel gamesWonLabel = new JLabel("games won!  " + gamesWon);
+        JLabel gamesWonLabel = new JLabel("games won:  " + gamesWon);
         gamesWonLabel.setBounds(GameConstants.TILE_SIZE, 6*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
         gamesWonLabel.setFont(font);
-        JLabel gamesLostLabel = new JLabel("games lost!  " + gamesLost);
+        JLabel gamesLostLabel = new JLabel("games lost:  " + gamesLost);
         gamesLostLabel.setBounds(GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
         gamesLostLabel.setFont(font);
         
@@ -108,36 +103,7 @@ public class ProfileView extends StateScreenView {
 	public void setTopScores(long[] topScores) {
 		this.topScores = topScores;
 	}
-//	
-//	private ProfileView() {
-//		setVisible(true);
-//		setBackground(Color.BLACK);
-//		setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
-//		
-//		JPanel statsPanel= new JPanel(new GridLayout(3,1,5,5));
-//		statsPanel.setBackground(Color.BLACK);
-//		
-//		UIManager.put("Label.font", font);
-//		UIManager.put("Label.Border", BorderFactory.createCompoundBorder( 
-//				BorderFactory.createLineBorder(Color.WHITE),
-//		        BorderFactory.createEmptyBorder(10, 15, 10, 15)));
-//		
-//		JLabel labelPlayed = new JLabel("games played: "+gamesPlayed);
-//		
-//		JLabel labelWon = new JLabel("game won: "+ gamesWon);
-//		
-//		JLabel labelLost= new JLabel("games lost: "+ gamesLost);
-//		
-//		statsPanel.add(labelPlayed);
-//		statsPanel.add(labelWon);
-//		statsPanel.add(labelLost);
-//		statsPanel.validate();
-//		add(statsPanel);
-//		
-//		
-//
-//	}
-//	
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
