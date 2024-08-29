@@ -41,6 +41,10 @@ public class Invader extends Enemy {
 				case RIGHT -> {
 					if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
 						x += speed;
+						if (isPlayerBelow()) {
+							System.out.println(isPlayerBelow());
+							GameController.getInstance().addObj( new Laser(getX(),getY()+10) );
+						}
 					}
 					else {
 						randomizeDirection();
@@ -50,6 +54,10 @@ public class Invader extends Enemy {
 				case LEFT -> {
 					if (x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
 		                x -= speed;
+		                if (isPlayerBelow()) {
+		    				System.out.println(isPlayerBelow());
+		    				GameController.getInstance().addObj( new Laser(getX(),getY()+10) );
+		    			}
 		            }
 					else {
 						randomizeDirection();
@@ -58,9 +66,7 @@ public class Invader extends Enemy {
 				
 				default ->{}
 			}
-//			if (isPlayerBelow()) {
-//				GameController.getInstance().addObj( new Laser(getX(),getY()) );
-//			}
+			
 		}
 		updateHitbox();
 		setChanged();
@@ -68,11 +74,7 @@ public class Invader extends Enemy {
 	}
 	
 	private boolean isPlayerBelow() {
-		int diff = GameConstants.SCREEN_HEIGHT - getY();
-		for (int i=0; i<diff; i++) {
-			if (getY() + i == Player.getInstance().getX()) return true;
-		}
-		return false;
+		return player.getY()>getY() && player.getX()==getX();
 	}
 	
 	private void randomizeDirection() {

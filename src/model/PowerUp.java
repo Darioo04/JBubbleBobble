@@ -1,10 +1,13 @@
 package model;
 
 import java.awt.Rectangle;
+import java.util.Observable;
 
-public class PowerUp {
+@SuppressWarnings("deprecation")
+
+public class PowerUp extends Observable{
 	
-	private PowerUpType powerUp;
+	private PowerUpType type;
 	private int x;
 	private int y;
 	private Rectangle hitbox;
@@ -14,9 +17,9 @@ public class PowerUp {
     private int hitboxOffsetY;
 	private Player player;
 	
-	public PowerUp(PowerUpType powerUp, int x, int y) {
+	public PowerUp(PowerUpType type, int x, int y) {
 		player = Player.getInstance();
-		this.powerUp = powerUp;
+		this.type = type;
 		this.x = x;
 		this.y = y;
 		hitboxWidth = GameConstants.ITEM_SIZE - 2*GameConstants.SCALE;
@@ -29,7 +32,7 @@ public class PowerUp {
 	public void update() {
 		if (player.getHitbox().intersects(hitbox)) {
 			this.setHitbox(new Rectangle(0, 0, 1, 1));
-			switch (powerUp) {
+			switch (type) {
 			case PINK_CANDY -> {
 				
 			}
@@ -37,10 +40,28 @@ public class PowerUp {
 			
 			
 			default ->
-			throw new IllegalArgumentException("Unexpected value: " + powerUp);
+			throw new IllegalArgumentException("Unexpected value: " + type);
 			}
 		}
 	}
+	
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	
 	
 	public void setHitbox(Rectangle hitBox) {
         this.hitbox = hitBox;
@@ -48,5 +69,9 @@ public class PowerUp {
 	
 	public Rectangle getHitbox() {
 		return hitbox;
+	}
+	
+	public PowerUpType getType() {
+		return type;
 	}
 }

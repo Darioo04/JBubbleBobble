@@ -17,7 +17,6 @@ public class EnemyAnimationController {
 	private BufferedImage[] jumpingSpritesSX;
 	private BufferedImage[] inBubbleSprites;
 	private BufferedImage[] deathSprites;
-	private BufferedImage finalDeathAnimation;
 	
 	private EnemyAnimationController(Builder builder) {
 		this.enemy = builder.enemy;
@@ -67,7 +66,6 @@ public class EnemyAnimationController {
 		private BufferedImage[] jumpingSpritesSX;
 		private BufferedImage[] inBubbleSprites;
 		private BufferedImage[] deathSprites;
-		private BufferedImage finalDeathAnimation;
 		
 		public Builder setEnemy(Enemy enemy) {
 			this.enemy=enemy;
@@ -117,11 +115,6 @@ public class EnemyAnimationController {
 		public Builder setDeathSprites(BufferedImage[] deathSprites) {
 			this.deathSprites=deathSprites;
 			return (this);
-		}
-		
-		public Builder setFinalDeathSprite(BufferedImage finalDeathSprite) {
-			this.finalDeathAnimation = finalDeathSprite;
-            return (this);
 		}
 		
 		public EnemyAnimationController build() {

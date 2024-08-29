@@ -19,6 +19,7 @@ public class Food extends Observable{
     private int hitboxOffsetX;
     private int hitboxOffsetY;
     private boolean collisionDown;
+    private boolean isCollected;
 	
 	public Food(FoodType type, int x, int y) {
 		this.x = x;
@@ -71,6 +72,13 @@ public class Food extends Observable{
         return collisionDown;
     }
     
+    public void setCollected(boolean isCollected) {
+    	this.isCollected = isCollected;
+    }
+    
+    public boolean isCollected() {
+    	return isCollected;
+    }
 	
 	public void setFoodView(FoodView foodView) {
         this.foodView = foodView;
@@ -82,6 +90,9 @@ public class Food extends Observable{
 	
 	public void update() {
 		CollisionChecker.getInstance().checkTileCollision(this);
+		if (CollisionChecker.getInstance().checkFoodPlayerCollision(this, Player.getInstance())) {
+			isCollected = true;
+		}
 		if (!getCollisionDown()) {
 			y-=30*GameConstants.SCALE;
 		}

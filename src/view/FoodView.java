@@ -35,6 +35,7 @@ public class FoodView extends JLabel implements Observer {
 				case COCKTAIL -> ImageIO.read(getClass().getResource(path+"cocktail.png"));
 				case CURRY_RICE -> ImageIO.read(getClass().getResource(path+"curryRice.png"));
 				case GOLD_CROWN -> ImageIO.read(getClass().getResource(path+"goldCrown.png"));
+				default -> ImageIO.read(getClass().getResource(path+"banana.png"));
 			};
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -29,7 +29,7 @@ public class BubbleAnimationController {
 	}
 	
 	private BufferedImage getSprite(BufferedImage[] sprites, int animationCycle) {
-		return sprites[animationCycle % sprites.length];
+		return  (sprites.length>0) ? sprites[animationCycle % sprites.length] : actualSprite;
 	}
 	
 	public static class Builder {

@@ -32,6 +32,8 @@ import model.MenuScreen;
 import model.ObjModel;
 import model.PauseScreen;
 import model.Player;
+import model.PowerUp;
+import model.PowerUpFactory;
 import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
@@ -42,8 +44,10 @@ import view.GamePanel;
 import view.LevelEditorView;
 import view.MainFrame;
 import view.MenuScreenView;
+import view.ObjView;
 import view.PauseScreenView;
 import view.PlayerView;
+import view.PowerUpView;
 import view.ProfileView;
 import view.SelectLevelView;
 import view.StateScreenView;
@@ -93,7 +97,11 @@ public class GameController {
     private List<FoodView> itemViews;
     private List<EnemyAnimationController> eControllers;
     private List<BubbleAnimationController> bControllers;
+    private List<ObjAnimationController> objControllers;
     private List<ObjModel> objs;
+    private List<ObjView> objViews;
+    private List<PowerUp> powerUps;
+    private List<PowerUpView> powerUpViews;
     private PlayerAnimationController playerAnimationController;
     
     private GameState gameState;
@@ -178,8 +186,9 @@ public class GameController {
     
     public void updateAnimation() {
     	playerAnimationController.updateAnimation(animationCycle);
-        eControllers.stream().forEach(eController -> eController.updateAnimation(animationCycle));
-        bControllers.stream().forEach(bController -> bController.updateAnimation(animationCycle));
+        eControllers.parallelStream().forEach(eController -> eController.updateAnimation(animationCycle));
+        bControllers.parallelStream().forEach(bController -> bController.updateAnimation(animationCycle));
+        objControllers.parallelStream().forEach(objController -> objController.updateAnimation(animationCycle));
     }
     
     public void update() {
@@ -215,7 +224,7 @@ public class GameController {
 //				bullets.stream().forEach(Bubble::update);
 //				removeExplodedBubbles();
 				
-//				objs.stream().forEach(ObjModel::update);
+				objs.stream().forEach(ObjModel::update);
 				
 				if(enemies.isEmpty() && items.isEmpty() && collectedItems.isEmpty()) {
 					spawnFood();
@@ -387,7 +396,10 @@ public class GameController {
     	collectedItems = new ArrayList<>();
     	eControllers = new ArrayList<>();
     	bControllers = new ArrayList<>();
+    	objControllers = new ArrayList<>();
     	objs = new ArrayList<>();
+    	objViews = new ArrayList<>();
+    	powerUps = new ArrayList<>();
     	player.spawnPlayer();
     	spawnEnemies();
     	gamePanel.setFocusable(true);
@@ -397,7 +409,7 @@ public class GameController {
         mainFrame.repaint();
         
         audioManager.pauseBackgroundMusic();
-        audioManager.playLevelMusic("level");       
+        audioManager.playLevelMusic("level"); 
 //        removeDisplayedScreen(menuScreenView);
     }
 	
@@ -417,7 +429,7 @@ public class GameController {
 	
 	public void resetLevel() {
 		player.spawnPlayer();
-		enemies.stream().forEach(enemy -> enemy.setInBubble(false));
+		enemies.parallelStream().forEach(enemy -> enemy.setInBubble(false));
 		respawnEnemies();
 		player.setLostLife(false);
 		removeBubbles();
@@ -547,13 +559,26 @@ public class GameController {
     	gamePanel.add(itemView2);
     }
     
+    public void spawnPowerUp() {
+    	PowerUpFactory powerUpFactory = PowerUpFactory.getInstance();
+    	List<PowerUp> newPowerUps = powerUpFactory.createPowerUp();
+    	for(PowerUp powerUp : newPowerUps) {
+    		PowerUpView powerUpView = new PowerUpView(powerUp);
+    		powerUp.addObserver(powerUpView);
+    		powerUpViews.add(powerUpView);
+    		gamePanel.add(powerUpView);
+    	}
+    	powerUps.addAll(newPowerUps);
+    }
+    
     public void bubbleShooted() {
     	BubbleBullet bullet = player.shot();
+    	bullets.add(bullet);
 		BubbleView bulletView = new BubbleView(bullet);
 
 		bullet.setBubbleBulletView(bulletView);
 		gamePanel.add(bulletView);
-		bullets.add(bullet);
+		
 		System.out.println("bolla");
     	bulletViews.add(bulletView);
     }
@@ -571,7 +596,7 @@ public class GameController {
     	removedBubbles.add(bubble);
     }
     public void deleteRemovedBubbles() {
-    	removedBubbles.stream().forEach( bubble -> {
+    	removedBubbles.parallelStream().forEach( bubble -> {
 			bullets.remove(bubble);
 			bulletViews.remove(bubble.getBubbleBulletView());
 			gamePanel.remove(bubble.getBubbleBulletView());
@@ -601,6 +626,12 @@ public class GameController {
     
     public void addObj(ObjModel obj) {
     	objs.add(obj);
+    	ObjView objView = new ObjView(obj);
+    	obj.setObjView(objView);
+    	obj.addObserver(objView);
+    	gamePanel.add(objView);
+    	objViews.add(objView);
+    	
     }
     
     public void setPlayerName(String name) {
