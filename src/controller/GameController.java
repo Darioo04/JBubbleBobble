@@ -639,6 +639,18 @@ public class GameController {
     	
     }
     
+    public void freezeEnemies() {
+    	enemies.parallelStream().forEach(enemy -> enemy.setFrozen());;
+    }
+    
+    public void unfreezeEnemies() {
+    	enemies.parallelStream().forEach(enemy -> enemy.setUnfrozen());
+    }
+    
+    public void killAllEnemies() {
+    	enemies.parallelStream().forEach(enemy -> enemy.setDead(true));
+    }
+    
     public void setPlayerName(String name) {
     	playerName = name;
     }

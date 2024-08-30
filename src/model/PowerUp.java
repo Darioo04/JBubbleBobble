@@ -3,6 +3,8 @@ package model;
 import java.awt.Rectangle;
 import java.util.Observable;
 
+import controller.GameController;
+
 @SuppressWarnings("deprecation")
 
 public class PowerUp extends Observable{
@@ -30,6 +32,48 @@ public class PowerUp extends Observable{
 	
 	public void update() {
 		CollisionChecker.getInstance().checkPlayerPowerUpCollision(Player.getInstance(),this);
+		
+	}
+	
+	public void applyPowerUp() {
+		switch(type) {
+			case PINK_CANDY -> {
+				BubbleBullet.increaseBulletDistance();
+			}
+			case BLUE_CANDY -> {
+				BubbleBullet.increaseBulletSpeed();
+			}
+			case YELLOW_CANDY -> {
+				
+			}
+			case SHOES -> {
+				//incrementa la velocità del player (penso di x1.5)
+			}
+			case CLOCK -> {
+				GameController.getInstance().freezeEnemies();
+			}
+			case DYNAMITE -> {
+				GameController.getInstance().killAllEnemies();
+			}
+			case CHACK_HEART -> {
+				GameController.getInstance().freezeEnemies();
+			}
+			case CRYSTAL_RING -> {
+				//il player guadagna 10 punti ad ogni passo che fa (quando x viene incrementato di tot punti)
+			}
+			case AMETHYST_RING -> {
+				//il player guadagna 500 punti ogni volta che salta
+			}
+			case RUBY_RING -> {
+				//il player guadagna 100 punti per ogni bolla che spara
+			}
+			case CROSS_OF_THUNDER -> {
+				//tutti i nemici nel livello vengono uccisi
+			}
+			case BLUE_LAMP -> {
+				//da al player l'abilita dei tre anelli (CRYSTAL_RING, AMETHYST_RING E RUBY_RING)
+			}
+		}
 	}
 	
 	public void setX(int x) {

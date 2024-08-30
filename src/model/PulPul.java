@@ -19,55 +19,52 @@ public class PulPul extends Enemy {
 	public void update() {
 		super.update();
 		collisionChecker.checkTileCollisionUp(this);
-		if (!isDead() && !isInBubble()) {
+		if (!isDead() && !isInBubble() && !isFrozen()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
 	            randomizeDirection();
 	        }
-		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
-            randomizeDirection();
-        }
-		int speed = getSpeed();
-		switch (getDirection()) {
-			case RIGHT -> {
-				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
-					x += speed;
+			int speed = getSpeed();
+			switch (getDirection()) {
+				case RIGHT -> {
+					if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
+						x += speed;
+					}
+					else {
+						randomizeDirection();
+					}
 				}
-				else {
-					randomizeDirection();
+				
+				case LEFT -> {
+					if (x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
+		                x -= speed;
+		            }
+					else {
+						randomizeDirection();
+					}
 				}
-			}
+				
+				case DOWN -> {
+		            if (y < GameConstants.SCREEN_HEIGHT - 3*GameConstants.TILE_SIZE - speed && !getCollisionDown()) {
+		                y += speed;
+		            }
+		            else {
+						randomizeDirection();
+					}
+		        }
+				
+				case UP -> {
+					if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp()) {
+		                y -= speed;
+		            }
+					else {
+						randomizeDirection();
+					}
+		        }
 			
-			case LEFT -> {
-				if (x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
-	                x -= speed;
-	            }
-				else {
-					randomizeDirection();
-				}
-			}
 			
-			case DOWN -> {
-	            if (y < GameConstants.SCREEN_HEIGHT - 3*GameConstants.TILE_SIZE - speed && !getCollisionDown()) {
-	                y += speed;
-	            }
-	            else {
-					randomizeDirection();
+				
+				default ->{}
 				}
-	        }
-			
-			case UP -> {
-				if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp()) {
-	                y -= speed;
-	            }
-				else {
-					randomizeDirection();
-				}
-	        }
-		
-		
-			
-			default ->{}
-			}
 		}
 		updateHitbox();
 		setChanged();

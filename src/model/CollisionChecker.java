@@ -240,7 +240,8 @@ public class CollisionChecker {
 		Rectangle powerUpHitbox = powerUp.getHitbox();
 		
 		if (playerHitbox.intersects(powerUpHitbox)) {
-			powerUp.getType().applyPowerUp(player);
+			player.setIsPowered(true);
+			powerUp.applyPowerUp();
 			powerUp.setCanBeDeleted(true);
 		}
 	}

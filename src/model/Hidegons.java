@@ -21,33 +21,34 @@ public class Hidegons extends Enemy{
 		super.update();
 		setEnemyCollision();
 		int speed = getSpeed();
-		if (!isDead() && !isInBubble()) {
+		if (!isDead() && !isInBubble() && !isFrozen()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
 				randomizeDirection();
-        }
-		else if (!collisionDown && y + Math.abs(speed) <  GameConstants.SCREEN_HEIGHT - 2 * GameConstants.TILE_SIZE) {
-                y += Math.abs(speed);}
-		
-		else {switch (direction) {
-			case RIGHT -> {
-				if(!collisionRight ) {
-					x += speed;
-				}else {
-					randomizeDirection();
-				}
 			}
+			else if (!collisionDown && y + Math.abs(speed) <  GameConstants.SCREEN_HEIGHT - 2 * GameConstants.TILE_SIZE) {
+	                y += Math.abs(speed);}
 			
-			case LEFT -> {
-				if(!collisionLeft ) {
-                    x -= speed;
-                }else {
-					randomizeDirection();
+			else {
+				switch (direction) {
+					case RIGHT -> {
+						if(!collisionRight ) {
+							x += speed;
+						}else {
+							randomizeDirection();
+						}
+					}
+					
+					case LEFT -> {
+						if(!collisionLeft ) {
+		                    x -= speed;
+		                }else {
+							randomizeDirection();
+						}
+					 
+					}
+					default ->{}
 				}
-			 
 			}
-			default ->{}
-		}
-		}
 		}
 		
 		shot();

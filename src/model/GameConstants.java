@@ -20,7 +20,9 @@ public final class GameConstants {
 	public static final int BUBBLE_SHOT_SIZE = 6 * SCALE;
 	public static final int BUBBLE_EXPANDED_SIZE = 12 * SCALE;
 	public static final int BUBBLE_X_SPEED = 3 * SCALE;
+	public static final int POWERED_BUBBLE_X_SPEED = 5 * SCALE;
 	public static final int BUBBLE_X_DISTANCE = 72 * SCALE;
+	public static final int POWERED_BUBBLE_X_DISTANCE = 108 * SCALE;
 	public static final double BUBBLE_FLOATING_SPEED = 0.5 * SCALE;
 	public static final int ITEM_SIZE = 10 * SCALE;
 	public static final double SPEED_MULTIPLIER = 1.5 * SCALE;

@@ -18,6 +18,7 @@ public abstract class Enemy extends Entity {
 	private boolean bubbleExploded;
 	private EnemyView enemyView;
 	private boolean canBeDeleted;
+	private boolean isFrozen;
 	protected int scoreWhenKilled;
 	
 	private int rebornCounter;
@@ -69,6 +70,18 @@ public abstract class Enemy extends Entity {
 	
 	public boolean getBubbleExploded() {
 		return bubbleExploded;
+	}
+	
+	public void setFrozen() {
+		isFrozen = true;
+	}
+	
+	public void setUnfrozen() {
+		isFrozen = false;
+	}
+	
+	public boolean isFrozen() {
+		return isFrozen;
 	}
 	
 	public EnemyView getEnemyView() {

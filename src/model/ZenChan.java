@@ -26,7 +26,7 @@ public class ZenChan extends Enemy {
 		super.update();
 		setDirectionToGo();
 		setEnemyCollision();
-		if (!isDead()) {	
+		if (!isDead() && !isFrozen()) {	
 			if (isChasingPlayer()) {
 				if(Math.abs(targetY - y) <= 9) {
 					setIsChasingPlayer(false);

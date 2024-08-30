@@ -9,10 +9,13 @@ import view.BubbleView;
 
 public class BubbleBullet extends Bubble {
 	
+	private static int bulletDistance = GameConstants.BUBBLE_X_DISTANCE;
+	private static int bulletSpeed = GameConstants.BUBBLE_X_SPEED;
+	
 	public BubbleBullet(int x, int y, Direction direction) {
 		super(x,y);
 		setDirection(direction);
-        setTargetX((direction == Direction.RIGHT) ? getSpawnX() + GameConstants.BUBBLE_X_DISTANCE : getSpawnX() - GameConstants.BUBBLE_X_DISTANCE);
+        setTargetX((direction == Direction.RIGHT) ? getSpawnX() + bulletDistance : getSpawnX() - bulletDistance);
 	}
 	
 	@Override
@@ -27,12 +30,12 @@ public class BubbleBullet extends Bubble {
 				switch (direction){
 					case RIGHT -> {
 						if(x != targetX)
-							x += GameConstants.BUBBLE_X_SPEED;
+							x += bulletSpeed;
 					}
 					
 					case LEFT -> {
 						if(x!= targetX)
-							x -= GameConstants.BUBBLE_X_SPEED;
+							x -= bulletSpeed;
 					}
 					
 					default -> throw new IllegalArgumentException("Unexpected value: " + direction);
@@ -69,5 +72,21 @@ public class BubbleBullet extends Bubble {
         setChanged();
         notifyObservers();
 	}
-		  
+	
+	public static void increaseBulletDistance() {
+		bulletDistance = GameConstants.POWERED_BUBBLE_X_DISTANCE;
+	}
+	
+	public static void resetBulletDistance() {
+		bulletDistance = GameConstants.BUBBLE_X_DISTANCE;
+	}
+	
+	public static void increaseBulletSpeed() {
+		bulletSpeed = GameConstants.POWERED_BUBBLE_X_SPEED;
+	}
+	
+	public static void resetBulletSpeed() {
+		bulletSpeed = GameConstants.BUBBLE_X_SPEED;
+	}
+	
 }
