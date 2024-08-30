@@ -20,7 +20,7 @@ public class Banebou extends Enemy {
 		setNumRunningSprites(0);
 		setNumJumpingSprites(3);
 		setSpeed(4);
-		
+		 
 	}
 	
 	@Override

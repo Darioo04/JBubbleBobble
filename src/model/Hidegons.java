@@ -19,20 +19,16 @@ public class Hidegons extends Enemy{
 	@Override
 	public void update() {
 		super.update();
-		collisionChecker.checkTileCollision(this);
+		setEnemyCollision();
 		int speed = getSpeed();
 		if (!isDead() && !isInBubble()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
-	            randomizeDirection();
-	        }
-		else if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
-            randomizeDirection();
+				randomizeDirection();
         }
-		else if(!getCollisionDown()) {
-			y += Math.abs(speed);
-		}
+		else if (!collisionDown && y + Math.abs(speed) <  GameConstants.SCREEN_HEIGHT - 2 * GameConstants.TILE_SIZE) {
+                y += Math.abs(speed);}
 		
-			else {switch (direction) {
+		else {switch (direction) {
 			case RIGHT -> {
 				if(!collisionRight ) {
 					x += speed;
@@ -49,18 +45,26 @@ public class Hidegons extends Enemy{
 				}
 			 
 			}
-			
 			default ->{}
 		}
 		}
 		}
+		
 		shot();
 		setChanged();
         notifyObservers();
 	}
 	
 	private void randomizeDirection() {
-        setDirection((Math.random()<=0.5) ? Direction.LEFT : Direction.RIGHT);
+		double randomNumber = Math.random();
+		
+        if (randomNumber <= 0.5) {
+        	setDirection(Direction.LEFT);
+        }
+        else if (randomNumber>0.5) {
+            setDirection(Direction.RIGHT);
+        }
+        
 	}
 	
 	private void shot() {
@@ -108,5 +112,11 @@ public class Hidegons extends Enemy{
 		
 		}
 		return false;
+	}
+	private void setEnemyCollision() {
+		collisionLeft = false;
+		collisionRight = false;
+		collisionDown = false;
+		collisionChecker.checkTileCollision(this);
 	}
 }

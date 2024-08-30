@@ -18,7 +18,7 @@ public class PulPul extends Enemy {
 	@Override
 	public void update() {
 		super.update();
-		collisionChecker.checkTileCollision(this);
+		collisionChecker.checkTileCollisionUp(this);
 		if (!isDead() && !isInBubble()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
 	            randomizeDirection();
