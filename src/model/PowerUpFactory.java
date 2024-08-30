@@ -60,11 +60,12 @@ public class PowerUpFactory {
 			powerUps.add(new PowerUp(PowerUpType.RUBY_RING, x, y));
 			player.resetPinkCandiesCollected();
 		}
-		if (player.getFoodCollected()>=15) {
+		if (player.getFoodCollected()>=12) {
 			powerUps.add(new PowerUp(PowerUpType.CROSS_OF_THUNDER, x, y));
 		}
 		if (GameModel.getInstance().getGamesPlayed()%5==0) {
 			powerUps.add(new PowerUp(PowerUpType.BLUE_LAMP, x, y));
+			//aggiungere un controllo per far si che lo spawni uno solo per livello;
 		}
 		// mancano le shoes da ma non so come impostare la condizione di spawn (devi camminare l'equivalente di 15 volte la lunghezza del livello)
 	

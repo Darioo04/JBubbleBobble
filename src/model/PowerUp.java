@@ -15,10 +15,9 @@ public class PowerUp extends Observable{
     private int hitboxHeight;
     private int hitboxOffsetX;
     private int hitboxOffsetY;
-	private Player player;
+	private boolean canBeDeleted;
 	
 	public PowerUp(PowerUpType type, int x, int y) {
-		player = Player.getInstance();
 		this.type = type;
 		this.x = x;
 		this.y = y;
@@ -30,19 +29,7 @@ public class PowerUp extends Observable{
 	}
 	
 	public void update() {
-		if (player.getHitbox().intersects(hitbox)) {
-			this.setHitbox(new Rectangle(0, 0, 1, 1));
-			switch (type) {
-			case PINK_CANDY -> {
-				
-			}
-			
-			
-			
-			default ->
-			throw new IllegalArgumentException("Unexpected value: " + type);
-			}
-		}
+		CollisionChecker.getInstance().checkPlayerPowerUpCollision(Player.getInstance(),this);
 	}
 	
 	public void setX(int x) {
@@ -61,8 +48,6 @@ public class PowerUp extends Observable{
 		return y;
 	}
 	
-	
-	
 	public void setHitbox(Rectangle hitBox) {
         this.hitbox = hitBox;
     }
@@ -73,5 +58,13 @@ public class PowerUp extends Observable{
 	
 	public PowerUpType getType() {
 		return type;
+	}
+	
+	public void setCanBeDeleted(boolean canBeDeleted) {
+		this.canBeDeleted = canBeDeleted;
+	}
+	
+	public boolean canBeDeleted() {
+		return canBeDeleted;
 	}
 }

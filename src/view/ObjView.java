@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import controller.GameController;
 import controller.ObjAnimationController;
 import model.GameConstants;
 import model.ObjModel;
@@ -20,7 +21,8 @@ public class ObjView extends JLabel implements Observer {
 	
 	private ObjModel obj;
 	private BufferedImage actualSprite;
-	private BufferedImage[] sprites;
+	private BufferedImage[] idleSprites;
+	private BufferedImage[] collisionSprites;
 	private ImageIcon resizedIcon;
 	private String path;
 	
@@ -38,10 +40,11 @@ public class ObjView extends JLabel implements Observer {
 	}
 	
 	private void loadSprites(int numSprites) {
-		sprites = new BufferedImage[numSprites];
+		idleSprites = new BufferedImage[numSprites];
+		collisionSprites = new BufferedImage[numSprites];
 		try {
 			for (int i=0; i<numSprites; i++) {
-				sprites[i] = ImageIO.read(getClass().getResource(path + (i+1) + ".png"));
+				idleSprites[i] = ImageIO.read(getClass().getResource(path + (i+1) + ".png"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -50,7 +53,7 @@ public class ObjView extends JLabel implements Observer {
 	}
 	
 	private void loadActualSprite() {
-		actualSprite = sprites[0];
+		actualSprite = idleSprites[0];
 	}
 	
 	private void resizeIcon(BufferedImage actualSprite) {
@@ -62,8 +65,9 @@ public class ObjView extends JLabel implements Observer {
 		ObjAnimationController objAnimationController = new ObjAnimationController.Builder()
 				.setObj(obj)
 				.setActualSprite(actualSprite)
-				.setIdleSprites(sprites)
+				.setIdleSprites(idleSprites)
 				.build();
+		GameController.getInstance().addObjAnimationController(objAnimationController);
 	}
 	
 	@Override
@@ -75,7 +79,7 @@ public class ObjView extends JLabel implements Observer {
 				resizeIcon(actualSprite);
 				setIcon(resizedIcon);
 			}
-			this.setBounds(om.getX(), om.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
+			setBounds(om.getX(), om.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
 		}
 		
 	}

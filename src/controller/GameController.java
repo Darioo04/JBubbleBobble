@@ -225,6 +225,7 @@ public class GameController {
 //				removeExplodedBubbles();
 				
 				objs.stream().forEach(ObjModel::update);
+				powerUps.stream().forEach(PowerUp::update);
 				
 				if(enemies.isEmpty() && items.isEmpty() && collectedItems.isEmpty()) {
 					spawnFood();
@@ -534,7 +535,7 @@ public class GameController {
     		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
     	}
     	Food item1 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
-    	System.out.println("x: " + randomX + "   y: " + randomY);
+//    	System.out.println("x: " + randomX + "   y: " + randomY);
     	
     	randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
     	randomX = new Random().nextInt(GameConstants.COLS-1)+1;
@@ -543,7 +544,7 @@ public class GameController {
     		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
     	}
     	Food item2 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
-    	System.out.println("x: " + randomX + "   y: " + randomY);
+//    	System.out.println("x: " + randomX + "   y: " + randomY);
     	
     	FoodView itemView1 = new FoodView(item1);
     	item1.setFoodView(itemView1);
@@ -579,7 +580,7 @@ public class GameController {
 		bullet.setBubbleBulletView(bulletView);
 		gamePanel.add(bulletView);
 		
-		System.out.println("bolla");
+//		System.out.println("bolla");
     	bulletViews.add(bulletView);
     }
     
@@ -622,6 +623,10 @@ public class GameController {
     
     public void addBubbleAnimationController(BubbleAnimationController bController) {
     	bControllers.add(bController);
+    }
+    
+    public void addObjAnimationController(ObjAnimationController objController) {
+    	objControllers.add(objController);
     }
     
     public void addObj(ObjModel obj) {

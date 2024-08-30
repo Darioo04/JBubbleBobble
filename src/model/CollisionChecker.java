@@ -124,7 +124,6 @@ public class CollisionChecker {
 		
 		int leftCol = leftX / GameConstants.TILE_SIZE;
 		int rightCol = rightX / GameConstants.TILE_SIZE;
-		int topRow = topY / GameConstants.TILE_SIZE;
 		int bottomRow = bottomY / GameConstants.TILE_SIZE;
 		
 		leftCol = leftX / GameConstants.TILE_SIZE;
@@ -196,6 +195,7 @@ public class CollisionChecker {
         Rectangle playerHitbox = player.getHitbox();
 
         if (foodHitbox.intersects(playerHitbox)){
+        	player.increaseFoodCollected();
         	return true;
         }
         return false;
@@ -234,6 +234,17 @@ public class CollisionChecker {
 //				// crea un effetto rimbalzo tra le bolle
 //			}
 	}
+	
+	public void checkPlayerPowerUpCollision(Player player, PowerUp powerUp) {
+		Rectangle playerHitbox = player.getHitbox();
+		Rectangle powerUpHitbox = powerUp.getHitbox();
+		
+		if (playerHitbox.intersects(powerUpHitbox)) {
+			powerUp.getType().applyPowerUp(player);
+			powerUp.setCanBeDeleted(true);
+		}
+	}
+	
 	public void checkTileCollisionUp(Enemy enemy) {
 		
 		this.levelFile = LevelCreator.getInstance().getLevel();
@@ -268,6 +279,5 @@ public class CollisionChecker {
 		topRow = (topY - enemy.getSpeed()) / GameConstants.TILE_SIZE;
 		enemy.setCollisionUp(levelFile[topRow][leftCol] == '1' || levelFile[topRow][rightCol] == '1');
 	}
-
 	
 }

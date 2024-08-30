@@ -9,6 +9,7 @@ public class ObjAnimationController {
 	private ObjModel obj;
 	private BufferedImage actualSprite;
 	private BufferedImage[] idleSprites;
+	private BufferedImage[] despawnSprites;
 	
 	private ObjAnimationController(Builder builder) {
 		this.obj = builder.obj;
@@ -17,7 +18,7 @@ public class ObjAnimationController {
 	}
 	
 	public void updateAnimation(int animationCycle) {
-		
+		actualSprite = idleSprites[animationCycle % idleSprites.length];
 		obj.update(actualSprite);
 	}
 	

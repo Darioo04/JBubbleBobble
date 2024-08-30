@@ -21,9 +21,9 @@ public class FoodView extends JLabel implements Observer {
 	private ImageIcon resizedIcon;
 	private static final String path = "/sprites/items/";
 
-	public FoodView(Food item) {
+	public FoodView(Food food) {
 		try {
-			sprite = switch (item.getType()) {
+			sprite = switch (food.getType()) {
 				case PEPPER -> ImageIO.read(getClass().getResource(path+"pepper.png"));
 				case EGGPLANT -> ImageIO.read(getClass().getResource(path+"eggplant.png"));
 				case RED_TURNIP -> ImageIO.read(getClass().getResource(path+"turnip.png"));
@@ -35,13 +35,12 @@ public class FoodView extends JLabel implements Observer {
 				case COCKTAIL -> ImageIO.read(getClass().getResource(path+"cocktail.png"));
 				case CURRY_RICE -> ImageIO.read(getClass().getResource(path+"curryRice.png"));
 				case GOLD_CROWN -> ImageIO.read(getClass().getResource(path+"goldCrown.png"));
-				default -> ImageIO.read(getClass().getResource(path+"banana.png"));
 			};
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		setBounds(item.getX(),item.getY(),GameConstants.ITEM_SIZE,GameConstants.ITEM_SIZE);
+		setBounds(food.getX(),food.getY(),GameConstants.ITEM_SIZE,GameConstants.ITEM_SIZE);
 		resizeIcon(sprite);
 	    setIcon(resizedIcon); 
 	    setVisible(true);
