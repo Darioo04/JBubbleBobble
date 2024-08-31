@@ -107,11 +107,18 @@ public class EnemyView extends EntityView {
 	@Override
 	public void update(Observable o,Object arg) {
 		super.update(o, arg);
-		if (o instanceof Enemy && arg instanceof BufferedImage) {
-			actualSprite = (BufferedImage) arg;
-			resizeIcon(actualSprite);
-			setIcon(resizedIcon);
+		if (o instanceof Enemy) {
+			Enemy enemy = (Enemy) o;
+			if (arg instanceof BufferedImage) {
+				actualSprite = (BufferedImage) arg;
+				resizeIcon(actualSprite);
+				setIcon(resizedIcon);
+			}
+			if (enemy.getCanBeDeleted()) {
+//				GameController.getInstance().removeDeadEnemy(enemy,this);
+			}
 		}
+		
 	}
 	
 }

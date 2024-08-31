@@ -1,26 +1,23 @@
 package model;
 
-public class Fire {
+@SuppressWarnings("deprecation")
+
+public class Fire extends ObjModel {
 	
-	private Direction direction;
-	private int x;
-	private int y;
-	
-	public Fire(int x, int y, Direction direction) {
-		this.x = x;
-		this.y = y;
-		this.direction = direction;
+	public Fire(int x, int y) {
+		super(x,y);
 	}
 	
 	public void update() {
-		switch(direction) {
-			case RIGHT -> {
-				
-			}
-			case LEFT -> {
-				
-			}
+		CollisionChecker.getInstance().checkTileCollision(this);
+		if (!getCollisionDown()) {
+			setY( getY() + GameConstants.BUBBLE_X_SPEED);
 		}
+		else if (getCollisionDown()) {
+			
+		}
+		setChanged();
+		notifyObservers();
 	}
 }
 

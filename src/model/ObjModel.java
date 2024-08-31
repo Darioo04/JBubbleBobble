@@ -18,6 +18,11 @@ public abstract class ObjModel extends Observable {
 	private int hitboxHeight;
 	private int hitboxOffsetX;
 	private int hitboxOffsetY;
+	protected boolean collisionDown;
+	protected boolean collisionLeft;
+	protected boolean collisionRight;
+	protected boolean collisionUp;
+	private boolean canBeDeleted;
 	private Rectangle hitbox;
 	private ObjView objView;
     
@@ -57,6 +62,46 @@ public abstract class ObjModel extends Observable {
 	
 	public void setHitbox(Rectangle hitbox) {
 		this.hitbox = hitbox;
+	}
+	
+    public boolean getCollisionDown() {
+    	return collisionDown;
+    }
+    
+    public void setCollisionDown(boolean collisionDown) {
+        this.collisionDown = collisionDown;
+    }
+    
+    public boolean getCollisionLeft() {
+        return collisionLeft;
+    }
+    
+    public void setCollisionLeft(boolean collisionLeft) {
+        this.collisionLeft = collisionLeft;
+    }
+    
+    public boolean getCollisionRight() {
+        return collisionRight;
+    }
+    
+    public void setCollisionRight(boolean collisionRight) {
+        this.collisionRight = collisionRight;
+    }
+    
+    public boolean getCollisionUp() {
+        return collisionUp;
+    }
+    
+    public void setCollisionUp(boolean collisionUp) {
+        this.collisionUp = collisionUp;
+    }
+	
+	public void setCanBeDeleted(boolean canBeDeleted) {
+		this.canBeDeleted = canBeDeleted;
+	}
+	
+	public boolean canBeDeleted() {
+		return canBeDeleted;
 	}
 	
 	public Rectangle getHitbox() {

@@ -25,9 +25,9 @@ public class BubbleFactory {
 		int perc = new Random().nextInt(100);
 		spawnBubbles();
 		if (perc<=1) return new SupremeBubble(player.getX(),spawnY);
-		else if (perc<=8) return new LightningBubble(player.getX(),spawnY);
+		else if (perc<=8) return new WaterBubble(player.getX(),spawnY);
 		else if (perc<=20) return new FireBubble(player.getX(),spawnY);
-		else if (perc<=30) return new WaterBubble(player.getX(),spawnY);
+		else if (perc<=30) return new ThunderBubble(player.getX(),spawnY);
 		
 		else return null;
 	}

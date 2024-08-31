@@ -12,7 +12,6 @@ import controller.LevelCreator;
 public class Player extends Entity {
 	
 	private static Player instance;
-	private GameController gameController = GameController.getInstance();
 	private boolean isLeftPressed;
 	private boolean isRightPressed;
 	private boolean isSpacePressed;	
@@ -27,6 +26,7 @@ public class Player extends Entity {
 	private boolean amethystRingPower;
 	private boolean rubyRingPower;
 	private int fireRate = GameConstants.PLAYER_FIRE_RATE;
+	private int shoesDistance = 15*GameConstants.SCREEN_WIDTH;
 	
 	private int poweredCounter;
 	private final int POWERED_TIME = 480;	//8 secondi
@@ -97,7 +97,7 @@ public class Player extends Entity {
 			default ->{}
 		}
 		if (rubyRingPower) {
-			gameController.addScore(100);
+			GameController.getInstance().addScore(100);
 		}
 		return new BubbleBullet(bubbleX, bubbleY, this.direction);
 	}
@@ -109,7 +109,7 @@ public class Player extends Entity {
 		}
 		numJumps++;
 		if (amethystRingPower) {
-			gameController.addScore(500);
+			GameController.getInstance().addScore(500);
 		}
 	}
 	
@@ -164,19 +164,21 @@ public class Player extends Entity {
 				case LEFT -> {
 					if (isLeftPressed && !collisionLeft) {
 						x -= speed;
+						shoesDistance-=speed;
 					}
 				}
 			
 				case RIGHT -> {
 					if (isRightPressed && !collisionRight) {
 						x += speed;
+						shoesDistance-=speed;
 					}
 				}
 			
 				default -> throw new IllegalArgumentException("Unexpected value: " + getDirection());
 			}
 			if (crystalRingPower) {
-				gameController.addScore(10);
+				GameController.getInstance().addScore(10);
 			}
 		}
 		
@@ -420,5 +422,13 @@ public class Player extends Entity {
 	
 	public void removeRubyRing() {
 		rubyRingPower = false;
+	}
+	
+	public void resetShoesDistance() {
+		shoesDistance = 15 *GameConstants.SCREEN_WIDTH;
+	}
+	
+	public boolean shoesCanSpawn() {
+		return shoesDistance<=0;
 	}
 }

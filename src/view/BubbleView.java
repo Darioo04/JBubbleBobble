@@ -22,13 +22,12 @@ import model.GameConstants;
 public class BubbleView extends JLabel implements Observer {
 
 	private static final String path = "/sprites/Bubbles/bubble-";
+	private static final Map<String,BufferedImage> spritesCache = new HashMap<>();
 	private ImageIcon resizedIcon;
 	private BufferedImage defaultSprite;
 	private BufferedImage[] explodedSprites;
 	private BufferedImage[] extendsBubbles;
 	private Bubble bubble;
-	
-	
 	private BufferedImage defaultBubble;
 	
 	public BubbleView(Bubble bubble) {
@@ -36,27 +35,18 @@ public class BubbleView extends JLabel implements Observer {
 		
 		loadDefaultSprite();
 		loadSprites();
-		
-		this.setBounds(bubble.getX(), bubble.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
+
+		setBounds(bubble.getX(), bubble.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
 		resizeIcon(defaultSprite);
 		setIcon(resizedIcon);
         setVisible(true);
 	}
 	
-	@Override
-	public void update(Observable o, Object arg) {
-		if (o instanceof Bubble) {
-			Bubble b = (Bubble) o;
-			int size = b.isExpanded() ? GameConstants.BUBBLE_EXPANDED_SIZE : GameConstants.BUBBLE_SHOT_SIZE;
-			setBounds(b.getX(), b.getY(), size, size);
-			if (arg instanceof BufferedImage) {
-				defaultSprite = (BufferedImage) arg;
-				resizeIcon(defaultSprite);
-				setIcon(resizedIcon);
-			}
-		}
-		
-	}
+//	public static BufferedImage getSprite(String path) {
+//		
+//	}
+	
+
 	
 	public void resizeIcon(BufferedImage originalImage) {
 		Image resizedImage = originalImage.getScaledInstance(this.getWidth(), this.getHeight(),Image.SCALE_FAST);
@@ -101,6 +91,20 @@ public class BubbleView extends JLabel implements Observer {
 				.setFloatingSprites(new BufferedImage[0])
 				.build();
 		GameController.getInstance().addBubbleAnimationController(bubbleAnimationController);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o instanceof Bubble) {
+			Bubble b = (Bubble) o;
+			int size = b.isExpanded() ? GameConstants.BUBBLE_EXPANDED_SIZE : GameConstants.BUBBLE_SHOT_SIZE;
+			setBounds(b.getX(), b.getY(), size, size);
+			if (arg instanceof BufferedImage) {
+				defaultSprite = (BufferedImage) arg;
+				resizeIcon(defaultSprite);
+				setIcon(resizedIcon);
+			}
+		}
 	}
 }
 

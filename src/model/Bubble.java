@@ -31,7 +31,7 @@ public abstract class Bubble extends Observable  {
 	protected boolean collisionUp;
 	
 	protected int explosionTime;
-	protected static final int EXPLOSION_DELAY = 20; 
+	protected static final int EXPLOSION_DELAY = 30; 
 	
 	public Bubble(int x,int y) {
 		this.x=x;

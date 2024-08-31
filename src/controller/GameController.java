@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import model.Banebou;
@@ -89,6 +90,8 @@ public class GameController {
     
     private List<Enemy> enemies;
     private List<EnemyView> enemyViews;
+    private List<Enemy> removedEnemies;
+    private List<EnemyView> removedEnemyViews;
     private List<Bubble> bullets;
     private List<Bubble> removedBubbles;
     private List<BubbleView> bulletViews;
@@ -206,10 +209,9 @@ public class GameController {
 				player.update();
 				enemies.stream().forEach(Enemy::update);
 				removeDeadEnemies();
-				
 				bullets.stream().forEach(Bubble::update);
 				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
-				bullets.stream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
+				collisionChecker.checkBubblePlayerCollision(bullets, player);
 				bullets.stream()
 			       .filter(Bubble::canBeDeleted)
 			       .forEach(bubble -> {
@@ -387,7 +389,9 @@ public class GameController {
     	
     	gamePanel.add(playerView);
     	gamePanel.setPlayer(player);
-    	enemies = new ArrayList<>();
+    	enemies = new CopyOnWriteArrayList<>();
+    	removedEnemies = new CopyOnWriteArrayList<>();
+    	removedEnemyViews = new ArrayList<>();
     	enemyViews = new ArrayList<>();
     	bullets = new ArrayList<>();
     	removedBubbles = new ArrayList<>();
@@ -500,8 +504,9 @@ public class GameController {
     		for (int j = 0; j < levelFile[i].length; j++) {
     			Enemy enemy = enemyFactory.createEnemy(levelFile[i][j], i, j);
                 if (enemy!=null) {
-                	EnemyView enemyView = new EnemyView(enemy,enemy.getNumIdleSprites(),enemy.getNumRunningSprites(),enemy.getNumJumpingSprites(), enemy.getNumFallingSprites());
+                	EnemyView enemyView = new EnemyView(enemy, enemy.getNumIdleSprites(),enemy.getNumRunningSprites(),enemy.getNumJumpingSprites(), enemy.getNumFallingSprites());
     				enemy.setEnemyView(enemyView);
+                	enemy.addObserver(enemyView);
     				gamePanel.add(enemyView);
     				enemies.add(enemy);
     				enemyViews.add(enemyView);
@@ -605,6 +610,7 @@ public class GameController {
 		removedBubbles.clear();
     }
     
+    
     public void removeDeadEnemies() {
     	for (Enemy e : enemies.stream().filter(Enemy::isDead).collect(Collectors.toList())) {
     		if (e.getCanBeDeleted()) {
@@ -617,6 +623,13 @@ public class GameController {
     	}
     }
     
+//    public void removeDeadEnemy(Enemy enemy, EnemyView eView) {
+//		score += enemy.getScoreWhenKilled();
+//    	enemies.remove(enemy);
+//    	enemyViews.remove(eView);
+//    	gamePanel.remove(eView);
+//    }
+//    
     public void addEnemyAnimationController(EnemyAnimationController eController) {
     	eControllers.add(eController);
     }

@@ -18,8 +18,8 @@ public class PowerUp extends Observable{
     private int hitboxOffsetX;
     private int hitboxOffsetY;
 	private boolean canBeDeleted;
-	private static Player player = Player.getInstance();
-	private static GameController gameController = GameController.getInstance();
+	private Player player = Player.getInstance();
+	private GameController gameController = GameController.getInstance();
 	
 	public PowerUp(PowerUpType type, int x, int y) {
 		this.type = type;
@@ -40,16 +40,20 @@ public class PowerUp extends Observable{
 	public void applyPowerUp() {
 		switch(type) {
 			case PINK_CANDY -> {
+				gameController.addScore(100);
 				BubbleBullet.increaseBulletDistance();
 			}
 			case BLUE_CANDY -> {
+				gameController.addScore(100);
 				BubbleBullet.increaseBulletSpeed();
 			}
 			case YELLOW_CANDY -> {
+				gameController.addScore(100);
 				player.increaseFireRate();
 			}
 			case SHOES -> {
 				player.increaseSpeed();
+				player.resetShoesDistance();
 			}
 			case CLOCK -> {
 				gameController.freezeEnemies();
@@ -62,21 +66,26 @@ public class PowerUp extends Observable{
 			}
 			case CRYSTAL_RING -> {
 				//il player guadagna 10 punti ad ogni passo che fa (quando x viene incrementato di tot punti)
+				gameController.addScore(1000);
 				player.activeCrystalRing();
 			}
 			case AMETHYST_RING -> {
 				//il player guadagna 500 punti ogni volta che salta
+				gameController.addScore(1000);
 				player.activeAmethystRing();
 			}
 			case RUBY_RING -> {
 				//il player guadagna 100 punti per ogni bolla che spara
+				gameController.addScore(1000);
 				player.activeRubyRing();
 			}
 			case CROSS_OF_THUNDER -> {
+				gameController.addScore(3000);
 				gameController.killAllEnemies();
 			}
 			case BLUE_LAMP -> {
 				//da al player l'abilita dei tre anelli (CRYSTAL_RING, AMETHYST_RING E RUBY_RING)
+				gameController.addScore(1000);
 				player.activeCrystalRing();
 				player.activeAmethystRing();
 				player.activeRubyRing();

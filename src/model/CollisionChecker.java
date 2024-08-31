@@ -3,6 +3,7 @@ package model;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import controller.GameController;
 import controller.LevelCreator;
@@ -133,6 +134,28 @@ public class CollisionChecker {
 		
 	}
 	
+	public void checkTileCollision(Fire fire) {
+		
+		this.levelFile = LevelCreator.getInstance().getLevel();
+		
+		Rectangle fireHitbox = fire.getHitbox();
+		
+		int leftX = fireHitbox.x;
+		int rightX = leftX + fireHitbox.width;
+		int topY = fireHitbox.y;
+		int bottomY = topY + fireHitbox.height;
+		
+		int leftCol = leftX / GameConstants.TILE_SIZE;
+		int rightCol = rightX / GameConstants.TILE_SIZE;
+		int bottomRow = bottomY / GameConstants.TILE_SIZE;
+		
+		leftCol = leftX / GameConstants.TILE_SIZE;
+		rightCol = rightX / GameConstants.TILE_SIZE;
+		bottomRow = (bottomY) / GameConstants.TILE_SIZE;
+		fire.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+		
+	}
+	
 	public void checkPlayerEnemyCollision(Player player, List<Enemy> enemyList) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
 		Rectangle playerHitbox = player.getHitbox();
@@ -153,41 +176,38 @@ public class CollisionChecker {
 		}
 	}
 	
-	public void checkBubblePlayerCollision(Bubble bubble, Player player) {
-//		this.levelFile = LevelCreator.getInstance().getLevel();
-        Rectangle bubbleHitbox = bubble.getHitbox();
+	public void checkBubblePlayerCollision(List<Bubble> bubbles, Player player) {
         Rectangle playerHitbox = player.getHitbox();
         
 //        System.out.println("xb: " + bubbleHitbox.getX() + "   yb: " + bubbleHitbox.getY());
 //        System.out.println("x: " + playerHitbox.getX() + "   y: " + playerHitbox.getY());
-        
-        if (bubbleHitbox.intersects(playerHitbox)){
-        	bubble.setExploded(true);
-        	bubble.setFloating(false);
-        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
-//        	System.out.println("collision");
-        	if (bubble instanceof BubbleBullet) {
-        		player.increaseBubbleBulletsPopped();
-        	}
-        	else if (bubble instanceof LightningBubble) {
-        		player.increaseLightningBubblesPopped();
-        	}
-        	else if (bubble instanceof FireBubble) {
-        		player.increaseFireBubblesPopped();
-        	}
+        for (Bubble bubble : bubbles) {
+        	Rectangle bubbleHitbox = bubble.getHitbox();
+	        if (bubbleHitbox.intersects(playerHitbox)){
+	        	bubble.setExploded(true);
+	        	bubble.setFloating(false);
+	        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
+	//        	System.out.println("collision");
+	        	if (bubble instanceof BubbleBullet) {
+	        		player.increaseBubbleBulletsPopped();
+	        	}
+	        	else if (bubble instanceof ThunderBubble) {
+	        		player.increaseLightningBubblesPopped();
+	        		GameController.getInstance().addObj( new Thunder(player.getX(), player.getY(), player.getDirection()) );
+	        	}
+	        	else if (bubble instanceof FireBubble) {
+	        		player.increaseFireBubblesPopped();
+	        		GameController.getInstance().addObj( new Fire(player.getX(), player.getY()) );
+	        	}
+	        }     
         }
-//        if (bubbleHitbox.intersects(playerHitbox)) {
-//             return true;
-//        }
-//        return false;
+        for (Bubble bubble : bubbles.stream().filter(b -> b.isExploded()).collect(Collectors.toList())) {
+	        Rectangle bubbleHitbox = bubble.getHitbox();
+	        bubbles.stream()
+	                .filter(b -> b.getHitbox().intersects(bubbleHitbox))
+	                .forEach(nearBubble -> nearBubble.setExploded(true));
+	    }
 	}
-	
-//	public boolean checkBubblePlayerCollisionBoolean(Bubble bubble, Player player) {
-//		Rectangle bubbleHitbox = bubble.getHitbox();
-//        Rectangle playerHitbox = player.getHitbox();
-//        
-//        return bubbleHitbox.intersects(playerHitbox);
-//	}
 	
 	public boolean checkFoodPlayerCollision(Food food, Player player) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
@@ -222,11 +242,7 @@ public class CollisionChecker {
 				bubble.setExploded(true);
 	        	bubble.setFloating(false);
 	        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
-				bubbles.stream().filter(b -> b.getHitbox().intersects(bubbleHitbox)).forEach(b -> { 
-					b.setExploded(true);
-					bubble.setFloating(false);
-		        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
-				});
+				
 			}
 		}
 		

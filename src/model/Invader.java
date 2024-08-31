@@ -32,7 +32,7 @@ public class Invader extends Enemy {
 	public void update() {
 		super.update();
 		collisionChecker.checkTileCollision(this);
-		if (!isDead() && !isInBubble() && isFrozen()) {
+		if (!isDead() && !isInBubble() && !isFrozen()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
 	            randomizeDirection();
 	        }
@@ -41,10 +41,6 @@ public class Invader extends Enemy {
 				case RIGHT -> {
 					if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
 						x += speed;
-						if (isPlayerBelow()) {
-							System.out.println(isPlayerBelow());
-							GameController.getInstance().addObj( new Laser(getX(),getY()+10) );
-						}
 					}
 					else {
 						randomizeDirection();
@@ -54,10 +50,6 @@ public class Invader extends Enemy {
 				case LEFT -> {
 					if (x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
 		                x -= speed;
-		                if (isPlayerBelow()) {
-		    				System.out.println(isPlayerBelow());
-		    				GameController.getInstance().addObj( new Laser(getX(),getY()+10) );
-		    			}
 		            }
 					else {
 						randomizeDirection();
@@ -66,7 +58,9 @@ public class Invader extends Enemy {
 				
 				default ->{}
 			}
-			
+			if (isPlayerBelow()) {
+				GameController.getInstance().addObj( new Laser(getX(),getY()+10) );
+			}
 		}
 		updateHitbox();
 		setChanged();

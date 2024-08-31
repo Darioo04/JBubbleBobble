@@ -90,7 +90,6 @@ public abstract class Enemy extends Entity {
 	
 	public void setEnemyView(EnemyView enemyView) {
         this.enemyView = enemyView;
-        this.addObserver(enemyView);
     }
 	
 	public void setCanBeDeleted(boolean canBeDeleted) {
