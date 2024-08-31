@@ -12,6 +12,7 @@ import controller.LevelCreator;
 public class Player extends Entity {
 	
 	private static Player instance;
+	private GameController gameController = GameController.getInstance();
 	private boolean isLeftPressed;
 	private boolean isRightPressed;
 	private boolean isSpacePressed;	
@@ -22,11 +23,14 @@ public class Player extends Entity {
 	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
 	private boolean isPowered;
+	private boolean crystalRingPower;
+	private boolean amethystRingPower;
+	private boolean rubyRingPower;
+	private int fireRate = GameConstants.PLAYER_FIRE_RATE;
 	
 	private int poweredCounter;
 	private final int POWERED_TIME = 480;	//8 secondi
 	
-    private int bubblesBlown;
     private int bubbleBulletsPopped;
     private int fireBubblesPopped;
     private int lightningBubblesPopped;
@@ -92,7 +96,9 @@ public class Player extends Entity {
 		
 			default ->{}
 		}
-		
+		if (rubyRingPower) {
+			gameController.addScore(100);
+		}
 		return new BubbleBullet(bubbleX, bubbleY, this.direction);
 	}
 	
@@ -102,6 +108,9 @@ public class Player extends Entity {
 			inAir = true;
 		}
 		numJumps++;
+		if (amethystRingPower) {
+			gameController.addScore(500);
+		}
 	}
 	
 	@Override
@@ -150,26 +159,32 @@ public class Player extends Entity {
 				
 			}
 		}
-		
-		switch (getDirection()){
-			case LEFT -> {
-				if (isLeftPressed && !collisionLeft) {
-					x -= speed;
+		if (!isDead()) {
+			switch (getDirection()){
+				case LEFT -> {
+					if (isLeftPressed && !collisionLeft) {
+						x -= speed;
+					}
 				}
-			}
-		
-			case RIGHT -> {
-				if (isRightPressed && !collisionRight) {
-					x += speed;
+			
+				case RIGHT -> {
+					if (isRightPressed && !collisionRight) {
+						x += speed;
+					}
 				}
+			
+				default -> throw new IllegalArgumentException("Unexpected value: " + getDirection());
 			}
-		
-			default -> throw new IllegalArgumentException("Unexpected value: " + getDirection());
+			if (crystalRingPower) {
+				gameController.addScore(10);
+			}
 		}
+		
 		
 		if (isDead()) {
 			if (deathCounter == 0) {
 				deathCounter = 1;
+				GameController.getInstance().freezeEnemies();
 			}
 			
 			if (deathCounter > 0) {
@@ -187,6 +202,7 @@ public class Player extends Entity {
             if (poweredCounter >= POWERED_TIME) {
                 poweredCounter = 0;
                 isPowered = false;
+                
             }
 		}
 		
@@ -361,4 +377,48 @@ public class Player extends Entity {
     public void resetNumJumps() {
     	numJumps=0;
     }
+    
+    public void increaseSpeed() {
+    	speed*=GameConstants.SPEED_MULTIPLIER;
+    }
+    
+    public void resetSpeed() {
+    	speed/=GameConstants.SPEED_MULTIPLIER;
+    }
+    
+	public void increaseFireRate() {
+		fireRate = GameConstants.POWERED_PLAYER_FIRE_RATE;
+	}
+	
+	public void resetFireRate() {
+		fireRate = GameConstants.PLAYER_FIRE_RATE;
+	}
+	
+	public int getFireRate() {
+		return fireRate;
+	}
+	
+	public void activeCrystalRing() {
+		crystalRingPower = true;
+	}
+	
+	public void removeCrystalRing() {
+		crystalRingPower = false;
+	}
+	
+	public void activeAmethystRing() {
+		amethystRingPower = true;
+	}
+	
+	public void removeAmethystRing() {
+		amethystRingPower = false;
+	}
+	
+	public void activeRubyRing() {
+		rubyRingPower = true;
+	}
+	
+	public void removeRubyRing() {
+		rubyRingPower = false;
+	}
 }

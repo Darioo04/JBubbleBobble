@@ -18,6 +18,8 @@ public class PowerUp extends Observable{
     private int hitboxOffsetX;
     private int hitboxOffsetY;
 	private boolean canBeDeleted;
+	private static Player player = Player.getInstance();
+	private static GameController gameController = GameController.getInstance();
 	
 	public PowerUp(PowerUpType type, int x, int y) {
 		this.type = type;
@@ -44,36 +46,88 @@ public class PowerUp extends Observable{
 				BubbleBullet.increaseBulletSpeed();
 			}
 			case YELLOW_CANDY -> {
-				
+				player.increaseFireRate();
 			}
 			case SHOES -> {
-				//incrementa la velocità del player (penso di x1.5)
+				player.increaseSpeed();
 			}
 			case CLOCK -> {
-				GameController.getInstance().freezeEnemies();
+				gameController.freezeEnemies();
 			}
 			case DYNAMITE -> {
-				GameController.getInstance().killAllEnemies();
+				gameController.killAllEnemies();
 			}
 			case CHACK_HEART -> {
-				GameController.getInstance().freezeEnemies();
+				gameController.freezeEnemies();
 			}
 			case CRYSTAL_RING -> {
 				//il player guadagna 10 punti ad ogni passo che fa (quando x viene incrementato di tot punti)
+				player.activeCrystalRing();
 			}
 			case AMETHYST_RING -> {
 				//il player guadagna 500 punti ogni volta che salta
+				player.activeAmethystRing();
 			}
 			case RUBY_RING -> {
 				//il player guadagna 100 punti per ogni bolla che spara
+				player.activeRubyRing();
 			}
 			case CROSS_OF_THUNDER -> {
-				//tutti i nemici nel livello vengono uccisi
+				gameController.killAllEnemies();
 			}
 			case BLUE_LAMP -> {
 				//da al player l'abilita dei tre anelli (CRYSTAL_RING, AMETHYST_RING E RUBY_RING)
+				player.activeCrystalRing();
+				player.activeAmethystRing();
+				player.activeRubyRing();
 			}
 		}
+		player.setIsPowered(true);
+	}
+	
+	public void removePowerUp() {
+		switch(type) {
+			case PINK_CANDY -> {
+				BubbleBullet.resetBulletDistance();
+			}
+			case BLUE_CANDY -> {
+				BubbleBullet.resetBulletSpeed();
+			}
+			case YELLOW_CANDY -> {
+				player.resetFireRate();
+			}
+			case SHOES -> {
+				player.resetSpeed();
+			}
+			case CLOCK -> {
+				gameController.unfreezeEnemies();
+			}
+			case CHACK_HEART -> {
+				gameController.unfreezeEnemies();
+			}
+			case CRYSTAL_RING -> {
+				//il player guadagna 10 punti ad ogni passo che fa (quando x viene incrementato di tot punti)
+				player.removeCrystalRing();
+			}
+			case AMETHYST_RING -> {
+				//il player guadagna 500 punti ogni volta che salta
+				player.removeAmethystRing();
+			}
+			case RUBY_RING -> {
+				//il player guadagna 100 punti per ogni bolla che spara
+				player.removeRubyRing();
+			}
+			case BLUE_LAMP -> {
+				//da al player l'abilita dei tre anelli (CRYSTAL_RING, AMETHYST_RING E RUBY_RING)
+				player.removeCrystalRing();
+				player.removeAmethystRing();
+				player.removeRubyRing();
+			}
+			default -> {
+				
+			}
+		}
+//		canBeDeleted = true;
 	}
 	
 	public void setX(int x) {

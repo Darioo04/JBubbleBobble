@@ -659,6 +659,10 @@ public class GameController {
     	return score;
     }
     
+    public void addScore(long score) {
+    	this.score+=score;
+    }
+    
     public void setGameOver() {
     	changeDisplayedScreen(gamePanel,gameOverScreen.getStateScreenView());
     	setGameState(GameState.GAME_OVER);

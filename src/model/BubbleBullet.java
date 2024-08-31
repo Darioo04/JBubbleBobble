@@ -12,6 +12,7 @@ public class BubbleBullet extends Bubble {
 	private static int bulletDistance = GameConstants.BUBBLE_X_DISTANCE;
 	private static int bulletSpeed = GameConstants.BUBBLE_X_SPEED;
 	
+	
 	public BubbleBullet(int x, int y, Direction direction) {
 		super(x,y);
 		setDirection(direction);
@@ -88,5 +89,6 @@ public class BubbleBullet extends Bubble {
 	public static void resetBulletSpeed() {
 		bulletSpeed = GameConstants.BUBBLE_X_SPEED;
 	}
+	
 	
 }

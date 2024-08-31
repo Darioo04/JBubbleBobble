@@ -26,7 +26,7 @@ public class FoodView extends JLabel implements Observer {
 			sprite = switch (food.getType()) {
 				case PEPPER -> ImageIO.read(getClass().getResource(path+"pepper.png"));
 				case EGGPLANT -> ImageIO.read(getClass().getResource(path+"eggplant.png"));
-				case RED_TURNIP -> ImageIO.read(getClass().getResource(path+"turnip.png"));
+				case RED_TURNIP -> ImageIO.read(getClass().getResource(path+"redTurnip.png"));
 				case CORN -> ImageIO.read(getClass().getResource(path+"corn.png"));
 				case BANANA -> ImageIO.read(getClass().getResource(path+"banana.png"));
 				case WATERMELON -> ImageIO.read(getClass().getResource(path+"watermelon.png"));
