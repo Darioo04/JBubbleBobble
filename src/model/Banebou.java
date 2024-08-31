@@ -27,99 +27,112 @@ public class Banebou extends Enemy {
 	public void update() {
 		super.update();
 		collisionChecker.checkTileCollision(this);
-		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
-            randomizeDirection(); 
-        }
 		int speed = getSpeed();
-		if(!getCollisionDown()) inAir = true;
-		
-		if (inAir) {
-			if (y + fallingSpeed > GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
-				y = GameConstants.TILE_SIZE/2;
-				fallingSpeed = 0;
-				inAir = true;
+		if (!isDead() && !isInBubble() && !isFrozen()) {
+			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
+				randomizeDirection();
 			}
-			else if(y + fallingSpeed < GameConstants.TILE_SIZE) {
-				y = GameConstants.TILE_SIZE + 1;
-                fallingSpeed = 5;
-			} else {
-				y += fallingSpeed;
-				fallingSpeed += GRAVITY;
+			else if (!collisionDown && y + Math.abs(speed) <  GameConstants.SCREEN_HEIGHT - 2 * GameConstants.TILE_SIZE) {
+	                y += Math.abs(speed);}
+			
+			else {
+				switch (direction) {
+					case RIGHT -> {
+						if(x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
+							x += 25;
+							y-=70;
+						}else {
+							randomizeDirection();
+						}
+					}
+					
+					case LEFT -> {
+						if(x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
+		                    x -= 25;
+		                    y-=70;
+		                }else {
+							randomizeDirection();
+						}
+					 
+					}
+					
+					default ->{}
+				}
 			}
 		}
-			switch (getDirection()) {
-			case RIGHT -> {
-				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && getCollisionRight()) {
-					x += speed;
-					jump();
-				}
-				else {
-					randomizeDirection();
-				} 
-			}
-			
-			case LEFT -> {
-				if (x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
-	                x -= speed;
-	                jump();
-	            }
-				else {
-					randomizeDirection();
-				}
-			}
-			case DOWN -> {
-	            if (y < GameConstants.SCREEN_HEIGHT - 3*GameConstants.TILE_SIZE - speed && !getCollisionDown()) {
-	                y -= speed;
-	                jump();
-	            }
-	            else {
-					randomizeDirection();
-				}
-	        }
-			
-			case UP -> {
-				if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp()) {
-	                y -= speed;
-	                jump();
-	            }
-				else {
-					randomizeDirection();
-				}
-	        }
-			
-			default ->{}
-			}
-		
 		updateHitbox();
+		//shot();
 		setChanged();
         notifyObservers();
 	}
 	
-	
 	private void randomizeDirection() {
 		double randomNumber = Math.random();
 		
-        if (randomNumber <= 0.25) {
+        if (randomNumber <= 0.50) {
         	setDirection(Direction.LEFT);
         }
-        else if (randomNumber <= 0.5) {
+        else{
             setDirection(Direction.RIGHT);
-        }
-        else if (randomNumber <= 0.75) {
-            setDirection(Direction.DOWN);
-        }
-        else {
-            setDirection(Direction.UP);
         }
         
 	}
-	public void jump() {
-		if( !inAir) {
-			fallingSpeed = -JUMP_STRENGHT;
-			inAir = true;
+	
+	//private void shot() {
+		//if (isPlayerForward()) {
+		//	GameController.getInstance().addObj( new FireBall(getX(),getY(),direction) );
+		//}
+//		new Fireball(getX(),getY(),getDirection());
+	//}
+	
+	private boolean isPlayerForward() {
+		switch (direction) {
+			case RIGHT -> {
+				int x = getX();
+				while (!getCollisionRight()) {
+					x++;
+					setHitboxX(x);
+					collisionChecker.checkTileCollision(this);
+					
+				}
+				setHitboxX(getX());
+				int diff = x - getX();
+				for (int i=0; i<diff; i++) {
+					if (getX()+i==player.getX()) return true;
+				}
+			}
+			
+			case LEFT -> {
+				int x = getX();
+				while (!getCollisionLeft()) {
+					x--;
+					setHitboxX(x);
+					collisionChecker.checkTileCollision(this);
+					
+				}
+				setHitboxX(getX());
+				int diff = x - getX();
+				for (int i=0; i<diff; i++) {
+					if (getX() - i==player.getX()) return true;
+				}
+			}
+			
+			default -> {
+				
+			}
+		
 		}
+		return false;
 	}
-	
-	
-	
+	private boolean hasTilesAbove() {
+		int row = y / GameConstants.TILE_SIZE;
+		int col = x / GameConstants.TILE_SIZE;
+		
+        for (int i = row - 1; i >= 2; i--) {
+        	if (levelFile[i][col] == '1') {
+        		return true;
+        	}
+        }
+        return false;
+	}
 }

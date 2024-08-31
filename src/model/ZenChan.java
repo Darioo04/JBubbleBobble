@@ -62,7 +62,9 @@ public class ZenChan extends Enemy {
 		                }else {
 							direction = Direction.RIGHT;
 						}
-					}
+						}
+			
+	
 					
 					default ->
 					throw new IllegalArgumentException("Unexpected value: " + direction);

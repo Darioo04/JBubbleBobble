@@ -15,11 +15,10 @@ public class Hidegons extends Enemy{
 		setNumIdleSprites(1);
 		setNumRunningSprites(3);
 	}
-	
 	@Override
 	public void update() {
 		super.update();
-		setEnemyCollision();
+		collisionChecker.checkTileCollision(this);
 		int speed = getSpeed();
 		if (!isDead() && !isInBubble() && !isFrozen()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
@@ -31,7 +30,7 @@ public class Hidegons extends Enemy{
 			else {
 				switch (direction) {
 					case RIGHT -> {
-						if(!collisionRight ) {
+						if(x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
 							x += speed;
 						}else {
 							randomizeDirection();
@@ -39,19 +38,22 @@ public class Hidegons extends Enemy{
 					}
 					
 					case LEFT -> {
-						if(!collisionLeft ) {
+						if(x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
 		                    x -= speed;
 		                }else {
 							randomizeDirection();
 						}
 					 
 					}
+					case UP -> {if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp() && hasTilesAbove()) {
+						y-=100;				}
+					}
 					default ->{}
 				}
 			}
 		}
-		
-		shot();
+		updateHitbox();
+		//shot();
 		setChanged();
         notifyObservers();
 	}
@@ -59,21 +61,23 @@ public class Hidegons extends Enemy{
 	private void randomizeDirection() {
 		double randomNumber = Math.random();
 		
-        if (randomNumber <= 0.5) {
+        if (randomNumber <= 0.33) {
         	setDirection(Direction.LEFT);
         }
-        else if (randomNumber>0.5) {
+        else if (randomNumber<=0.66) {
             setDirection(Direction.RIGHT);
         }
-        
+        else {
+        	setDirection(Direction.UP);
+        }
 	}
 	
-	private void shot() {
-		if (isPlayerForward()) {
-			GameController.getInstance().addObj( new FireBall(getX(),getY(),direction) );
-		}
+	//private void shot() {
+		//if (isPlayerForward()) {
+		//	GameController.getInstance().addObj( new FireBall(getX(),getY(),direction) );
+		//}
 //		new Fireball(getX(),getY(),getDirection());
-	}
+	//}
 	
 	private boolean isPlayerForward() {
 		switch (direction) {
@@ -114,10 +118,15 @@ public class Hidegons extends Enemy{
 		}
 		return false;
 	}
-	private void setEnemyCollision() {
-		collisionLeft = false;
-		collisionRight = false;
-		collisionDown = false;
-		collisionChecker.checkTileCollision(this);
+	private boolean hasTilesAbove() {
+		int row = y / GameConstants.TILE_SIZE;
+		int col = x / GameConstants.TILE_SIZE;
+		
+        for (int i = row - 1; i >= 2; i--) {
+        	if (levelFile[i][col] == '1') {
+        		return true;
+        	}
+        }
+        return false;
 	}
 }

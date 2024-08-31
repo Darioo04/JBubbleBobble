@@ -24,6 +24,7 @@ public class KeyController implements KeyListener {
 	private static KeyController instance;
 	
 	private Player player;
+	private boolean canShoot=true;
 	private GameController gameController;
 	private MenuScreen menuScreen;
 	private SelectLevelScreen selectLevelScreen;
@@ -139,9 +140,13 @@ public class KeyController implements KeyListener {
 					player.setRightPressed(true);
 				}
 				if (key == KeyEvent.VK_SPACE) {
-					player.setSpacePressed(true);
-					gameController.bubbleShooted();
+				    if (canShoot) {
+				        player.setSpacePressed(true);
+				        gameController.bubbleShooted();
+				        canShoot = false; // Impedisce di sparare di nuovo finché il tasto non viene rilasciato
+				    }
 				}
+		
 				if (key == KeyEvent.VK_ESCAPE || key == KeyEvent.VK_Q) {
 					gameController.changeDisplayedScreen(GamePanel.getInstance(), pauseScreen.getStateScreenView());
 					gameController.setGameState(GameState.PAUSE);
@@ -354,9 +359,13 @@ public class KeyController implements KeyListener {
 			if (key == KeyEvent.VK_SPACE) {
 				player.setSpacePressed(false);
 			}
+			if (key == KeyEvent.VK_SPACE) {
+			    player.setSpacePressed(false);
+			    canShoot = true;
 			
     	}
     	
     }
 
+}
 }
