@@ -40,7 +40,9 @@ public class PlayerAnimationController {
 	}
 	
 	private static void setBuilder(Builder builder) {
-		PlayerAnimationController.builder = builder;
+		if (builder==null) {
+			PlayerAnimationController.builder = builder;
+		}
 	}
 	
 	private PlayerAnimationController(Builder builder) {
