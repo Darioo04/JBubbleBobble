@@ -213,7 +213,10 @@ public class CollisionChecker {
 	        Rectangle bubbleHitbox = bubble.getHitbox();
 	        bubbles.stream()
 	                .filter(b -> b.getHitbox().intersects(bubbleHitbox))
-	                .forEach(nearBubble -> nearBubble.setExploded(true));
+	                .forEach(nearBubble -> {
+	                	nearBubble.setFloating(false);
+	                	nearBubble.setExploded(true);
+	                });
 	    }
 	}
 	

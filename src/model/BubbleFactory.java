@@ -10,7 +10,6 @@ public class BubbleFactory {
 	private static BubbleFactory instance;
 	private char[][] levelFile;
 	private int spawnX, spawnY;
-	private Player player;
 	List<Integer> spawnPoints;
 	public static BubbleFactory getInstance() {
 		if (instance==null) instance = new BubbleFactory();
@@ -18,18 +17,18 @@ public class BubbleFactory {
 	}
 	
 	private BubbleFactory() {
-		player=Player.getInstance();
+		
 	}
 	
 	public Bubble createBubble() { //chiami il riferimento BubbleFactory::createBubble
 		getSpawnBubbles();
-		if (spawnX!=-1) {
+		if (spawnX>-1) {
 			int perc = new Random().nextInt(101);
 			if (perc<=1) return new SupremeBubble(spawnX,spawnY);
 			else if (perc<=8) return new WaterBubble(spawnX,spawnY);
 			else if (perc<=15) return new FireBubble(spawnX,spawnY);
 			else if (perc<=25) return new ThunderBubble(spawnX,spawnY);
-			else if (perc<=35) return new ExtendBubble(spawnX, spawnY);
+			else if (perc<=100) return new ExtendBubble(spawnX, spawnY);
 		}
 		return null;
 	}
@@ -44,8 +43,8 @@ public class BubbleFactory {
     			spawnPoints.add(i);
     		}
     	}
-    	
     	spawnX = (spawnPoints.size()!=0) ? spawnPoints.get( new Random().nextInt(0,spawnPoints.size()) ) : -1;
+//    	System.out.println(spawnX);
     }
 
 }

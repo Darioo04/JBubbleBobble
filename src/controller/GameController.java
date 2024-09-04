@@ -583,6 +583,11 @@ public class GameController {
     	Bubble bubble = BubbleFactory.getInstance().createBubble();
     	if (bubble!=null) {
     		bubbles.add(bubble);
+    		BubbleView bubbleView = new BubbleView(bubble, bubble.getPath(), bubble.getNumSprites());
+    		bubble.setBubbleBulletView(bubbleView);
+    		gamePanel.add(bubbleView);
+    		bulletViews.add(bubbleView);
+    		
     	}
     }
     
