@@ -14,17 +14,24 @@ public class FireBall extends ObjModel {
 	
 	@Override
 	public void update() {
-		switch (direction) {
-			case LEFT -> {
-				setX( getX() - GameConstants.BUBBLE_X_SPEED/2 );
-			} 
-			case RIGHT -> {
-				setX( getX() + GameConstants.BUBBLE_X_SPEED/2 );
-			}
-			
-			default -> {
+		int x = getX();
+		if (x < GameConstants.SCREEN_WIDTH && x>0) {
+			switch(direction) {
+				case LEFT -> {
+					setX( x - GameConstants.BUBBLE_X_SPEED );
+				}
 				
+				case RIGHT -> {
+					setX( x + GameConstants.BUBBLE_X_SPEED );
+				}
+				
+				default -> {
+					
+				}
 			}
+		}
+		else {
+			setCanBeDeleted(true);
 		}
 		setChanged();
 		notifyObservers();

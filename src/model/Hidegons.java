@@ -53,7 +53,7 @@ public class Hidegons extends Enemy{
 			}
 		}
 		updateHitbox();
-		//shot();
+		shot();
 		setChanged();
         notifyObservers();
 	}
@@ -72,51 +72,59 @@ public class Hidegons extends Enemy{
         }
 	}
 	
-	//private void shot() {
-		//if (isPlayerForward()) {
-		//	GameController.getInstance().addObj( new FireBall(getX(),getY(),direction) );
-		//}
-//		new Fireball(getX(),getY(),getDirection());
-	//}
+	private void shot() {
+		if (isPlayerForward()) {
+			GameController.getInstance().addObj( new FireBall(getX(),getY(),direction) );
+		}
+		
+	}
 	
 	private boolean isPlayerForward() {
 		switch (direction) {
-			case RIGHT -> {
-				int x = getX();
-				while (!getCollisionRight()) {
-					x++;
-					setHitboxX(x);
-					collisionChecker.checkTileCollision(this);
-					
-				}
-				setHitboxX(getX());
-				int diff = x - getX();
-				for (int i=0; i<diff; i++) {
-					if (getX()+i==player.getX()) return true;
-				}
-			}
-			
 			case LEFT -> {
-				int x = getX();
-				while (!getCollisionLeft()) {
-					x--;
-					setHitboxX(x);
-					collisionChecker.checkTileCollision(this);
-					
-				}
-				setHitboxX(getX());
-				int diff = x - getX();
-				for (int i=0; i<diff; i++) {
-					if (getX() - i==player.getX()) return true;
-				}
+				return getX()>player.getX() && getY()==player.getY();
 			}
-			
+			case RIGHT -> {
+				return getX()<player.getX() && getY()==player.getY();
+			}
 			default -> {
 				
 			}
-		
 		}
 		return false;
+//		switch (direction) {
+//			case RIGHT -> {
+//				int x = getX();
+//				while (!getCollisionRight()) {
+//					x++;
+//					setHitboxX(x);
+//					collisionChecker.checkTileCollision(this);
+//					
+//				}
+//				setHitboxX(getX());
+//				int diff = x - getX();
+//				return ( getX()>player.getX() && getX()+diff<player.getX() ) && getY()==player.getY();
+//			}
+//			
+//			case LEFT -> {
+//				int x = getX();
+//				while (!getCollisionLeft()) {
+//					x--;
+//					setHitboxX(x);
+//					collisionChecker.checkTileCollision(this);
+//					
+//				}
+//				setHitboxX(getX());
+//				int diff = x - getX();
+//				return ( getX()<player.getX() && getX()+diff>player.getX() ) && getY()==player.getY();
+//			}
+//			
+//			default -> {
+//				
+//			}
+//		
+//		}
+//		return false;
 	}
 	private boolean hasTilesAbove() {
 		int row = y / GameConstants.TILE_SIZE;

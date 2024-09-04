@@ -22,18 +22,19 @@ public class BubbleFactory {
 	}
 	
 	public Bubble createBubble() { //chiami il riferimento BubbleFactory::createBubble
-		int perc = new Random().nextInt(100);
-		spawnBubbles();
-		if (perc<=1) return new SupremeBubble(spawnX,spawnY);
-		else if (perc<=8) return new WaterBubble(spawnX,spawnY);
-		else if (perc<=15) return new FireBubble(spawnX,spawnY);
-		else if (perc<=25) return new ThunderBubble(spawnX,spawnY);
-		else if (perc<=35) return new ExtendBubble(spawnX, spawnY);
-		
-		else return null;
+		getSpawnBubbles();
+		if (spawnPoints.size()==0) {
+			int perc = new Random().nextInt(100);
+			if (perc<=1) return new SupremeBubble(spawnX,spawnY);
+			else if (perc<=8) return new WaterBubble(spawnX,spawnY);
+			else if (perc<=15) return new FireBubble(spawnX,spawnY);
+			else if (perc<=25) return new ThunderBubble(spawnX,spawnY);
+			else if (perc<=35) return new ExtendBubble(spawnX, spawnY);
+		}
+		return null;
 	}
 	
-	private void spawnBubbles() {
+	private void getSpawnBubbles() {
 		spawnPoints = new ArrayList<>();
     	levelFile = LevelCreator.getInstance().getLevel();
     	spawnY = levelFile.length-1;

@@ -94,7 +94,7 @@ public class Food extends Observable{
 			isCollected = true;
 		}
 		if (!getCollisionDown()) {
-			y-=30*GameConstants.SCALE;
+			y-=GameConstants.OBJECT_FALLING_SPEED;
 		}
 		setChanged();
 		notifyObservers();

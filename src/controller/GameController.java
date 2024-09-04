@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import model.Banebou;
 import model.Bubble;
 import model.BubbleBullet;
+import model.BubbleFactory;
 import model.CollisionChecker;
 import model.Enemy;
 import model.EnemyFactory;
@@ -92,7 +93,7 @@ public class GameController {
     private List<EnemyView> enemyViews;
     private List<Enemy> removedEnemies;
     private List<EnemyView> removedEnemyViews;
-    private List<Bubble> bullets;
+    private List<Bubble> bubbles;
     private List<Bubble> removedBubbles;
     private List<BubbleView> bulletViews;
     private List<Food> items;
@@ -209,10 +210,10 @@ public class GameController {
 				player.update();
 				enemies.stream().forEach(Enemy::update);
 				removeDeadEnemies();
-				bullets.stream().forEach(Bubble::update);
-				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
-				collisionChecker.checkBubblePlayerCollision(bullets, player);
-				bullets.stream()
+				bubbles.stream().forEach(Bubble::update);
+				bubbles.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				collisionChecker.checkBubblePlayerCollision(bubbles, player);
+				bubbles.stream()
 			       .filter(Bubble::canBeDeleted)
 			       .forEach(bubble -> {
 			           removeBubble(bubble);
@@ -241,7 +242,7 @@ public class GameController {
 							collectedItems.add(item);
 							itemViews.remove(item.getFoodView());
 							gamePanel.remove(item.getFoodView());
-							System.out.println("rimosso food");
+//							System.out.println("rimosso food");
 						}
 					}
 				}
@@ -393,7 +394,7 @@ public class GameController {
     	removedEnemies = new CopyOnWriteArrayList<>();
     	removedEnemyViews = new ArrayList<>();
     	enemyViews = new ArrayList<>();
-    	bullets = new ArrayList<>();
+    	bubbles = new ArrayList<>();
     	removedBubbles = new ArrayList<>();
     	bulletViews = new ArrayList<>();
     	items = new ArrayList<>();
@@ -407,6 +408,7 @@ public class GameController {
     	powerUps = new ArrayList<>();
     	player.spawnPlayer();
     	spawnEnemies();
+    	spawnSpecialBubbles();
     	gamePanel.setFocusable(true);
     	gamePanel.grabFocus();
     	
@@ -577,9 +579,16 @@ public class GameController {
     	powerUps.addAll(newPowerUps);
     }
     
+    public void spawnSpecialBubbles() {
+    	Bubble bubble = BubbleFactory.getInstance().createBubble();
+    	if (bubble!=null) {
+    		bubbles.add(bubble);
+    	}
+    }
+    
     public void bubbleShooted() {
     	BubbleBullet bullet = player.shot();
-    	bullets.add(bullet);
+    	bubbles.add(bullet);
 		BubbleView bulletView = new BubbleView(bullet);
 
 		bullet.setBubbleBulletView(bulletView);
@@ -594,7 +603,7 @@ public class GameController {
     }
     
     public void removeBubbles() {
-    	bullets.clear();
+    	bubbles.clear();
 		bulletViews.stream().forEach(bView -> gamePanel.remove(bView));
     }
     
@@ -603,7 +612,7 @@ public class GameController {
     }
     public void deleteRemovedBubbles() {
     	removedBubbles.parallelStream().forEach( bubble -> {
-			bullets.remove(bubble);
+			bubbles.remove(bubble);
 			bulletViews.remove(bubble.getBubbleBulletView());
 			gamePanel.remove(bubble.getBubbleBulletView());
 		});

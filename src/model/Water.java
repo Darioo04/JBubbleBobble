@@ -6,7 +6,7 @@ import java.util.Observable;
 import view.WaterView;
 
 @SuppressWarnings("deprecation")
-public class Water extends Observable {
+public class Water extends ObjModel {
 
 	private int x, y;
 	private Rectangle hitbox;
@@ -21,8 +21,7 @@ public class Water extends Observable {
 	private WaterView waterView;
 	
 	public Water (int x, int y) {
-		this.x = x;
-		this.y = y;
+		super(x, y);
 		hitboxWidth = GameConstants.WATER_SIZE;
 		hitboxHeight = GameConstants.WATER_SIZE;
 		hitboxOffsetX = 0;
@@ -33,6 +32,10 @@ public class Water extends Observable {
 	public void update() {
 		setChanged();
 		notifyObservers();
+	}
+	
+	public void createWaterfall() {
+		//metodo che crea la cascata
 	}
 	
 	public Rectangle getHitbox() {

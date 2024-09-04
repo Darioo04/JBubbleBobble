@@ -168,7 +168,7 @@ public class CollisionChecker {
             		enemy.setBubbleExploded(true);
             		enemy.setInBubble(false);
             		
-            	} else if (!enemy.isInBubble() && !enemy.getBubbleExploded()) {
+            	} else if (!enemy.isInBubble() && !enemy.getBubbleExploded() && !player.isDead()) {
                 	player.decreaseLives();
             	}
             }
@@ -183,6 +183,8 @@ public class CollisionChecker {
 //        System.out.println("x: " + playerHitbox.getX() + "   y: " + playerHitbox.getY());
         for (Bubble bubble : bubbles) {
         	Rectangle bubbleHitbox = bubble.getHitbox();
+        	int leftX = bubbleHitbox.x;
+    		int rightX = leftX + bubbleHitbox.width;
 	        if (bubbleHitbox.intersects(playerHitbox)){
 	        	bubble.setExploded(true);
 	        	bubble.setFloating(false);
@@ -193,14 +195,17 @@ public class CollisionChecker {
 	        	}
 	        	else if (bubble instanceof ThunderBubble) {
 	        		player.increaseLightningBubblesPopped();
-	        		GameController.getInstance().addObj( new Thunder(player.getX(), player.getY(), player.getDirection()) );
+	        		GameController.getInstance().addObj( new Thunder(bubble.getX(), bubble.getY(), player.getDirection()) );
 	        	}
 	        	else if (bubble instanceof FireBubble) {
 	        		player.increaseFireBubblesPopped();
-	        		GameController.getInstance().addObj( new Fire(player.getX(), player.getY()) );
+	        		GameController.getInstance().addObj( new Fire(bubble.getX(), bubble.getY()) );
 	        	}
 	        	else if (bubble instanceof ExtendBubble) {
 	        		((ExtendBubble) bubble).deleteLetter();
+	        	}
+	        	else if (bubble instanceof WaterBubble) {
+	        		GameController.getInstance().addObj(new Water(bubble.getX(), bubble.getY()));
 	        	}
 	        }     
         }

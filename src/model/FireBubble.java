@@ -6,5 +6,6 @@ public class FireBubble extends Bubble {
 	
 	public FireBubble(int x, int y) {
 		super(x,y);
+		setExpanded(true);
 	}
 }

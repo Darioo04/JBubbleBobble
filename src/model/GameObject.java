@@ -17,6 +17,7 @@ public abstract class GameObject extends Observable {
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
 	protected boolean collisionUp;
+	private boolean canBeDeleted;
 	
 	public GameObject(int x, int y, int size) {
 		this.x = x;
@@ -123,4 +124,12 @@ public abstract class GameObject extends Observable {
     public void setCollisionUp(boolean collisionUp) {
         this.collisionUp = collisionUp;
     }
+    
+	public void setCanBeDeleted(boolean canBeDeleted) {
+		this.canBeDeleted = canBeDeleted;
+	}
+	
+	public boolean canBeDeleted() {
+		return canBeDeleted;
+	}
 }
