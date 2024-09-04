@@ -22,19 +22,22 @@ import model.GameConstants;
 public class BubbleView extends JLabel implements Observer {
 
 	private static final String path = "/sprites/Bubbles/bubble-";
+	private String fullPath;
 	private static final Map<String,BufferedImage> spritesCache = new HashMap<>();
 	private ImageIcon resizedIcon;
 	private BufferedImage defaultSprite;
-	private BufferedImage[] explodedSprites;
-	private BufferedImage[] extendsBubbles;
+	private BufferedImage[] floatingSprites;
+	private static BufferedImage[] explodedSprites;
+//	private BufferedImage[] extendsBubbles;
 	private Bubble bubble;
-	private BufferedImage defaultBubble;
+//	private BufferedImage defaultBubble;
 	
-	public BubbleView(Bubble bubble) {
+	public BubbleView(Bubble bubble, String path, int numFloatingSprites) {
 		this.bubble = bubble;
+		fullPath = BubbleView.path + path;
 		
+		loadSprites(numFloatingSprites);
 		loadDefaultSprite();
-		loadSprites();
 
 		setBounds(bubble.getX(), bubble.getY(), GameConstants.BUBBLE_SHOT_SIZE, GameConstants.BUBBLE_SHOT_SIZE);
 		resizeIcon(defaultSprite);
@@ -62,19 +65,20 @@ public class BubbleView extends JLabel implements Observer {
 //    }
 	
 	private void loadDefaultSprite() {
-		try {
-			this.defaultSprite =  ImageIO.read(getClass().getResource(path + "default.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		defaultSprite =  floatingSprites[0];
 	}
 	
-	private void loadSprites() {
+	private void loadSprites(int numFloatingSprites) {
+		floatingSprites = new BufferedImage[numFloatingSprites];
 		try {
-			this.defaultBubble =  ImageIO.read(getClass().getResource(path + "default.png"));
-			explodedSprites = new BufferedImage[4];
-			for (int i=0; i<4; i++) {
+			for (int i=0; i<numFloatingSprites; i++) {
+				floatingSprites[i] = ImageIO.read(getClass().getResource(fullPath + (i+1) + ".png"));
+			}
+			if (explodedSprites==null) {
+				explodedSprites = new BufferedImage[4];
+				for (int i=0; i<4; i++) {
 				explodedSprites[i] = ImageIO.read(getClass().getResource(path+"exploded"+(i+1)+".png"));
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -88,7 +92,7 @@ public class BubbleView extends JLabel implements Observer {
 				.setBubble(bubble)
 				.setActualSprite(defaultSprite)
 				.setExplodedSprites(explodedSprites)
-				.setFloatingSprites(new BufferedImage[0])
+				.setFloatingSprites(floatingSprites)
 				.build();
 		GameController.getInstance().addBubbleAnimationController(bubbleAnimationController);
 	}

@@ -10,6 +10,8 @@ import view.BubbleView;
 public abstract class Bubble extends Observable  {
 	protected int x, y;
 	private Direction direction;
+	private String path;
+	private int numSprites;
 	private static CollisionChecker collisionChecker = CollisionChecker.getInstance();
 	private BubbleView bubbleBulletView;
 		
@@ -59,6 +61,22 @@ public abstract class Bubble extends Observable  {
 	public void setY(int y) {
         this.y = y;
     }
+	
+	public void setPath(String path) {
+		this.path = path;
+	}
+	
+	public String getPath() {
+		return path;
+	}
+	
+	public void setNumSprites(int numSprites) {
+		this.numSprites = numSprites;
+	}
+	
+	public int getNumSprites() {
+		return numSprites;
+	}
 	
 	public void setSpawnX(int spawnX) {
 		this.spawnX=spawnX;

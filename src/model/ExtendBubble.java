@@ -11,8 +11,12 @@ public class ExtendBubble extends Bubble {
 	
 	public ExtendBubble(int x,int y) {
 		super(x,y);
+		setExpanded(true);
+		setFloating(true);
 		if (letters.size()==0) createLetterArray();
 		getRandomLetter();
+		setNumSprites(1);
+		setPath("extend"+numLetter+"-");
 	}
 	
 	private void createLetterArray() {
@@ -27,7 +31,7 @@ public class ExtendBubble extends Bubble {
 	}
 	
 	public void deleteLetter() {
-		letters.remove(numLetter);
+		if (letters.get(numLetter)!=null) letters.remove(numLetter);
 		if (letters.size()==0) {
 			createLetterArray();
 			Player.getInstance().increaseLives();

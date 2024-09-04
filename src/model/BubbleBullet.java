@@ -16,6 +16,9 @@ public class BubbleBullet extends Bubble {
 	public BubbleBullet(int x, int y, Direction direction) {
 		super(x,y);
 		setDirection(direction);
+		setPath("default-");
+		setNumSprites(1);
+		setExpanded(false);
         setTargetX((direction == Direction.RIGHT) ? getSpawnX() + bulletDistance : getSpawnX() - bulletDistance);
 	}
 	
@@ -44,6 +47,7 @@ public class BubbleBullet extends Bubble {
 					
 				if (targetX == x || getCollisionLeft() || getCollisionRight()) {
 					setExpanded(true);
+					setFloating(true);
 					if (direction == Direction.RIGHT) {
 						x -= (GameConstants.BUBBLE_EXPANDED_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 2;
 					}

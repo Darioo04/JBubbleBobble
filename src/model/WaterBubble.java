@@ -5,6 +5,10 @@ public class WaterBubble extends Bubble {
 	
 	public WaterBubble(int x,int y) {
 		super(x,y);
+		setExpanded(true);
+		setFloating(true);
+		setPath("water-");
+		setNumSprites(3);
 	}
 	
 }

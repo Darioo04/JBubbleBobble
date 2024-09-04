@@ -72,7 +72,6 @@ public class Invader extends Enemy {
 	}
 	
 	private void randomizeDirection() {
-		double randomNumber = Math.random();
-        setDirection((randomNumber<=0.5) ? Direction.LEFT : Direction.RIGHT);
+        setDirection((Math.random()<=0.5) ? Direction.LEFT : Direction.RIGHT);
 	}
 }

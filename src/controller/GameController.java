@@ -589,7 +589,7 @@ public class GameController {
     public void bubbleShooted() {
     	BubbleBullet bullet = player.shot();
     	bubbles.add(bullet);
-		BubbleView bulletView = new BubbleView(bullet);
+		BubbleView bulletView = new BubbleView(bullet,bullet.getPath(),bullet.getNumSprites());
 
 		bullet.setBubbleBulletView(bulletView);
 		gamePanel.add(bulletView);

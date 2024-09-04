@@ -23,8 +23,8 @@ public class BubbleFactory {
 	
 	public Bubble createBubble() { //chiami il riferimento BubbleFactory::createBubble
 		getSpawnBubbles();
-		if (spawnPoints.size()==0) {
-			int perc = new Random().nextInt(100);
+		if (spawnX!=-1) {
+			int perc = new Random().nextInt(101);
 			if (perc<=1) return new SupremeBubble(spawnX,spawnY);
 			else if (perc<=8) return new WaterBubble(spawnX,spawnY);
 			else if (perc<=15) return new FireBubble(spawnX,spawnY);
@@ -45,7 +45,7 @@ public class BubbleFactory {
     		}
     	}
     	
-    	spawnX = spawnPoints.get( new Random().nextInt(spawnPoints.size()) );
+    	spawnX = (spawnPoints.size()!=0) ? spawnPoints.get( new Random().nextInt(0,spawnPoints.size()) ) : -1;
     }
 
 }

@@ -242,22 +242,22 @@ public class CollisionChecker {
 		}
 	}
 	
-	public void checkBubbleBubbleCollision(List<Bubble> bubbles,Player player) {
-		Rectangle playerHitbox = player.getHitbox();
-		for (Bubble bubble : bubbles) {
-			Rectangle bubbleHitbox = bubble.getHitbox();
-			if (playerHitbox.intersects(bubbleHitbox)) {
-				bubble.setExploded(true);
-	        	bubble.setFloating(false);
-	        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
-				
-			}
-		}
-		
-//			if (bubbleHitbox1.intersects(bubbleHitbox2)) {
-//				// crea un effetto rimbalzo tra le bolle
+//	public void checkBubbleBubbleCollision(List<Bubble> bubbles,Player player) {
+//		Rectangle playerHitbox = player.getHitbox();
+//		for (Bubble bubble : bubbles) {
+//			Rectangle bubbleHitbox = bubble.getHitbox();
+//			if (playerHitbox.intersects(bubbleHitbox)) {
+//				bubble.setExploded(true);
+//	        	bubble.setFloating(false);
+//	        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
+//				
 //			}
-	}
+//		}
+//		
+////			if (bubbleHitbox1.intersects(bubbleHitbox2)) {
+////				// crea un effetto rimbalzo tra le bolle
+////			}
+//	}
 	
 	public void checkPlayerPowerUpCollision(Player player, PowerUp powerUp) {
 		Rectangle playerHitbox = player.getHitbox();

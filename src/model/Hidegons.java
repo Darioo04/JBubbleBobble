@@ -45,15 +45,17 @@ public class Hidegons extends Enemy{
 						}
 					 
 					}
-					case UP -> {if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp() && hasTilesAbove()) {
-						y-=100;				}
+					case UP -> { if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp() && hasTilesAbove()) {
+							y-=100;				
+						}
 					}
 					default ->{}
 				}
 			}
 		}
-		updateHitbox();
 		shot();
+		updateHitbox();
+		
 		setChanged();
         notifyObservers();
 	}
@@ -80,18 +82,14 @@ public class Hidegons extends Enemy{
 	}
 	
 	private boolean isPlayerForward() {
-		switch (direction) {
-			case LEFT -> {
-				return getX()>player.getX() && getY()==player.getY();
-			}
-			case RIGHT -> {
-				return getX()<player.getX() && getY()==player.getY();
-			}
-			default -> {
-				
-			}
-		}
-		return false;
+		return switch (direction) {
+			case LEFT -> getX()>player.getX() && getY()==player.getY();
+			
+			case RIGHT -> getX()<player.getX() && getY()==player.getY();
+
+			default -> false;
+			
+		};
 //		switch (direction) {
 //			case RIGHT -> {
 //				int x = getX();
