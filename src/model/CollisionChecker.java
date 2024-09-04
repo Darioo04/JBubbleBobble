@@ -199,6 +199,9 @@ public class CollisionChecker {
 	        		player.increaseFireBubblesPopped();
 	        		GameController.getInstance().addObj( new Fire(player.getX(), player.getY()) );
 	        	}
+	        	else if (bubble instanceof ExtendBubble) {
+	        		((ExtendBubble) bubble).deleteLetter();
+	        	}
 	        }     
         }
         for (Bubble bubble : bubbles.stream().filter(b -> b.isExploded()).collect(Collectors.toList())) {
@@ -226,7 +229,7 @@ public class CollisionChecker {
 		for (Enemy enemy : enemyList) {
 			Rectangle enemyHitbox = enemy.getHitbox();
           
-			if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded()) {
+			if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded() && !enemy.isInBubble()) {
 				//da implementare
 				enemy.setInBubble(true);
 				GameController.getInstance().removeBubble(bubble);
@@ -256,8 +259,7 @@ public class CollisionChecker {
 		Rectangle powerUpHitbox = powerUp.getHitbox();
 		
 		if (playerHitbox.intersects(powerUpHitbox)) {
-			player.setIsPowered(true);
-			powerUp.applyPowerUp();
+			powerUp.inizializePoweredTime();
 			powerUp.setCanBeDeleted(true);
 		}
 	}

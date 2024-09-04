@@ -9,7 +9,7 @@ import controller.LevelCreator;
 public class BubbleFactory {
 	private static BubbleFactory instance;
 	private char[][] levelFile;
-	private int spawnY;
+	private int spawnX, spawnY;
 	private Player player;
 	List<Integer> spawnPoints;
 	public static BubbleFactory getInstance() {
@@ -24,10 +24,11 @@ public class BubbleFactory {
 	public Bubble createBubble() { //chiami il riferimento BubbleFactory::createBubble
 		int perc = new Random().nextInt(100);
 		spawnBubbles();
-		if (perc<=1) return new SupremeBubble(player.getX(),spawnY);
-		else if (perc<=8) return new WaterBubble(player.getX(),spawnY);
-		else if (perc<=20) return new FireBubble(player.getX(),spawnY);
-		else if (perc<=30) return new ThunderBubble(player.getX(),spawnY);
+		if (perc<=1) return new SupremeBubble(spawnX,spawnY);
+		else if (perc<=8) return new WaterBubble(spawnX,spawnY);
+		else if (perc<=15) return new FireBubble(spawnX,spawnY);
+		else if (perc<=25) return new ThunderBubble(spawnX,spawnY);
+		else if (perc<=35) return new ExtendBubble(spawnX, spawnY);
 		
 		else return null;
 	}
@@ -43,6 +44,7 @@ public class BubbleFactory {
     		}
     	}
     	
+    	spawnX = spawnPoints.get( new Random().nextInt(spawnPoints.size()) );
     }
 
 }

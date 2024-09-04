@@ -7,10 +7,4 @@ public class ThunderBubble extends Bubble {
 		super(x,y);
 	}
 	
-	@Override 
-	public void update() {
-		
-	}
-	
-	
 }

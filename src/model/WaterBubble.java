@@ -7,8 +7,4 @@ public class WaterBubble extends Bubble {
 		super(x,y);
 	}
 	
-	@Override
-	public void update() {
-		
-	}
 }

@@ -31,8 +31,8 @@ public abstract class ObjModel extends Observable {
 		this.y=y;
 		this.hitboxOffsetX = GameConstants.SCALE * 2;
 		this.hitboxOffsetY = GameConstants.SCALE * 2;
-		this.hitboxWidth = GameConstants.PLAYER_SIZE - 2*hitboxOffsetX;
-		this.hitboxHeight = GameConstants.PLAYER_SIZE - hitboxOffsetY;
+		this.hitboxWidth = GameConstants.ITEM_SIZE - 2*hitboxOffsetX;
+		this.hitboxHeight = GameConstants.ITEM_SIZE - hitboxOffsetY;
 		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));
 	}
 

@@ -34,18 +34,16 @@ public class PlayerAnimationController {
 	
 	public static PlayerAnimationController getInstance() {
 		if (instance == null) {
-			instance = new PlayerAnimationController(builder);
+			instance = new PlayerAnimationController();
 		}
 		return instance;
 	}
 	
 	private static void setBuilder(Builder builder) {
-		if (builder==null) {
-			PlayerAnimationController.builder = builder;
-		}
+		PlayerAnimationController.builder = builder;
 	}
 	
-	private PlayerAnimationController(Builder builder) {
+	private PlayerAnimationController() {
 		this.player = builder.player;
 		this.actualSprite = builder.actualSprite;
 		this.idleSprites = builder.idleSprites;

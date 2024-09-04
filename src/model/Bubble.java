@@ -31,7 +31,7 @@ public abstract class Bubble extends Observable  {
 	protected boolean collisionUp;
 	
 	protected int explosionTime;
-	protected static final int EXPLOSION_DELAY = 30; 
+	protected static final int EXPLOSION_DELAY = 20; 
 	
 	public Bubble(int x,int y) {
 		this.x=x;
@@ -223,6 +223,19 @@ public abstract class Bubble extends Observable  {
     }  
 	
 	public void update() {
+//		getCollisionChecker().checkTileCollision(this);
+		if ( !isExploded() &&  y < GameConstants.SCREEN_HEIGHT ) {
+			y-= GameConstants.BUBBLE_FLOATING_SPEED;
+		}
+		
+		else if (isExploded()) {
+			explosionTime++;
+			if (explosionTime>=EXPLOSION_DELAY) {
+				setCanBeDeleted(true);
+			}
+		}
+			
+		updateHitbox();
 		setChanged();
 		notifyObservers();
 	}

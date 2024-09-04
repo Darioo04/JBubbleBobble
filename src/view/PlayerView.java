@@ -57,8 +57,8 @@ public class PlayerView extends EntityView {
 		idleSpritesSX = new BufferedImage[numIdleSprites];
 		runningSprites = new BufferedImage[numRunningSprites];
 		runningSpritesSX = new BufferedImage[numRunningSprites];
-		fallingSprites = new BufferedImage[2];
-		fallingSpritesSX = new BufferedImage[2];
+		fallingSprites = new BufferedImage[numFallingSprites];
+		fallingSpritesSX = new BufferedImage[numFallingSprites];
 		jumpingSprites = new BufferedImage[numJumpingSprites];
 		jumpingSpritesSX = new BufferedImage[numJumpingSprites];
 		deathSprites = new BufferedImage[4];

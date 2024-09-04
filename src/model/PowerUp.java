@@ -10,6 +10,8 @@ import controller.GameController;
 public class PowerUp extends Observable{
 	
 	private PowerUpType type;
+	private int poweredCounter;
+	private final int POWERED_TIME = 480;	//8 secondi
 	private int x;
 	private int y;
 	private Rectangle hitbox;
@@ -34,6 +36,12 @@ public class PowerUp extends Observable{
 	
 	public void update() {
 		CollisionChecker.getInstance().checkPlayerPowerUpCollision(Player.getInstance(),this);
+		if (poweredCounter > 0) {
+			poweredCounter++;
+			if (poweredCounter>=POWERED_TIME) {
+				removePowerUp();
+			}
+		}
 		
 	}
 	
@@ -91,7 +99,6 @@ public class PowerUp extends Observable{
 				player.activeRubyRing();
 			}
 		}
-		player.setIsPowered(true);
 	}
 	
 	public void removePowerUp() {
@@ -137,6 +144,11 @@ public class PowerUp extends Observable{
 			}
 		}
 //		canBeDeleted = true;
+	}
+	
+	public void inizializePoweredTime() {
+		poweredCounter= 1;
+		applyPowerUp();
 	}
 	
 	public void setX(int x) {

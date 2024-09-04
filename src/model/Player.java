@@ -21,15 +21,11 @@ public class Player extends Entity {
 	private boolean lostLife = false;
 	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
-	private boolean isPowered;
 	private boolean crystalRingPower;
 	private boolean amethystRingPower;
 	private boolean rubyRingPower;
 	private int fireRate = GameConstants.PLAYER_FIRE_RATE;
 	private int shoesDistance = 15*GameConstants.SCREEN_WIDTH;
-	
-	private int poweredCounter;
-	private final int POWERED_TIME = 480;	//8 secondi
 	
     private int bubbleBulletsPopped;
     private int fireBubblesPopped;
@@ -118,10 +114,6 @@ public class Player extends Entity {
 		setDirectionAndCollision();
 		collisionChecker.checkTileCollision(this);
 		
-		if(isPowered && poweredCounter == 0) {
-			poweredCounter = 1;
-		}
-		
 		if(isJumping) jump();
 		
 		if(!collisionDown) inAir = true;
@@ -199,15 +191,6 @@ public class Player extends Entity {
 			}
 		}
 		
-		if (poweredCounter > 0) {
-			poweredCounter++;
-            if (poweredCounter >= POWERED_TIME) {
-                poweredCounter = 0;
-                isPowered = false;
-                
-            }
-		}
-		
 		updateHitbox();
         setChanged();
         notifyObservers();
@@ -228,14 +211,6 @@ public class Player extends Entity {
             }
 		}
 	}
-	
-	public void setIsPowered(boolean isPowered) {
-		this.isPowered = isPowered;
-	}
-	
-	public boolean isPowered() {
-        return isPowered;
-    }
 	
 	public void setLeftPressed(boolean isLeftPressed) {
 		this.isLeftPressed = isLeftPressed;
@@ -272,6 +247,10 @@ public class Player extends Entity {
 	
 	public boolean isInAir() {
 		return inAir;
+	}
+	
+	public void increaseLives() {
+		lives++;
 	}
 	
 	public void decreaseLives() {
