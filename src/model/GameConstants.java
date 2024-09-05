@@ -29,5 +29,5 @@ public final class GameConstants {
 	public static final int ITEM_SIZE = 10 * SCALE;
 	public static final double SPEED_MULTIPLIER = 1.5;
 	public static final int WATER_SIZE = TILE_SIZE / 2;
-	public static final int OBJECT_FALLING_SPEED = 3 * SCALE;
+	public static final int OBJECT_SPEED = 2 * SCALE;
 }

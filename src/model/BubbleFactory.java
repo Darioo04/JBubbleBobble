@@ -28,7 +28,7 @@ public class BubbleFactory {
 			else if (perc<=8) return new WaterBubble(spawnX,spawnY);
 			else if (perc<=15) return new FireBubble(spawnX,spawnY);
 			else if (perc<=25) return new ThunderBubble(spawnX,spawnY);
-			else if (perc<=100) return new ExtendBubble(spawnX, spawnY);
+			else if (perc<=40) return new ExtendBubble(spawnX, spawnY);
 		}
 		return null;
 	}

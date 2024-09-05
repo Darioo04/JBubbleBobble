@@ -15,16 +15,14 @@ public class Laser extends ObjModel {
 	
 	@Override
 	public void update() {
+		CollisionChecker.getInstance().checkPlayerLaserCollision(Player.getInstance(), this);
 		if (getY()<GameConstants.SCREEN_HEIGHT) {
-			setY( getY() + GameConstants.OBJECT_FALLING_SPEED);
+			setY( getY() + GameConstants.OBJECT_SPEED);
 		}
 		else {
 			setCanBeDeleted(true);
 		}
-		if (getHitbox().intersects(Player.getInstance().getHitbox())) {
-			Player.getInstance().decreaseLives();
-		}
-		
+		updateHitbox();
 		setChanged();
 		notifyObservers();
 	}

@@ -91,7 +91,7 @@ public class PowerUpFactory {
 		List<Integer> yPoints = new ArrayList<>();
 		for (int i=0; i<level.length; i++) {
 			for (int j=0; j<level[0].length; j++) {
-				if (level[i][j]==0) {
+				if (level[i][j]==' ') {
 					xPoints.add(i);
 					yPoints.add(j);
 				}

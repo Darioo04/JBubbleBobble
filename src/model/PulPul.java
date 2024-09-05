@@ -18,7 +18,7 @@ public class PulPul extends Enemy {
 	@Override
 	public void update() {
 		super.update();
-		collisionChecker.checkTileCollisionUp(this);
+		collisionChecker.checkTileCollision(this);
 		if (!isDead() && !isInBubble() && !isFrozen()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
 	            randomizeDirection();
@@ -54,6 +54,7 @@ public class PulPul extends Enemy {
 				
 				case UP -> {
 					if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp()) {
+						setJumping(true);
 		                y -= speed;
 		            }
 					else {

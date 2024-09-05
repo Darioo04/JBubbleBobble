@@ -10,6 +10,7 @@ import controller.LevelCreator;
 public class ZenChan extends Enemy {
 	
 	private int targetY;
+	private int frame = 0;
 	
 	public ZenChan(int x,int y) {
 		super(x,y);
@@ -89,7 +90,8 @@ public class ZenChan extends Enemy {
 				}
 			}
 			else {
-				if (GameController.frames % 30 == 0 && Math.random() < 0.3 && this.collisionDown && hasTilesAbove()) {
+				frame++;
+				if (frame % 30 == 0 && Math.random() < 0.3 && this.collisionDown && hasTilesAbove()) {
 					setIsChasingPlayer(true);
 					int tilesAbove = y / GameConstants.TILE_SIZE - 1;
 					targetY = (new Random().nextInt(tilesAbove) + 1) * GameConstants.TILE_SIZE;
@@ -121,6 +123,7 @@ public class ZenChan extends Enemy {
 					throw new IllegalArgumentException("Unexpected value: " + direction);
 					}
 				}
+				if (frame==60) frame = 0;
 			}
 		}
 		updateHitbox();

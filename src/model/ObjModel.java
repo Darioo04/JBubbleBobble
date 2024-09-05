@@ -133,4 +133,25 @@ public abstract class ObjModel extends Observable {
 	public ObjView getObjView() {
 		return objView;
 	}
+	
+	public void updateHitbox() {
+		setHitboxX(x + hitboxOffsetX);
+		setHitboxY(y + hitboxOffsetY);
+	}
+	
+	public void setHitboxX(int x){
+        hitbox.x = x;
+    }
+	
+    public void setHitboxY(int y){
+        hitbox.y = y;
+    }
+    
+    public int getHitboxX() {
+    	return hitbox.x;
+    }
+    
+    public int getHitboxY() {
+        return hitbox.y;
+    }
 }

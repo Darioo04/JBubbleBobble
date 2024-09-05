@@ -83,6 +83,10 @@ public class CollisionChecker {
 		bottomRow = (bottomY + enemy.getSpeed()) / GameConstants.TILE_SIZE;
 		enemy.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
+		topRow = (topY - enemy.getSpeed()) / GameConstants.TILE_SIZE;
+		enemy.setCollisionUp(levelFile[topRow][leftCol] == '1' || levelFile[topRow][rightCol] == '1');
+
+		
 	}
 	
 	public void checkTileCollision(Bubble bubble) {
@@ -129,7 +133,7 @@ public class CollisionChecker {
 		
 		leftCol = leftX / GameConstants.TILE_SIZE;
 		rightCol = rightX / GameConstants.TILE_SIZE;
-		bottomRow = (bottomY) / GameConstants.TILE_SIZE;
+		bottomRow = bottomY / GameConstants.TILE_SIZE;
 		food.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
 	}
@@ -272,39 +276,46 @@ public class CollisionChecker {
 		}
 	}
 	
-	public void checkTileCollisionUp(Enemy enemy) {
-		
-		this.levelFile = LevelCreator.getInstance().getLevel();
-		
-		Rectangle entityHitbox = enemy.getHitbox();
-		
-		int leftX = entityHitbox.x;
-		int rightX = leftX + entityHitbox.width;
-		int topY = entityHitbox.y;
-		int bottomY = topY + entityHitbox.height;
-		
-		int leftCol = leftX / GameConstants.TILE_SIZE;
-		int rightCol = rightX / GameConstants.TILE_SIZE;
-		int topRow = topY / GameConstants.TILE_SIZE;
-		int bottomRow = bottomY / GameConstants.TILE_SIZE;
-		
-		// Collisione verso sinistra
-		leftCol = (leftX - enemy.getSpeed()) / GameConstants.TILE_SIZE;
-		enemy.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
-		
-		// Collisione verso destra
-		rightCol = (rightX + enemy.getSpeed()) / GameConstants.TILE_SIZE;
-		enemy.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
-		
-		// Collisione verso il basso
-		leftCol = leftX / GameConstants.TILE_SIZE;
-		rightCol = rightX / GameConstants.TILE_SIZE;
-		bottomRow = (bottomY + enemy.getSpeed()) / GameConstants.TILE_SIZE;
-		enemy.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
-
-		// **Collisione verso l'alto**
-		topRow = (topY - enemy.getSpeed()) / GameConstants.TILE_SIZE;
-		enemy.setCollisionUp(levelFile[topRow][leftCol] == '1' || levelFile[topRow][rightCol] == '1');
-	}
+//	public void checkTileCollisionUp(Enemy enemy) {
+//		
+//		this.levelFile = LevelCreator.getInstance().getLevel();
+//		
+//		Rectangle entityHitbox = enemy.getHitbox();
+//		
+//		int leftX = entityHitbox.x;
+//		int rightX = leftX + entityHitbox.width;
+//		int topY = entityHitbox.y;
+//		int bottomY = topY + entityHitbox.height;
+//		
+//		int leftCol = leftX / GameConstants.TILE_SIZE;
+//		int rightCol = rightX / GameConstants.TILE_SIZE;
+//		int topRow = topY / GameConstants.TILE_SIZE;
+//		int bottomRow = bottomY / GameConstants.TILE_SIZE;
+//		
+//		// Collisione verso sinistra
+//		leftCol = (leftX - enemy.getSpeed()) / GameConstants.TILE_SIZE;
+//		enemy.setCollisionLeft(levelFile[bottomRow][leftCol] == '1' || levelFile[topRow][leftCol] == '1');
+//		
+//		// Collisione verso destra
+//		rightCol = (rightX + enemy.getSpeed()) / GameConstants.TILE_SIZE;
+//		enemy.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
+//		
+//		// Collisione verso il basso
+//		leftCol = leftX / GameConstants.TILE_SIZE;
+//		rightCol = rightX / GameConstants.TILE_SIZE;
+//		bottomRow = (bottomY + enemy.getSpeed()) / GameConstants.TILE_SIZE;
+//		enemy.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+//
+//		// **Collisione verso l'alto**
+//		topRow = (topY - enemy.getSpeed()) / GameConstants.TILE_SIZE;
+//		enemy.setCollisionUp(levelFile[topRow][leftCol] == '1' || levelFile[topRow][rightCol] == '1');
+//	}
 	
+	public void checkPlayerLaserCollision(Player player, Laser laser) {
+		Rectangle laserHitbox = laser.getHitbox();
+		Rectangle playerHitbox = player.getHitbox();
+		if (laserHitbox.intersects(playerHitbox) && !player.getLostLife() && !player.isDead()) {
+			player.decreaseLives();
+		}
+	}
 }

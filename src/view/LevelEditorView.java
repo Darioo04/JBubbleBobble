@@ -25,6 +25,7 @@ public class LevelEditorView extends StateScreenView {
 	private char[][] levelFile;
 	private int x, y;
 	private boolean addTile = false;
+	private boolean removeTile;
 	
 	public static LevelEditorView getInstance() {
 		if (instance == null) instance = new LevelEditorView();
@@ -58,6 +59,17 @@ public class LevelEditorView extends StateScreenView {
         	if (addTile) { 
         		g2.drawImage(tile, x*GameConstants.TILE_SIZE, y*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, null);
         		levelFile[y][x] = '1';
+//        	} else if (removeTile) {
+//        		g2.setColor(Color.BLACK);
+//        		if (x>0 && x<GameConstants.COLS) {
+//        			x--;
+//        			g2.fillRect(x*GameConstants.TILE_SIZE, y*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+//        		}
+//        		else if ( y>0 && x==0 ) {
+//        			y--;
+//        			x = GameConstants.COLS - 1;
+//        			g2.fillRect(x*GameConstants.TILE_SIZE, y*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
+//        		}
         	} else {
         		levelFile[y][x] = ' ';
         	}
@@ -239,6 +251,10 @@ public class LevelEditorView extends StateScreenView {
 	
 	public void setAddTile(boolean addTile) {
 		this.addTile = addTile;
+	}
+	
+	public void setRemoveTile(boolean removeTile) {
+		this.removeTile = removeTile;
 	}
 	
 	public BufferedImage getTile() {

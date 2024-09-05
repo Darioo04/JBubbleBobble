@@ -11,7 +11,7 @@ public class Hidegons extends Enemy{
 		super(x,y);
 		setDirection(Direction.RIGHT);
 		setPath("/sprites/hidegons/");
-		setSpeed(3);
+		setSpeed(5);
 		setNumIdleSprites(1);
 		setNumRunningSprites(3);
 	}
@@ -52,8 +52,8 @@ public class Hidegons extends Enemy{
 					default ->{}
 				}
 			}
+			shot();
 		}
-		shot();
 		updateHitbox();
 		
 		setChanged();
@@ -68,9 +68,6 @@ public class Hidegons extends Enemy{
         }
         else if (randomNumber<=0.66) {
             setDirection(Direction.RIGHT);
-        }
-        else {
-        	setDirection(Direction.UP);
         }
 	}
 	

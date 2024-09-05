@@ -327,12 +327,19 @@ public class KeyController implements KeyListener {
                 }
 				if (key == KeyEvent.VK_W) {
                     levelEditorView.setAddTile(true);
+                    levelEditorView.setRemoveTile(false);
                     levelEditorView.repaint();
                 }
 				if (key == KeyEvent.VK_S) {
                     levelEditorView.setAddTile(false);
+                    levelEditorView.setRemoveTile(false);
                     levelEditorView.repaint();
                 }
+				if (key == KeyEvent.VK_BACK_SPACE) {
+					levelEditorView.setAddTile(false);
+					levelEditorView.setRemoveTile(true);
+					levelEditorView.repaint();
+				}
 			}
 			
 			default -> {

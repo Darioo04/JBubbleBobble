@@ -242,7 +242,7 @@ public abstract class Bubble extends Observable  {
 	
 	public void update() {
 //		getCollisionChecker().checkTileCollision(this);
-		if ( !isExploded() &&  y < GameConstants.SCREEN_HEIGHT ) {
+		if ( isExpanded() &&  y < GameConstants.SCREEN_HEIGHT ) {
 			y-= GameConstants.BUBBLE_FLOATING_SPEED;
 		}
 		

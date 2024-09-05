@@ -6,11 +6,14 @@ import controller.GameController;
 
 public class Invader extends Enemy {
 	//sparano verso sotto
+	private int shootingCounter;
+	private final static int SHOOTING_DELAY = 90;
 	
 	public Invader(int x, int y) {
 		super(x, y);
 		this.setPath("/sprites/invader/");
 		this.setDirection(Direction.RIGHT);
+		shootingCounter = 1;
 		setMoving(false);
 		setSpeed(6);
 		setNumIdleSprites(2);
@@ -58,8 +61,10 @@ public class Invader extends Enemy {
 				
 				default ->{}
 			}
-			if (isPlayerBelow()) {
+			shootingCounter++;
+			if (shootingCounter >= SHOOTING_DELAY && !isDead() && !isInBubble()) { //l'invader spara ogni 1,5 secondi
 				GameController.getInstance().addObj( new Laser(getX(),getY()+10) );
+				shootingCounter = 1;
 			}
 		}
 		updateHitbox();
@@ -67,9 +72,9 @@ public class Invader extends Enemy {
         notifyObservers();
 	}
 	
-	private boolean isPlayerBelow() {
-		return player.getY()>getY() && player.getX()==getX();
-	}
+//	private boolean isPlayerBelow() {
+//		return player.getY()>getY() && player.getX()==getX();
+//	}
 	
 	private void randomizeDirection() {
         setDirection((Math.random()<=0.5) ? Direction.LEFT : Direction.RIGHT);

@@ -64,6 +64,27 @@ public class Food extends Observable{
 		return hitbox;
 	}
 	
+	public void updateHitbox() {
+		setHitboxX(x + hitboxOffsetX);
+		setHitboxY(y + hitboxOffsetY);
+	}
+	
+	public void setHitboxX(int x){
+        hitbox.x = x;
+    }
+	
+    public void setHitboxY(int y){
+        hitbox.y = y;
+    }
+    
+    public int getHitboxX() {
+    	return hitbox.x;
+    }
+    
+    public int getHitboxY() {
+        return hitbox.y;
+    }
+	
     public void setCollisionDown(boolean collisionDown) {
         this.collisionDown = collisionDown;
     }
@@ -90,12 +111,16 @@ public class Food extends Observable{
 	
 	public void update() {
 		CollisionChecker.getInstance().checkTileCollision(this);
+		
+		if (!getCollisionDown()) {
+			y+=GameConstants.OBJECT_SPEED;
+		}
+		
 		if (CollisionChecker.getInstance().checkFoodPlayerCollision(this, Player.getInstance())) {
 			isCollected = true;
 		}
-		if (!getCollisionDown()) {
-			y-=GameConstants.OBJECT_FALLING_SPEED;
-		}
+		
+		updateHitbox();
 		setChanged();
 		notifyObservers();
 	}
