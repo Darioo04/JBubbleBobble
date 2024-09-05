@@ -37,13 +37,14 @@ public class GamePanel extends StateScreenView {
 
 	private GamePanel() {
 		this.setVisible(true);
-		this.setLayout(new BorderLayout());
+		this.setLayout(null);
 		this.setBackground(Color.BLACK);
-		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT-40));
+		this.setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.SCREEN_HEIGHT));
 		gameController = GameController.getInstance();
 		levelCreator = LevelCreator.getInstance();
 		statusBar  = StatusBar.getInstance();
-		add(statusBar,BorderLayout.NORTH);
+		statusBar.setBounds(0, 0, GameConstants.SCREEN_WIDTH, GameConstants.TILE_SIZE/4*3);
+		add(statusBar);
 
 		
 		

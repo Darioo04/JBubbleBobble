@@ -58,6 +58,7 @@ import view.WinScreenView;
 import view.FoodView;
 import view.GameOverView;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -565,6 +566,8 @@ public class GameController {
     	itemViews.add(itemView2);
     	gamePanel.add(itemView1);
     	gamePanel.add(itemView2);
+//    	gamePanel.add(new JLabel());		//ce un bug per cui alcuni sprite vengono renderizazati a sinistra della mappa in un tile rendendo impossibile nel caso del food poter completare il livello, aggiungendo un jlabel vuoto si renderizza bene il food
+    	//update: bug risolto, era un problema del layout del gamePanel
     }
     
     public void spawnPowerUp() {
