@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 import controller.GameController;
 import controller.LevelCreator;
 
@@ -26,26 +28,74 @@ public class ZenChan extends Enemy {
 		super.update();
 		setDirectionToGo();
 		setEnemyCollision();
-		if (!isDead() && !isFrozen()) {	
+//		if (!isDead() && !isFrozen()) {	
+//			if (isChasingPlayer()) {
+//				if(Math.abs(targetY - y) <= 9) {
+//					setIsChasingPlayer(false);
+//				} else 
+//					y += speed;
+//			}
+//			else if (!isInBubble()) {
+//				if (GameController.frames % 30 == 0 && Math.random() < 0.1 && this.collisionDown && hasTilesAbove()) {
+//					if(player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) > this.y) {
+//						speed = Math.abs(speed);
+//					} else if (player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) < this.y) {
+//						speed = -speed;
+//					}
+//					setIsChasingPlayer(true);
+//					targetY = player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE);
+//					y += speed;
+//				}
+//				else if(!collisionDown) {
+//					y += Math.abs(speed);
+//				} else {
+//					switch (direction) {
+//					case RIGHT -> {
+//						if(!collisionRight) {
+//							x += speed;
+//						}else {
+//							direction = Direction.LEFT;
+//						}
+//					}
+//					
+//					case LEFT -> {
+//						if(!collisionLeft) {
+//		                    x -= speed;
+//		                }else {
+//							direction = Direction.RIGHT;
+//						}
+//					}
+//			
+//	
+//					
+//					default ->
+//					throw new IllegalArgumentException("Unexpected value: " + direction);
+//					}
+//				}
+//			}
+//		}
+		if (!isDead() && !isFrozen() && !isInBubble()) {	
 			if (isChasingPlayer()) {
-				if(Math.abs(targetY - y) <= 9) {
+				if(Math.abs(targetY - y) <= 9 && !collisionDown) {
 					setIsChasingPlayer(false);
+					setDirection(Math.random() > 0.5 ? Direction.RIGHT : Direction.LEFT);
 				} else 
-					y += speed;
+					y -= speed;
+				if (y <= GameConstants.TILE_SIZE) {
+					setIsChasingPlayer(false);
+					y = GameConstants.TILE_SIZE;
+					setDirection(Math.random() > 0.5 ? Direction.RIGHT : Direction.LEFT);
+				}
 			}
-			else if (!isInBubble()) {
-				if (GameController.frames % 30 == 0 && Math.random() < 0.1 && this.collisionDown && hasTilesAbove()) {
-					if(player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) > this.y) {
-						speed = Math.abs(speed);
-					} else if (player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) < this.y) {
-						speed = -speed;
-					}
+			else {
+				if (GameController.frames % 30 == 0 && Math.random() < 0.3 && this.collisionDown && hasTilesAbove()) {
 					setIsChasingPlayer(true);
-					targetY = player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE);
-					y += speed;
+					int tilesAbove = y / GameConstants.TILE_SIZE - 1;
+					targetY = (new Random().nextInt(tilesAbove) + 1) * GameConstants.TILE_SIZE;
+					y -= speed;
 				}
 				else if(!collisionDown) {
-					y += Math.abs(speed);
+					y += speed;
 				} else {
 					switch (direction) {
 					case RIGHT -> {
@@ -62,7 +112,7 @@ public class ZenChan extends Enemy {
 		                }else {
 							direction = Direction.RIGHT;
 						}
-						}
+					}
 			
 	
 					
