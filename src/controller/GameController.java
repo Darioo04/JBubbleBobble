@@ -245,8 +245,6 @@ public class GameController {
 							audioManager.play("points");
 							collectedItems.add(item);
 							itemViews.remove(item.getFoodView());
-							gamePanel.remove(item.getFoodView());
-//							System.out.println("rimosso food");
 						}
 					}
 				}
@@ -645,6 +643,7 @@ public class GameController {
     public void removeBubble(Bubble bubble) {
     	removedBubbles.add(bubble);
     }
+    
     public void deleteRemovedBubbles() {
     	removedBubbles.parallelStream().forEach( bubble -> {
 			bubbles.remove(bubble);

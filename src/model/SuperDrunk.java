@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Rectangle;
+
 @SuppressWarnings("deprecation")
 
 public class SuperDrunk extends Enemy {
@@ -9,7 +11,14 @@ public class SuperDrunk extends Enemy {
 		super(x,y);
 		setPath("/sprites/super drunk/");
 		setDirection(Direction.RIGHT);
-		setSpeed(4);
+		setSpeed(8);
+		setNumIdleSprites(1);
+		setNumRunningSprites(3);
+		setNumJumpingSprites(0);
+		
+		hitboxHeight = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
+		hitboxWidth = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
+		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));	
 	}
 	
 	@Override
@@ -20,7 +29,7 @@ public class SuperDrunk extends Enemy {
 		int speed = getSpeed();
 		switch (getDirection()) {
 			case RIGHT -> {
-				if (x < GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - speed) {
+				if (x < GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - speed - GameConstants.BOSS_SIZE) {
 					x += speed;
 				}
 				else {
@@ -38,7 +47,7 @@ public class SuperDrunk extends Enemy {
 			}
 			
 			case DOWN -> {
-	            if (y < GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE - speed) {
+	            if (y < GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE - speed - GameConstants.BOSS_SIZE) {
 	                y += speed;
 	            }
 	            else {

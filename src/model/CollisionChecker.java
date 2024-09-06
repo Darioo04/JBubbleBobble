@@ -84,8 +84,10 @@ public class CollisionChecker {
 		enemy.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 		
 		topRow = (topY - enemy.getSpeed()) / GameConstants.TILE_SIZE;
-		enemy.setCollisionUp(levelFile[topRow][leftCol] == '1' || levelFile[topRow][rightCol] == '1');
-
+		if (topRow >= 0)
+			enemy.setCollisionUp(levelFile[topRow][leftCol] == '1' || levelFile[topRow][rightCol] == '1');
+		else
+			enemy.setCollisionUp(true);
 		
 	}
 	

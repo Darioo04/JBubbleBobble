@@ -25,7 +25,7 @@ public class Hidegons extends Enemy{
 	public void update() {
 		super.update();
 		setDirectionToGo();
-		if (hitbox.y + hitboxHeight - 1 >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+		if (hitbox.y + hitboxHeight >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE/4) {
 			y = GameConstants.TILE_SIZE;
 			updateHitbox();
 		}
