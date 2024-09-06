@@ -23,14 +23,11 @@ public class BubbleView extends JLabel implements Observer {
 
 	private static final String path = "/sprites/Bubbles/bubble-";
 	private String fullPath;
-	private static final Map<String,BufferedImage> spritesCache = new HashMap<>();
 	private ImageIcon resizedIcon;
 	private BufferedImage defaultSprite;
 	private BufferedImage[] floatingSprites;
 	private static BufferedImage[] explodedSprites;
-//	private BufferedImage[] extendsBubbles;
 	private Bubble bubble;
-//	private BufferedImage defaultBubble;
 	
 	public BubbleView(Bubble bubble, String path, int numFloatingSprites) {
 		this.bubble = bubble;

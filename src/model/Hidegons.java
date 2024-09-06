@@ -30,7 +30,7 @@ public class Hidegons extends Enemy{
 			updateHitbox();
 		}
 		setEnemyCollision();
-		if (!isDead() && !isFrozen() && !isInBubble()) {	
+		if (!isDead() && !isFrozen() && !isInBubble() && !getBubbleExploded()) {	
 			if (isChasingPlayer()) {
 				if(Math.abs(targetY - y) <= 9 && !collisionDown) {
 					setIsChasingPlayer(false);
@@ -79,6 +79,7 @@ public class Hidegons extends Enemy{
 				}
 				if (frame==60) frame = 0;
 			}
+			shot();
 		}
 		updateHitbox();
 		setChanged();

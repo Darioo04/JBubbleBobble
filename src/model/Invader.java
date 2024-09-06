@@ -35,7 +35,7 @@ public class Invader extends Enemy {
 	public void update() {
 		super.update();
 		collisionChecker.checkTileCollision(this);
-		if (!isDead() && !isInBubble() && !isFrozen()) {
+		if (!isDead() && !isInBubble() && !isFrozen() && !getBubbleExploded()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
 	            randomizeDirection();
 	        }

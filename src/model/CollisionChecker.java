@@ -215,7 +215,8 @@ public class CollisionChecker {
 	        	}
 	        }     
         }
-        for (Bubble bubble : bubbles.stream().filter(b -> b.isExploded()).collect(Collectors.toList())) {
+        //fa esplodere tutte le bolle in contatto con la bolla appena fatta esplodere
+        for (Bubble bubble : bubbles.stream().filter(b -> b.isExploded()).collect(Collectors.toList())) { 
 	        Rectangle bubbleHitbox = bubble.getHitbox();
 	        bubbles.stream()
 	                .filter(b -> b.getHitbox().intersects(bubbleHitbox))

@@ -237,16 +237,18 @@ public abstract class Bubble extends Observable  {
 	    
 	public void setBubbleBulletView(BubbleView bubbleBulletView) {
         this.bubbleBulletView = bubbleBulletView;
-        this.addObserver(bubbleBulletView);
     }  
 	
 	public void update() {
 //		getCollisionChecker().checkTileCollision(this);
-		if ( isExpanded() &&  y < GameConstants.SCREEN_HEIGHT ) {
-			y-= GameConstants.BUBBLE_FLOATING_SPEED;
+		setHitboxWidth(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
+        setHitboxHeight(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
+        setHitbox(new Rectangle(x + getHitboxOffsetX(), y + getHitboxOffsetY(), getHitboxWidth(), getHitboxHeight()));
+		if ( !isExploded() &&  y < GameConstants.SCREEN_HEIGHT ) {
+			y -= GameConstants.BUBBLE_FLOATING_SPEED;
 		}
 		
-		else if (isExploded()) {
+		if (isExploded()) {
 			explosionTime++;
 			if (explosionTime>=EXPLOSION_DELAY) {
 				setCanBeDeleted(true);

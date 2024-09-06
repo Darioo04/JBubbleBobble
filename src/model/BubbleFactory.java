@@ -7,10 +7,12 @@ import java.util.Random;
 import controller.LevelCreator;
 
 public class BubbleFactory {
+	
 	private static BubbleFactory instance;
-	private char[][] levelFile;
+	private char[][] level;
 	private int spawnX, spawnY;
-	List<Integer> spawnPoints;
+	List<Integer> xPoints;
+	
 	public static BubbleFactory getInstance() {
 		if (instance==null) instance = new BubbleFactory();
 		return instance;
@@ -34,16 +36,16 @@ public class BubbleFactory {
 	}
 	
 	private void getSpawnBubbles() {
-		spawnPoints = new ArrayList<>();
-    	levelFile = LevelCreator.getInstance().getLevel();
-    	spawnY = levelFile.length-1;
-    	int rowLength = levelFile[0].length;
+		xPoints = new ArrayList<>();
+    	level = LevelCreator.getInstance().getLevel();
+    	spawnY = level.length-2;
+    	int rowLength = level[0].length;
     	for (int i=0; i<rowLength; i++) {
-    		if (levelFile[spawnY][i] == ' ') {
-    			spawnPoints.add(i);
+    		if (level[spawnY][i] == ' ') {
+    			xPoints.add(i);
     		}
     	}
-    	spawnX = (spawnPoints.size()!=0) ? spawnPoints.get( new Random().nextInt(0,spawnPoints.size()) ) : -1;
+    	spawnX = (xPoints.size()!=0) ? xPoints.get( new Random().nextInt(0,xPoints.size()) ) : -1;
 //    	System.out.println(spawnX);
     }
 

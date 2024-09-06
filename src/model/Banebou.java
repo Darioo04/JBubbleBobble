@@ -35,7 +35,7 @@ public class Banebou extends Enemy {
 		super.update();
 		collisionChecker.checkTileCollision(this);
 		
-		if (!isDead() && !isInBubble() && !isFrozen()) {
+		if (!isDead() && !isInBubble() && !isFrozen() && !getBubbleExploded()) {
 			x += velocityX;
 			y += velocityY;
 			

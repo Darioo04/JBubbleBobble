@@ -76,7 +76,7 @@ public class ZenChan extends Enemy {
 //				}
 //			}
 //		}
-		if (!isDead() && !isFrozen() && !isInBubble()) {	
+		if (!isDead() && !isFrozen() && !isInBubble() && !getBubbleExploded()) {	
 			if (isChasingPlayer()) {
 				if(Math.abs(targetY - y) <= 9 && !collisionDown) {
 					setIsChasingPlayer(false);

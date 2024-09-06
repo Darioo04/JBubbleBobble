@@ -106,6 +106,7 @@ public abstract class Enemy extends Entity {
 	
 	@Override
 	public void update() {
+		CollisionChecker.getInstance().checkTileCollision(this);
 		if (inBubble) {
 			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
 			if (y < GameConstants.TILE_SIZE) y = GameConstants.TILE_SIZE;
@@ -116,7 +117,7 @@ public abstract class Enemy extends Entity {
 			}
 		}
 		else if (bubbleExploded) {
-			y -= (int)GameConstants.BUBBLE_FLOATING_SPEED;
+			if (!getCollisionDown()) y += GameConstants.OBJECT_SPEED;
 			if (getCollisionDown()) {
 				setDead(true);
 				

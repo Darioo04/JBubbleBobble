@@ -245,7 +245,7 @@ public class GameController {
 							audioManager.play("points");
 							collectedItems.add(item);
 							itemViews.remove(item.getFoodView());
-						}
+							gamePanel.remove(item.getFoodView());						}
 					}
 				}
 				if (collectedItems.size() == 2) {
@@ -449,6 +449,9 @@ public class GameController {
 		objViews.stream().forEach(objView -> gamePanel.remove(objView));
 		objs.clear();
 		objViews.clear();
+		powerUps.clear();
+		powerUpViews.stream().forEach(pView -> gamePanel.remove(pView));
+		powerUpViews.clear();
 		removeBubbles();
 		audioManager.pauseLevelMusic();
 	}
@@ -613,6 +616,7 @@ public class GameController {
     		bubbles.add(bubble);
     		BubbleView bubbleView = new BubbleView(bubble, bubble.getPath(), bubble.getNumSprites());
     		bubble.setBubbleBulletView(bubbleView);
+    		bubble.addObserver(bubbleView);
     		gamePanel.add(bubbleView);
     		bulletViews.add(bubbleView);
     		
@@ -625,6 +629,7 @@ public class GameController {
 		BubbleView bulletView = new BubbleView(bullet,bullet.getPath(),bullet.getNumSprites());
 
 		bullet.setBubbleBulletView(bulletView);
+		bullet.addObserver(bulletView);
 		gamePanel.add(bulletView);
 		
 //		System.out.println("bolla");

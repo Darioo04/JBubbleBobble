@@ -19,7 +19,7 @@ public class PulPul extends Enemy {
 	public void update() {
 		super.update();
 		collisionChecker.checkTileCollision(this);
-		if (!isDead() && !isInBubble() && !isFrozen()) {
+		if (!isDead() && !isInBubble() && !isFrozen() && !getBubbleExploded()) {
 			if (Math.random() < 0.02) {
 	            randomizeDirection();
 	        }

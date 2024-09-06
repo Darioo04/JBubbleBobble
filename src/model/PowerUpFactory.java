@@ -89,7 +89,6 @@ public class PowerUpFactory {
 			blueLampCanSpawn = false;
 			getSpawnPoint();
 			powerUps.add(new PowerUp(PowerUpType.BLUE_LAMP, x, y));
-			//aggiungere un controllo per far si che lo spawni uno solo per livello;
 		}
 		if (GameController.getInstance().getLevel()%5!=0) {
 			blueLampCanSpawn = true;
@@ -104,7 +103,7 @@ public class PowerUpFactory {
 		List<Integer> yPoints = new ArrayList<>();
 		for (int i=0; i<level.length; i++) {
 			for (int j=0; j<level[0].length; j++) {
-				if (level[i][j]!=' ') {
+				if (level[i][j] == ' ') {
 					xPoints.add(j);
 					yPoints.add(i);
 				}
@@ -113,6 +112,6 @@ public class PowerUpFactory {
 		int point = new Random().nextInt(xPoints.size());
 		x = xPoints.get(point);
 		y = yPoints.get(point);
-		System.out.println(x + " " + y);
+//		System.out.println(x + " " + y);
 	}
 }
