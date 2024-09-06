@@ -143,6 +143,7 @@ public class KeyController implements KeyListener {
 				    if (canShoot) {
 				        player.setSpacePressed(true);
 				        gameController.bubbleShooted();
+				        audioManager.play("shooting");
 				        canShoot = false; // Impedisce di sparare di nuovo finché il tasto non viene rilasciato
 				    }
 				}

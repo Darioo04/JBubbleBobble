@@ -10,6 +10,7 @@ import controller.EnemyAnimationController;
 import controller.GameController;
 import model.Enemy;
 import model.GameConstants;
+import model.SuperDrunk;
 
 @SuppressWarnings("deprecation")
 
@@ -29,7 +30,7 @@ public class EnemyView extends EntityView {
 	private BufferedImage actualSprite;
 	
 	public EnemyView(Enemy enemy, int numIdleSprites, int numRunningSprites, int numJumpingSprites, int numFallingSprites) {
-		super(enemy, GameConstants.TILE_SIZE, numIdleSprites, numRunningSprites, numJumpingSprites, numFallingSprites);
+		super(enemy, enemy instanceof SuperDrunk ? GameConstants.BOSS_SIZE : GameConstants.ENEMY_SIZE, numIdleSprites, numRunningSprites, numJumpingSprites, numFallingSprites);
 	}
 
 	@Override

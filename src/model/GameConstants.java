@@ -30,4 +30,5 @@ public final class GameConstants {
 	public static final double SPEED_MULTIPLIER = 1.5;
 	public static final int WATER_SIZE = TILE_SIZE / 2;
 	public static final int OBJECT_SPEED = 2 * SCALE;
+	public static final int BOSS_SIZE = 70 * SCALE;
 }

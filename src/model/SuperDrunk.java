@@ -7,20 +7,20 @@ public class SuperDrunk extends Enemy {
 	
 	public SuperDrunk(int x,int y) {
 		super(x,y);
-		setPath("/sprites/super drunk");
+		setPath("/sprites/super drunk/");
 		setDirection(Direction.RIGHT);
-		setSpeed(5);
+		setSpeed(4);
 	}
 	
 	@Override
 	public void update() {
-		if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
+		if (Math.random() < 0.03) {
             randomizeDirection();
         }
 		int speed = getSpeed();
 		switch (getDirection()) {
 			case RIGHT -> {
-				if (x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed) {
+				if (x < GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - speed) {
 					x += speed;
 				}
 				else {
@@ -38,7 +38,7 @@ public class SuperDrunk extends Enemy {
 			}
 			
 			case DOWN -> {
-	            if (y < GameConstants.SCREEN_HEIGHT - 3*GameConstants.TILE_SIZE - speed) {
+	            if (y < GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE - speed) {
 	                y += speed;
 	            }
 	            else {
@@ -47,7 +47,7 @@ public class SuperDrunk extends Enemy {
 	        }
 			
 			case UP -> {
-				if (y > 2*GameConstants.TILE_SIZE + speed) {
+				if (y > GameConstants.TILE_SIZE + speed) {
 	                y -= speed;
 	            }
 				else {
