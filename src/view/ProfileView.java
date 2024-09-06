@@ -31,6 +31,10 @@ public class ProfileView extends StateScreenView {
 	private BufferedImage bubPng;
 	private ImageIcon bubPngIcon;
 	private JLabel bubLabel;
+	JLabel gamesPlayedLabel;
+	JLabel gamesWonLabel;
+	JLabel gamesLostLabel;
+	
 	private int gamesPlayed;
 	private int gamesWon;
 	private int gamesLost;
@@ -66,19 +70,19 @@ public class ProfileView extends StateScreenView {
         font = font.deriveFont(20f);
         scoreLabels = new JLabel[topScores.length];
         for (int i = 0; i < topScores.length; i++) {
-            scoreLabels[i] = new JLabel((i+1) + " top score! " + topScores[i]);
+            scoreLabels[i] = new JLabel((i+1) + " top score: " + topScores[i]);
             scoreLabels[i].setBounds(GameConstants.TILE_SIZE, i*GameConstants.TILE_SIZE + 3*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             scoreLabels[i].setFont(font);
             add(scoreLabels[i]);
         }
         
-        JLabel gamesPlayedLabel = new JLabel("games played:  " + gamesPlayed);
+        gamesPlayedLabel = new JLabel("games played:  " + gamesPlayed);
         gamesPlayedLabel.setBounds(GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
         gamesPlayedLabel.setFont(font);
-        JLabel gamesWonLabel = new JLabel("games won:  " + gamesWon);
+        gamesWonLabel = new JLabel("games won:  " + gamesWon);
         gamesWonLabel.setBounds(GameConstants.TILE_SIZE, 6*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
         gamesWonLabel.setFont(font);
-        JLabel gamesLostLabel = new JLabel("games lost:  " + gamesLost);
+        gamesLostLabel = new JLabel("games lost:  " + gamesLost);
         gamesLostLabel.setBounds(GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
         gamesLostLabel.setFont(font);
         
@@ -90,10 +94,16 @@ public class ProfileView extends StateScreenView {
 	public void update() {
 		playerName = GameController.getInstance().getPlayerName();
 		topScores = GameController.getInstance().getTopScores();
+		gamesPlayed = GameController.getInstance().getGamesPlayed();
+		gamesWon = GameController.getInstance().getGamesWon();
+		gamesLost = GameController.getInstance().getGamesLost();
 		nameLabel.setText("hello " + playerName + "!");
 		for (int i = 0; i < topScores.length; i++) {
-            scoreLabels[i].setText((i+1)+ " top score!  " + topScores[i]);
+            scoreLabels[i].setText((i+1)+ " top score:  " + topScores[i]);
         }
+		gamesPlayedLabel.setText("games played:  " + gamesPlayed);
+		gamesWonLabel.setText("games won:  " + gamesWon);
+		gamesLostLabel.setText("games lost:  " + gamesLost);
 	}
 	
 	public void setPlayerName(String name) {
@@ -112,16 +122,16 @@ public class ProfileView extends StateScreenView {
 		g2.fillRect(0, 0, getWidth(), getHeight());
 	}
 	
-	@Override
-	public void update(Observable o,Object arg) {
-		if (o instanceof GameModel) {
-			GameModel gm = (GameModel) o;
-			this.gamesPlayed=gm.getGamesPlayed();
-			this.gamesWon=gm.getGamesWon();
-			this.gamesLost=gm.getGamesLost();
-		}
-		revalidate();
-		repaint();
-	}
+//	@Override
+//	public void update(Observable o,Object arg) {
+//		if (o instanceof GameModel) {
+//			GameModel gm = (GameModel) o;
+//			this.gamesPlayed=gm.getGamesPlayed();
+//			this.gamesWon=gm.getGamesWon();
+//			this.gamesLost=gm.getGamesLost();
+//		}
+//		revalidate();
+//		repaint();
+//	}
 	
 }	

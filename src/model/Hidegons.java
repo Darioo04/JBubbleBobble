@@ -1,63 +1,129 @@
 package model;
 
+import java.util.Random;
+
 import controller.GameController;
 
 @SuppressWarnings("deprecation")
 
 public class Hidegons extends Enemy{
+	private int targetY;
+	private int frame = 0;
+	
 	// spara palle di fuoco, si muove solo a destra e a sinistra
 	private FireBall fireBall;
 	public Hidegons(int x,int y) {
 		super(x,y);
 		setDirection(Direction.RIGHT);
 		setPath("/sprites/hidegons/");
-		setSpeed(5);
+		setSpeed(7);
+		scoreWhenKilled = 300;
 		setNumIdleSprites(1);
 		setNumRunningSprites(3);
 	}
 	@Override
 	public void update() {
 		super.update();
-		collisionChecker.checkTileCollision(this);
-		int speed = getSpeed();
-		if (!isDead() && !isInBubble() && !isFrozen()) {
-			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
-				randomizeDirection();
+		setDirectionToGo();
+		if (hitbox.y + hitboxHeight - 1 >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+			y = GameConstants.TILE_SIZE;
+			updateHitbox();
+		}
+		setEnemyCollision();
+		if (!isDead() && !isFrozen() && !isInBubble()) {	
+			if (isChasingPlayer()) {
+				if(Math.abs(targetY - y) <= 9 && !collisionDown) {
+					setIsChasingPlayer(false);
+					setDirection(Math.random() > 0.5 ? Direction.RIGHT : Direction.LEFT);
+				} else 
+					y -= speed;
+				if (y <= GameConstants.TILE_SIZE) {
+					setIsChasingPlayer(false);
+					y = GameConstants.TILE_SIZE;
+					setDirection(Math.random() > 0.5 ? Direction.RIGHT : Direction.LEFT);
+				}
 			}
-			else if (!collisionDown && y + Math.abs(speed) <  GameConstants.SCREEN_HEIGHT - 2 * GameConstants.TILE_SIZE) {
-	                y += Math.abs(speed);}
-			
 			else {
-				switch (direction) {
+				frame++;
+				if (frame % 20 == 0 && Math.random() < 0.3 && this.collisionDown && hasTilesAbove()) {
+					setIsChasingPlayer(true);
+					int tilesAbove = y / GameConstants.TILE_SIZE - 1;
+					targetY = (new Random().nextInt(tilesAbove) + 1) * GameConstants.TILE_SIZE;
+					y -= speed;
+				}
+				else if(!collisionDown) {
+					y += speed;
+				} else {
+					switch (direction) {
 					case RIGHT -> {
-						if(x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
+						if(!collisionRight) {
 							x += speed;
 						}else {
-							randomizeDirection();
+							direction = Direction.LEFT;
 						}
 					}
 					
 					case LEFT -> {
-						if(x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
+						if(!collisionLeft) {
 		                    x -= speed;
 		                }else {
-							randomizeDirection();
-						}
-					 
-					}
-					case UP -> { if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp() && hasTilesAbove()) {
-							y-=100;				
+							direction = Direction.RIGHT;
 						}
 					}
-					default ->{}
+			
+	
+					
+					default ->
+					throw new IllegalArgumentException("Unexpected value: " + direction);
+					}
 				}
+				if (frame==60) frame = 0;
 			}
-			shot();
 		}
 		updateHitbox();
-		
 		setChanged();
         notifyObservers();
+//		super.update();
+//		collisionChecker.checkTileCollision(this);
+//		int speed = getSpeed();
+//		if (!isDead() && !isInBubble() && !isFrozen()) {
+//			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
+//				randomizeDirection();
+//			}
+//			else if (!collisionDown && y + Math.abs(speed) <  GameConstants.SCREEN_HEIGHT - 2 * GameConstants.TILE_SIZE) {
+//	                y += Math.abs(speed);}
+//			
+//			else {
+//				switch (direction) {
+//					case RIGHT -> {
+//						if(x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
+//							x += speed;
+//						}else {
+//							randomizeDirection();
+//						}
+//					}
+//					
+//					case LEFT -> {
+//						if(x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
+//		                    x -= speed;
+//		                }else {
+//							randomizeDirection();
+//						}
+//					 
+//					}
+//					case UP -> { if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp() && hasTilesAbove()) {
+//							y-=100;				
+//						}
+//					}
+//					default ->{}
+//				}
+//			}
+//			shot();
+//		}
+//		updateHitbox();
+//		
+//		setChanged();
+//        notifyObservers();
 	}
 	
 	private void randomizeDirection() {
@@ -68,6 +134,15 @@ public class Hidegons extends Enemy{
         }
         else if (randomNumber<=0.66) {
             setDirection(Direction.RIGHT);
+        }
+	}
+	
+	private void setDirectionToGo() {
+		if (collisionLeft) {
+			setDirection(Direction.RIGHT);
+		}
+		else if (collisionRight) {
+            setDirection(Direction.LEFT);
         }
 	}
 	
@@ -131,5 +206,12 @@ public class Hidegons extends Enemy{
         	}
         }
         return false;
+	}
+	
+	private void setEnemyCollision() {
+		collisionLeft = false;
+		collisionRight = false;
+		collisionDown = false;
+		collisionChecker.checkTileCollision(this);
 	}
 }

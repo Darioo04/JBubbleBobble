@@ -8,7 +8,7 @@ public class PulPul extends Enemy {
 		super(x,y);
 		setPath("/sprites/pulpul/");
 		setDirection(Direction.RIGHT);
-		setSpeed(3);
+		setSpeed(6);
 		setNumIdleSprites(1);
 		setNumRunningSprites(3);
 		setNumJumpingSprites(0);
@@ -20,7 +20,7 @@ public class PulPul extends Enemy {
 		super.update();
 		collisionChecker.checkTileCollision(this);
 		if (!isDead() && !isInBubble() && !isFrozen()) {
-			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
+			if (Math.random() < 0.02) {
 	            randomizeDirection();
 	        }
 			int speed = getSpeed();

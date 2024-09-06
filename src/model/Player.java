@@ -59,6 +59,9 @@ public class Player extends Entity {
 		this.setPath("/sprites/BubAndBob1/Bub-");
 		setDirection(Direction.RIGHT);
 		fallingSpeed = 0;
+		setRightPressed(false);
+		setLeftPressed(false);
+		setSpacePressed(false);
 		setNumIdleSprites(2);
 		setNumRunningSprites(2);
 		setNumJumpingSprites(2);

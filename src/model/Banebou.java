@@ -20,7 +20,7 @@ public class Banebou extends Enemy {
 		setNumRunningSprites(0);
 		setNumJumpingSprites(3);
 		setSpeed(4);
-		 
+		scoreWhenKilled = 500;
 	}
 	
 	@Override
@@ -29,12 +29,12 @@ public class Banebou extends Enemy {
 		collisionChecker.checkTileCollision(this);
 		int speed = getSpeed();
 		if (!isDead() && !isInBubble() && !isFrozen()) {
-			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
+			if (Math.random() < 0.03) {
 				randomizeDirection();
 			}
 			else if (!collisionDown && y + Math.abs(speed) <  GameConstants.SCREEN_HEIGHT - 2 * GameConstants.TILE_SIZE) {
-	                y += Math.abs(speed);}
-			
+	                y += Math.abs(speed);
+			}
 			else {
 				switch (direction) {
 					case RIGHT -> {

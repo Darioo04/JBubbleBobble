@@ -208,6 +208,8 @@ public class KeyController implements KeyListener {
 					switch (winScreen.getPointer()) {
 						case 0 -> {
 							gameController.clearLevel();
+							gameController.increaseGamesPlayed();
+							gameController.increaseGamesWon();
 							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),GamePanel.getInstance());
 							gameController.setGameState(GameState.GAME);
 							selectLevelScreen.increasePointer();
@@ -220,7 +222,10 @@ public class KeyController implements KeyListener {
 							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),menuScreen.getStateScreenView());
 							gameController.setGameState(GameState.MENU);
 							gameController.clearLevel();
+							gameController.increaseGamesPlayed();
+							gameController.increaseGamesWon();
 							menuScreen.update();
+							System.out.println(gameController.getGamesPlayed());
 							audioManager.resumeBackgroundMusic();
 						}
 						default -> {
@@ -246,12 +251,18 @@ public class KeyController implements KeyListener {
 							gameController.changeDisplayedScreen(gameOverScreen.getStateScreenView(),GamePanel.getInstance());
 							gameController.setGameState(GameState.GAME);
 							gameController.clearLevel();
+							gameController.increaseGamesPlayed();
+							gameController.increaseGamesLost();
+							gameController.setScore(0);
 							gameController.startLevel();
 						}
 						case 1 -> {
 							gameController.changeDisplayedScreen(gameOverScreen.getStateScreenView(),menuScreen.getStateScreenView());
 							gameController.setGameState(GameState.MENU);
 							gameController.clearLevel();
+							gameController.increaseGamesPlayed();
+							gameController.increaseGamesLost();
+							gameController.setScore(0);
 							menuScreen.update();
 						}
 					}

@@ -89,6 +89,9 @@ public class GameController {
     private long score;
     private boolean firstTimePlaying;
     private String playerName;
+    private int gamesPlayed;
+	private int gamesWon;
+	private int gamesLost;
     
     private List<Enemy> enemies;
     private List<EnemyView> enemyViews;
@@ -283,6 +286,7 @@ public class GameController {
             
             case SELECT_PROFILE -> {
             	profileView.update();
+            	profileView.repaint();
             }
             
             case LEVEL_EDITOR -> {
@@ -329,6 +333,15 @@ public class GameController {
 				case "custom tile" -> {
 					LevelEditorView.getInstance().setTile(Integer.parseInt(parts[1]));
 				}
+				case "games played" -> {
+					gamesPlayed = Integer.parseInt(parts[1]);
+				}
+				case "games won" -> {
+                    gamesWon = Integer.parseInt(parts[1]);
+                }
+				case "games lost" -> {
+                    gamesLost = Integer.parseInt(parts[1]);
+                }
 				
 				default ->
 				throw new IllegalArgumentException("Unexpected value: " + parts[0]);
@@ -360,6 +373,9 @@ public class GameController {
             }
 			writer.write("top scores: " + topScores[0] + " " + topScores[1] + " " + topScores[2] + "\n");
 			writer.write("custom tile: " + LevelEditorView.getInstance().getTileNum() + "\n");
+			writer.write("games played: " + gamesPlayed + "\n");
+			writer.write("games won: " + gamesWon + "\n");
+			writer.write("games lost: " + gamesLost + "\n");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -431,6 +447,9 @@ public class GameController {
 		itemViews.stream().forEach(item -> gamePanel.remove(item));
 		itemViews.clear();
 		enemyViews.clear();
+		objViews.stream().forEach(objView -> gamePanel.remove(objView));
+		objs.clear();
+		objViews.clear();
 		removeBubbles();
 		audioManager.pauseLevelMusic();
 	}
@@ -701,6 +720,46 @@ public class GameController {
     
     public String getPlayerName() {
     	return playerName;
+    }
+    
+    public int getGamesPlayed() {
+    	return gamesPlayed;
+    }
+    
+    public int getGamesWon() {
+    	return gamesWon;
+    }
+    
+    public int getGamesLost() {
+    	return gamesLost;
+    }
+    
+    public void setGamesPlayed(int gamesPlayed) {
+        this.gamesPlayed = gamesPlayed;
+    }
+    
+    public void setGamesWon(int gamesWon) {
+        this.gamesWon = gamesWon;
+    }
+    
+    public void setGamesLost(int gamesLost) {
+        this.gamesLost = gamesLost;
+    }
+    
+    public void increaseGamesPlayed() {
+    	gamesPlayed++;
+    }
+    
+    public void increaseGamesWon() {
+        gamesWon++;
+    }
+    
+    public void increaseGamesLost() {
+        gamesLost++;
+    }
+    
+    public void setScore(long score) {
+    	this.score = score;
     }
     
     public long[] getTopScores() {
