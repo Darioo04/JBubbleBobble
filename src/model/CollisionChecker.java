@@ -198,7 +198,7 @@ public class CollisionChecker {
 	        		player.increaseBubbleBulletsPopped();
 	        	}
 	        	else if (bubble instanceof ThunderBubble) {
-	        		player.increaseLightningBubblesPopped();
+	        		player.increaseThunderBubblesPopped();
 	        		GameController.getInstance().addObj( new Thunder(bubble.getX(), bubble.getY(), player.getDirection()) );
 	        	}
 	        	else if (bubble instanceof FireBubble) {

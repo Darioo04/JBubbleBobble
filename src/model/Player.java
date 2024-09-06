@@ -28,6 +28,7 @@ public class Player extends Entity {
 	private int fireRate = GameConstants.PLAYER_FIRE_RATE;
 	private int shoesDistance = 15*GameConstants.SCREEN_WIDTH;
 	
+	private int bubblesPopped;
     private int bubbleBulletsPopped;
     private int fireBubblesPopped;
     private int lightningBubblesPopped;
@@ -283,6 +284,15 @@ public class Player extends Entity {
 		return isJumping;
 	}
 	
+	public void increaseBubblesPopped() {
+		bubblesPopped++;
+	}
+	public int getBubblesPopped() {
+		return bubblesPopped;
+	}
+	public void resetBubblesPopped() {
+		bubblesPopped = 0;
+	}
 	
     public void increaseBubbleBulletsPopped() {
     	bubbleBulletsPopped++;
@@ -304,13 +314,13 @@ public class Player extends Entity {
     	fireBubblesPopped=0;
     }
     
-    public void increaseLightningBubblesPopped() {
+    public void increaseThunderBubblesPopped() {
     	lightningBubblesPopped++;
     }
-    public int getLightningBubblesPopped() {
+    public int getThunderBubblesPopped() {
     	return lightningBubblesPopped;
     }
-    public void resetLightningBubblesPopped() {
+    public void resetThunderBubblesPopped() {
     	lightningBubblesPopped=0;
     }
     

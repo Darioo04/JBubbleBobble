@@ -21,6 +21,7 @@ public class PowerUpView extends JLabel implements Observer {
 	private BufferedImage sprite;
 	private ImageIcon resizedIcon;
 	private static final String path = "/sprites/PowerUp/";
+	
 	public PowerUpView(PowerUp powerUp) {
 		try {
 			sprite = switch (powerUp.getType()) {
@@ -47,7 +48,7 @@ public class PowerUpView extends JLabel implements Observer {
 	}
 	
 	public void resizeIcon(BufferedImage originalImage) {
-		Image resizedImage = originalImage.getScaledInstance(this.getWidth(), this.getHeight(),Image.SCALE_FAST);
+		Image resizedImage = originalImage.getScaledInstance( getWidth(), getHeight(),Image.SCALE_FAST);
         resizedIcon = new ImageIcon(resizedImage);
     }
 	

@@ -212,10 +212,10 @@ public class GameController {
 			
 			case GAME -> {
 				player.update();
-				enemies.stream().forEach(Enemy::update);
+				enemies.parallelStream().forEach(Enemy::update);
 				removeDeadEnemies();
-				bubbles.stream().forEach(Bubble::update);
-				bubbles.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
+				bubbles.parallelStream().forEach(Bubble::update);
+				bubbles.parallelStream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				collisionChecker.checkBubblePlayerCollision(bubbles, player);
 				bubbles.stream()
 			       .filter(Bubble::canBeDeleted)
@@ -231,8 +231,8 @@ public class GameController {
 //				bullets.stream().forEach(Bubble::update);
 //				removeExplodedBubbles();
 				
-				objs.stream().forEach(ObjModel::update);
-				powerUps.stream().forEach(PowerUp::update);
+				objs.parallelStream().forEach(ObjModel::update);
+				powerUps.parallelStream().forEach(PowerUp::update);
 				
 				if(enemies.isEmpty() && items.isEmpty() && collectedItems.isEmpty()) {
 					spawnFood();
@@ -267,7 +267,7 @@ public class GameController {
 //					.filter(bullet -> collisionChecker.checkBubblePlayerCollision(bullet, player))
 //					.forEach(bullet -> { bullets.remove(bullet); 
 //										bulletViews.remove(bullet.getBubbleBulletView()); });
-				
+				spawnPowerUp();
 				collisionChecker.checkPlayerEnemyCollision(player, enemies);
 				
 				if (player.getLostLife() && !player.isDead()) {	//se perde una vita respawno il player
@@ -423,6 +423,7 @@ public class GameController {
     	objs = new ArrayList<>();
     	objViews = new ArrayList<>();
     	powerUps = new ArrayList<>();
+    	powerUpViews = new ArrayList<>();
     	player.spawnPlayer();
     	spawnEnemies();
     	spawnSpecialBubbles();
@@ -460,6 +461,7 @@ public class GameController {
 		respawnEnemies();
 		player.setLostLife(false);
 		removeBubbles();
+		removeObjects();
 	}
     
     public Player getPlayer() {
@@ -593,12 +595,18 @@ public class GameController {
     	PowerUpFactory powerUpFactory = PowerUpFactory.getInstance();
     	List<PowerUp> newPowerUps = powerUpFactory.createPowerUp();
     	for(PowerUp powerUp : newPowerUps) {
-    		PowerUpView powerUpView = new PowerUpView(powerUp);
-    		powerUp.addObserver(powerUpView);
-    		powerUpViews.add(powerUpView);
-    		gamePanel.add(powerUpView);
+        	PowerUpView powerUpView = new PowerUpView(powerUp);
+        	powerUp.addObserver(powerUpView);
+        	powerUp.setPowerUpView(powerUpView);
+        	powerUpViews.add(powerUpView);
+        	gamePanel.add(powerUpView);
+        	
+        	
+        	
     	}
-    	powerUps.addAll(newPowerUps);
+        powerUps.addAll(newPowerUps);
+    	
+    	
     }
     
     public void spawnSpecialBubbles() {
@@ -657,6 +665,12 @@ public class GameController {
     			gamePanel.remove(e.getEnemyView());
     		}
     	}
+    }
+    
+    public void removeObjects() {
+    	objViews.parallelStream().forEach(oView -> gamePanel.remove(oView));
+    	objs.clear();
+    	objViews.clear();
     }
     
 //    public void removeDeadEnemy(Enemy enemy, EnemyView eView) {
