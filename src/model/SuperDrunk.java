@@ -2,10 +2,13 @@ package model;
 
 import java.awt.Rectangle;
 
+import controller.AudioManager;
+
 @SuppressWarnings("deprecation")
 
 public class SuperDrunk extends Enemy {
 	//boos finale
+	private int lives;
 	
 	public SuperDrunk(int x,int y) {
 		super(x,y);
@@ -16,6 +19,7 @@ public class SuperDrunk extends Enemy {
 		setNumRunningSprites(3);
 		setNumJumpingSprites(0);
 		
+		lives = 8;
 		hitboxHeight = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
 		hitboxWidth = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
 		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));	
@@ -85,5 +89,14 @@ public class SuperDrunk extends Enemy {
         else {
             setDirection(Direction.UP);
         }
+	}
+	
+	public boolean isDead() {
+		return lives <= 0;
+	}
+	
+	public void decreaseLives() {
+		AudioManager.getInstance().play("bossHit");
+		lives--;
 	}
 }

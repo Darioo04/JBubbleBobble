@@ -279,6 +279,7 @@ public class KeyController implements KeyListener {
 							gameController.increaseGamesLost();
 							gameController.setScore(0);
 							menuScreen.update();
+							audioManager.resumeBackgroundMusic();
 						}
 					}
 				}

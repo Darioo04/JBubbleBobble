@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
 import model.Banebou;
@@ -40,6 +41,7 @@ import model.PowerUpFactory;
 import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
+import model.SuperDrunk;
 import model.WinScreen;
 import view.BubbleView;
 import view.EnemyView;
@@ -237,6 +239,19 @@ public class GameController {
 				
 				objs.parallelStream().forEach(ObjModel::update);
 				powerUps.parallelStream().forEach(PowerUp::update);
+				if (level == 24) {
+					SuperDrunk boss = null;
+					for (Enemy e : enemies) {
+						if(e instanceof SuperDrunk) {
+							boss = (SuperDrunk) e;
+							break;
+						}
+					}
+					if (boss.isDead()) {
+						killAllEnemies();
+						score += 50000;
+					}
+				}
 				
 				if(enemies.isEmpty() && items.isEmpty() && collectedItems.isEmpty()) {
 					spawnFood();
