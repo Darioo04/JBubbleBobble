@@ -2,10 +2,13 @@ package model;
 
 import java.awt.Rectangle;
 
+import controller.AudioManager;
+
 @SuppressWarnings("deprecation")
 
 public class SuperDrunk extends Enemy {
 	//boos finale
+	private int lives;
 	
 	public SuperDrunk(int x,int y) {
 		super(x,y);
@@ -16,6 +19,7 @@ public class SuperDrunk extends Enemy {
 		setNumRunningSprites(3);
 		setNumJumpingSprites(0);
 		
+		lives = 8;
 		hitboxHeight = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
 		hitboxWidth = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
 		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));	
@@ -23,49 +27,58 @@ public class SuperDrunk extends Enemy {
 	
 	@Override
 	public void update() {
-		if (Math.random() < 0.03) {
-            randomizeDirection();
-        }
-		int speed = getSpeed();
-		switch (getDirection()) {
-			case RIGHT -> {
-				if (x < GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - speed - GameConstants.BOSS_SIZE) {
-					x += speed;
-				}
-				else {
-					randomizeDirection();
-				}
-			}
-			
-			case LEFT -> {
-				if (x > 2*GameConstants.TILE_SIZE + speed) {
-	                x -= speed;
-	            }
-				else {
-					randomizeDirection();
-				}
-			}
-			
-			case DOWN -> {
-	            if (y < GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE - speed - GameConstants.BOSS_SIZE) {
-	                y += speed;
-	            }
-	            else {
-					randomizeDirection();
-				}
+		if (!isDead() && !isInBubble() && !isFrozen()) {
+			if (Math.random() < 0.03) {
+	            randomizeDirection();
 	        }
-			
-			case UP -> {
-				if (y > GameConstants.TILE_SIZE + speed) {
-	                y -= speed;
-	            }
-				else {
-					randomizeDirection();
+			int speed = getSpeed();
+			switch (getDirection()) {
+				case RIGHT -> {
+					if (x < GameConstants.SCREEN_WIDTH - 2*GameConstants.TILE_SIZE - speed - GameConstants.BOSS_SIZE) {
+						x += speed;
+					}
+					else {
+						randomizeDirection();
+					}
 				}
-	        }
-			
-			default ->{}
+				
+				case LEFT -> {
+					if (x > 2*GameConstants.TILE_SIZE + speed) {
+		                x -= speed;
+		            }
+					else {
+						randomizeDirection();
+					}
+				}
+				
+				case DOWN -> {
+		            if (y < GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE - speed - GameConstants.BOSS_SIZE) {
+		                y += speed;
+		            }
+		            else {
+						randomizeDirection();
+					}
+		        }
+				
+				case UP -> {
+					if (y > GameConstants.TILE_SIZE + speed) {
+		                y -= speed;
+		            }
+					else {
+						randomizeDirection();
+					}
+		        }
+				
+				default ->{}
+			}
 		}
+		if (isDead()) {
+			setInBubble(true);
+			deathCounter++;
+		}
+	    if (deathCounter >= DEATH_DELAY) {
+	    	setCanBeDeleted(true);
+	    }
 		setChanged();
         notifyObservers();
 	}
@@ -85,5 +98,14 @@ public class SuperDrunk extends Enemy {
         else {
             setDirection(Direction.UP);
         }
+	}
+	
+	public boolean isDead() {
+		return lives <= 0;
+	}
+	
+	public void decreaseLives() {
+//		AudioManager.getInstance().play("bossHit");
+		lives--;
 	}
 }

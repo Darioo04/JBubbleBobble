@@ -7,6 +7,7 @@ public enum GameState {
     PAUSE(2,"pause-"),
     GAME_OVER(2,"lose-"),
     WIN(2,"win-"),
+    LAST_WIN(1, "last-level-"),
     MENU(3,"menu-"),
     SELECT_PROFILE(1,""/*"profile-"*/),
 	LEVEL_EDITOR(1,"level-editor");

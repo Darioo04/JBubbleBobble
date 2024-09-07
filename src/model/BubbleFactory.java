@@ -38,7 +38,7 @@ public class BubbleFactory {
 	private void getSpawnBubbles() {
 		xPoints = new ArrayList<>();
     	level = LevelCreator.getInstance().getLevel();
-    	spawnY = level.length-2;
+    	spawnY = level.length-1;
     	int rowLength = level[0].length;
     	for (int i=0; i<rowLength; i++) {
     		if (level[spawnY][i] == ' ') {

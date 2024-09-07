@@ -197,18 +197,18 @@ public class CollisionChecker {
 	        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
 	//        	System.out.println("collision");
 	        	if (bubble instanceof BubbleBullet) {
-	        		player.increaseBubbleBulletsPopped();
+	        		player.increaseBubbleBulletsPopped(); // incremento il numero di bolle proiettili esplose
 	        	}
 	        	else if (bubble instanceof ThunderBubble) {
-	        		player.increaseThunderBubblesPopped();
+	        		player.increaseThunderBubblesPopped();  // incremento il numero di ThunderBubble esplose
 	        		GameController.getInstance().addObj( new Thunder(bubble.getX(), bubble.getY(), player.getDirection()) );
 	        	}
 	        	else if (bubble instanceof FireBubble) {
-	        		player.increaseFireBubblesPopped();
+	        		player.increaseFireBubblesPopped();  // incremento il numero di FireBubble esplose
 	        		GameController.getInstance().addObj( new Fire(bubble.getX(), bubble.getY()) );
 	        	}
 	        	else if (bubble instanceof ExtendBubble) {
-	        		((ExtendBubble) bubble).deleteLetter();
+	        		((ExtendBubble) bubble).deleteLetter(); 
 	        	}
 	        	else if (bubble instanceof WaterBubble) {
 	        		GameController.getInstance().addObj(new Water(bubble.getX(), bubble.getY()));
@@ -243,9 +243,8 @@ public class CollisionChecker {
 		Rectangle bubbleHitbox = bubble.getHitbox();
 		for (Enemy enemy : enemyList) {
 			Rectangle enemyHitbox = enemy.getHitbox();
-          
-			if (bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded() && !enemy.isInBubble()) {
-				//da implementare
+			
+			if ( !(enemy instanceof SuperDrunk) && bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded() && !enemy.isInBubble()) {
 				enemy.setInBubble(true);
 				GameController.getInstance().removeBubble(bubble);
 			}
@@ -320,5 +319,25 @@ public class CollisionChecker {
 		if (laserHitbox.intersects(playerHitbox) && !player.getLostLife() && !player.isDead()) {
 			player.decreaseLives();
 		}
+	}
+	
+	public void checkThunderEnemyCollision(Thunder thunder, List<Enemy> enemies) {
+		Rectangle thunderHitbox = thunder.getHitbox();
+		
+		enemies.stream()
+			.filter(enemy -> !(enemy instanceof SuperDrunk) && enemy.getHitbox().intersects(thunderHitbox))
+			.forEach(enemy -> enemy.setDead(true));
+		
+		enemies.stream()
+			.filter( enemy -> enemy instanceof SuperDrunk)
+			.map(enemy -> (SuperDrunk)enemy)
+			.forEach(SuperDrunk::decreaseLives);
+	}
+	
+	public void checkFireEnemyCollision(Fire fire, List<Enemy> enemies) {
+		Rectangle fireHitbox = fire.getHitbox();
+		enemies.stream()
+			.filter(enemy -> !(enemy instanceof SuperDrunk) && enemy.getHitbox().intersects(fireHitbox))
+			.forEach(enemy -> enemy.setDead(true));
 	}
 }
