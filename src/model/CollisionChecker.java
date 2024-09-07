@@ -216,6 +216,7 @@ public class CollisionChecker {
 	        }     
         }
         //fa esplodere tutte le bolle in contatto con la bolla appena fatta esplodere
+        
         for (Bubble bubble : bubbles.stream().filter(b -> b.isExploded()).collect(Collectors.toList())) { 
 	        Rectangle bubbleHitbox = bubble.getHitbox();
 	        bubbles.stream()
@@ -241,14 +242,20 @@ public class CollisionChecker {
 	
 	public void checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
 		Rectangle bubbleHitbox = bubble.getHitbox();
-		for (Enemy enemy : enemyList) {
-			Rectangle enemyHitbox = enemy.getHitbox();
-			
-			if ( !(enemy instanceof SuperDrunk) && bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded() && !enemy.isInBubble()) {
+		enemyList.stream()
+			.filter(enemy -> !(enemy instanceof SuperDrunk) && bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemy.getHitbox()) && !bubble.isExpanded() && !enemy.isInBubble())
+			.forEach(enemy -> {
 				enemy.setInBubble(true);
 				GameController.getInstance().removeBubble(bubble);
-			}
-		}
+			});
+//		for (Enemy enemy : enemyList) {
+//			Rectangle enemyHitbox = enemy.getHitbox();
+//			
+//			if ( !(enemy instanceof SuperDrunk) && bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded() && !enemy.isInBubble()) {
+//				enemy.setInBubble(true);
+//				GameController.getInstance().removeBubble(bubble);
+//			}
+//		}
 	}
 	
 //	public void checkBubbleBubbleCollision(List<Bubble> bubbles,Player player) {
@@ -317,6 +324,14 @@ public class CollisionChecker {
 		Rectangle laserHitbox = laser.getHitbox();
 		Rectangle playerHitbox = player.getHitbox();
 		if (laserHitbox.intersects(playerHitbox) && !player.getLostLife() && !player.isDead()) {
+			player.decreaseLives();
+		}
+	}
+	
+	public void checkPlayerFireBallCollision(Player player, FireBall fireBall) {
+		Rectangle fireBallHitbox = fireBall.getHitbox();
+		Rectangle playerHitbox = player.getHitbox();
+		if (fireBallHitbox.intersects(playerHitbox) && !player.getLostLife() && !player.isDead()) {
 			player.decreaseLives();
 		}
 	}
