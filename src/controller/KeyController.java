@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 import model.BubbleBullet;
 import model.GameOverScreen;
 import model.GameState;
+import model.LastLevelWinScreen;
 import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
@@ -14,6 +15,7 @@ import model.SelectProfileScreen;
 import model.WinScreen;
 import view.BubbleView;
 import view.GamePanel;
+import view.LastLevelWinScreenView;
 import view.LevelEditorView;
 import view.MenuScreenView;
 import view.NicknamePanel;
@@ -233,6 +235,18 @@ public class KeyController implements KeyListener {
 							
 						}
 					}
+				}
+			}
+			
+			case LAST_WIN -> {
+				if (key == KeyEvent.VK_ENTER) {
+					gameController.changeDisplayedScreen(LastLevelWinScreen.getInstance().getStateScreenView(), ProfileView.getInstance());
+					gameController.setGameState(GameState.SELECT_PROFILE);
+					gameController.clearLevel();
+					gameController.increaseGamesPlayed();
+					gameController.increaseGamesWon();
+					ProfileView.getInstance().update();
+					audioManager.resumeBackgroundMusic();
 				}
 			}
 			

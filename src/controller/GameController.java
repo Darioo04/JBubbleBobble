@@ -28,6 +28,7 @@ import model.GameOverScreen;
 import model.GameState;
 import model.Hidegons;
 import model.Invader;
+import model.LastLevelWinScreen;
 import model.Food;
 import model.FoodFactory;
 import model.MenuScreen;
@@ -43,6 +44,7 @@ import model.WinScreen;
 import view.BubbleView;
 import view.EnemyView;
 import view.GamePanel;
+import view.LastLevelWinScreenView;
 import view.LevelEditorView;
 import view.MainFrame;
 import view.MenuScreenView;
@@ -81,6 +83,7 @@ public class GameController {
     private PauseScreenView pauseScreenView;
     private GameOverScreen gameOverScreen;
     private WinScreen winScreen;
+    private LastLevelWinScreen lastLevelWinScreen;
     private GamePanel gamePanel;
     private CollisionChecker collisionChecker;
     public static int frames = 0;
@@ -159,6 +162,7 @@ public class GameController {
         pauseScreenView = (PauseScreenView) pauseScreen.getStateScreenView();
         gameOverScreen = GameOverScreen.getInstance();
         winScreen = WinScreen.getInstance();
+        lastLevelWinScreen = LastLevelWinScreen.getInstance();
         keyController = KeyController.getInstance();
         audioManager = AudioManager.getInstance();
         collisionChecker = CollisionChecker.getInstance();
@@ -249,9 +253,18 @@ public class GameController {
 					}
 				}
 				if (collectedItems.size() == 2) {
-					changeDisplayedScreen(gamePanel, winScreen.getStateScreenView());
-                    setGameState(GameState.WIN);
-                    winScreen.update();
+					if (level == 24) {
+						LastLevelWinScreenView lastLevelWinScreenView = (LastLevelWinScreenView) lastLevelWinScreen.getStateScreenView();
+						lastLevelWinScreenView.setScore(score);
+						changeDisplayedScreen(gamePanel, lastLevelWinScreen.getStateScreenView());
+	                    setGameState(GameState.LAST_WIN);
+	                    lastLevelWinScreen.update();
+                    }
+					else {
+						changeDisplayedScreen(gamePanel, winScreen.getStateScreenView());
+	                    setGameState(GameState.WIN);
+	                    winScreen.update();
+					}
 				}
 //				enemies.stream().forEach( enemy -> {
 //					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
@@ -293,6 +306,10 @@ public class GameController {
             
             case WIN -> {
             	winScreen.update();
+            }
+            
+            case LAST_WIN -> {
+                lastLevelWinScreen.update();
             }
             
             case GAME_OVER -> {
