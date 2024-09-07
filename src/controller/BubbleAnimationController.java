@@ -8,14 +8,14 @@ public class BubbleAnimationController {
 	
 	private Bubble bubble;
 	private BufferedImage actualSprite;
-	private BufferedImage[] explodedSprites;
+	private static  BufferedImage[] explodedSprites;
 	private BufferedImage[] floatingSprites;
 	
 	private BubbleAnimationController(Builder builder) {
 		this.bubble = builder.bubble;
 		this.actualSprite = builder.actualSprite;
-		this.explodedSprites = builder.explodedSprites;
 		this.floatingSprites = builder.floatingSprites;
+		if (explodedSprites==null) 	explodedSprites = builder.explodedSprites;
 	}
 	
 	public void updateAnimation(int animationCycle) {
