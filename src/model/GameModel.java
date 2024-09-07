@@ -1,15 +1,17 @@
 package model;
 
-import java.io.IOException;
 import java.util.Observable;
 
 @SuppressWarnings("deprecation")
 
 public class GameModel extends Observable {
+	
+	private boolean firstTimePlaying;
+	private long[] topScores = new long[3];
 	private int gamesPlayed;
 	private int gamesWon;
 	private int gamesLost;
-	private String nickName;
+	private String playerName;
 	
 	private static GameModel instance;
 	
@@ -33,25 +35,59 @@ public class GameModel extends Observable {
 	public int getGamesLost() {
 		return gamesLost;
 	}
-	public String getNickName() {
-		return nickName;
+	
+	public String getPlayerName() {
+		return playerName;
+	}
+	
+	public void setGamesPlayed(int gamesPlayed) {
+		this.gamesPlayed = gamesPlayed;
+		update();
+	}
+	
+	public void setGamesLost(int gamesLost) {
+		this.gamesLost = gamesLost;
+		update();
+	}
+	
+	public void setGamesWon(int gamesWon) {
+		this.gamesWon = gamesWon;
+		update();
 	}
 
 	public void increaseGamesPlayed() {
-		gamesPlayed+=1;
+		gamesPlayed++;
 		update();
 	}
 	public void increaseGamesWon() {
-		gamesWon+=1;
+		gamesWon++;
 		update();
 	}
 	public void increaseGamesLost() {
-		gamesLost+=1;
+		gamesLost++;
 		update();
 	}
-	public void setNickname(String nickName) {
-		this.nickName=nickName;
+	public void setPlayerName(String playerName) {
+		this.playerName=playerName;
 		update();
+	}
+	
+	public void setTopScores(long[] topScores) {
+		this.topScores = topScores;
+		update();
+	}
+	
+	public long[] getTopScores() {
+		return topScores;
+	}
+	
+	public void setFirstTimePlaying(boolean firstTimePlaying) {
+		this.firstTimePlaying = firstTimePlaying;
+		update();
+	}
+	
+	public boolean getFirstTimePlaying() {
+		return firstTimePlaying;
 	}
 	
 	public void update() {

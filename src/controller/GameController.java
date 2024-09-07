@@ -88,7 +88,6 @@ public class GameController {
     private LastLevelWinScreen lastLevelWinScreen;
     private GamePanel gamePanel;
     private CollisionChecker collisionChecker;
-    private SpawnController spawnController;
     public static int frames = 0;
     private Timer timer;
     private long[] topScores;
@@ -135,9 +134,10 @@ public class GameController {
     }
     
     private GameController() {
+        gameModel = GameModel.getInstance();
     	loadGameData();
     	score = 0;
-    	if (firstTimePlaying) {
+    	if (gameModel.getFirstTimePlaying()) {
     		playerName = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:", "Benvenuto", JOptionPane.PLAIN_MESSAGE);
     		if (playerName == null) {System.exit(0);}
     		while (playerName.trim().isEmpty()) {
@@ -147,18 +147,17 @@ public class GameController {
                 	System.exit(0);
                 }
             }
-    		firstTimePlaying = false;
+    		gameModel.setPlayerName(playerName);
+    		gameModel.setFirstTimePlaying(false);
     	}
-    	spawnController = SpawnController.getInstance();
         gameState = GameState.MENU;
-        gameModel = GameModel.getInstance();
-        gameModel.addObserver(StatusBar.getInstance());
         
         levelCreator = LevelCreator.getInstance();
         mainFrame = MainFrame.getInstance();
         selectLevelScreen = SelectLevelScreen.getInstance();
         selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
         profileView = ProfileView.getInstance();
+        gameModel.addObserver(profileView);
         
         menuScreen = MenuScreen.getInstance();
         menuScreenView = (MenuScreenView) menuScreen.getStateScreenView();
@@ -313,8 +312,7 @@ public class GameController {
             }
             
             case SELECT_PROFILE -> {
-            	profileView.update();
-            	profileView.repaint();
+            	gameModel.update();
             }
             
             case LEVEL_EDITOR -> {
@@ -339,6 +337,7 @@ public class GameController {
 		}
     }
     
+    //da spostare possibilmente nel game model (il loadGameData e il saveGameData)
     public void loadGameData() {
     	String projectPath = System.getProperty("user.dir");
         String path = projectPath + "/data/game-data.txt";
@@ -351,9 +350,11 @@ public class GameController {
 				switch (parts[0]) {
 				case "first time playing" -> {
 					firstTimePlaying = Boolean.parseBoolean(parts[1]);
+					gameModel.setFirstTimePlaying(firstTimePlaying);
 				}
 				case "name" -> {
 					playerName = parts[1];
+					gameModel.setPlayerName(playerName);
 				}
 				case "top scores" -> {
 					topScores = new long[3];
@@ -361,18 +362,22 @@ public class GameController {
 					topScores[0] = Integer.parseInt(scores[0]);
 					topScores[1] = Integer.parseInt(scores[1]);
 					topScores[2] = Integer.parseInt(scores[2]);
+					gameModel.setTopScores(topScores);
 				}
 				case "custom tile" -> {
 					LevelEditorView.getInstance().setTile(Integer.parseInt(parts[1]));
 				}
 				case "games played" -> {
 					gamesPlayed = Integer.parseInt(parts[1]);
+					gameModel.setGamesPlayed(gamesPlayed);
 				}
 				case "games won" -> {
                     gamesWon = Integer.parseInt(parts[1]);
+                    gameModel.setGamesWon(gamesWon);
                 }
 				case "games lost" -> {
                     gamesLost = Integer.parseInt(parts[1]);
+                    gameModel.setGamesLost(gamesLost);
                 }
 				
 				default ->
@@ -380,7 +385,7 @@ public class GameController {
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 		}
     }
     
@@ -671,7 +676,7 @@ public class GameController {
     }
     
     public void setNickname(String nickname) {
-    	gameModel.setNickname(nickname);
+    	gameModel.setPlayerName(nickname);
     }
     
     public void removeBubbles() {
@@ -774,47 +779,8 @@ public class GameController {
     	return playerName;
     }
     
-    public int getGamesPlayed() {
-    	return gamesPlayed;
-    }
-    
-    public int getGamesWon() {
-    	return gamesWon;
-    }
-    
-    public int getGamesLost() {
-    	return gamesLost;
-    }
-    
-    public void setGamesPlayed(int gamesPlayed) {
-        this.gamesPlayed = gamesPlayed;
-    }
-    
-    public void setGamesWon(int gamesWon) {
-        this.gamesWon = gamesWon;
-    }
-    
-    public void setGamesLost(int gamesLost) {
-        this.gamesLost = gamesLost;
-    }
-    
-    public void increaseGamesPlayed() {
-    	gamesPlayed++;
-    }
-    
-    public void increaseGamesWon() {
-        gamesWon++;
-    }
-    
-    public void increaseGamesLost() {
-        gamesLost++;
-    }
     
     public void setScore(long score) {
     	this.score = score;
-    }
-    
-    public long[] getTopScores() {
-    	return topScores;
     }
 }

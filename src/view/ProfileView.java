@@ -91,12 +91,34 @@ public class ProfileView extends StateScreenView {
         add(gamesLostLabel);
 	}
 	
-	public void update() {
-		playerName = GameController.getInstance().getPlayerName();
-		topScores = GameController.getInstance().getTopScores();
-		gamesPlayed = GameController.getInstance().getGamesPlayed();
-		gamesWon = GameController.getInstance().getGamesWon();
-		gamesLost = GameController.getInstance().getGamesLost();
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o instanceof GameModel) {
+			GameModel gm = (GameModel) o;
+			playerName = gm.getPlayerName();
+			topScores = gm.getTopScores();
+			gamesPlayed = gm.getGamesPlayed();
+			gamesWon = gm.getGamesWon();
+			gamesLost = gm.getGamesLost();
+			repaint();
+		}
+		
+	}
+	
+//	public void setPlayerName(String name) {
+//		this.playerName = name;
+//	}
+//	
+//	public void setTopScores(long[] topScores) {
+//		this.topScores = topScores;
+//	}
+
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setColor(Color.decode("#7700c8"));
+		g2.fillRect(0, 0, getWidth(), getHeight());
 		nameLabel.setText("hello " + playerName + "!");
 		for (int i = 0; i < topScores.length; i++) {
             scoreLabels[i].setText((i+1)+ " top score:  " + topScores[i]);
@@ -106,32 +128,5 @@ public class ProfileView extends StateScreenView {
 		gamesLostLabel.setText("games lost:  " + gamesLost);
 	}
 	
-	public void setPlayerName(String name) {
-		this.playerName = name;
-	}
-	
-	public void setTopScores(long[] topScores) {
-		this.topScores = topScores;
-	}
-
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setColor(Color.decode("#7700c8"));
-		g2.fillRect(0, 0, getWidth(), getHeight());
-	}
-	
-//	@Override
-//	public void update(Observable o,Object arg) {
-//		if (o instanceof GameModel) {
-//			GameModel gm = (GameModel) o;
-//			this.gamesPlayed=gm.getGamesPlayed();
-//			this.gamesWon=gm.getGamesWon();
-//			this.gamesLost=gm.getGamesLost();
-//		}
-//		revalidate();
-//		repaint();
-//	}
 	
 }	

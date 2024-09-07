@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import model.BubbleBullet;
+import model.GameModel;
 import model.GameOverScreen;
 import model.GameState;
 import model.LastLevelWinScreen;
@@ -26,6 +27,7 @@ public class KeyController implements KeyListener {
 	private static KeyController instance;
 	
 	private Player player;
+	private GameModel gameModel;
 	private boolean canShoot=true;
 	private GameController gameController;
 	private MenuScreen menuScreen;
@@ -45,6 +47,7 @@ public class KeyController implements KeyListener {
     }
 	
     private KeyController() {
+    	gameModel = GameModel.getInstance();
     	menuScreen = MenuScreen.getInstance();
     	selectLevelScreen = SelectLevelScreen.getInstance();
     	gameOverScreen = GameOverScreen.getInstance();
@@ -211,8 +214,8 @@ public class KeyController implements KeyListener {
 					switch (winScreen.getPointer()) {
 						case 0 -> {
 							gameController.clearLevel();
-							gameController.increaseGamesPlayed();
-							gameController.increaseGamesWon();
+							gameModel.increaseGamesPlayed();
+							gameModel.increaseGamesWon();
 							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),GamePanel.getInstance());
 							gameController.setGameState(GameState.GAME);
 							selectLevelScreen.increasePointer();
@@ -225,10 +228,10 @@ public class KeyController implements KeyListener {
 							gameController.changeDisplayedScreen(winScreen.getStateScreenView(),menuScreen.getStateScreenView());
 							gameController.setGameState(GameState.MENU);
 							gameController.clearLevel();
-							gameController.increaseGamesPlayed();
-							gameController.increaseGamesWon();
+							gameModel.increaseGamesPlayed();
+							gameModel.increaseGamesWon();
 							menuScreen.update();
-							System.out.println(gameController.getGamesPlayed());
+//							System.out.println(gameController.getGamesPlayed());
 							audioManager.resumeBackgroundMusic();
 						}
 						default -> {
@@ -243,9 +246,9 @@ public class KeyController implements KeyListener {
 					gameController.changeDisplayedScreen(LastLevelWinScreen.getInstance().getStateScreenView(), ProfileView.getInstance());
 					gameController.setGameState(GameState.SELECT_PROFILE);
 					gameController.clearLevel();
-					gameController.increaseGamesPlayed();
-					gameController.increaseGamesWon();
-					ProfileView.getInstance().update();
+					gameModel.increaseGamesPlayed();
+					gameModel.increaseGamesWon();
+//					gameModel.update();
 					audioManager.resumeBackgroundMusic();
 				}
 			}
@@ -266,8 +269,8 @@ public class KeyController implements KeyListener {
 							gameController.changeDisplayedScreen(gameOverScreen.getStateScreenView(),GamePanel.getInstance());
 							gameController.setGameState(GameState.GAME);
 							gameController.clearLevel();
-							gameController.increaseGamesPlayed();
-							gameController.increaseGamesLost();
+							gameModel.increaseGamesPlayed();
+							gameModel.increaseGamesLost();
 							gameController.setScore(0);
 							gameController.startLevel();
 						}
@@ -275,8 +278,8 @@ public class KeyController implements KeyListener {
 							gameController.changeDisplayedScreen(gameOverScreen.getStateScreenView(),menuScreen.getStateScreenView());
 							gameController.setGameState(GameState.MENU);
 							gameController.clearLevel();
-							gameController.increaseGamesPlayed();
-							gameController.increaseGamesLost();
+							gameModel.increaseGamesPlayed();
+							gameModel.increaseGamesLost();
 							gameController.setScore(0);
 							menuScreen.update();
 							audioManager.resumeBackgroundMusic();

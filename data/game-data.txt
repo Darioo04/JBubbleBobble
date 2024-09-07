@@ -1,7 +1,7 @@
 first time playing: false
 name: beppe
-top scores: 419020 18700 14950
+top scores: 2550 1610 0
 custom tile: 0
-games played: 25
-games won: 21
-games lost: 4
+games played: 5
+games won: 3
+games lost: 2

@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import model.GameConstants;
 import model.StateScreen;
 
+@SuppressWarnings("deprecation")
+
 public class LastLevelWinScreenView extends StateScreenView {
 	private static LastLevelWinScreenView instance;
 	private long score;
@@ -36,8 +38,8 @@ public class LastLevelWinScreenView extends StateScreenView {
 	public void update(Observable o, Object arg) {
 		if (o instanceof StateScreen) {
 			StateScreen stateScreen = (StateScreen) o;
-			this.setImage(stateScreen.getScreens()[stateScreen.getPointer()]);
-	        this.repaint();
+			setImage(stateScreen.getScreens()[stateScreen.getPointer()]);
+	        repaint();
 		}
 		scoreLabel.setText(score + "");
 	}
