@@ -100,22 +100,21 @@ public class GameController {
     
     private List<Enemy> enemies;
     private List<EnemyView> enemyViews;
-    private List<Enemy> removedEnemies;
-    private List<EnemyView> removedEnemyViews;
     private List<Bubble> bubbles;
-    private List<Bubble> removedBubbles;
-    private List<BubbleView> bulletViews;
-    private List<Food> items;
+    private List<BubbleView> bubbleViews;
+    private List<Food> foods;
+    private List<FoodView> foodViews;
     private List<Food> collectedItems;
     private List<FoodView> itemViews;
-    private List<EnemyAnimationController> eControllers;
-    private List<BubbleAnimationController> bControllers;
-    private List<ObjAnimationController> objControllers;
     private List<ObjModel> objs;
     private List<ObjView> objViews;
     private List<PowerUp> powerUps;
     private List<PowerUpView> powerUpViews;
+    
     private PlayerAnimationController playerAnimationController;
+    private List<EnemyAnimationController> eControllers;
+    private List<BubbleAnimationController> bControllers;
+    private List<ObjAnimationController> objControllers;
     
     private GameState gameState;
     private MainFrame mainFrame;
@@ -225,14 +224,14 @@ public class GameController {
 				bubbles.parallelStream().forEach(Bubble::update);
 				bubbles.parallelStream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				collisionChecker.checkBubblePlayerCollision(bubbles, player);
-				bubbles.stream()
-			       .filter(Bubble::canBeDeleted)
-			       .forEach(bubble -> {
-			           removeBubble(bubble);
-			           score += 20;
-			           audioManager.play("points");
-			       });
-				deleteRemovedBubbles();
+//				bubbles.stream()
+//			       .filter(Bubble::canBeDeleted)
+//			       .forEach(bubble -> {
+//			           removeBubble(bubble);
+//			           score += 20;
+//			           audioManager.play("points");
+//			       });
+//				deleteRemovedBubbles();
 				
 //				removeExplodedBubbles();
 				
@@ -252,20 +251,21 @@ public class GameController {
 					}
 				}
 				
-				if(enemies.isEmpty() && items.isEmpty() && collectedItems.isEmpty()) {
+				if(enemies.isEmpty() && foods.isEmpty() && collectedItems.isEmpty()) {
 					spawnFood();
 				}
-				if(!items.isEmpty()) { 
-					for (Food item : items) {
-						if (collisionChecker.checkFoodPlayerCollision(item, player)) {
-							item.setHitbox(new Rectangle(0, 0, 1, 1));
-							score += item.getPoints();
-							audioManager.play("points");
-							collectedItems.add(item);
-							itemViews.remove(item.getFoodView());
-							gamePanel.remove(item.getFoodView());						}
-					}
-				}
+				foods.stream().forEach(Food::update);
+//				if(!foods.isEmpty()) { 
+//					for (Food item : foods) {
+//						if (collisionChecker.checkFoodPlayerCollision(item, player)) {
+//							item.setHitbox(new Rectangle(0, 0, 1, 1));
+//							score += item.getPoints();
+//							audioManager.play("points");
+//							collectedItems.add(item);
+//							itemViews.remove(item.getFoodView());
+//							gamePanel.remove(item.getFoodView());						}
+//					}
+//				}
 				if (collectedItems.size() == 2) {
 					if (level == 24) {
 						LastLevelWinScreenView lastLevelWinScreenView = (LastLevelWinScreenView) lastLevelWinScreen.getStateScreenView();
@@ -287,11 +287,6 @@ public class GameController {
 //						.filter(enemy -> !enemy.isDead())
 //						.collect(Collectors.toList());
 //				
-				
-//				bullets.stream()
-//					.filter(bullet -> collisionChecker.checkBubblePlayerCollision(bullet, player))
-//					.forEach(bullet -> { bullets.remove(bullet); 
-//										bulletViews.remove(bullet.getBubbleBulletView()); });
 				spawnPowerUp();
 				collisionChecker.checkPlayerEnemyCollision(player, enemies);
 				
@@ -443,13 +438,11 @@ public class GameController {
     	gamePanel.add(playerView);
     	gamePanel.setPlayer(player);
     	enemies = new CopyOnWriteArrayList<>();
-    	removedEnemies = new CopyOnWriteArrayList<>();
-    	removedEnemyViews = new ArrayList<>();
     	enemyViews = new ArrayList<>();
-    	bubbles = new ArrayList<>();
-    	removedBubbles = new ArrayList<>();
-    	bulletViews = new ArrayList<>();
-    	items = new ArrayList<>();
+    	bubbles = new CopyOnWriteArrayList<>();
+    	bubbleViews = new ArrayList<>();
+    	foods = new ArrayList<>();
+    	foodViews = new ArrayList<>();
     	itemViews = new ArrayList<>();
     	collectedItems = new ArrayList<>();
     	eControllers = new ArrayList<>();
@@ -477,7 +470,8 @@ public class GameController {
 		player.setDefaultValues();
 		gamePanel.remove(playerView);
 		enemies.clear();
-		items.clear();
+		foods.clear();
+		foodViews.stream().forEach(fView -> gamePanel.remove(fView));
 		collectedItems.clear();
 		enemyViews.stream().forEach(eView -> gamePanel.remove(eView));
 		itemViews.stream().forEach(item -> gamePanel.remove(item));
@@ -486,6 +480,7 @@ public class GameController {
 		objViews.stream().forEach(objView -> gamePanel.remove(objView));
 		objs.clear();
 		objViews.clear();
+		powerUps.parallelStream().forEach(PowerUp::removePowerUp);
 		powerUps.clear();
 		powerUpViews.stream().forEach(pView -> gamePanel.remove(pView));
 		powerUpViews.clear();
@@ -520,12 +515,6 @@ public class GameController {
     public int getLevel() {
     	return level;
     }
-    
-//    public void setDisplayedScreen(JPanel newScreen) {
-//    	mainFrame.setContentPane(newScreen);
-//        mainFrame.revalidate();
-//        mainFrame.repaint();
-//    }
     
     public void changeDisplayedScreen(JPanel oldScreen, JPanel newScreen) {
     	mainFrame.remove(oldScreen);
@@ -600,7 +589,7 @@ public class GameController {
     		randomX = new Random().nextInt(GameConstants.COLS-1)+1;
     		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
     	}
-    	Food item1 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
+    	Food food1 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
 //    	System.out.println("x: " + randomX + "   y: " + randomY);
     	
     	randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
@@ -609,21 +598,21 @@ public class GameController {
     		randomX = new Random().nextInt(GameConstants.COLS-1)+1;
     		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
     	}
-    	Food item2 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
+    	Food food2 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
 //    	System.out.println("x: " + randomX + "   y: " + randomY);
     	
-    	FoodView itemView1 = new FoodView(item1);
-    	item1.setFoodView(itemView1);
-    	FoodView itemView2 = new FoodView(item2);
-    	item2.setFoodView(itemView2);
+    	FoodView foodView1 = new FoodView(food1);
+    	FoodView foodView2 = new FoodView(food2);
+    	food1.addObserver(foodView1);
+    	food2.addObserver(foodView2);
+    	
+    	foods.add(food1);
+    	foods.add(food2);
     		
-    	items.add(item1);
-    	items.add(item2);
-    		
-    	itemViews.add(itemView1);
-    	itemViews.add(itemView2);
-    	gamePanel.add(itemView1);
-    	gamePanel.add(itemView2);
+    	foodViews.add(foodView1);
+    	foodViews.add(foodView2);
+    	gamePanel.add(foodView1);
+    	gamePanel.add(foodView2);
 //    	gamePanel.add(new JLabel());		//ce un bug per cui alcuni sprite vengono renderizazati a sinistra della mappa in un tile rendendo impossibile nel caso del food poter completare il livello, aggiungendo un jlabel vuoto si renderizza bene il food
     	//update: bug risolto, era un problema del layout del gamePanel
     }
@@ -634,7 +623,6 @@ public class GameController {
     	for(PowerUp powerUp : newPowerUps) {
         	PowerUpView powerUpView = new PowerUpView(powerUp);
         	powerUp.addObserver(powerUpView);
-        	powerUp.setPowerUpView(powerUpView);
         	powerUpViews.add(powerUpView);
         	gamePanel.add(powerUpView);
         	
@@ -651,10 +639,9 @@ public class GameController {
     	if (bubble!=null) {
     		bubbles.add(bubble);
     		BubbleView bubbleView = new BubbleView(bubble, bubble.getPath(), bubble.getNumSprites());
-    		bubble.setBubbleBulletView(bubbleView);
     		bubble.addObserver(bubbleView);
     		gamePanel.add(bubbleView);
-    		bulletViews.add(bubbleView);
+    		bubbleViews.add(bubbleView);
     		
     	}
     }
@@ -663,13 +650,11 @@ public class GameController {
     	BubbleBullet bullet = player.shot();
     	bubbles.add(bullet);
 		BubbleView bulletView = new BubbleView(bullet,bullet.getPath(),bullet.getNumSprites());
-
-		bullet.setBubbleBulletView(bulletView);
 		bullet.addObserver(bulletView);
 		gamePanel.add(bulletView);
 		
 //		System.out.println("bolla");
-    	bulletViews.add(bulletView);
+    	bubbleViews.add(bulletView);
     }
     
     public void setNickname(String nickname) {
@@ -678,21 +663,17 @@ public class GameController {
     
     public void removeBubbles() {
     	bubbles.clear();
-		bulletViews.stream().forEach(bView -> gamePanel.remove(bView));
+		bubbleViews.stream().forEach(bView -> gamePanel.remove(bView));
     }
     
-    public void removeBubble(Bubble bubble) {
-    	removedBubbles.add(bubble);
-    }
-    
-    public void deleteRemovedBubbles() {
-    	removedBubbles.parallelStream().forEach( bubble -> {
-			bubbles.remove(bubble);
-			bulletViews.remove(bubble.getBubbleBulletView());
-			gamePanel.remove(bubble.getBubbleBulletView());
-		});
-		removedBubbles.clear();
-    }
+//    public void deleteRemovedBubbles() {
+//    	removedBubbles.parallelStream().forEach( bubble -> {
+//			bubbles.remove(bubble);
+//			bubbleViews.remove(bubble.getBubbleBulletView());
+//			gamePanel.remove(bubble.getBubbleBulletView());
+//		});
+//		removedBubbles.clear();
+//    }
     
 //    
 //    public void removeDeadEnemies() {
@@ -718,6 +699,17 @@ public class GameController {
 //    	removedEnemyViews.clear();
 //    }
     
+    
+    public void removeBubble(Bubble bubble, BubbleView bView) {
+    	bubble.deleteObserver(bView);
+    	bubbles.remove(bubble);
+    	score += 20;
+        audioManager.play("points");
+        bubbleViews.remove(bView);
+        gamePanel.remove(bView);
+    	
+    }
+    
     public void removeObjects() {
     	objViews.parallelStream().forEach(oView -> gamePanel.remove(oView));
     	objs.clear();
@@ -725,11 +717,29 @@ public class GameController {
     }
     
     public void removeDeadEnemy(Enemy enemy, EnemyView eView) {
+    	enemy.deleteObserver(eView);
     	enemies.remove(enemy);
     	score+=enemy.getScoreWhenKilled();
     	audioManager.play("points");
     	enemyViews.remove(eView);
     	gamePanel.remove(eView);
+    }
+    
+    public void collectFood(Food food, FoodView fView) {
+    	food.deleteObserver(fView);
+    	food.setHitbox(new Rectangle(0, 0, 1, 1));
+		score += food.getPoints();
+		audioManager.play("points");
+    	collectedItems.add(food);
+    	foodViews.remove(fView);
+    	gamePanel.remove(fView);
+    }
+    
+    public void removePowerUp(PowerUp powerUp, PowerUpView pView) {
+    	powerUp.deleteObserver(pView);
+    	audioManager.play("points");
+    	powerUpViews.remove(pView);
+    	gamePanel.remove(pView);
     }
     
     public void addEnemyAnimationController(EnemyAnimationController eController) {
@@ -772,6 +782,10 @@ public class GameController {
     
     public long getScore() {
     	return score;
+    }
+    
+    public List<PowerUp> getPowerups() {
+    	return powerUps;
     }
     
     public void addScore(long score) {

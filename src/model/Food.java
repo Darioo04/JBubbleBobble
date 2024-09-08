@@ -3,13 +3,10 @@ package model;
 import java.awt.Rectangle;
 import java.util.Observable;
 
-import view.FoodView;
-
 @SuppressWarnings("deprecation")
 
 public class Food extends Observable{
 	private FoodType type;
-	private FoodView foodView;
 	private int points;
 	private int x;
 	private int y;
@@ -101,23 +98,11 @@ public class Food extends Observable{
     	return isCollected;
     }
 	
-	public void setFoodView(FoodView foodView) {
-        this.foodView = foodView;
-    }
-	
-	public FoodView getFoodView() {
-        return foodView;
-    }
-	
 	public void update() {
 		CollisionChecker.getInstance().checkTileCollision(this);
-		
+		CollisionChecker.getInstance().checkFoodPlayerCollision(this, Player.getInstance());
 		if (!getCollisionDown()) {
 			y+=GameConstants.OBJECT_SPEED;
-		}
-		
-		if (CollisionChecker.getInstance().checkFoodPlayerCollision(this, Player.getInstance())) {
-			isCollected = true;
 		}
 		
 		updateHitbox();

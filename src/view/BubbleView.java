@@ -20,7 +20,8 @@ import model.GameConstants;
 @SuppressWarnings("deprecation")
 
 public class BubbleView extends JLabel implements Observer {
-
+	
+	private boolean isDeleted;
 	private static final String path = "/sprites/Bubbles/bubble-";
 	private String fullPath;
 	private ImageIcon resizedIcon;
@@ -42,24 +43,10 @@ public class BubbleView extends JLabel implements Observer {
         setVisible(true);
 	}
 	
-//	public static BufferedImage getSprite(String path) {
-//		
-//	}
-	
-
-	
 	public void resizeIcon(BufferedImage originalImage) {
 		Image resizedImage = originalImage.getScaledInstance(this.getWidth(), this.getHeight(),Image.SCALE_FAST);
         resizedIcon = new ImageIcon(resizedImage);
     }
-	
-//	private void updateIcon(int size) {
-//        if (!resizedIconsCache.containsKey(size)) {
-//            Image resizedImage = defaultSprite.getScaledInstance(size, size, Image.SCALE_FAST);
-//            resizedIconsCache.put(size, new ImageIcon(resizedImage));
-//        }
-//        setIcon(resizedIconsCache.get(size));
-//    }
 	
 	private void loadDefaultSprite() {
 		defaultSprite =  floatingSprites[0];
@@ -104,6 +91,10 @@ public class BubbleView extends JLabel implements Observer {
 				defaultSprite = (BufferedImage) arg;
 				resizeIcon(defaultSprite);
 				setIcon(resizedIcon);
+			}
+			if (bubble.canBeDeleted() && !isDeleted) {
+				isDeleted = true;
+				GameController.getInstance().removeBubble(bubble, this);
 			}
 		}
 	}

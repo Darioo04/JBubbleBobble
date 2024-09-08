@@ -25,7 +25,7 @@ public abstract class GameObject extends Observable {
 		this.hitboxOffsetX = GameConstants.SCALE * 2;
 		this.hitboxOffsetY = GameConstants.SCALE * 2;
 		this.hitboxWidth = size - 2*hitboxOffsetX;
-		this.hitboxHeight = size - hitboxOffsetY;
+		this.hitboxHeight = size - 2*hitboxOffsetY;
 		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));
 	}
 	

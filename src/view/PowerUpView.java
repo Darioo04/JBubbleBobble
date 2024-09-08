@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import controller.GameController;
 import model.GameConstants;
 import model.PowerUp;
 import model.PowerUpType;
@@ -17,7 +18,8 @@ import model.PowerUpType;
 @SuppressWarnings("deprecation") 
 
 public class PowerUpView extends JLabel implements Observer {
-
+	
+	private boolean isDeleted;
 	private BufferedImage sprite;
 	private ImageIcon resizedIcon;
 	private static final String path = "/sprites/PowerUp/";
@@ -56,6 +58,10 @@ public class PowerUpView extends JLabel implements Observer {
 		if (o instanceof PowerUp) {
 			PowerUp powerUp = (PowerUp) o;
 			setBounds(powerUp.getX(), powerUp.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
+			if (powerUp.canBeDeleted() && !isDeleted) {
+				isDeleted = true;
+				GameController.getInstance().removePowerUp(powerUp, this);
+			}
 		}
 	}
 	

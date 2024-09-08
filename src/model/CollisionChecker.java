@@ -228,16 +228,16 @@ public class CollisionChecker {
 	    }
 	}
 	
-	public boolean checkFoodPlayerCollision(Food food, Player player) {
+	public void checkFoodPlayerCollision(Food food, Player player) {
 		this.levelFile = LevelCreator.getInstance().getLevel();
         Rectangle foodHitbox = food.getHitbox();
         Rectangle playerHitbox = player.getHitbox();
 
         if (foodHitbox.intersects(playerHitbox)){
         	player.increaseFoodCollected();
-        	return true;
+        	food.setCollected(true);
         }
-        return false;
+        
 	}
 	
 	public void checkBubbleEnemyCollision(Bubble bubble, List<Enemy> enemyList) {
@@ -246,40 +246,15 @@ public class CollisionChecker {
 			.filter(enemy -> !(enemy instanceof SuperDrunk) && bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemy.getHitbox()) && !bubble.isExpanded() && !enemy.isInBubble())
 			.forEach(enemy -> {
 				enemy.setInBubble(true);
-				GameController.getInstance().removeBubble(bubble);
+				bubble.setCanBeDeleted(true);
 			});
-//		for (Enemy enemy : enemyList) {
-//			Rectangle enemyHitbox = enemy.getHitbox();
-//			
-//			if ( !(enemy instanceof SuperDrunk) && bubble instanceof BubbleBullet && bubbleHitbox.intersects(enemyHitbox) && !bubble.isExpanded() && !enemy.isInBubble()) {
-//				enemy.setInBubble(true);
-//				GameController.getInstance().removeBubble(bubble);
-//			}
-//		}
 	}
-	
-//	public void checkBubbleBubbleCollision(List<Bubble> bubbles,Player player) {
-//		Rectangle playerHitbox = player.getHitbox();
-//		for (Bubble bubble : bubbles) {
-//			Rectangle bubbleHitbox = bubble.getHitbox();
-//			if (playerHitbox.intersects(bubbleHitbox)) {
-//				bubble.setExploded(true);
-//	        	bubble.setFloating(false);
-//	        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
-//				
-//			}
-//		}
-//		
-////			if (bubbleHitbox1.intersects(bubbleHitbox2)) {
-////				// crea un effetto rimbalzo tra le bolle
-////			}
-//	}
 	
 	public void checkPlayerPowerUpCollision(Player player, PowerUp powerUp) {
 		Rectangle playerHitbox = player.getHitbox();
 		Rectangle powerUpHitbox = powerUp.getHitbox();
 		
-		if (playerHitbox.intersects(powerUpHitbox)) {
+		if (playerHitbox.intersects(powerUpHitbox) && !powerUp.isInizialized()) {
 			powerUp.inizializePoweredTime();
 			powerUp.setCanBeDeleted(true);
 		}

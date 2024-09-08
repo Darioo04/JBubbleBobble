@@ -3,8 +3,6 @@ package model;
 import java.awt.Rectangle;
 import java.util.Observable;
 
-import view.BubbleView;
-
 @SuppressWarnings("deprecation")
 
 public abstract class Bubble extends Observable  {
@@ -13,7 +11,6 @@ public abstract class Bubble extends Observable  {
 	private String path;
 	private int numSprites;
 	private static CollisionChecker collisionChecker = CollisionChecker.getInstance();
-	private BubbleView bubbleBulletView;
 		
 	private int spawnX;
 	private int targetX;
@@ -230,14 +227,6 @@ public abstract class Bubble extends Observable  {
 	public boolean canBeDeleted() {
 		return canBeDeleted;
 	}
-	    
-	public BubbleView getBubbleBulletView() {
-		return bubbleBulletView;
-	}
-	    
-	public void setBubbleBulletView(BubbleView bubbleBulletView) {
-        this.bubbleBulletView = bubbleBulletView;
-    }  
 	
 	public void update() {
 //		getCollisionChecker().checkTileCollision(this);

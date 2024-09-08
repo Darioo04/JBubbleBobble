@@ -9,7 +9,7 @@ public class ObjAnimationController {
 	private ObjModel obj;
 	private BufferedImage actualSprite;
 	private BufferedImage[] idleSprites;
-	private BufferedImage[] despawnSprites;
+//	private BufferedImage[] despawnSprites;
 	
 	private ObjAnimationController(Builder builder) {
 		this.obj = builder.obj;

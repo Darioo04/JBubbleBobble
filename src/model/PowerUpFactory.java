@@ -27,54 +27,54 @@ public class PowerUpFactory {
 	public List<PowerUp> createPowerUp() {
 		List<PowerUp> powerUps = new ArrayList<>();
 		
-		if (player.getBubblesPopped()>=35) { 
+		if (player.getBubblesPopped()>=35 && checkPowerUps(PowerUpType.PINK_CANDY)) { 
 			powerUps.add( getPowerUp(PowerUpType.PINK_CANDY) );
 			player.increasePinkCandiesCollected(); 
 			player.resetBubblesPopped();
 		}
-		if (player.getBubbleBulletsPopped()>=35) { 
+		if (player.getBubbleBulletsPopped()>=35 && checkPowerUps(PowerUpType.BLUE_CANDY)) { 
 			powerUps.add( getPowerUp(PowerUpType.BLUE_CANDY) );
 			player.increaseBlueCandiesCollected(); 
 			player.resetNumBubbleBulletsPopped();
 		}
-		if (player.getNumJumps()>=35) { 
+		if (player.getNumJumps()>=35 && checkPowerUps(PowerUpType.YELLOW_CANDY)) { 
 			powerUps.add( getPowerUp(PowerUpType.YELLOW_CANDY) );
 			player.increaseYellowCandiesCollected();
 			player.resetNumJumps();
 		}
-		if (player.shoesCanSpawn()) {
+		if (player.shoesCanSpawn() && checkPowerUps(PowerUpType.SHOES)) {
 			powerUps.add( getPowerUp(PowerUpType.SHOES) );
 			player.resetShoesDistance();
 		}
-		if (player.getThunderBubblesPopped()>=12) {
+		if (player.getThunderBubblesPopped()>=12 && checkPowerUps(PowerUpType.CLOCK)) {
 			powerUps.add( getPowerUp(PowerUpType.CLOCK) );
 			player.resetThunderBubblesPopped();
 		}
-		if (player.getFireBubblesPopped()>=13) {
+		if (player.getFireBubblesPopped()>=13 && checkPowerUps(PowerUpType.DYNAMITE)) {
 			powerUps.add( getPowerUp(PowerUpType.DYNAMITE) );
 			player.resetFireBubblesPopped();
 		}
-		if (player.getFoodCollected()>=35) {
+		if (player.getFoodCollected()>=35 && checkPowerUps(PowerUpType.CHACK_HEART)) {
 			powerUps.add( getPowerUp(PowerUpType.CHACK_HEART) );
 			player.resetFoodCollected();
 		}
-		if (player.getBlueCandiesCollected()>=3) {
+		if (player.getBlueCandiesCollected()>=3 && checkPowerUps(PowerUpType.CRYSTAL_RING)) {
 			powerUps.add( getPowerUp(PowerUpType.CRYSTAL_RING) );
 			player.resetBlueCandiesCollected();
 		}
-		if (player.getYellowCandiesCollected()>=3) {
+		if (player.getYellowCandiesCollected()>=3 && checkPowerUps(PowerUpType.AMETHYST_RING)) {
 			powerUps.add( getPowerUp(PowerUpType.AMETHYST_RING) );
 			player.resetYellowCandiesCollected();
 		}
-		if (player.getPinkCandiesCollected()>=3) {
+		if (player.getPinkCandiesCollected()>=3 && checkPowerUps(PowerUpType.RUBY_RING)) {
 			powerUps.add( getPowerUp(PowerUpType.RUBY_RING) );
 			player.resetPinkCandiesCollected();
 		}
-		if (player.getFoodCollected()>=12) {
+		if (player.getFoodCollected()>=12 && checkPowerUps(PowerUpType.CROSS_OF_THUNDER)) {
 			powerUps.add( getPowerUp(PowerUpType.CROSS_OF_THUNDER) );
 			player.resetFoodCollected();
 		}
-		if (blueLampCanSpawn && GameController.getInstance().getLevel()%5==0) {
+		if (blueLampCanSpawn && GameController.getInstance().getLevel()%5==0 && checkPowerUps(PowerUpType.BLUE_LAMP)) {
 			powerUps.add( getPowerUp(PowerUpType.BLUE_LAMP) );
 			blueLampCanSpawn = false;
 		}
@@ -108,5 +108,10 @@ public class PowerUpFactory {
 		x = xPoints.get(point);
 		y = yPoints.get(point);
 //		System.out.println(x + " " + y);
+	}
+	
+	private boolean checkPowerUps(PowerUpType type) {
+		List<PowerUp> powerUps = GameController.getInstance().getPowerups();
+		return powerUps.stream().map(powerUp -> powerUp.getType()).filter(powerUpType -> powerUpType == type).count()==0;
 	}
 }
