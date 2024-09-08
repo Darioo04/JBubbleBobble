@@ -6,6 +6,8 @@ public class Fire extends ObjModel {
 	
 	public Fire(int x, int y) {
 		super(x,y);
+		setPath("/sprites/Obj/fire-");
+		setNumSprites(3);
 	}
 	
 	public void update() {

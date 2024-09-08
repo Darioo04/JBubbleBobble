@@ -28,73 +28,68 @@ public class PowerUpFactory {
 		List<PowerUp> powerUps = new ArrayList<>();
 		
 		if (player.getBubblesPopped()>=35) { 
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.PINK_CANDY, x, y)); 
+			powerUps.add( getPowerUp(PowerUpType.PINK_CANDY) );
 			player.increasePinkCandiesCollected(); 
 			player.resetBubblesPopped();
 		}
 		if (player.getBubbleBulletsPopped()>=35) { 
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.BLUE_CANDY, x, y)); 
+			powerUps.add( getPowerUp(PowerUpType.BLUE_CANDY) );
 			player.increaseBlueCandiesCollected(); 
 			player.resetNumBubbleBulletsPopped();
 		}
 		if (player.getNumJumps()>=35) { 
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.YELLOW_CANDY, x, y));
+			powerUps.add( getPowerUp(PowerUpType.YELLOW_CANDY) );
 			player.increaseYellowCandiesCollected();
 			player.resetNumJumps();
 		}
 		if (player.shoesCanSpawn()) {
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.SHOES, x, y));
+			powerUps.add( getPowerUp(PowerUpType.SHOES) );
 			player.resetShoesDistance();
 		}
 		if (player.getThunderBubblesPopped()>=12) {
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.CLOCK, x, y));
+			powerUps.add( getPowerUp(PowerUpType.CLOCK) );
 			player.resetThunderBubblesPopped();
 		}
 		if (player.getFireBubblesPopped()>=13) {
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.DYNAMITE, x, y));
+			powerUps.add( getPowerUp(PowerUpType.DYNAMITE) );
 			player.resetFireBubblesPopped();
 		}
 		if (player.getFoodCollected()>=35) {
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.CHACK_HEART, x, y));
+			powerUps.add( getPowerUp(PowerUpType.CHACK_HEART) );
 			player.resetFoodCollected();
 		}
 		if (player.getBlueCandiesCollected()>=3) {
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.CRYSTAL_RING, x, y));
+			powerUps.add( getPowerUp(PowerUpType.CRYSTAL_RING) );
 			player.resetBlueCandiesCollected();
 		}
 		if (player.getYellowCandiesCollected()>=3) {
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.AMETHYST_RING, x, y));
+			powerUps.add( getPowerUp(PowerUpType.AMETHYST_RING) );
 			player.resetYellowCandiesCollected();
 		}
 		if (player.getPinkCandiesCollected()>=3) {
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.RUBY_RING, x, y));
+			powerUps.add( getPowerUp(PowerUpType.RUBY_RING) );
 			player.resetPinkCandiesCollected();
 		}
 		if (player.getFoodCollected()>=12) {
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.CROSS_OF_THUNDER, x, y));
+			powerUps.add( getPowerUp(PowerUpType.CROSS_OF_THUNDER) );
 			player.resetFoodCollected();
 		}
 		if (blueLampCanSpawn && GameController.getInstance().getLevel()%5==0) {
+			powerUps.add( getPowerUp(PowerUpType.BLUE_LAMP) );
 			blueLampCanSpawn = false;
-			getSpawnPoint();
-			powerUps.add(new PowerUp(PowerUpType.BLUE_LAMP, x, y));
 		}
 		if (GameController.getInstance().getLevel()%5!=0) {
 			blueLampCanSpawn = true;
 		}
 	
 		return powerUps;
+	}
+	
+	private PowerUp getPowerUp(PowerUpType type) {
+		getSpawnPoint();
+		x = x * GameConstants.TILE_SIZE + GameConstants.SCALE;
+		y = y * GameConstants.TILE_SIZE + GameConstants.SCALE;
+		return new PowerUp(type, x, y);
 	}
 	
 	public void getSpawnPoint() {

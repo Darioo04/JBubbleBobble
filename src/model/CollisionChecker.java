@@ -191,7 +191,7 @@ public class CollisionChecker {
         	Rectangle bubbleHitbox = bubble.getHitbox();
         	int leftX = bubbleHitbox.x;
     		int rightX = leftX + bubbleHitbox.width;
-	        if (bubbleHitbox.intersects(playerHitbox)){
+	        if (bubbleHitbox.intersects(playerHitbox) && !bubble.isExploded()){
 	        	bubble.setExploded(true);
 	        	bubble.setFloating(false);
 	        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));

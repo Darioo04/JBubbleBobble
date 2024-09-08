@@ -6,8 +6,18 @@ import java.util.Random;
 
 public class ExtendBubble extends Bubble {
 //donano una vita extra se viene composta la parola "EXTENDS"
-	private int numLetter;
-	private static List<Integer> letters = new ArrayList<>();
+	
+	private enum NumLetter{
+		FIRST,
+		SECOND,
+		THIRD,
+		FOURTH,
+		FIFTH,
+		SIXTH
+	}
+	
+	private NumLetter numLetter;
+	private static List<NumLetter> letters = new ArrayList<>();
 	
 	public ExtendBubble(int x,int y) {
 		super(x,y);
@@ -20,8 +30,8 @@ public class ExtendBubble extends Bubble {
 	}
 	
 	private void createLetterArray() {
-		for (int i=1; i<=6; i++) {
-			letters.add(i);
+		for (NumLetter nl : NumLetter.values()) {
+			letters.add(nl);
 		}
 	}
 	
@@ -31,7 +41,7 @@ public class ExtendBubble extends Bubble {
 	}
 	
 	public void deleteLetter() {
-		if (letters.get(numLetter)!=null) letters.remove(numLetter);
+		if (letters.contains(numLetter)) letters.remove(numLetter);
 		if (letters.size()==0) {
 			createLetterArray();
 			Player.getInstance().increaseLives();

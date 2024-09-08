@@ -27,6 +27,8 @@ public class Water extends ObjModel {
 		hitboxOffsetX = 0;
 		hitboxOffsetY = 0;
 		hitbox = new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight);
+		setPath("water-");
+		setNumSprites(4);
 	}
 	
 	public void update() {

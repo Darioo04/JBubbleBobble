@@ -9,6 +9,7 @@ public class Thunder extends ObjModel {
 	public Thunder(int x, int y, Direction direction) {
 		super(x, y);
 		this.direction = direction;
+		setPath("/sprites/Obj/thunder-");
 		setNumSprites(3);
 	}
 	
