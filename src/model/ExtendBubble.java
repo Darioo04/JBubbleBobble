@@ -8,12 +8,18 @@ public class ExtendBubble extends Bubble {
 //donano una vita extra se viene composta la parola "EXTENDS"
 	
 	private enum NumLetter{
-		FIRST,
-		SECOND,
-		THIRD,
-		FOURTH,
-		FIFTH,
-		SIXTH
+		FIRST(1),
+		SECOND(2),
+		THIRD(3),
+		FOURTH(4),
+		FIFTH(5),
+		SIXTH(6);
+		
+		int position;
+		
+		NumLetter(int position) {
+			this.position = position;
+		}
 	}
 	
 	private NumLetter numLetter;
@@ -26,7 +32,7 @@ public class ExtendBubble extends Bubble {
 		if (letters.size()==0) createLetterArray();
 		getRandomLetter();
 		setNumSprites(1);
-		setPath("extend"+numLetter+"-");
+		setPath("extend"+numLetter.position+"-");
 	}
 	
 	private void createLetterArray() {

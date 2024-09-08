@@ -19,6 +19,7 @@ import model.ObjModel;
 
 public class ObjView extends JLabel implements Observer {
 	
+	private boolean isDeleted;
 	private ObjModel obj;
 	private BufferedImage actualSprite;
 	private BufferedImage[] idleSprites;
@@ -74,12 +75,15 @@ public class ObjView extends JLabel implements Observer {
 	public void update(Observable o,Object arg) {
 		if (o instanceof ObjModel) {
 			ObjModel om = (ObjModel) o;
+			setBounds(om.getX(), om.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
 			if (arg instanceof BufferedImage) {
 				actualSprite = (BufferedImage) arg;
 				resizeIcon(actualSprite);
 				setIcon(resizedIcon);
 			}
-			setBounds(om.getX(), om.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
+			if (om.canBeDeleted() && !isDeleted) {
+				GameController.getInstance().removeObject(om, this);
+			}
 		}
 		
 	}

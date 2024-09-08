@@ -445,13 +445,14 @@ public class GameController {
     	foodViews = new ArrayList<>();
     	itemViews = new ArrayList<>();
     	collectedItems = new ArrayList<>();
-    	eControllers = new ArrayList<>();
-    	bControllers = new ArrayList<>();
-    	objControllers = new ArrayList<>();
-    	objs = new ArrayList<>();
+    	objs = new CopyOnWriteArrayList<>();
     	objViews = new ArrayList<>();
     	powerUps = new ArrayList<>();
     	powerUpViews = new ArrayList<>();
+    	eControllers = new ArrayList<>();
+    	bControllers = new ArrayList<>();
+    	objControllers = new ArrayList<>();
+    	
     	player.spawnPlayer();
     	spawnEnemies();
     	spawnSpecialBubbles();
@@ -624,10 +625,7 @@ public class GameController {
         	PowerUpView powerUpView = new PowerUpView(powerUp);
         	powerUp.addObserver(powerUpView);
         	powerUpViews.add(powerUpView);
-        	gamePanel.add(powerUpView);
-        	
-        	
-        	
+        	gamePanel.add(powerUpView);	
     	}
         powerUps.addAll(newPowerUps);
     	
@@ -714,6 +712,13 @@ public class GameController {
     	objViews.parallelStream().forEach(oView -> gamePanel.remove(oView));
     	objs.clear();
     	objViews.clear();
+    }
+    
+    public void removeObject(ObjModel obj, ObjView oView) {
+    	obj.deleteObservers();
+    	objs.remove(obj);
+    	objViews.remove(oView);
+    	gamePanel.remove(oView);
     }
     
     public void removeDeadEnemy(Enemy enemy, EnemyView eView) {
