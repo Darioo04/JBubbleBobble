@@ -25,7 +25,6 @@ public abstract class Entity extends Observable {
 	protected char[][] levelFile;
 	
 	protected int deathCounter;
-	protected final int DEATH_DELAY = 30;
 	
 	protected Rectangle hitbox;
 	protected int hitboxWidth;

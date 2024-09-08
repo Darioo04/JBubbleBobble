@@ -13,7 +13,8 @@ public class Invader extends Enemy {
 		super(x, y);
 		this.setPath("/sprites/invader/");
 		this.setDirection(Direction.RIGHT);
-		shootingCounter = 1;
+		shootingCounter = 0;
+		scoreWhenKilled = 400;
 		setMoving(false);
 		setSpeed(6);
 		setNumIdleSprites(2);
@@ -35,7 +36,7 @@ public class Invader extends Enemy {
 	public void update() {
 		super.update();
 		collisionChecker.checkTileCollision(this);
-		if (!isDead() && !isInBubble() && !isFrozen() && !getBubbleExploded()) {
+		if (!isDead() && !isInBubble() && !isFrozen()) {
 			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
 	            randomizeDirection();
 	        }
@@ -62,19 +63,15 @@ public class Invader extends Enemy {
 				default ->{}
 			}
 			shootingCounter++;
-			if (shootingCounter >= SHOOTING_DELAY && !isDead() && !isInBubble()) { //l'invader spara ogni 1,5 secondi
+			if (shootingCounter >= SHOOTING_DELAY && !isDead() && !isInBubble() && !getBubbleExploded()) { //l'invader spara ogni 1,5 secondi
 				GameController.getInstance().addObj( new Laser(getX(),getY()+10) );
-				shootingCounter = 1;
+				shootingCounter = 0;
 			}
 		}
 		updateHitbox();
 		setChanged();
         notifyObservers();
 	}
-	
-//	private boolean isPlayerBelow() {
-//		return player.getY()>getY() && player.getX()==getX();
-//	}
 	
 	private void randomizeDirection() {
         setDirection((Math.random()<=0.5) ? Direction.LEFT : Direction.RIGHT);

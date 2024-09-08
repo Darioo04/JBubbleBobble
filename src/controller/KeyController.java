@@ -78,9 +78,6 @@ public class KeyController implements KeyListener {
 					menuScreen.increasePointer();
 					audioManager.play("scroll");
 				}
-				if (key == KeyEvent.VK_ESCAPE) {
-					System.exit(key);
-				}
 				if (key == KeyEvent.VK_ENTER) {
 					audioManager.play("click");
 					switch (menuScreen.getPointer()) {

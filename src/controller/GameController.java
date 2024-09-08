@@ -139,7 +139,7 @@ public class GameController {
     	score = 0;
     	if (gameModel.getFirstTimePlaying()) {
     		playerName = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:", "Benvenuto", JOptionPane.PLAIN_MESSAGE);
-    		if (playerName == null) {System.exit(0);}
+    		if (playerName == null) System.exit(0);
     		while (playerName.trim().isEmpty()) {
     			JOptionPane.showMessageDialog(null, "Nome non valido. Riprova.");
                 playerName = JOptionPane.showInputDialog(null, "Inserisci il tuo nome:", "Benvenuto", JOptionPane.PLAIN_MESSAGE);
@@ -166,9 +166,11 @@ public class GameController {
         gameOverScreen = GameOverScreen.getInstance();
         winScreen = WinScreen.getInstance();
         lastLevelWinScreen = LastLevelWinScreen.getInstance();
+        
         keyController = KeyController.getInstance();
         audioManager = AudioManager.getInstance();
         collisionChecker = CollisionChecker.getInstance();
+        
         mainFrame.add(menuScreenView);
         menuScreenView.addKeyListener(keyController);
         menuScreenView.setIsThereKeyController(true);
@@ -188,7 +190,6 @@ public class GameController {
 					frames++;
                     if(frames % 5 == 0) {
                     	updateAnimation();
-//                        enemyViews.stream().forEach( eView -> eView.getEnemyAnimationController().updateAnimation(animationCycle));
                         animationCycle++;
                     }
                     if (animationCycle == 3) animationCycle = 0;
@@ -220,7 +221,7 @@ public class GameController {
 			case GAME -> {
 				player.update();
 				enemies.parallelStream().forEach(Enemy::update);
-				removeDeadEnemies();
+//				removeDeadEnemies();
 				bubbles.parallelStream().forEach(Bubble::update);
 				bubbles.parallelStream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				collisionChecker.checkBubblePlayerCollision(bubbles, player);
@@ -233,9 +234,6 @@ public class GameController {
 			       });
 				deleteRemovedBubbles();
 				
-//				bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
-//				bullets.stream().forEach(bubble -> collisionChecker.checkBubblePlayerCollision(bubble, player));
-//				bullets.stream().forEach(Bubble::update);
 //				removeExplodedBubbles();
 				
 				objs.parallelStream().forEach(ObjModel::update);
@@ -395,7 +393,7 @@ public class GameController {
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))){
 			writer.write("first time playing: " + firstTimePlaying + "\n");
-			writer.write("name: " + playerName + "\n");
+			writer.write("name: " + gameModel.getPlayerName() + "\n");
 			if(score > topScores[0]) {
 				topScores[2] = topScores[1];
                 topScores[1] = topScores[0];
@@ -410,9 +408,9 @@ public class GameController {
             }
 			writer.write("top scores: " + topScores[0] + " " + topScores[1] + " " + topScores[2] + "\n");
 			writer.write("custom tile: " + LevelEditorView.getInstance().getTileNum() + "\n");
-			writer.write("games played: " + gamesPlayed + "\n");
-			writer.write("games won: " + gamesWon + "\n");
-			writer.write("games lost: " + gamesLost + "\n");
+			writer.write("games played: " + gameModel.getGamesPlayed() + "\n");
+			writer.write("games won: " + gameModel.getGamesWon() + "\n");
+			writer.write("games lost: " + gameModel.getGamesLost() + "\n");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -569,7 +567,6 @@ public class GameController {
     			Enemy enemy = enemyFactory.createEnemy(levelFile[i][j], i, j);
                 if (enemy!=null) {
                 	EnemyView enemyView = new EnemyView(enemy, enemy.getNumIdleSprites(),enemy.getNumRunningSprites(),enemy.getNumJumpingSprites(), enemy.getNumFallingSprites());
-    				enemy.setEnemyView(enemyView);
                 	enemy.addObserver(enemyView);
     				gamePanel.add(enemyView);
     				enemies.add(enemy);
@@ -697,18 +694,29 @@ public class GameController {
 		removedBubbles.clear();
     }
     
-    
-    public void removeDeadEnemies() {
-    	for (Enemy e : enemies.stream().filter(Enemy::isDead).collect(Collectors.toList())) {
-    		if (e.getCanBeDeleted()) {
-    			score += e.getScoreWhenKilled();
-    			audioManager.play("points");
-    			enemies.remove(e);
-    			enemyViews.remove(e.getEnemyView());
-    			gamePanel.remove(e.getEnemyView());
-    		}
-    	}
-    }
+//    
+//    public void removeDeadEnemies() {
+////    	for (Enemy e : enemies.stream().filter(Enemy::isDead).collect(Collectors.toList())) {
+////    		if (e.getCanBeDeleted()) {
+////    			score += e.getScoreWhenKilled();
+////    			audioManager.play("points");
+////    			enemies.remove(e);
+////    			enemyViews.remove(e.getEnemyView());
+////    			gamePanel.remove(e.getEnemyView());
+////    		}
+////    	}
+//    	for (Enemy e : removedEnemies) {
+//    		enemies.remove(e);
+//    		score+=e.getScoreWhenKilled();
+//    		audioManager.play("points");
+//    	}
+//    	for (EnemyView eView : removedEnemyViews) {
+//    		enemyViews.remove(eView);
+//    		gamePanel.remove(eView);
+//    	}
+//    	removedEnemies.clear();
+//    	removedEnemyViews.clear();
+//    }
     
     public void removeObjects() {
     	objViews.parallelStream().forEach(oView -> gamePanel.remove(oView));
@@ -716,13 +724,14 @@ public class GameController {
     	objViews.clear();
     }
     
-//    public void removeDeadEnemy(Enemy enemy, EnemyView eView) {
-//		score += enemy.getScoreWhenKilled();
-//    	enemies.remove(enemy);
-//    	enemyViews.remove(eView);
-//    	gamePanel.remove(eView);
-//    }
-//    
+    public void removeDeadEnemy(Enemy enemy, EnemyView eView) {
+    	enemies.remove(enemy);
+    	score+=enemy.getScoreWhenKilled();
+    	audioManager.play("points");
+    	enemyViews.remove(eView);
+    	gamePanel.remove(eView);
+    }
+    
     public void addEnemyAnimationController(EnemyAnimationController eController) {
     	eControllers.add(eController);
     }

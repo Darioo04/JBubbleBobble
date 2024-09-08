@@ -1,10 +1,6 @@
 package model;
 
 import java.awt.Rectangle;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import view.EnemyView;
 
 @SuppressWarnings("deprecation")
 
@@ -16,13 +12,13 @@ public abstract class Enemy extends Entity {
 	private boolean isJumping;
 	private boolean isChasingPlayer = false;
 	private boolean bubbleExploded;
-	private EnemyView enemyView;
 	private boolean canBeDeleted;
 	private boolean isFrozen;
 	protected int scoreWhenKilled;
 	
 	private int rebornCounter;
-	private final int REBORN_DELAY = 600;
+	protected static final int DEATH_DELAY = 15;
+	private static final int REBORN_DELAY = 600;
 	
 	public Enemy(int x, int y) {
 		this.x = x;
@@ -83,14 +79,6 @@ public abstract class Enemy extends Entity {
 	public boolean isFrozen() {
 		return isFrozen;
 	}
-	
-	public EnemyView getEnemyView() {
-        return enemyView;
-    }
-	
-	public void setEnemyView(EnemyView enemyView) {
-        this.enemyView = enemyView;
-    }
 	
 	public void setCanBeDeleted(boolean canBeDeleted) {
         this.canBeDeleted = canBeDeleted;

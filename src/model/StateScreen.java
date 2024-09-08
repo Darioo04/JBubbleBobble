@@ -12,7 +12,7 @@ import view.StateScreenView;
 
 public abstract class StateScreen extends Observable {
 	private int numOptions;
-	private static  String sourceFolder = "/screens/";
+	private String sourceFolder = "/screens/";
 	private String fileName;
 	private StateScreenView stateScreenView;
 	private Image[] screens;

@@ -16,6 +16,7 @@ import model.SuperDrunk;
 
 public class EnemyView extends EntityView {
 	
+	private boolean isDeleted;
 	private BufferedImage[] idleSprites;
 	private BufferedImage[] runningSprites;
 	private BufferedImage[] jumpingSprites;
@@ -115,8 +116,9 @@ public class EnemyView extends EntityView {
 				resizeIcon(actualSprite);
 				setIcon(resizedIcon);
 			}
-			if (enemy.getCanBeDeleted()) {
-//				GameController.getInstance().removeDeadEnemy(enemy,this);
+			if (enemy.getCanBeDeleted() && !isDeleted) {
+				isDeleted = true;
+				GameController.getInstance().removeDeadEnemy(enemy,this);
 			}
 		}
 		

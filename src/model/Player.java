@@ -20,6 +20,7 @@ public class Player extends Entity {
 	private int speed;
 	private int lives;
 	private boolean lostLife = false;
+	private final int DEATH_DELAY = 30;
 	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
 	private boolean crystalRingPower;
