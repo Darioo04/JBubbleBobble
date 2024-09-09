@@ -29,7 +29,7 @@ public class ZenChan extends Enemy {
 		super.update();
 		setDirectionToGo();
 		setEnemyCollision();
-		if (hitbox.y + hitboxHeight - 1 >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) collisionDown = true;
+		if (hitbox.y + hitboxHeight - 1 >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE/3) y = GameConstants.TILE_SIZE;
 //		if (!isDead() && !isFrozen()) {	
 //			if (isChasingPlayer()) {
 //				if(Math.abs(targetY - y) <= 9) {

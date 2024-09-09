@@ -211,7 +211,7 @@ public class CollisionChecker {
 	        		((ExtendBubble) bubble).deleteLetter(); 
 	        	}
 	        	else if (bubble instanceof WaterBubble) {
-	        		GameController.getInstance().addObj(new Water(bubble.getX(), bubble.getY()));
+	        		GameController.getInstance().createWaterfall(bubble.getX(), bubble.getY(), bubble.getX() < GameConstants.SCREEN_WIDTH ? Direction.RIGHT : Direction.LEFT);
 	        	}
 	        }     
         }
@@ -258,6 +258,27 @@ public class CollisionChecker {
 			powerUp.inizializePoweredTime();
 			powerUp.setCanBeDeleted(true);
 		}
+	}
+	
+	public void checkEntityWaterCollision(Entity e, List<Water> water) {
+		Rectangle entityHitbox = e.getHitbox();
+		if (e instanceof Enemy) {
+			for (Water particleWater : water) {
+				Rectangle waterHitbox = particleWater.getHitbox();
+				if (entityHitbox.intersects(waterHitbox)) {
+					e.setDead(true);
+				}
+			}
+		} //else if (e instanceof Player) {
+//			for (Water particleWater : water) {
+//                Rectangle waterHitbox = particleWater.getHitbox();
+//                if (entityHitbox.intersects(waterHitbox)) {
+//                    e.setX(particleWater.getX());
+//                    e.setY(particleWater.getY() - GameConstants.PLAYER_SIZE/2);
+//                    e.update();
+//                }
+//            }
+//		}
 	}
 	
 //	public void checkTileCollisionUp(Enemy enemy) {

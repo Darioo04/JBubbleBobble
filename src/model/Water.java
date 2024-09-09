@@ -3,6 +3,7 @@ package model;
 import java.awt.Rectangle;
 import java.util.Observable;
 
+import view.ObjView;
 import view.WaterView;
 
 @SuppressWarnings("deprecation")
@@ -14,14 +15,16 @@ public class Water extends ObjModel {
 	private int hitboxHeight;
 	private int hitboxOffsetX;
 	private int hitboxOffsetY;
+	private Direction direction;
 	protected boolean collisionDown;
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
 	
-	private WaterView waterView;
+	private ObjView waterView;
 	
-	public Water (int x, int y) {
+	public Water (int x, int y, Direction direction) {
 		super(x, y);
+		this.direction = direction;
 		hitboxWidth = GameConstants.WATER_SIZE;
 		hitboxHeight = GameConstants.WATER_SIZE;
 		hitboxOffsetX = 0;
@@ -34,10 +37,6 @@ public class Water extends ObjModel {
 	public void update() {
 		setChanged();
 		notifyObservers();
-	}
-	
-	public void createWaterfall() {
-		//metodo che crea la cascata
 	}
 	
 	public Rectangle getHitbox() {
@@ -125,12 +124,20 @@ public class Water extends ObjModel {
         this.collisionRight = collisionRight;
     }
     
-    public void setWaterView(WaterView waterView) {
+    public void setWaterView(ObjView waterView) {
         this.waterView = waterView;
         addObserver(waterView);
     }
     
-    public WaterView getWaterView() {
+    public ObjView getWaterView() {
     	return waterView;
+    }
+    
+    public Direction getDirection() {
+        return direction;
+    }
+    
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 }

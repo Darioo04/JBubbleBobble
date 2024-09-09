@@ -46,6 +46,8 @@ public class PowerUp extends Observable {
 				removePowerUp();
 			}
 		}
+		setChanged();
+		notifyObservers();
 		
 	}
 	
@@ -175,11 +177,6 @@ public class PowerUp extends Observable {
 	}
 	public void setY(int y) {
 		this.y = y;
-	}
-	
-	public void update(Object arg) {
-		setChanged();
-		notifyObservers(arg);
 	}
 	
 	public Rectangle getHitbox() {

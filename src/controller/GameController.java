@@ -21,6 +21,7 @@ import model.Bubble;
 import model.BubbleBullet;
 import model.BubbleFactory;
 import model.CollisionChecker;
+import model.Direction;
 import model.Enemy;
 import model.EnemyFactory;
 import model.GameConstants;
@@ -42,6 +43,7 @@ import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import model.SuperDrunk;
+import model.Water;
 import model.WinScreen;
 import view.BubbleView;
 import view.EnemyView;
@@ -58,6 +60,7 @@ import view.ProfileView;
 import view.SelectLevelView;
 import view.StateScreenView;
 import view.StatusBar;
+import view.WaterView;
 import view.WinScreenView;
 import view.FoodView;
 import view.GameOverView;
@@ -97,6 +100,7 @@ public class GameController {
     private int gamesPlayed;
 	private int gamesWon;
 	private int gamesLost;
+	private boolean waterfallCreating;
     
     private List<Enemy> enemies;
     private List<EnemyView> enemyViews;
@@ -110,6 +114,8 @@ public class GameController {
     private List<ObjView> objViews;
     private List<PowerUp> powerUps;
     private List<PowerUpView> powerUpViews;
+    private List<Water> waterParticles;
+    private List<ObjView> waterParticleViews;
     
     private PlayerAnimationController playerAnimationController;
     private List<EnemyAnimationController> eControllers;
@@ -235,6 +241,14 @@ public class GameController {
 				
 //				removeExplodedBubbles();
 				
+				if (waterfallCreating && frames % 5 == 0) {
+					createWaterParticle(waterParticles.getLast().getX(), waterParticles.getLast().getY(), waterParticles.getLast().getDirection());
+					if (waterParticles.getLast().getY() + GameConstants.WATER_SIZE >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+						deleteWaterfall();
+					}
+				}
+				enemies.stream().forEach(e -> collisionChecker.checkEntityWaterCollision(e, waterParticles));
+				waterParticles.parallelStream().forEach(Water::update);
 				objs.parallelStream().forEach(ObjModel::update);
 				powerUps.parallelStream().forEach(PowerUp::update);
 				if (level == 24) {
@@ -452,6 +466,9 @@ public class GameController {
     	eControllers = new ArrayList<>();
     	bControllers = new ArrayList<>();
     	objControllers = new ArrayList<>();
+    	waterParticles = new ArrayList<>();
+    	waterParticleViews = new ArrayList<>();
+    	waterfallCreating = false;
     	
     	player.spawnPlayer();
     	spawnEnemies();
@@ -627,9 +644,7 @@ public class GameController {
         	powerUpViews.add(powerUpView);
         	gamePanel.add(powerUpView);	
     	}
-        powerUps.addAll(newPowerUps);
-    	
-    	
+        powerUps.addAll(newPowerUps);	
     }
     
     public void spawnSpecialBubbles() {
@@ -767,6 +782,44 @@ public class GameController {
     	gamePanel.add(objView);
     	objViews.add(objView);
     	
+    }
+    
+    public void createWaterfall(int x, int y, Direction direction) {
+    	waterfallCreating = true;
+    	Water waterPartcile = new Water(x, y, direction);
+    	waterParticles.add(waterPartcile);
+    	ObjView waterView = new ObjView(waterPartcile);
+    	waterPartcile.setWaterView(waterView);
+    	waterParticleViews.add(waterView);
+    }
+    
+    public void createWaterParticle(int x, int y, Direction direction) {
+    	char[][] levelFile = LevelCreator.getInstance().getLevel();
+    	if (levelFile[(y+GameConstants.WATER_SIZE)/GameConstants.TILE_SIZE][x/GameConstants.TILE_SIZE] == '1') {
+    		if(direction == Direction.RIGHT) {
+        		x += GameConstants.WATER_SIZE;
+        	}
+        	else {
+        		x -= GameConstants.WATER_SIZE;
+        	}
+    		if (levelFile[y/GameConstants.TILE_SIZE][x/GameConstants.TILE_SIZE] == '1') deleteWaterfall();
+    	}else {
+    		y += GameConstants.WATER_SIZE;
+    	}
+    	Water waterPartcile = new Water(x, y, direction);
+    	waterParticles.add(waterPartcile);
+    	ObjView waterView = new ObjView(waterPartcile);
+    	waterPartcile.setWaterView(waterView);
+    	waterParticleViews.add(waterView);
+    }
+    
+    public void deleteWaterfall() {
+    	waterfallCreating = false;
+    	for (Water w : waterParticles) {
+            gamePanel.remove(w.getWaterView());
+    	}
+        waterParticles.clear();
+        waterParticleViews.clear();
     }
     
     public void freezeEnemies() {
