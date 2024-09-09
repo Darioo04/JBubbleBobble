@@ -10,6 +10,8 @@ import controller.LevelCreator;
 public class BubbleFactory {
 	
 	private static BubbleFactory instance;
+	private int spawnCounter = 540;
+	private final int SPAWN_DELAY = 540;
 	private char[][] level;
 	private int spawnX, spawnY;
 	
@@ -22,7 +24,16 @@ public class BubbleFactory {
 		
 	}
 	
-	public Bubble createBubble() { //chiami il riferimento BubbleFactory::createBubble
+	public Bubble createBubble() { 
+		spawnCounter++;
+		if (spawnCounter>=SPAWN_DELAY) { //la bolla viene creata ogni 10 secondi
+			spawnCounter=0;
+			return getBubble();
+		}
+		return null;
+	}
+	
+	public Bubble getBubble() {
 		if (GameController.getInstance().getLevel()==24) {
 			getFinalLevelSpawnBubbles();
 			spawnX = spawnX * GameConstants.TILE_SIZE + GameConstants.SCALE;
@@ -45,7 +56,6 @@ public class BubbleFactory {
 		}
 		return null;
 	}
-	
 	
 	private void getFinalLevelSpawnBubbles() {
 		List<Integer> xPoints = new ArrayList<>();
@@ -72,5 +82,4 @@ public class BubbleFactory {
     	spawnX = (xPoints.size()!=0) ? xPoints.get( new Random().nextInt(0,xPoints.size())) : -1;
 //    	System.out.println(spawnX);
     }
-
 }

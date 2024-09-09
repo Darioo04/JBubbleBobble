@@ -226,20 +226,10 @@ public class GameController {
 			case GAME -> {
 				player.update();
 				enemies.parallelStream().forEach(Enemy::update);
-//				removeDeadEnemies();
 				bubbles.parallelStream().forEach(Bubble::update);
 				bubbles.parallelStream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				collisionChecker.checkBubblePlayerCollision(bubbles, player);
-//				bubbles.stream()
-//			       .filter(Bubble::canBeDeleted)
-//			       .forEach(bubble -> {
-//			           removeBubble(bubble);
-//			           score += 20;
-//			           audioManager.play("points");
-//			       });
-//				deleteRemovedBubbles();
-				
-//				removeExplodedBubbles();
+		    	spawnSpecialBubbles();
 				
 				if (waterfallCreating && frames % 5 == 0) {
 					int index = waterParticles.size() - 1;
@@ -269,18 +259,8 @@ public class GameController {
 				if(enemies.isEmpty() && foods.isEmpty() && collectedItems.isEmpty()) {
 					spawnFood();
 				}
+				
 				foods.stream().forEach(Food::update);
-//				if(!foods.isEmpty()) { 
-//					for (Food item : foods) {
-//						if (collisionChecker.checkFoodPlayerCollision(item, player)) {
-//							item.setHitbox(new Rectangle(0, 0, 1, 1));
-//							score += item.getPoints();
-//							audioManager.play("points");
-//							collectedItems.add(item);
-//							itemViews.remove(item.getFoodView());
-//							gamePanel.remove(item.getFoodView());						}
-//					}
-//				}
 				if (collectedItems.size() == 2) {
 					if (level == 24) {
 						LastLevelWinScreenView lastLevelWinScreenView = (LastLevelWinScreenView) lastLevelWinScreen.getStateScreenView();
@@ -294,25 +274,13 @@ public class GameController {
 	                    setGameState(GameState.WIN);
 	                    winScreen.update();
 					}
-				}
-//				enemies.stream().forEach( enemy -> {
-//					bullets.stream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
-//				});
-//				enemies = enemies.stream()
-//						.filter(enemy -> !enemy.isDead())
-//						.collect(Collectors.toList());
-//				
+				}		
 				spawnPowerUp();
 				collisionChecker.checkPlayerEnemyCollision(player, enemies);
 				
 				if (player.getLostLife() && !player.isDead()) {	//se perde una vita respawno il player
 					resetLevel();
 				}
-//				else if (player.isDead()) {
-//					changeDisplayedScreen(gamePanel,gameOverScreen.getStateScreenView());
-//					setGameState(GameState.GAME_OVER);
-//					gameOverScreen.update();
-//				}
 			}
 			
             case PAUSE -> {
@@ -474,7 +442,6 @@ public class GameController {
     	
     	player.spawnPlayer();
     	spawnEnemies();
-    	spawnSpecialBubbles();
     	gamePanel.setFocusable(true);
     	gamePanel.grabFocus();
     	
