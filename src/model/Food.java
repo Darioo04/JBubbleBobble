@@ -101,8 +101,11 @@ public class Food extends Observable{
 	public void update() {
 		CollisionChecker.getInstance().checkTileCollision(this);
 		CollisionChecker.getInstance().checkFoodPlayerCollision(this, Player.getInstance());
-		if (!getCollisionDown()) {
+		if (!getCollisionDown() && y<GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
 			y+=GameConstants.OBJECT_SPEED;
+		}
+		else if (y>GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+			y = GameConstants.TILE_SIZE;
 		}
 		
 		updateHitbox();
