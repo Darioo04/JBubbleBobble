@@ -15,6 +15,7 @@ public class FireBall extends ObjModel {
 	
 	@Override
 	public void update() {
+		CollisionChecker.getInstance().checkPlayerFireBallCollision(Player.getInstance(), this);
 		int x = getX();
 		if (x < GameConstants.SCREEN_WIDTH && x>0) {
 			switch(direction) {

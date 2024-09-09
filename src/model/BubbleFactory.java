@@ -25,8 +25,7 @@ public class BubbleFactory {
 	}
 	
 	public Bubble createBubble() { 
-		spawnCounter++;
-		if (spawnCounter>=SPAWN_DELAY) { //la bolla viene creata ogni 10 secondi
+		if (spawnCounter++>=SPAWN_DELAY) { //la bolla viene creata ogni 10 secondi
 			spawnCounter=0;
 			return getBubble();
 		}
@@ -49,9 +48,9 @@ public class BubbleFactory {
 				if (perc<=1) return new SupremeBubble(spawnX,spawnY);
 //				else if (perc<=8) return new WaterBubble(spawnX,spawnY);
 				else if (perc<=15) return new FireBubble(spawnX,spawnY);
-				else if (perc<=25) return new ThunderBubble(spawnX,spawnY);
+//				else if (perc<=25) return new ThunderBubble(spawnX,spawnY);
 				else if (perc<=40) return new ExtendBubble(spawnX, spawnY);
-				else if (perc<=100) return new WaterBubble(spawnX,spawnY);
+				else if (perc<=100) return new ThunderBubble(spawnX, spawnY);
 			}
 		}
 		return null;
@@ -61,10 +60,10 @@ public class BubbleFactory {
 		List<Integer> xPoints = new ArrayList<>();
 		level = LevelCreator.getInstance().getLevel();
 		spawnY = level.length-1;
-		int range = 4;
+		int range = 2;
 		for (int i=1; i<=range; i++) {
 			xPoints.add(i);
-			xPoints.add(level[0].length-i);
+			xPoints.add(level[0].length-i-1);
 		}
 		spawnX = (xPoints.size()!=0) ? xPoints.get( new Random().nextInt(0,xPoints.size())) : -1;
 	}
@@ -80,6 +79,5 @@ public class BubbleFactory {
     		}
     	}
     	spawnX = (xPoints.size()!=0) ? xPoints.get( new Random().nextInt(0,xPoints.size())) : -1;
-//    	System.out.println(spawnX);
     }
 }

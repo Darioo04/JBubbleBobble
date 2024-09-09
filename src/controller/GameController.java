@@ -13,10 +13,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.BooleanSupplier;
 import java.util.stream.Collectors;
 
-import model.Banebou;
 import model.Bubble;
 import model.BubbleBullet;
 import model.BubbleFactory;
@@ -24,12 +22,11 @@ import model.CollisionChecker;
 import model.Direction;
 import model.Enemy;
 import model.EnemyFactory;
+import model.Fire;
 import model.GameConstants;
 import model.GameModel;
 import model.GameOverScreen;
 import model.GameState;
-import model.Hidegons;
-import model.Invader;
 import model.LastLevelWinScreen;
 import model.Food;
 import model.FoodFactory;
@@ -39,10 +36,10 @@ import model.PauseScreen;
 import model.Player;
 import model.PowerUp;
 import model.PowerUpFactory;
-import model.PulPul;
 import model.SelectLevelScreen;
 import model.StateScreen;
 import model.SuperDrunk;
+import model.Thunder;
 import model.Water;
 import model.WinScreen;
 import view.BubbleView;
@@ -65,7 +62,6 @@ import view.WinScreenView;
 import view.FoodView;
 import view.GameOverView;
 
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -225,7 +221,9 @@ public class GameController {
 			
 			case GAME -> {
 				player.update();
+				
 				enemies.parallelStream().forEach(Enemy::update);
+				
 				bubbles.parallelStream().forEach(Bubble::update);
 				bubbles.parallelStream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				collisionChecker.checkBubblePlayerCollision(bubbles, player);
@@ -239,9 +237,18 @@ public class GameController {
 					}
 				}
 				enemies.stream().forEach(e -> collisionChecker.checkEntityWaterCollision(e, waterParticles));
+				
 				waterParticles.parallelStream().forEach(Water::update);
 				objs.parallelStream().forEach(ObjModel::update);
-				powerUps.parallelStream().forEach(PowerUp::update);
+				objs.stream()
+					.filter(obj -> obj instanceof Thunder)
+					.map(obj -> (Thunder) obj)
+					.forEach(thunder -> collisionChecker.checkThunderEnemyCollision(thunder, enemies));
+				objs.stream()
+					.filter(obj -> obj instanceof Fire)
+					.map(obj -> (Fire) obj)
+					.forEach(fire -> collisionChecker.checkFireEnemyCollision(fire,enemies));
+					
 				if (level == 24) {
 					SuperDrunk boss = null;
 					for (Enemy e : enemies) {
@@ -259,7 +266,6 @@ public class GameController {
 				if(enemies.isEmpty() && foods.isEmpty() && collectedItems.isEmpty()) {
 					spawnFood();
 				}
-				
 				foods.stream().forEach(Food::update);
 				if (collectedItems.size() == 2) {
 					if (level == 24) {
@@ -274,8 +280,10 @@ public class GameController {
 	                    setGameState(GameState.WIN);
 	                    winScreen.update();
 					}
-				}		
+				}	
+				
 				spawnPowerUp();
+				powerUps.parallelStream().forEach(PowerUp::update);
 				collisionChecker.checkPlayerEnemyCollision(player, enemies);
 				
 				if (player.getLostLife() && !player.isDead()) {	//se perde una vita respawno il player
@@ -749,8 +757,8 @@ public class GameController {
     
     public void deleteWaterfall() {
     	waterfallCreating = false;
-    	for (Water w : waterParticles) {
-            gamePanel.remove(w.getWaterView());
+    	for (ObjView w : waterParticleViews) {
+            gamePanel.remove(w);
     	}
         waterParticles.clear();
         waterParticleViews.clear();

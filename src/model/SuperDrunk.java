@@ -18,8 +18,9 @@ public class SuperDrunk extends Enemy {
 		setNumIdleSprites(1);
 		setNumRunningSprites(3);
 		setNumJumpingSprites(0);
-		
 		lives = 8;
+		hitboxOffsetX = GameConstants.SCALE;
+		hitboxOffsetY = GameConstants.SCALE;
 		hitboxHeight = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
 		hitboxWidth = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
 		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));	
@@ -105,7 +106,6 @@ public class SuperDrunk extends Enemy {
 	}
 	
 	public void decreaseLives() {
-//		AudioManager.getInstance().play("bossHit");
 		lives--;
 	}
 }

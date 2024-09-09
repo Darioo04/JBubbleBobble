@@ -17,8 +17,10 @@ public abstract class Enemy extends Entity {
 	protected int scoreWhenKilled;
 	
 	private int rebornCounter;
-	protected static final int DEATH_DELAY = 15;
-	private static final int REBORN_DELAY = 600;
+	private int fallingCounter;
+	private static final int FALLING_DELAY = 300; // (5 secondi) tempo massimo in cui il nemico può restare in aria prima di morire
+	protected static final int DEATH_DELAY = 15; // (0,25 secondi) tempo in cui il nemico rimane a schermo dopo essere caduto oppure dopo che è rimasto troppo tempo in aria
+	private static final int REBORN_DELAY = 600; // (10 secondi) se il nemico resta dentro la bolla senza che il player la scoppi allora viene liberato
 	
 	public Enemy(int x, int y) {
 		this.x = x;
@@ -106,7 +108,7 @@ public abstract class Enemy extends Entity {
 		}
 		else if (bubbleExploded) {
 			if (!getCollisionDown()) y += GameConstants.OBJECT_SPEED;
-			if (getCollisionDown()) {
+			if (getCollisionDown() || fallingCounter++>=FALLING_DELAY) {
 				setDead(true);
 				
 				if (deathCounter == 0) {

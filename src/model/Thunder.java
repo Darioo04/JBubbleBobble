@@ -16,7 +16,7 @@ public class Thunder extends ObjModel {
 	@Override
 	public void update() {
 		int x = getX();
-		if (x < GameConstants.SCREEN_WIDTH && x>0) {
+		if (x < GameConstants.SCREEN_WIDTH && x> 1*GameConstants.TILE_SIZE + GameConstants.SCALE) {
 			switch(direction) {
 				case LEFT -> {
 					setX( x - GameConstants.BUBBLE_X_SPEED );
