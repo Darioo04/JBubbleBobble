@@ -43,6 +43,7 @@ public class Banebou extends Enemy {
 				velocityX = -velocityX;
 			}
 			if (y <= GameConstants.TILE_SIZE || y >= GameConstants.SCREEN_HEIGHT - 2*GameConstants.TILE_SIZE) {
+				setJumping(true);
 				velocityY = -velocityY;
 			}
 		}

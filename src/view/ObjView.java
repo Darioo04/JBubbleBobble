@@ -27,11 +27,11 @@ public class ObjView extends JLabel implements Observer {
 	private ImageIcon resizedIcon;
 	private String path;
 	
-	public ObjView(ObjModel obj) {
+	public ObjView(ObjModel obj, String path , int numSprites) {
 		this.obj=obj;
-		path = obj.getPath();
+		this.path = path;
 		setBounds(obj.getX(), obj.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
-		loadSprites(obj.getNumSprites());
+		loadSprites(numSprites);
 		loadActualSprite();
 		
 		resizeIcon(actualSprite);
@@ -82,6 +82,7 @@ public class ObjView extends JLabel implements Observer {
 				setIcon(resizedIcon);
 			}
 			if (om.canBeDeleted() && !isDeleted) {
+				isDeleted = true;
 				GameController.getInstance().removeObject(om, this);
 			}
 		}

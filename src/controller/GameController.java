@@ -439,6 +439,7 @@ public class GameController {
 	public void startLevel() {
 		levelCreator.loadLevel();
     	player = Player.getInstance();
+    	player.setInvicibility(false);
     	playerView = PlayerView.getInstance(player.getNumIdleSprites(),player.getNumRunningSprites(),player.getNumJumpingSprites(), player.getNumFallingSprites());
     	gamePanel = GamePanel.getInstance();
     	player.addObserver(playerView);
@@ -743,7 +744,7 @@ public class GameController {
     
     public void addObj(ObjModel obj) {
     	objs.add(obj);
-    	ObjView objView = new ObjView(obj);
+    	ObjView objView = new ObjView(obj, obj.getPath(), obj.getNumSprites());
     	obj.addObserver(objView);
     	gamePanel.add(objView);
     	objViews.add(objView);
@@ -752,10 +753,10 @@ public class GameController {
     
     public void createWaterfall(int x, int y, Direction direction) {
     	waterfallCreating = true;
-    	Water waterPartcile = new Water(x, y, direction);
-    	waterParticles.add(waterPartcile);
-    	ObjView waterView = new ObjView(waterPartcile);
-    	waterPartcile.setWaterView(waterView);
+    	Water waterParticle = new Water(x, y, direction);
+    	waterParticles.add(waterParticle);
+    	ObjView waterView = new ObjView(waterParticle, waterParticle.getPath(), waterParticle.getNumSprites());
+    	waterParticle.setWaterView(waterView);
     	waterParticleViews.add(waterView);
     }
     
@@ -772,10 +773,10 @@ public class GameController {
     	}else {
     		y += GameConstants.WATER_SIZE;
     	}
-    	Water waterPartcile = new Water(x, y, direction);
-    	waterParticles.add(waterPartcile);
-    	ObjView waterView = new ObjView(waterPartcile);
-    	waterPartcile.setWaterView(waterView);
+    	Water waterParticle = new Water(x, y, direction);
+    	waterParticles.add(waterParticle);
+    	ObjView waterView = new ObjView(waterParticle, waterParticle.getPath(), waterParticle.getNumSprites());
+    	waterParticle.setWaterView(waterView);
     	waterParticleViews.add(waterView);
     }
     

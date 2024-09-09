@@ -2,9 +2,7 @@ package model;
 
 import java.awt.Rectangle;
 import java.util.Observable;
-
 import controller.GameController;
-import view.PowerUpView;
 
 @SuppressWarnings("deprecation")
 
@@ -23,7 +21,6 @@ public class PowerUp extends Observable {
 	private boolean collisionUp;
 	private boolean canBeDeleted;
 	private final int POWERED_TIME = 480;	//8 secondi
-	private PowerUpView powerUpView;
 	private Player player = Player.getInstance();
 	private GameController gameController = GameController.getInstance();
 	

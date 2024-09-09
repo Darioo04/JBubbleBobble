@@ -23,6 +23,7 @@ public class Player extends Entity {
 	private final int DEATH_DELAY = 30;
 	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
+	private boolean isInvincible;
 	private boolean crystalRingPower;
 	private boolean amethystRingPower;
 	private boolean rubyRingPower;
@@ -425,5 +426,13 @@ public class Player extends Entity {
 	
 	public boolean shoesCanSpawn() {
 		return shoesDistance<=0;
+	}
+	
+	public void setInvicibility(boolean isInvincible) {
+		this.isInvincible = isInvincible;
+	}
+	
+	public boolean isInvincible() {
+		return isInvincible;
 	}
 }

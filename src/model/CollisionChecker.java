@@ -196,7 +196,7 @@ public class CollisionChecker {
             		enemy.setBubbleExploded(true);
             		enemy.setInBubble(false);
             		
-            	} else if (!enemy.isInBubble() && !enemy.getBubbleExploded() && !player.isDead()) {
+            	} else if (!enemy.isInBubble() && !enemy.getBubbleExploded() && !player.getLostLife() && !player.isDead() && !player.isInvincible()) {
                 	player.decreaseLives();
             	}
             }
@@ -234,6 +234,10 @@ public class CollisionChecker {
 	        	}
 	        	else if (bubble instanceof WaterBubble) {
 	        		GameController.getInstance().createWaterfall(bubble.getX(), bubble.getY(), bubble.getX() < GameConstants.SCREEN_WIDTH ? Direction.RIGHT : Direction.LEFT);
+	        	}
+	        	else if (bubble instanceof SupremeBubble) {
+	        		GameController.getInstance().addScore(100000);
+	        		player.setInvicibility(true);
 	        	}
 	        }     
         }
@@ -341,7 +345,7 @@ public class CollisionChecker {
 	public void checkPlayerLaserCollision(Player player, Laser laser) {
 		Rectangle laserHitbox = laser.getHitbox();
 		Rectangle playerHitbox = player.getHitbox();
-		if (laserHitbox.intersects(playerHitbox) && !player.getLostLife() && !player.isDead()) {
+		if (laserHitbox.intersects(playerHitbox) && !player.getLostLife() && !player.isDead() && !player.isInvincible()) {
 			player.decreaseLives();
 		}
 	}
@@ -349,7 +353,7 @@ public class CollisionChecker {
 	public void checkPlayerFireBallCollision(Player player, FireBall fireBall) {
 		Rectangle fireBallHitbox = fireBall.getHitbox();
 		Rectangle playerHitbox = player.getHitbox();
-		if (fireBallHitbox.intersects(playerHitbox) && !player.getLostLife() && !player.isDead()) {
+		if (fireBallHitbox.intersects(playerHitbox) && !player.getLostLife() && !player.isDead() && !player.isInvincible()) {
 			player.decreaseLives();
 		}
 	}
