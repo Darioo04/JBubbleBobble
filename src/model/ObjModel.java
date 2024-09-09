@@ -1,10 +1,7 @@
 package model;
 
-
 import java.awt.Rectangle;
 import java.util.Observable;
-
-import view.ObjView;
 
 @SuppressWarnings("deprecation")
 
@@ -24,7 +21,6 @@ public abstract class ObjModel extends Observable {
 	protected boolean collisionUp;
 	private boolean canBeDeleted;
 	private Rectangle hitbox;
-	private ObjView objView;
     
 	public ObjModel(int x, int y) {
 		this.x=x;
@@ -124,14 +120,6 @@ public abstract class ObjModel extends Observable {
 	public void update(Object arg) {
 		setChanged();
 		notifyObservers(arg);
-	}
-	
-	public void setObjView(ObjView objView) {
-		this.objView = objView;
-	}
-	
-	public ObjView getObjView() {
-		return objView;
 	}
 	
 	public void updateHitbox() {

@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ExtendBubble extends Bubble {
 //donano una vita extra se viene composta la parola "EXTENDS"
@@ -36,9 +38,7 @@ public class ExtendBubble extends Bubble {
 	}
 	
 	private void createLetterArray() {
-		for (NumLetter nl : NumLetter.values()) {
-			letters.add(nl);
-		}
+		letters = Stream.of(NumLetter.values()).collect(Collectors.toList());
 	}
 	
 	private void getRandomLetter() {

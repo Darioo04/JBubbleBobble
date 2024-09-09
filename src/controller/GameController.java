@@ -242,8 +242,9 @@ public class GameController {
 //				removeExplodedBubbles();
 				
 				if (waterfallCreating && frames % 5 == 0) {
-					createWaterParticle(waterParticles.getLast().getX(), waterParticles.getLast().getY(), waterParticles.getLast().getDirection());
-					if (waterParticles.getLast().getY() + GameConstants.WATER_SIZE >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+					int index = waterParticles.size() - 1;
+					createWaterParticle(waterParticles.get(index).getX(), waterParticles.get(index).getY(), waterParticles.get(index).getDirection());
+					if (waterParticles.get(index).getY() + GameConstants.WATER_SIZE >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
 						deleteWaterfall();
 					}
 				}
@@ -679,40 +680,6 @@ public class GameController {
 		bubbleViews.stream().forEach(bView -> gamePanel.remove(bView));
     }
     
-//    public void deleteRemovedBubbles() {
-//    	removedBubbles.parallelStream().forEach( bubble -> {
-//			bubbles.remove(bubble);
-//			bubbleViews.remove(bubble.getBubbleBulletView());
-//			gamePanel.remove(bubble.getBubbleBulletView());
-//		});
-//		removedBubbles.clear();
-//    }
-    
-//    
-//    public void removeDeadEnemies() {
-////    	for (Enemy e : enemies.stream().filter(Enemy::isDead).collect(Collectors.toList())) {
-////    		if (e.getCanBeDeleted()) {
-////    			score += e.getScoreWhenKilled();
-////    			audioManager.play("points");
-////    			enemies.remove(e);
-////    			enemyViews.remove(e.getEnemyView());
-////    			gamePanel.remove(e.getEnemyView());
-////    		}
-////    	}
-//    	for (Enemy e : removedEnemies) {
-//    		enemies.remove(e);
-//    		score+=e.getScoreWhenKilled();
-//    		audioManager.play("points");
-//    	}
-//    	for (EnemyView eView : removedEnemyViews) {
-//    		enemyViews.remove(eView);
-//    		gamePanel.remove(eView);
-//    	}
-//    	removedEnemies.clear();
-//    	removedEnemyViews.clear();
-//    }
-    
-    
     public void removeBubble(Bubble bubble, BubbleView bView) {
     	bubble.deleteObserver(bView);
     	bubbles.remove(bubble);
@@ -777,7 +744,6 @@ public class GameController {
     public void addObj(ObjModel obj) {
     	objs.add(obj);
     	ObjView objView = new ObjView(obj);
-    	obj.setObjView(objView);
     	obj.addObserver(objView);
     	gamePanel.add(objView);
     	objViews.add(objView);
@@ -831,7 +797,7 @@ public class GameController {
     }
     
     public void killAllEnemies() {
-    	enemies.parallelStream().forEach(enemy -> enemy.setDead(true));
+    	enemies.stream().filter(enemy -> !(enemy instanceof SuperDrunk)).forEach(enemy -> enemy.setDead(true));
     }
     
     public void setPlayerName(String name) {

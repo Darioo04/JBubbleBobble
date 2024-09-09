@@ -40,12 +40,19 @@ public class PowerUp extends Observable {
 	
 	public void update() {
 		CollisionChecker.getInstance().checkPlayerPowerUpCollision(Player.getInstance(),this);
+//		CollisionChecker.getInstance().checkTileCollision(this);
+//		if (!getCollisionDown()) {
+//			y+=GameConstants.OBJECT_SPEED;
+//		}
+		
 		if (isInizialized()) {
 			poweredCounter++;
 			if (poweredCounter>=POWERED_TIME) {
 				removePowerUp();
 			}
 		}
+		
+		updateHitbox();
 		setChanged();
 		notifyObservers();
 		

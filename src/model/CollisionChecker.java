@@ -140,6 +140,28 @@ public class CollisionChecker {
 		
 	}
 	
+	public void checkTileCollision(PowerUp powerUp) {
+		
+		this.levelFile = LevelCreator.getInstance().getLevel();
+		
+		Rectangle powerUpHitbox = powerUp.getHitbox();
+		
+		int leftX = powerUpHitbox.x;
+		int rightX = leftX + powerUpHitbox.width;
+		int topY = powerUpHitbox.y;
+		int bottomY = topY + powerUpHitbox.height;
+		
+		int leftCol = leftX / GameConstants.TILE_SIZE;
+		int rightCol = rightX / GameConstants.TILE_SIZE;
+		int bottomRow = bottomY / GameConstants.TILE_SIZE;
+		
+		leftCol = leftX / GameConstants.TILE_SIZE;
+		rightCol = rightX / GameConstants.TILE_SIZE;
+		bottomRow = bottomY / GameConstants.TILE_SIZE;
+		powerUp.setCollisionDown(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
+		
+	}
+	
 	public void checkTileCollision(Fire fire) {
 		
 		this.levelFile = LevelCreator.getInstance().getLevel();
@@ -336,13 +358,16 @@ public class CollisionChecker {
 		Rectangle thunderHitbox = thunder.getHitbox();
 		
 		enemies.stream()
-			.filter(enemy -> !(enemy instanceof SuperDrunk) && enemy.getHitbox().intersects(thunderHitbox))
+			.filter( enemy -> !(enemy instanceof SuperDrunk ) && enemy.getHitbox().intersects(thunderHitbox))
 			.forEach(enemy -> enemy.setDead(true));
 		
 		enemies.stream()
-			.filter( enemy -> enemy instanceof SuperDrunk)
+			.filter( enemy -> enemy instanceof SuperDrunk )
 			.map(enemy -> (SuperDrunk)enemy)
-			.forEach(SuperDrunk::decreaseLives);
+			.forEach(enemy -> {
+				enemy.decreaseLives();
+				thunder.setCanBeDeleted(true);
+			});
 	}
 	
 	public void checkFireEnemyCollision(Fire fire, List<Enemy> enemies) {

@@ -23,16 +23,17 @@ public class BubbleFactory {
 	}
 	
 	public Bubble createBubble() { //chiami il riferimento BubbleFactory::createBubble
-		getSpawnBubbles();
-		if (spawnX>-1) {
-			
+		if (GameController.getInstance().getLevel()==24) {
+			getFinalLevelSpawnBubbles();
 			spawnX = spawnX * GameConstants.TILE_SIZE + GameConstants.SCALE;
 			spawnY = spawnY * GameConstants.TILE_SIZE + GameConstants.SCALE;
-			
-			if (GameController.getInstance().getLevel()==24) {
-				return new ThunderBubble(spawnX, spawnY);
-			}
-			else {
+			return new ThunderBubble(spawnX, spawnY);
+		}
+		else {
+			getSpawnBubbles();
+			if (spawnX > 1) {
+				spawnX = spawnX * GameConstants.TILE_SIZE + GameConstants.SCALE;
+				spawnY = spawnY * GameConstants.TILE_SIZE + GameConstants.SCALE;
 				int perc = new Random().nextInt(101);
 				if (perc<=1) return new SupremeBubble(spawnX,spawnY);
 				else if (perc<=8) return new WaterBubble(spawnX,spawnY);
@@ -40,9 +41,21 @@ public class BubbleFactory {
 				else if (perc<=25) return new ThunderBubble(spawnX,spawnY);
 				else if (perc<=40) return new ExtendBubble(spawnX, spawnY);
 			}
-			
 		}
 		return null;
+	}
+	
+	
+	private void getFinalLevelSpawnBubbles() {
+		List<Integer> xPoints = new ArrayList<>();
+		level = LevelCreator.getInstance().getLevel();
+		spawnY = level.length-1;
+		int range = 4;
+		for (int i=1; i<=range; i++) {
+			xPoints.add(i);
+			xPoints.add(level[0].length-i);
+		}
+		spawnX = (xPoints.size()!=0) ? xPoints.get( new Random().nextInt(0,xPoints.size())) : -1;
 	}
 	
 	private void getSpawnBubbles() {
@@ -55,7 +68,7 @@ public class BubbleFactory {
     			xPoints.add(i);
     		}
     	}
-    	spawnX = (xPoints.size()!=0) ? xPoints.get( new Random().nextInt(0,xPoints.size()) ) : -1;
+    	spawnX = (xPoints.size()!=0) ? xPoints.get( new Random().nextInt(0,xPoints.size())) : -1;
 //    	System.out.println(spawnX);
     }
 
