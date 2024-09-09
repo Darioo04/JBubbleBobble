@@ -22,7 +22,7 @@ public class SuperDrunk extends Enemy {
 		hitboxOffsetX = GameConstants.SCALE;
 		hitboxOffsetY = GameConstants.SCALE;
 		hitboxHeight = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
-		hitboxWidth = GameConstants.BOSS_SIZE - 2*GameConstants.SCALE;
+		hitboxWidth = GameConstants.BOSS_SIZE - GameConstants.SCALE;
 		setHitbox(new Rectangle(x + hitboxOffsetX, y + hitboxOffsetY, hitboxWidth, hitboxHeight));	
 	}
 	
