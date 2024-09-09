@@ -42,7 +42,7 @@ public class BubbleFactory {
 		}
 		else {
 			getSpawnBubbles();
-			if (spawnX > 1) {
+			if (spawnX > -1) {
 				spawnX = spawnX * GameConstants.TILE_SIZE + GameConstants.SCALE;
 				spawnY = spawnY * GameConstants.TILE_SIZE + GameConstants.SCALE;
 				int perc = new Random().nextInt(101);
