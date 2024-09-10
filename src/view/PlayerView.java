@@ -42,7 +42,6 @@ public class PlayerView extends EntityView {
 	
 	private Player player;
 	private BufferedImage actualSprite;
-	PlayerAnimationController playerAnimationController;
 	
 	public static PlayerView getInstance() {
 		if (instance == null) instance = new PlayerView();
@@ -111,7 +110,7 @@ public class PlayerView extends EntityView {
 	}
 	
 	public void inizializeAnimationController() {
-		playerAnimationController = new PlayerAnimationController.Builder()
+		new PlayerAnimationController.Builder()
 				.setPlayer(player)
 				.setActualSprite(actualSprite)
 				.setIdleSprites(idleSprites)
