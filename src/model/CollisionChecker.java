@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +10,6 @@ import controller.LevelCreator;
 public class CollisionChecker {
 	private static CollisionChecker instance;
 	private char[][] levelFile;
-	private Rectangle[][] tilesHitboxes;
 	
 	public static CollisionChecker getInstance() {
 		if (instance==null) instance = new CollisionChecker();

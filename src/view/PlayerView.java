@@ -17,10 +17,6 @@ import model.Player;
 
 public class PlayerView extends EntityView {
 	
-	enum KeyPressed {
-		LEFT,RIGHT
-	}
-	
 	private static PlayerView instance;
 	
 	private static final int NUM_IDLE_SPRITES = 2;

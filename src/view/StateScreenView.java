@@ -51,9 +51,7 @@ public abstract class StateScreenView extends JPanel implements Observer {
 			StateScreen stateScreen = (StateScreen) o;
 			this.setImage(stateScreen.getScreens()[stateScreen.getPointer()]);
 	        this.repaint();
-		}
-		
-		
+		}	
 	}
 	
 	public boolean isThereKeyController() {

@@ -1,9 +1,6 @@
 package model;
 
 import java.awt.Rectangle;
-import java.util.Observable;
-
-import view.BubbleView;
 
 @SuppressWarnings("deprecation")
 

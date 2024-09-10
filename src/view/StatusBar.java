@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
@@ -40,14 +38,17 @@ public class StatusBar extends JPanel implements Observer {
 		setPreferredSize(new Dimension(GameConstants.SCREEN_WIDTH, GameConstants.TILE_SIZE/4*3));
 		setVisible(true);
 		setLayout(new GridLayout(1, 2));
+		font = font.deriveFont(23f);
 		UIManager.put("Label.font", font);
 		UIManager.put("Label.foreground", Color.WHITE);
 		
 		hpLabel = new JLabel();
 		hpLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		hpLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		
 		scoreLabel = new JLabel();
 		scoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		scoreLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 
 		add(hpLabel, BorderLayout.CENTER);
 		add(scoreLabel, BorderLayout.CENTER);

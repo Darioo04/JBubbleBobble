@@ -229,12 +229,14 @@ public abstract class Bubble extends Observable  {
 	}
 	
 	public void update() {
-//		getCollisionChecker().checkTileCollision(this);
 		setHitboxWidth(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
         setHitboxHeight(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
         setHitbox(new Rectangle(x + getHitboxOffsetX(), y + getHitboxOffsetY(), getHitboxWidth(), getHitboxHeight()));
 		if ( !isExploded() &&  y < GameConstants.SCREEN_HEIGHT ) {
 			y -= GameConstants.BUBBLE_FLOATING_SPEED;
+		}
+		else {
+			setExploded(true);
 		}
 		
 		if (isExploded()) {

@@ -2,8 +2,6 @@ package model;
 
 import java.awt.Rectangle;
 
-@SuppressWarnings("deprecation")
-
 public abstract class Enemy extends Entity {
 	
 	protected Player player;

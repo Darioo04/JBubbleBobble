@@ -118,9 +118,6 @@ public class EnemyAnimationController {
 		}
 		
 		public EnemyAnimationController build() {
-//			if (this.enemy == null) {
-//		        throw new IllegalStateException("Enemy non può essere null");
-//		    }
 			return new EnemyAnimationController(this);
 		}
 	}

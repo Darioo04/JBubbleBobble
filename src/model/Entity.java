@@ -1,11 +1,9 @@
 package model;
 
-
 import java.awt.Rectangle;
 import java.util.Observable;
 
 import controller.LevelCreator;
-
 
 @SuppressWarnings("deprecation")
 
@@ -120,9 +118,6 @@ public abstract class Entity extends Observable {
 		setChanged();
 		notifyObservers(arg);
 	}
-	
-//	public abstract int getSpeed();
-//	public abstract int getFallingSpeed();
 	
 	public Rectangle getHitbox() {
         return hitbox;

@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Rectangle;
-import java.util.Observable;
 
 @SuppressWarnings("deprecation")
 public class Water extends ObjModel {

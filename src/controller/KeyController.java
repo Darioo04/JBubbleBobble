@@ -3,7 +3,6 @@ package controller;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import model.BubbleBullet;
 import model.GameModel;
 import model.GameOverScreen;
 import model.GameState;
@@ -12,14 +11,9 @@ import model.MenuScreen;
 import model.PauseScreen;
 import model.Player;
 import model.SelectLevelScreen;
-import model.SelectProfileScreen;
 import model.WinScreen;
-import view.BubbleView;
 import view.GamePanel;
-import view.LastLevelWinScreenView;
 import view.LevelEditorView;
-import view.MenuScreenView;
-import view.NicknamePanel;
 import view.ProfileView;
 
 public class KeyController implements KeyListener {
@@ -36,7 +30,6 @@ public class KeyController implements KeyListener {
 	private PauseScreen pauseScreen;
 	private WinScreen winScreen;
 	private GameOverScreen gameOverScreen;
-	private NicknamePanel nicknamePanel;
 	private AudioManager audioManager;
 	private LevelEditorView levelEditorView;
 //	private SelectProfileScreen selectProfileScreen = SelectProfileScreen.getInstance();
@@ -126,7 +119,7 @@ public class KeyController implements KeyListener {
 			}
 			
 			case LOGIN -> {
-				gameController.setNickname(nicknamePanel.getNickname());
+				
 			}
 				
 			case GAME -> {

@@ -3,8 +3,6 @@ package view;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -61,7 +59,7 @@ public class BubbleView extends JLabel implements Observer {
 			if (explodedSprites==null) {
 				explodedSprites = new BufferedImage[4];
 				for (int i=0; i<4; i++) {
-				explodedSprites[i] = ImageIO.read(getClass().getResource(path+"exploded"+(i+1)+".png"));
+					explodedSprites[i] = ImageIO.read(getClass().getResource(path+"exploded"+(i+1)+".png"));
 				}
 			}
 		} catch (IOException e) {

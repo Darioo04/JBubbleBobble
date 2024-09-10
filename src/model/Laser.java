@@ -1,8 +1,5 @@
 package model;
 
-import java.awt.Rectangle;
-import java.util.Observable;
-
 @SuppressWarnings("deprecation")
 
 public class Laser extends ObjModel {

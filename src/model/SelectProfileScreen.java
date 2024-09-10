@@ -1,6 +1,5 @@
 package model;
 
-import view.SelectLevelView;
 
 public class SelectProfileScreen extends StateScreen {
 	private static SelectProfileScreen instance;
@@ -13,6 +12,5 @@ public class SelectProfileScreen extends StateScreen {
 	private SelectProfileScreen() {
 		super(GameState.SELECT_PROFILE);
 		this.loadScreens();
-//		this.setStateScreenPanel(SelectProfilePanel.getInstance());
 	}
 }

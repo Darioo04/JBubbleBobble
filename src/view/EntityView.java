@@ -2,16 +2,13 @@ package view;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import model.Entity;
-import model.GameConstants;
 
 @SuppressWarnings("deprecation")
 

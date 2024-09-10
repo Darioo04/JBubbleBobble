@@ -10,8 +10,6 @@ import javax.swing.JFrame;
 
 import controller.GameController;
 
-@SuppressWarnings("deprecation")
-
 public class MainFrame extends JFrame {
 	private static MainFrame instance;
 	

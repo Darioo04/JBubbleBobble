@@ -17,7 +17,6 @@ public class LevelCreator {
 	private String wallPath;
 	private char[][] file; // [rows][cols]
 	private Rectangle[][] tilesHitboxes;
-//	private GameController gameController;
 	
 	public static LevelCreator getInstance() {
 		if (instance == null) instance = new LevelCreator();

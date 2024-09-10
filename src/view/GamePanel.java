@@ -1,14 +1,11 @@
 package view;
 
-
-import java.awt.BorderLayout;
 import java.awt.Color;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 import controller.GameController;
 import controller.LevelCreator;
@@ -20,7 +17,6 @@ import java.awt.Graphics2D;
 import model.GameConstants;
 import model.GameState;
 import model.Player;
-import model.Wall;
 
 public class GamePanel extends StateScreenView {
 	private static GamePanel instance;

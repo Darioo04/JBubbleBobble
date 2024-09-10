@@ -2,9 +2,6 @@ package model;
 
 import java.util.Random;
 
-import controller.GameController;
-import controller.LevelCreator;
-
 @SuppressWarnings("deprecation")
 
 public class ZenChan extends Enemy {
@@ -30,52 +27,6 @@ public class ZenChan extends Enemy {
 		setDirectionToGo();
 		setEnemyCollision();
 		if (hitbox.y + hitboxHeight - 1 >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE/3) y = GameConstants.TILE_SIZE;
-//		if (!isDead() && !isFrozen()) {	
-//			if (isChasingPlayer()) {
-//				if(Math.abs(targetY - y) <= 9) {
-//					setIsChasingPlayer(false);
-//				} else 
-//					y += speed;
-//			}
-//			else if (!isInBubble()) {
-//				if (GameController.frames % 30 == 0 && Math.random() < 0.1 && this.collisionDown && hasTilesAbove()) {
-//					if(player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) > this.y) {
-//						speed = Math.abs(speed);
-//					} else if (player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE) < this.y) {
-//						speed = -speed;
-//					}
-//					setIsChasingPlayer(true);
-//					targetY = player.getY() - (GameConstants.TILE_SIZE - GameConstants.PLAYER_SIZE);
-//					y += speed;
-//				}
-//				else if(!collisionDown) {
-//					y += Math.abs(speed);
-//				} else {
-//					switch (direction) {
-//					case RIGHT -> {
-//						if(!collisionRight) {
-//							x += speed;
-//						}else {
-//							direction = Direction.LEFT;
-//						}
-//					}
-//					
-//					case LEFT -> {
-//						if(!collisionLeft) {
-//		                    x -= speed;
-//		                }else {
-//							direction = Direction.RIGHT;
-//						}
-//					}
-//			
-//	
-//					
-//					default ->
-//					throw new IllegalArgumentException("Unexpected value: " + direction);
-//					}
-//				}
-//			}
-//		}
 		if (!isDead() && !isFrozen() && !isInBubble()) {	
 			if (isChasingPlayer()) {
 				if(Math.abs(targetY - y) <= 9 && !collisionDown) {
@@ -131,22 +82,6 @@ public class ZenChan extends Enemy {
         notifyObservers();
 	}
 	
-	private boolean isNextStepOnTile(boolean right) {
-		if (right == true) {
-			x += this.speed;
-			collisionChecker.checkTileCollision(this);
-			x -= this.speed;
-			if (!collisionDown) return false;
-			else return true;
-		} else {
-			x -= this.speed;
-            collisionChecker.checkTileCollision(this);
-            x += this.speed;
-            if (!collisionDown) return false;
-            else return true;
-		}
-	}
-	
 	private boolean hasTilesAbove() {
 		int row = y / GameConstants.TILE_SIZE;
 		int col = x / GameConstants.TILE_SIZE;
@@ -157,10 +92,6 @@ public class ZenChan extends Enemy {
         	}
         }
         return false;
-	}
-	
-	private boolean canGoUp() {
-		return Math.random() <= 0.01;
 	}
 	
 	private void setDirectionToGo() {

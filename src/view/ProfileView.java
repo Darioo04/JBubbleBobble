@@ -15,7 +15,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import controller.GameController;
 import model.GameConstants;
 import model.GameModel;
 
@@ -31,9 +30,9 @@ public class ProfileView extends StateScreenView {
 	private BufferedImage bubPng;
 	private ImageIcon bubPngIcon;
 	private JLabel bubLabel;
-	JLabel gamesPlayedLabel;
-	JLabel gamesWonLabel;
-	JLabel gamesLostLabel;
+	private JLabel gamesPlayedLabel;
+	private JLabel gamesWonLabel;
+	private JLabel gamesLostLabel;
 	
 	private int gamesPlayed;
 	private int gamesWon;

@@ -24,7 +24,6 @@ public class ObjView extends JLabel implements Observer {
 	private ObjModel obj;
 	private BufferedImage actualSprite;
 	private BufferedImage[] idleSprites;
-	private BufferedImage[] collisionSprites;
 	private ImageIcon resizedIcon;
 	private String path;
 	
@@ -43,7 +42,6 @@ public class ObjView extends JLabel implements Observer {
 	
 	private void loadSprites(int numSprites) {
 		idleSprites = new BufferedImage[numSprites];
-		collisionSprites = new BufferedImage[numSprites];
 		try {
 			for (int i=0; i<numSprites; i++) {
 				idleSprites[i] = ImageIO.read(getClass().getResource(path + (i+1) + ".png"));

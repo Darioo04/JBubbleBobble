@@ -11,7 +11,6 @@ public class Hidegons extends Enemy{
 	private int frame = 0;
 	
 	// spara palle di fuoco, si muove solo a destra e a sinistra
-	private FireBall fireBall;
 	public Hidegons(int x,int y) {
 		super(x,y);
 		setDirection(Direction.RIGHT);
@@ -84,60 +83,8 @@ public class Hidegons extends Enemy{
 		updateHitbox();
 		setChanged();
         notifyObservers();
-//		super.update();
-//		collisionChecker.checkTileCollision(this);
-//		int speed = getSpeed();
-//		if (!isDead() && !isInBubble() && !isFrozen()) {
-//			if (Math.random() < 0.03) { // 10% di probabilità di cambiare direzione
-//				randomizeDirection();
-//			}
-//			else if (!collisionDown && y + Math.abs(speed) <  GameConstants.SCREEN_HEIGHT - 2 * GameConstants.TILE_SIZE) {
-//	                y += Math.abs(speed);}
-//			
-//			else {
-//				switch (direction) {
-//					case RIGHT -> {
-//						if(x < GameConstants.SCREEN_WIDTH - 3*GameConstants.TILE_SIZE - speed && !getCollisionRight()) {
-//							x += speed;
-//						}else {
-//							randomizeDirection();
-//						}
-//					}
-//					
-//					case LEFT -> {
-//						if(x > 2*GameConstants.TILE_SIZE + speed && !getCollisionLeft()) {
-//		                    x -= speed;
-//		                }else {
-//							randomizeDirection();
-//						}
-//					 
-//					}
-//					case UP -> { if (y > 2*GameConstants.TILE_SIZE + speed && !getCollisionUp() && hasTilesAbove()) {
-//							y-=100;				
-//						}
-//					}
-//					default ->{}
-//				}
-//			}
-//			shot();
-//		}
-//		updateHitbox();
-//		
-//		setChanged();
-//        notifyObservers();
 	}
-	
-	private void randomizeDirection() {
-		double randomNumber = Math.random();
 		
-        if (randomNumber <= 0.33) {
-        	setDirection(Direction.LEFT);
-        }
-        else if (randomNumber<=0.66) {
-            setDirection(Direction.RIGHT);
-        }
-	}
-	
 	private void setDirectionToGo() {
 		if (collisionLeft) {
 			setDirection(Direction.RIGHT);
@@ -163,40 +110,8 @@ public class Hidegons extends Enemy{
 			default -> false;
 			
 		};
-//		switch (direction) {
-//			case RIGHT -> {
-//				int x = getX();
-//				while (!getCollisionRight()) {
-//					x++;
-//					setHitboxX(x);
-//					collisionChecker.checkTileCollision(this);
-//					
-//				}
-//				setHitboxX(getX());
-//				int diff = x - getX();
-//				return ( getX()>player.getX() && getX()+diff<player.getX() ) && getY()==player.getY();
-//			}
-//			
-//			case LEFT -> {
-//				int x = getX();
-//				while (!getCollisionLeft()) {
-//					x--;
-//					setHitboxX(x);
-//					collisionChecker.checkTileCollision(this);
-//					
-//				}
-//				setHitboxX(getX());
-//				int diff = x - getX();
-//				return ( getX()<player.getX() && getX()+diff>player.getX() ) && getY()==player.getY();
-//			}
-//			
-//			default -> {
-//				
-//			}
-//		
-//		}
-//		return false;
 	}
+	
 	private boolean hasTilesAbove() {
 		int row = y / GameConstants.TILE_SIZE;
 		int col = x / GameConstants.TILE_SIZE;
