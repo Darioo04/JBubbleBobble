@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 import java.util.Observable;
 
 import view.ObjView;
-import view.WaterView;
 
 @SuppressWarnings("deprecation")
 public class Water extends ObjModel {

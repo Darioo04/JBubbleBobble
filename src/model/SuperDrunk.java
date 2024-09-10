@@ -80,6 +80,8 @@ public class SuperDrunk extends Enemy {
 	    if (deathCounter >= DEATH_DELAY) {
 	    	setCanBeDeleted(true);
 	    }
+	    
+	    updateHitbox();
 		setChanged();
         notifyObservers();
 	}
@@ -107,5 +109,6 @@ public class SuperDrunk extends Enemy {
 	
 	public void decreaseLives() {
 		lives--;
+		AudioManager.getInstance().play("bossHit");
 	}
 }

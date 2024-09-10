@@ -233,7 +233,7 @@ public class CollisionChecker {
 	        		((ExtendBubble) bubble).deleteLetter(); 
 	        	}
 	        	else if (bubble instanceof WaterBubble) {
-	        		GameController.getInstance().createWaterfall(bubble.getX(), bubble.getY(), bubble.getX() < GameConstants.SCREEN_WIDTH ? Direction.RIGHT : Direction.LEFT);
+	        		GameController.getInstance().createWaterfall(bubble.getX(), bubble.getY(), bubble.getX() < GameConstants.SCREEN_WIDTH/2 ? Direction.RIGHT : Direction.LEFT);
 	        	}
 	        	else if (bubble instanceof SupremeBubble) {
 	        		GameController.getInstance().addScore(100000);
@@ -292,7 +292,7 @@ public class CollisionChecker {
 			for (Water particleWater : water) {
 				Rectangle waterHitbox = particleWater.getHitbox();
 				if (entityHitbox.intersects(waterHitbox)) {
-					e.setDead(true);
+					((Enemy) e).setDead(true);
 				}
 			}
 		} //else if (e instanceof Player) {

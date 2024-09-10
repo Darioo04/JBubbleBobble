@@ -152,6 +152,12 @@ public class LevelEditorView extends StateScreenView {
 				}
 			}
 		}
+		for (int x = 3; x < GameConstants.COLS; x++) {															//spawno sempre un zenchan alla base
+			if (levelFile[GameConstants.ROWS-2][x] == ' ' && levelFile[GameConstants.ROWS+1][x] == '1') {
+				levelFile[GameConstants.ROWS-2][x] = 'Z';
+				break;
+			}
+		}
 	}
 	
 	public void resetEditor() {

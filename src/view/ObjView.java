@@ -14,6 +14,7 @@ import controller.GameController;
 import controller.ObjAnimationController;
 import model.GameConstants;
 import model.ObjModel;
+import model.Water;
 
 @SuppressWarnings("deprecation")
 
@@ -73,7 +74,16 @@ public class ObjView extends JLabel implements Observer {
 	
 	@Override
 	public void update(Observable o,Object arg) {
-		if (o instanceof ObjModel) {
+		if(o instanceof Water) {
+			Water water = (Water) o;
+			setBounds(water.getX(), water.getY(), GameConstants.WATER_SIZE, GameConstants.WATER_SIZE);
+			if (arg instanceof BufferedImage) {
+				actualSprite = (BufferedImage) arg;
+				resizeIcon(actualSprite);
+				setIcon(resizedIcon);
+			}
+		}
+		else if (o instanceof ObjModel) {
 			ObjModel om = (ObjModel) o;
 			setBounds(om.getX(), om.getY(), GameConstants.ITEM_SIZE, GameConstants.ITEM_SIZE);
 			if (arg instanceof BufferedImage) {
@@ -86,6 +96,7 @@ public class ObjView extends JLabel implements Observer {
 				GameController.getInstance().removeObject(om, this);
 			}
 		}
+		
 		
 	}
 }
