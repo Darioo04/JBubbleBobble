@@ -101,9 +101,9 @@ public class PlayerAnimationController {
         }
         
         if (player.isDead()) {
-        	actualSprite = deathSprites[animationCycle % deathSprites.length];
-        	if (actualSprite == deathSprites[deathSprites.length-1]) {
-        		actualSprite = finalDeathAnimation[animationCycle % finalDeathAnimation.length];
+        	actualSprite = getSprite(deathSprites, animationCycle);
+        	if (actualSprite.equals(deathSprites[deathSprites.length-1])) {
+        		actualSprite = getSprite(finalDeathAnimation, animationCycle);
         	}
         }
         

@@ -536,7 +536,6 @@ public class GameController {
         
         mainFrame.revalidate();
         mainFrame.repaint();
-//        setDisplayedScreen(newScreen);
     }
     
     public void removeDisplayedScreen(JPanel displayedScreen) {

@@ -97,6 +97,7 @@ public abstract class Enemy extends Entity {
 	@Override
 	public void update() {
 		CollisionChecker.getInstance().checkTileCollision(this);
+		if (hitbox.y + hitboxHeight - 1 >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE/3) y = GameConstants.TILE_SIZE;
 		if (inBubble) {
 			setY((int)(getY()-GameConstants.BUBBLE_FLOATING_SPEED));
 			if (y < GameConstants.TILE_SIZE) y = GameConstants.TILE_SIZE;

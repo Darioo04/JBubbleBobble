@@ -172,7 +172,6 @@ public class KeyController implements KeyListener {
 						case 0 -> {
 							gameController.changeDisplayedScreen(pauseScreen.getStateScreenView(),GamePanel.getInstance());
 							gameController.setGameState(GameState.GAME);
-//							pauseScreen.update();
 						}
 						case 1 -> {
 							gameController.changeDisplayedScreen(pauseScreen.getStateScreenView(), menuScreen.getStateScreenView());
@@ -228,7 +227,6 @@ public class KeyController implements KeyListener {
 							gameModel.increaseGamesPlayed();
 							gameModel.increaseGamesWon();
 							menuScreen.update();
-//							System.out.println(gameController.getGamesPlayed());
 							audioManager.resumeBackgroundMusic();
 						}
 						default -> {
@@ -245,7 +243,6 @@ public class KeyController implements KeyListener {
 					gameController.clearLevel();
 					gameModel.increaseGamesPlayed();
 					gameModel.increaseGamesWon();
-//					gameModel.update();
 					audioManager.resumeBackgroundMusic();
 				}
 			}
