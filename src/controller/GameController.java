@@ -252,6 +252,7 @@ public class GameController {
 						}
 					}
 					if (boss.isDead()) {
+						audioManager.play("bossHit");
 						killAllEnemies();
 						score += 50000;
 					}

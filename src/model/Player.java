@@ -2,7 +2,6 @@ package model;
 
 import java.awt.Rectangle;
 
-import controller.AudioManager;
 import controller.GameController;
 import controller.LevelCreator;
 
@@ -104,7 +103,6 @@ public class Player extends Entity {
 		if(!inAir) {
 			fallingSpeed = -JUMP_STRENGTH;
 			inAir = true;
-			AudioManager.getInstance().play("jump");
 		}
 		numJumps++;
 		if (amethystRingPower) {

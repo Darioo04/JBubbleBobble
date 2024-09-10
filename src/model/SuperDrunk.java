@@ -2,8 +2,6 @@ package model;
 
 import java.awt.Rectangle;
 
-import controller.AudioManager;
-
 @SuppressWarnings("deprecation")
 
 public class SuperDrunk extends Enemy {
@@ -109,6 +107,5 @@ public class SuperDrunk extends Enemy {
 	
 	public void decreaseLives() {
 		lives--;
-		AudioManager.getInstance().play("bossHit");
 	}
 }
