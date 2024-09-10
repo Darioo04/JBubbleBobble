@@ -109,11 +109,6 @@ public class CollisionChecker {
 		
 		rightCol = (rightX + GameConstants.BUBBLE_X_SPEED + GameConstants.SCALE) / GameConstants.TILE_SIZE;
 		bubble.setCollisionRight(levelFile[bottomRow][rightCol] == '1' || levelFile[topRow][rightCol] == '1');
-		
-//		leftCol = leftX / GameConstants.TILE_SIZE;
-//		rightCol = rightX / GameConstants.TILE_SIZE;
-//		bottomRow = (int)(bottomY + GameConstants.BUBBLE_FLOATING_SPEED + 1) / GameConstants.TILE_SIZE;
-//		bubble.setCollisionUp(levelFile[bottomRow][leftCol] == '1' || levelFile[bottomRow][rightCol] == '1');
 	}
 	
 	public void checkTileCollision(Food food) {
@@ -205,8 +200,6 @@ public class CollisionChecker {
 	public void checkBubblePlayerCollision(List<Bubble> bubbles, Player player) {
         Rectangle playerHitbox = player.getHitbox();
         
-//        System.out.println("xb: " + bubbleHitbox.getX() + "   yb: " + bubbleHitbox.getY());
-//        System.out.println("x: " + playerHitbox.getX() + "   y: " + playerHitbox.getY());
         for (Bubble bubble : bubbles) {
         	Rectangle bubbleHitbox = bubble.getHitbox();
         	int leftX = bubbleHitbox.x;
@@ -215,7 +208,6 @@ public class CollisionChecker {
 	        	bubble.setExploded(true);
 	        	bubble.setFloating(false);
 	        	bubble.setHitbox(new Rectangle(0, 0, 1, 1));
-	//        	System.out.println("collision");
 	        	if (bubble instanceof BubbleBullet) {
 	        		player.increaseBubbleBulletsPopped(); // incremento il numero di bolle proiettili esplose
 	        	}
