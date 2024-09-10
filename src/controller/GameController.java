@@ -57,7 +57,6 @@ import view.ProfileView;
 import view.SelectLevelView;
 import view.StateScreenView;
 import view.StatusBar;
-import view.WaterView;
 import view.WinScreenView;
 import view.FoodView;
 import view.GameOverView;
@@ -232,7 +231,11 @@ public class GameController {
 				if (waterfallCreating && frames % 5 == 0) {
 					int index = waterParticles.size() - 1;
 					createWaterParticle(waterParticles.get(index).getX(), waterParticles.get(index).getY(), waterParticles.get(index).getDirection());
-					if (waterParticles.get(index).getY() + GameConstants.WATER_SIZE >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+					try {
+						if (waterParticles.get(index).getY() + GameConstants.WATER_SIZE >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
+							deleteWaterfall();
+						}
+					} catch (Exception e) {
 						deleteWaterfall();
 					}
 				}
@@ -739,6 +742,7 @@ public class GameController {
     	ObjView waterView = new ObjView(waterParticle, waterParticle.getPath(), waterParticle.getNumSprites());
     	waterParticle.setWaterView(waterView);
     	waterParticleViews.add(waterView);
+    	gamePanel.add(waterView);
     }
     
     public void createWaterParticle(int x, int y, Direction direction) {
@@ -759,6 +763,7 @@ public class GameController {
     	ObjView waterView = new ObjView(waterParticle, waterParticle.getPath(), waterParticle.getNumSprites());
     	waterParticle.setWaterView(waterView);
     	waterParticleViews.add(waterView);
+    	gamePanel.add(waterView);
     }
     
     public void deleteWaterfall() {

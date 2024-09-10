@@ -65,6 +65,7 @@ public class ProfileView extends StateScreenView {
         nameLabel = new JLabel("hello " + playerName + "!");
         nameLabel.setBounds(5*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
         nameLabel.setFont(font);
+        nameLabel.setForeground(Color.BLACK);
         add(nameLabel);
         
         font = font.deriveFont(20f);
@@ -73,18 +74,22 @@ public class ProfileView extends StateScreenView {
             scoreLabels[i] = new JLabel((i+1) + " top score: " + topScores[i]);
             scoreLabels[i].setBounds(GameConstants.TILE_SIZE, i*GameConstants.TILE_SIZE + 3*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, GameConstants.TILE_SIZE);
             scoreLabels[i].setFont(font);
+            scoreLabels[i].setForeground(Color.BLACK);
             add(scoreLabels[i]);
         }
         
         gamesPlayedLabel = new JLabel("games played:  " + gamesPlayed);
         gamesPlayedLabel.setBounds(GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
         gamesPlayedLabel.setFont(font);
+        gamesPlayedLabel.setForeground(Color.BLACK);
         gamesWonLabel = new JLabel("games won:  " + gamesWon);
         gamesWonLabel.setBounds(GameConstants.TILE_SIZE, 6*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
         gamesWonLabel.setFont(font);
+        gamesWonLabel.setForeground(Color.BLACK);
         gamesLostLabel = new JLabel("games lost:  " + gamesLost);
         gamesLostLabel.setBounds(GameConstants.TILE_SIZE, 7*GameConstants.TILE_SIZE, 4*GameConstants.TILE_SIZE, 5*GameConstants.TILE_SIZE);
         gamesLostLabel.setFont(font);
+        gamesLostLabel.setForeground(Color.BLACK);
         
         add(gamesPlayedLabel);
         add(gamesWonLabel);
@@ -105,13 +110,6 @@ public class ProfileView extends StateScreenView {
 		
 	}
 	
-//	public void setPlayerName(String name) {
-//		this.playerName = name;
-//	}
-//	
-//	public void setTopScores(long[] topScores) {
-//		this.topScores = topScores;
-//	}
 
 	@Override
 	public void paintComponent(Graphics g) {

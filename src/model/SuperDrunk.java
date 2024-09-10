@@ -109,5 +109,6 @@ public class SuperDrunk extends Enemy {
 	
 	public void decreaseLives() {
 		lives--;
+		AudioManager.getInstance().play("bossHit");
 	}
 }
