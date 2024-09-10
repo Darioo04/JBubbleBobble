@@ -70,6 +70,7 @@ import javax.swing.Timer;
 public class GameController {
 	
     private KeyController keyController;
+    private SpawnController spawnController;
     private GameModel gameModel;
     private Player player;
     private PlayerView playerView;
@@ -97,6 +98,7 @@ public class GameController {
 	private int gamesLost;
 	private boolean waterfallCreating;
     
+	//Elementi di gioco
     private List<Enemy> enemies;
     private List<EnemyView> enemyViews;
     private List<Bubble> bubbles;
@@ -112,6 +114,7 @@ public class GameController {
     private List<Water> waterParticles;
     private List<ObjView> waterParticleViews;
     
+    //controllers dedicati all'aggiornamento delle animazioni
     private PlayerAnimationController playerAnimationController;
     private List<EnemyAnimationController> eControllers;
     private List<BubbleAnimationController> bControllers;
@@ -155,7 +158,7 @@ public class GameController {
         levelCreator = LevelCreator.getInstance();
         mainFrame = MainFrame.getInstance();
         selectLevelScreen = SelectLevelScreen.getInstance();
-        selectLevelView = (SelectLevelView) selectLevelScreen.getStateScreenView();
+        selectLevelView = SelectLevelView.getInstance();
         profileView = ProfileView.getInstance();
         gameModel.addObserver(profileView);
         
@@ -168,6 +171,7 @@ public class GameController {
         lastLevelWinScreen = LastLevelWinScreen.getInstance();
         
         keyController = KeyController.getInstance();
+        spawnController = SpawnController.getInstance();
         audioManager = AudioManager.getInstance();
         collisionChecker = CollisionChecker.getInstance();
         
@@ -219,14 +223,17 @@ public class GameController {
 			}
 			
 			case GAME -> {
+				//update player
 				player.update();
 				
+				//update nemici
 				enemies.parallelStream().forEach(Enemy::update);
 				
+				//update delle bolle e spawn delle bolle speciali
 				bubbles.parallelStream().forEach(Bubble::update);
 				bubbles.parallelStream().forEach(bubble -> collisionChecker.checkBubbleEnemyCollision(bubble, enemies));
 				collisionChecker.checkBubblePlayerCollision(bubbles, player);
-		    	spawnSpecialBubbles();
+		    	spawnController.spawnSpecialBubbles();
 				
 				if (waterfallCreating && frames % 5 == 0) {
 					int index = waterParticles.size() - 1;
@@ -241,6 +248,7 @@ public class GameController {
 				}
 				enemies.stream().forEach(e -> collisionChecker.checkEntityWaterCollision(e, waterParticles));
 				
+				//update degli oggetti di gioco
 				waterParticles.parallelStream().forEach(Water::update);
 				objs.parallelStream().forEach(ObjModel::update);
 				objs.stream()
@@ -267,7 +275,7 @@ public class GameController {
 				}
 				
 				if(enemies.isEmpty() && foods.isEmpty() && collectedItems.isEmpty()) {
-					spawnFood();
+					spawnController.spawnFood();
 				}
 				foods.stream().forEach(Food::update);
 				if (collectedItems.size() == 2) {
@@ -285,7 +293,7 @@ public class GameController {
 					}
 				}	
 				
-				spawnPowerUp();
+				spawnController.spawnPowerUp();
 				powerUps.parallelStream().forEach(PowerUp::update);
 				collisionChecker.checkPlayerEnemyCollision(player, enemies);
 				
@@ -324,7 +332,6 @@ public class GameController {
 		}
     }
     
-    //da spostare possibilmente nel game model (il loadGameData e il saveGameData)
     public void loadGameData() {
     	String projectPath = System.getProperty("user.dir");
         String path = projectPath + "/data/game-data.txt";
@@ -452,7 +459,7 @@ public class GameController {
     	waterfallCreating = false;
     	
     	player.spawnPlayer();
-    	spawnEnemies();
+    	spawnController.spawnEnemies();
     	gamePanel.setFocusable(true);
     	gamePanel.grabFocus();
     	
@@ -546,108 +553,20 @@ public class GameController {
         stateScreenView.setIsThereKeyController(false);
     }
     
-    public void spawnEnemies() {
-    	EnemyFactory enemyFactory = EnemyFactory.getInstance();
-    	char [][] levelFile = LevelCreator.getInstance().getLevel();
-    	for (int i = 0; i < levelFile.length; i++) {
-    		for (int j = 0; j < levelFile[i].length; j++) {
-    			Enemy enemy = enemyFactory.createEnemy(levelFile[i][j], i, j);
-                if (enemy!=null) {
-                	EnemyView enemyView = new EnemyView(enemy, enemy.getNumIdleSprites(),enemy.getNumRunningSprites(),enemy.getNumJumpingSprites(), enemy.getNumFallingSprites());
-                	enemy.addObserver(enemyView);
-    				gamePanel.add(enemyView);
-    				enemies.add(enemy);
-    				enemyViews.add(enemyView);
-                }
-                
-            }
-    	}
-    }
-    
-    public void respawnEnemies() {
+    public void respawnEnemies() { // le coordinate dei nemici tornano ad essere quelle che avevano quando sono stati generati
     	enemies.stream().forEach(enemy -> {
     		enemy.setX(enemy.getSpawnX());
     		enemy.setY(enemy.getSpawnY());
-    	});;
+    	});
     }
-    
-    public void respawnPlayer() {
+    public void respawnPlayer() { // le coordinate del giocatore tornano ad essere quelle che aveva quando è stato generato
     	player.setX(player.getSpawnX());
     	player.setY(player.getSpawnY());
     }
     
-    public void spawnFood() {;
-    	char[][] levelFile = levelCreator.getLevel();
-    	FoodFactory foodFactory = FoodFactory.getInstance();
-    	
-    	int randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
-    	int randomX = new Random().nextInt(GameConstants.COLS-1)+1;
-    	
-    	while (levelFile[randomY][randomX] != ' ') {
-    		randomX = new Random().nextInt(GameConstants.COLS-1)+1;
-    		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
-    	}
-    	Food food1 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
-//    	System.out.println("x: " + randomX + "   y: " + randomY);
-    	
-    	randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
-    	randomX = new Random().nextInt(GameConstants.COLS-1)+1;
-    	while (levelFile[randomY][randomX] != ' ') {
-    		randomX = new Random().nextInt(GameConstants.COLS-1)+1;
-    		randomY = new Random().nextInt(GameConstants.ROWS-1)+1;
-    	}
-    	Food food2 = foodFactory.createItem(Math.random(), randomX*GameConstants.TILE_SIZE, randomY*GameConstants.TILE_SIZE);
-//    	System.out.println("x: " + randomX + "   y: " + randomY);
-    	
-    	FoodView foodView1 = new FoodView(food1);
-    	FoodView foodView2 = new FoodView(food2);
-    	food1.addObserver(foodView1);
-    	food2.addObserver(foodView2);
-    	
-    	foods.add(food1);
-    	foods.add(food2);
-    		
-    	foodViews.add(foodView1);
-    	foodViews.add(foodView2);
-    	gamePanel.add(foodView1);
-    	gamePanel.add(foodView2);
-//    	gamePanel.add(new JLabel());		//ce un bug per cui alcuni sprite vengono renderizazati a sinistra della mappa in un tile rendendo impossibile nel caso del food poter completare il livello, aggiungendo un jlabel vuoto si renderizza bene il food
-    	//update: bug risolto, era un problema del layout del gamePanel
-    }
-    
-    public void spawnPowerUp() {
-    	PowerUpFactory powerUpFactory = PowerUpFactory.getInstance();
-    	List<PowerUp> newPowerUps = powerUpFactory.createPowerUp();
-    	for(PowerUp powerUp : newPowerUps) {
-        	PowerUpView powerUpView = new PowerUpView(powerUp);
-        	powerUp.addObserver(powerUpView);
-        	powerUpViews.add(powerUpView);
-        	gamePanel.add(powerUpView);	
-    	}
-        powerUps.addAll(newPowerUps);	
-    }
-    
-    public void spawnSpecialBubbles() {
-    	Bubble bubble = BubbleFactory.getInstance().createBubble();
-    	if (bubble!=null) {
-    		bubbles.add(bubble);
-    		BubbleView bubbleView = new BubbleView(bubble, bubble.getPath(), bubble.getNumSprites());
-    		bubble.addObserver(bubbleView);
-    		gamePanel.add(bubbleView);
-    		bubbleViews.add(bubbleView);
-    		
-    	}
-    }
-    
     public void bubbleShooted() {
     	BubbleBullet bullet = player.shot();
-    	bubbles.add(bullet);
-		BubbleView bulletView = new BubbleView(bullet,bullet.getPath(),bullet.getNumSprites());
-		bullet.addObserver(bulletView);
-		gamePanel.add(bulletView);
-		
-//		System.out.println("bolla");
-    	bubbleViews.add(bulletView);
+    	addBubble(bullet);
     }
     
     public void setNickname(String nickname) {
@@ -708,11 +627,40 @@ public class GameController {
     	gamePanel.remove(pView);
     }
     
-//    public void addEnemy(Enemy enemy) {
-//    	enemies.add(enemy);
-//    	EnemyView eView = new EnemyView();
-//    }
+    public void addEnemy(Enemy enemy) {
+    	EnemyView enemyView = new EnemyView(enemy, enemy.getNumIdleSprites(),enemy.getNumRunningSprites(),enemy.getNumJumpingSprites(), enemy.getNumFallingSprites());
+    	enemy.addObserver(enemyView);
+		gamePanel.add(enemyView);
+		enemies.add(enemy);
+		enemyViews.add(enemyView);
+    }
     
+    public void addBubble(Bubble bubble) {
+    	bubbles.add(bubble);
+		BubbleView bubbleView = new BubbleView(bubble, bubble.getPath(), bubble.getNumSprites());
+		bubble.addObserver(bubbleView);
+		gamePanel.add(bubbleView);
+		bubbleViews.add(bubbleView);
+    }
+    
+    public void addFood(Food food) {
+    	foods.add(food);
+    	FoodView fView =  new FoodView(food);
+    	food.addObserver(fView);
+    	foodViews.add(fView);
+    	gamePanel.add(fView);
+    }
+    
+    public void addPowerUps(List<PowerUp> newPowerUps) {
+    	for(PowerUp powerUp : newPowerUps) {
+        	PowerUpView powerUpView = new PowerUpView(powerUp);
+        	powerUp.addObserver(powerUpView);
+        	powerUpViews.add(powerUpView);
+        	gamePanel.add(powerUpView);	
+    	}
+        powerUps.addAll(newPowerUps);	
+    	
+    }
     
     public void addEnemyAnimationController(EnemyAnimationController eController) {
     	eControllers.add(eController);

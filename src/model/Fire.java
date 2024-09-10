@@ -23,6 +23,7 @@ public class Fire extends ObjModel {
 				setCanBeDeleted(true);
 			}
 		}
+		updateHitbox();
 		setChanged();
 		notifyObservers();
 	}

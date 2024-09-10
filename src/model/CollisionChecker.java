@@ -292,19 +292,11 @@ public class CollisionChecker {
 			for (Water particleWater : water) {
 				Rectangle waterHitbox = particleWater.getHitbox();
 				if (entityHitbox.intersects(waterHitbox)) {
-					((Enemy) e).setDead(true);
+					((Enemy) e).setIsChasingPlayer(false);
+					((Enemy) e).setBubbleExploded(true);
 				}
 			}
-		} //else if (e instanceof Player) {
-//			for (Water particleWater : water) {
-//                Rectangle waterHitbox = particleWater.getHitbox();
-//                if (entityHitbox.intersects(waterHitbox)) {
-//                    e.setX(particleWater.getX());
-//                    e.setY(particleWater.getY() - GameConstants.PLAYER_SIZE/2);
-//                    e.update();
-//                }
-//            }
-//		}
+		}
 	}
 	
 	public void checkPlayerLaserCollision(Player player, Laser laser) {

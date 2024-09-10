@@ -34,6 +34,7 @@ public class Thunder extends ObjModel {
 		else {
 			setCanBeDeleted(true);
 		}
+		updateHitbox();
 		setChanged();
 		notifyObservers();
 	}
