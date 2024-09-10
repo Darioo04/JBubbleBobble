@@ -688,7 +688,7 @@ public class GameController {
     	Water waterParticle = new Water(x, y, direction);
     	waterParticles.add(waterParticle);
     	ObjView waterView = new ObjView(waterParticle, waterParticle.getPath(), waterParticle.getNumSprites());
-    	waterParticle.setWaterView(waterView);
+    	waterParticle.addObserver(waterView);
     	waterParticleViews.add(waterView);
     	gamePanel.add(waterView);
     }
@@ -709,7 +709,7 @@ public class GameController {
     	Water waterParticle = new Water(x, y, direction);
     	waterParticles.add(waterParticle);
     	ObjView waterView = new ObjView(waterParticle, waterParticle.getPath(), waterParticle.getNumSprites());
-    	waterParticle.setWaterView(waterView);
+    	waterParticle.addObserver(waterView);
     	waterParticleViews.add(waterView);
     	gamePanel.add(waterView);
     }

@@ -7,7 +7,7 @@ import controller.GameController;
 @SuppressWarnings("deprecation")
 
 public class Banebou extends Enemy {
-	//si muovono saltando ad arco
+	
 	private static final int JUMP_STRENGHT = 4*GameConstants.SCALE;
 	private int targetY;
 	private boolean isJumping=false;
@@ -34,7 +34,6 @@ public class Banebou extends Enemy {
 	public void update() {
 		super.update();
 		collisionChecker.checkTileCollision(this);
-		
 		if (!isDead() && !isInBubble() && !isFrozen()) {
 			x += velocityX;
 			y += velocityY;
@@ -43,7 +42,6 @@ public class Banebou extends Enemy {
 				velocityX = -velocityX;
 			}
 			if (y <= GameConstants.TILE_SIZE || y >= GameConstants.SCREEN_HEIGHT - 2*GameConstants.TILE_SIZE) {
-				setJumping(true);
 				velocityY = -velocityY;
 			}
 		}
@@ -82,7 +80,6 @@ public class Banebou extends Enemy {
 		
 		
 		updateHitbox();
-		//shot();
 		setChanged();
         notifyObservers();
 	}
@@ -107,52 +104,6 @@ public class Banebou extends Enemy {
         
 	}
 	
-	//private void shot() {
-		//if (isPlayerForward()) {
-		//	GameController.getInstance().addObj( new FireBall(getX(),getY(),direction) );
-		//}
-//		new Fireball(getX(),getY(),getDirection());
-	//}
-	
-	private boolean isPlayerForward() {
-		switch (direction) {
-			case RIGHT -> {
-				int x = getX();
-				while (!getCollisionRight()) {
-					x++;
-					setHitboxX(x);
-					collisionChecker.checkTileCollision(this);
-					
-				}
-				setHitboxX(getX());
-				int diff = x - getX();
-				for (int i=0; i<diff; i++) {
-					if (getX()+i==player.getX()) return true;
-				}
-			}
-			
-			case LEFT -> {
-				int x = getX();
-				while (!getCollisionLeft()) {
-					x--;
-					setHitboxX(x);
-					collisionChecker.checkTileCollision(this);
-					
-				}
-				setHitboxX(getX());
-				int diff = x - getX();
-				for (int i=0; i<diff; i++) {
-					if (getX() - i==player.getX()) return true;
-				}
-			}
-			
-			default -> {
-				
-			}
-		
-		}
-		return false;
-	}
 	private boolean hasTilesAbove() {
 		int row = y / GameConstants.TILE_SIZE;
 		int col = x / GameConstants.TILE_SIZE;

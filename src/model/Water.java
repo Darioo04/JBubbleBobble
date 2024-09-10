@@ -3,8 +3,6 @@ package model;
 import java.awt.Rectangle;
 import java.util.Observable;
 
-import view.ObjView;
-
 @SuppressWarnings("deprecation")
 public class Water extends ObjModel {
 
@@ -18,9 +16,7 @@ public class Water extends ObjModel {
 	protected boolean collisionDown;
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
-	
-	private ObjView waterView;
-	
+		
 	public Water (int x, int y, Direction direction) {
 		super(x, y);
 		this.direction = direction;
@@ -123,14 +119,6 @@ public class Water extends ObjModel {
         this.collisionRight = collisionRight;
     }
     
-    public void setWaterView(ObjView waterView) {
-        this.waterView = waterView;
-        addObserver(waterView);
-    }
-    
-    public ObjView getWaterView() {
-    	return waterView;
-    }
     
     public Direction getDirection() {
         return direction;
