@@ -80,6 +80,8 @@ public class SuperDrunk extends Enemy {
 	    if (deathCounter >= DEATH_DELAY) {
 	    	setCanBeDeleted(true);
 	    }
+	    
+	    updateHitbox();
 		setChanged();
         notifyObservers();
 	}

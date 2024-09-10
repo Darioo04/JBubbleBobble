@@ -25,7 +25,7 @@ public class BubbleFactory {
 	}
 	
 	public Bubble createBubble() { 
-		if (spawnCounter++>=SPAWN_DELAY) { //la bolla viene creata ogni 10 secondi
+		if (spawnCounter++>=SPAWN_DELAY) { //la bolla viene creata ogni 9 secondi
 			spawnCounter=0;
 			return getBubble();
 		}
