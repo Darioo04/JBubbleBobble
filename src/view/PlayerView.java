@@ -22,7 +22,11 @@ public class PlayerView extends EntityView {
 	}
 	
 	private static PlayerView instance;
-
+	
+	private static final int NUM_IDLE_SPRITES = 2;
+	private static final int NUM_RUNNING_SPRITES = 2;
+	private static final int NUM_JUMPING_SPRITES = 2;
+	private static final int NUM_FALLING_SPRITES = 2;
 	private BufferedImage[] idleSprites;
 	private BufferedImage[] idleSpritesSX;
 	private BufferedImage[] runningSprites;
@@ -40,13 +44,13 @@ public class PlayerView extends EntityView {
 	private BufferedImage actualSprite;
 	PlayerAnimationController playerAnimationController;
 	
-	public static PlayerView getInstance(int numIdleSprites, int numRunningSprites, int numJumpingSprites, int numFallingSprites) {
-		if (instance == null) instance = new PlayerView(numIdleSprites, numRunningSprites, numJumpingSprites, numFallingSprites);
+	public static PlayerView getInstance() {
+		if (instance == null) instance = new PlayerView();
 		return instance;
 	}
 	
-	private PlayerView (int numIdleSprites, int numRunningSprites, int numJumpingSprites, int numFallingSprites) {
-		super(Player.getInstance(), GameConstants.PLAYER_SIZE, numIdleSprites, numRunningSprites, numJumpingSprites, numFallingSprites);
+	private PlayerView () {
+		super(Player.getInstance(), GameConstants.PLAYER_SIZE, NUM_IDLE_SPRITES, NUM_RUNNING_SPRITES, NUM_JUMPING_SPRITES, NUM_FALLING_SPRITES);
 		player = Player.getInstance();
 		inizializeAnimationController();
 	}

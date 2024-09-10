@@ -416,7 +416,7 @@ public class GameController {
 		levelCreator.loadLevel();
     	player = Player.getInstance();
     	player.setInvicibility(false);
-    	playerView = PlayerView.getInstance(player.getNumIdleSprites(),player.getNumRunningSprites(),player.getNumJumpingSprites(), player.getNumFallingSprites());
+    	playerView = PlayerView.getInstance();
     	gamePanel = GamePanel.getInstance();
     	player.addObserver(playerView);
     	statusBar = StatusBar.getInstance();
@@ -704,6 +704,12 @@ public class GameController {
     	powerUpViews.remove(pView);
     	gamePanel.remove(pView);
     }
+    
+//    public void addEnemy(Enemy enemy) {
+//    	enemies.add(enemy);
+//    	EnemyView eView = new EnemyView();
+//    }
+    
     
     public void addEnemyAnimationController(EnemyAnimationController eController) {
     	eControllers.add(eController);
