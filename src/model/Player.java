@@ -15,6 +15,7 @@ public class Player extends Entity {
 	private boolean isRightPressed;
 	private boolean isSpacePressed;	
 	private boolean isJumping;
+	private boolean canShoot=true;
 	private int speed;
 	private int lives;
 	private boolean lostLife = false;
@@ -280,6 +281,14 @@ public class Player extends Entity {
 		return isJumping;
 	}
 	
+	public void setCanShoot(boolean canShoot) {
+		this.canShoot = canShoot;
+	}
+	
+	public boolean canShoot() {
+		return canShoot;
+	}
+	
 	public void increaseBubblesPopped() {
 		bubblesPopped++;
 	}
@@ -429,4 +438,5 @@ public class Player extends Entity {
 	public boolean isInvincible() {
 		return isInvincible;
 	}
+	
 }
