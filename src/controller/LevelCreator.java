@@ -11,7 +11,11 @@ import model.Wall;
 
 
 public class LevelCreator {
-	
+	/*
+	 * Genero il livello, leggendo il file di testo, e le hitbox per ogni
+	 * blocco creato
+	 * implementa il singleton pattern
+	 */
 	private static LevelCreator instance;
 	private final String path = "/Levels/level-";
 	private String wallPath;

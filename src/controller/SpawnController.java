@@ -16,20 +16,29 @@ import view.EnemyView;
 
 public class SpawnController {
 	
-	//classe in cui sono presenti tutti i metodi soggetti alla generazione degli elementi di gioco,
-	//cioè Nemici, Cibo, Power Ups e Bolle.
+	/*
+	 * classe in cui sono presenti tutti i metodi responsabili della generazione degli elementi di gioco,
+	 * cioè Nemici, Cibo, Power Ups e Bolle.
+	 */
 	
 	private static SpawnController instance;
-	
+	/*
+	 * metodo che restituisce l'istanza della classe
+	 */
 	public static SpawnController getInstance() {
 		if (instance==null) instance = new SpawnController();
 		return instance;
 	}
-	
+	/*
+	 * costruttore privato per il singleton pattern
+	 */
 	private SpawnController() {
 		
 	}
-	
+	/*
+	 * spawn dei nemici, viene letta tutta la metrice di caratteri e vengono aggiunti al GameController i nemici
+	 * in base al carattere associato
+	 */
     public void spawnEnemies() {
     	EnemyFactory enemyFactory = EnemyFactory.getInstance();
     	char [][] levelFile = LevelCreator.getInstance().getLevel();
@@ -43,7 +52,10 @@ public class SpawnController {
             }
     	}
     }
-    
+    /*
+     * vengono generati due oggetti di tipo Food alla fine del livello in punti
+     * con coordinate generate casualmente
+     */
     public void spawnFood() {
     	GameController gameController = GameController.getInstance();
 		char[][] levelFile = LevelCreator.getInstance().getLevel();
@@ -69,13 +81,17 @@ public class SpawnController {
 		gameController.addFood(food1);
 		gameController.addFood(food2);
 	}
-
+    /*
+     * vengono generati i power up se le condizioni sono rispettate
+     */
 	public void spawnPowerUp() {
 		PowerUpFactory powerUpFactory = PowerUpFactory.getInstance();
 		List<PowerUp> newPowerUps = powerUpFactory.createPowerUp();
 		GameController.getInstance().addPowerUps(newPowerUps);
 	}
-
+	/*
+	 * le bolle speciali vengono generate ogni 9 secondi
+	 */
 	public void spawnSpecialBubbles() {
 		Bubble bubble = BubbleFactory.getInstance().createBubble();
 		if (bubble!=null) {

@@ -6,8 +6,13 @@ import model.GameState;
 import model.Player;
 
 public class PlayerAnimationController {
+	/*
+	 * cambia l'animazione corrente in base allo stato attuale del player e la aggiorna
+	 * chiamando il metodo update(Object arg) della classe Player
+	 * implementa il builder pattern
+	 */
 	
-	enum LastKeyPressed {
+	enum LastKeyPressed { //indica la direzione del player
 		LEFT,RIGHT
 	}
 	

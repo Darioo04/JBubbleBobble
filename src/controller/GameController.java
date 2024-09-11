@@ -55,7 +55,10 @@ import javax.swing.Timer;
 @SuppressWarnings("deprecation")
 
 public class GameController {
-	
+	/*
+	 * la classe GameController si occupa di gestire il game loop del gioco in base allo stato di gioco attuale
+	 * 
+	 */
     private KeyController keyController;
     private SpawnController spawnController;
     private GameModel gameModel;
@@ -115,12 +118,17 @@ public class GameController {
 
     
     private static GameController instance;
-    
+    /**
+     * ritorna l'istanza del GameController
+     * @return instance
+     */
     public static GameController getInstance() {
     	if (instance==null) instance = new GameController();
     	return instance;
     }
-    
+    /*
+     * costruttore privato per il singleton pattern
+     */
     private GameController() {
         gameModel = GameModel.getInstance();
     	loadGameData();
@@ -167,6 +175,9 @@ public class GameController {
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
         
+        /*
+         * timer che rappresenta il game loop del gioco
+         */
     	this.timer = new Timer(16, new ActionListener() {		//16ms per avere 60FPS
 			
 			@Override
@@ -186,7 +197,9 @@ public class GameController {
 			}
 		});
     }
-    
+    /*
+     * logica di aggiornamento delle animazioni
+     */
     public void updateAnimation() {
     	playerAnimationController.updateAnimation(animationCycle);
         eControllers.parallelStream().forEach(eController -> eController.updateAnimation(animationCycle));
@@ -194,6 +207,9 @@ public class GameController {
         objControllers.parallelStream().forEach(objController -> objController.updateAnimation(animationCycle));
     }
     
+    /*
+     * logica di aggiornamento del gioco
+     */
     public void update() {
     	switch (gameState){
     	
@@ -315,7 +331,9 @@ public class GameController {
 			}	
 		}
     }
-    
+    /*
+     * caricamento dei dati di gioco
+     */
     public void loadGameData() {
     	String projectPath = System.getProperty("user.dir");
         String path = projectPath + "/data/game-data.txt";
@@ -366,7 +384,9 @@ public class GameController {
 			
 		}
     }
-    
+    /*
+     * salvataggio dei dati di gioco
+     */
     public void saveGameData() {
     	String projectPath = System.getProperty("user.dir");
         String path = projectPath + "/data/game-data.txt";
@@ -405,7 +425,9 @@ public class GameController {
         timer.stop(); 			// Ferma il game loop
     }
     
-
+    /*
+     * metodo che si occupa di inizializzare tutti gli elementi di gioco
+     */
 	public void startLevel() {
 		levelCreator.loadLevel();
     	player = Player.getInstance();
@@ -452,7 +474,6 @@ public class GameController {
         
         audioManager.pauseBackgroundMusic();
         audioManager.playLevelMusic("level"); 
-//        removeDisplayedScreen(menuScreenView);
     }
 	
 	public void clearLevel() {
@@ -547,7 +568,7 @@ public class GameController {
     	player.setY(player.getSpawnY());
     }
     
-    public void bubbleShooted() {
+    public void bubbleShooted() { //la bolla viene sparata dal player
     	BubbleBullet bullet = player.shot();
     	addBubble(bullet);
     }

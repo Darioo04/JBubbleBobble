@@ -11,6 +11,9 @@ import view.StateScreenView;
 @SuppressWarnings("deprecation")
 
 public abstract class StateScreen extends Observable {
+	/*
+	 * rappresenta la logica di navigazione delle schermate di gioco
+	 */
 	private int numOptions;
 	private String sourceFolder = "/screens/";
 	private String fileName;

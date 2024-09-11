@@ -17,7 +17,11 @@ import view.LevelEditorView;
 import view.ProfileView;
 
 public class KeyController implements KeyListener {
-	
+	/*
+	 * Classe che si occupa di gestire i controlli dell'utente 
+	 * in base allo stato di gioco attuale
+	 * implementa il singleton pattern
+	 */
 	private static KeyController instance;
 	
 	private Player player;

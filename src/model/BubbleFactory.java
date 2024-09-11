@@ -8,7 +8,10 @@ import controller.GameController;
 import controller.LevelCreator;
 
 public class BubbleFactory {
-	
+	/*
+	 * classe che si occupa di generare le bolle speciali
+	 * implementa il factory pattern
+	 */
 	private static BubbleFactory instance;
 	private int spawnCounter = 540;
 	private final int SPAWN_DELAY = 540;
@@ -31,7 +34,9 @@ public class BubbleFactory {
 		}
 		return null;
 	}
-	
+	/*
+	 * se il player è nel livello finale, allora verranno generate solo ThunderBubble
+	 */
 	public Bubble getBubble() {
 		if (GameController.getInstance().getLevel()==24) {
 			getFinalLevelSpawnBubbles();
@@ -54,7 +59,9 @@ public class BubbleFactory {
 		}
 		return null;
 	}
-	
+	/*
+	 * spawner per l'ultimo livello
+	 */
 	private void getFinalLevelSpawnBubbles() {
 		List<Integer> xPoints = new ArrayList<>();
 		level = LevelCreator.getInstance().getLevel();
@@ -66,7 +73,9 @@ public class BubbleFactory {
 		}
 		spawnX = (xPoints.size()!=0) ? xPoints.get( new Random().nextInt(0,xPoints.size())) : -1;
 	}
-	
+	/*
+	 * le coordinate x vengono aggiunte alla lista solo se il blocco è vuoto
+	 */
 	private void getSpawnBubbles() {
 		List<Integer> xPoints = new ArrayList<>();
     	level = LevelCreator.getInstance().getLevel();

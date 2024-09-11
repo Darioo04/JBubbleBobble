@@ -1,6 +1,11 @@
 package model;
 
 public class EnemyFactory {
+	/*
+	 * classe che si occupa di scegliere quale nemico generare 
+	 * in base al carattere passato come argomento del metodo
+	 * implementa il singleton pattern
+	 */
 	private static EnemyFactory instance;
 	
 	public static EnemyFactory getInstance() {

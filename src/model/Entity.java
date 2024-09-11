@@ -9,35 +9,42 @@ import controller.LevelCreator;
 
 public abstract class Entity extends Observable {
 	
-	protected Direction direction;
+	protected Direction direction; //
 	protected CollisionChecker collisionChecker;
-	protected int x, y, col, row;
-	private int spawnX;
-	private int spawnY;
-	protected String path;
-	private boolean isDead;
-	private boolean isMoving;
-	protected int speed;
+	protected int x, y, col, row; //coordinate dell'entità
+	private int spawnX; // coordinata x di spawn
+	private int spawnY; // coordinata y di spawn
+	protected String path; // percorso della cartella in cui sono presenti le animazioni dell'entità
+	private boolean isDead; //indica se l'entità è morta
+	private boolean isMoving; //indica che l'entità si sta muovendo
+	protected int speed; //velocità dell'entità
 	protected int fallingSpeed; //velocita di caduta
 	public static final int GRAVITY = 1 * GameConstants.SCALE; // Gravità costante
-	protected char[][] levelFile;
+	protected char[][] levelFile; //livello
 	
-	protected int deathCounter;
+	protected int deathCounter; //timer di morte dell'entità
 	
+	/*
+	 * hitbox dell'entità
+	 */
 	protected Rectangle hitbox;
 	protected int hitboxWidth;
 	protected int hitboxHeight;
 	protected int hitboxOffsetX;
     protected int hitboxOffsetY;
+    
+    /**
+     * questi campi indicano se l'entità entra in collisione con un altro elemento di gioco
+    */
 	protected boolean collisionDown;
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
 	protected boolean collisionUp;
 	
-	private int numIdleSprites;
-	private int numRunningSprites;
-	private int numJumpingSprites;
-	private int numFallingSprites;
+	private int numIdleSprites; //numero di sprite da fermo
+	private int numRunningSprites; //numero di sprite in movimento
+	private int numJumpingSprites; //numero di sprite mentre salta
+	private int numFallingSprites; //numero di sprite mentre cade
 	
 	public Entity() {
 		collisionChecker = CollisionChecker.getInstance();

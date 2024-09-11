@@ -6,7 +6,11 @@ import model.Direction;
 import model.Enemy;
 
 public class EnemyAnimationController {
-	
+	/*
+	 * cambia l'animazione corrente in base allo stato attuale del nemico e la aggiorna
+	 * chiamando il metodo update(Object arg) della classe Enemy
+	 * implementa il builder pattern
+	 */
 	private Enemy enemy;
 	private BufferedImage actualSprite;
 	private BufferedImage[] idleSprites;

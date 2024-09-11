@@ -5,11 +5,14 @@ import java.awt.image.BufferedImage;
 import model.ObjModel;
 
 public class ObjAnimationController {
-	
+	/*
+	 * classe che si occupa di aggiornare le animazioni degli oggetti di gioco 
+	 * di tipo ObjModel
+	 * implementa il builder pattern
+	 */
 	private ObjModel obj;
 	private BufferedImage actualSprite;
 	private BufferedImage[] idleSprites;
-//	private BufferedImage[] despawnSprites;
 	
 	private ObjAnimationController(Builder builder) {
 		this.obj = builder.obj;

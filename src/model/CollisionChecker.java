@@ -8,6 +8,9 @@ import controller.GameController;
 import controller.LevelCreator;
 
 public class CollisionChecker {
+	/*
+	 * classe che si occupa di gestire le collisioni tra diversi elementi di gioco
+	 */
 	private static CollisionChecker instance;
 	private char[][] levelFile;
 	
@@ -202,8 +205,6 @@ public class CollisionChecker {
         
         for (Bubble bubble : bubbles) {
         	Rectangle bubbleHitbox = bubble.getHitbox();
-        	int leftX = bubbleHitbox.x;
-    		int rightX = leftX + bubbleHitbox.width;
 	        if (bubbleHitbox.intersects(playerHitbox) && !bubble.isExploded()){
 	        	bubble.setExploded(true);
 	        	bubble.setFloating(false);
@@ -308,10 +309,12 @@ public class CollisionChecker {
 	public void checkThunderEnemyCollision(Thunder thunder, List<Enemy> enemies) {
 		Rectangle thunderHitbox = thunder.getHitbox();
 		
+		//comportamento del fulmine per i nemici diversi dal SuperDrunk
 		enemies.stream()
 			.filter( enemy -> !(enemy instanceof SuperDrunk ) && enemy.getHitbox().intersects(thunderHitbox))
 			.forEach(enemy -> enemy.setDead(true));
 		
+		//comportamento del fulmine per il superDrunk
 		enemies.stream()
 			.filter( enemy -> enemy instanceof SuperDrunk )
 			.map(enemy -> (SuperDrunk)enemy)
@@ -323,6 +326,7 @@ public class CollisionChecker {
 	
 	public void checkFireEnemyCollision(Fire fire, List<Enemy> enemies) {
 		Rectangle fireHitbox = fire.getHitbox();
+		//comportamento del fuoco per i nemici diversi dal SuperDrunk
 		enemies.stream()
 			.filter(enemy -> !(enemy instanceof SuperDrunk) && enemy.getHitbox().intersects(fireHitbox))
 			.forEach(enemy -> enemy.setDead(true));

@@ -8,6 +8,9 @@ import controller.LevelCreator;
 @SuppressWarnings("deprecation")
 
 public class Player extends Entity {
+	/**
+	 * Questa classe rappresenta un giocatore nel gioco.
+	 */
 	
 	private static Player instance;
 	private boolean isLeftPressed;
@@ -21,14 +24,17 @@ public class Player extends Entity {
 	private final int DEATH_DELAY = 30;
 	private int JUMP_STRENGTH = 9 * GameConstants.SCALE; // Forza del salto
 	private boolean inAir;
-	private boolean isInvincible;
-	private boolean crystalRingPower;
-	private boolean amethystRingPower;
-	private boolean rubyRingPower;
-	private int fireRate = GameConstants.PLAYER_FIRE_RATE;
-	private int shoesDistance = 15*GameConstants.SCREEN_WIDTH;
+	private boolean isInvincible; //indica che il player è invincibile
+	private boolean crystalRingPower; //indica che il crystal ring è attivo
+	private boolean amethystRingPower; // indica che l'amethyst ring è attivo
+	private boolean rubyRingPower; //indica che il ruby ring è attivo
+	private int fireRate = GameConstants.PLAYER_FIRE_RATE; //rateo di fuoco del player
+	private int shoesDistance = 15*GameConstants.SCREEN_WIDTH; //distanza da percorrere affinché possa spawnare il power up shoes
 	
-	private int bubblesPopped;
+	/*
+	 * condizioni affinché i power up possano spawnare
+	 */
+	private int bubblesPopped; 
     private int bubbleBulletsPopped;
     private int fireBubblesPopped;
     private int lightningBubblesPopped;
@@ -52,6 +58,10 @@ public class Player extends Entity {
 		if (instance==null) instance= new Player();
 		return instance;
 	}
+	
+	/*
+	 * metodo per assegnare valori di default al player 
+	 */
 	
 	public void setDefaultValues() {
 		this.speed = 7;
@@ -78,7 +88,9 @@ public class Player extends Entity {
 	public int getHP() {
 		return lives;
 	}
-	
+	/*
+	 * metodo che si occupa di generare la BubbleBullet da far sparare al player
+	 */
 	public BubbleBullet shot() {
 		int bubbleY = this.getHitboxY() + (GameConstants.TILE_SIZE - GameConstants.BUBBLE_SHOT_SIZE) / 4;
 		int bubbleX = 0;
@@ -93,7 +105,7 @@ public class Player extends Entity {
 		
 			default ->{}
 		}
-		if (rubyRingPower) {
+		if (rubyRingPower) { //se il power up è attivo il player guadagna punti
 			GameController.getInstance().addScore(100);
 		}
 		return new BubbleBullet(bubbleX, bubbleY, this.direction);
@@ -105,7 +117,7 @@ public class Player extends Entity {
 			inAir = true;
 		}
 		numJumps++;
-		if (amethystRingPower) {
+		if (amethystRingPower) { //se il power up è attivo il player guadagna punti
 			GameController.getInstance().addScore(500);
 		}
 	}
@@ -170,7 +182,7 @@ public class Player extends Entity {
 			
 				default -> throw new IllegalArgumentException("Unexpected value: " + getDirection());
 			}
-			if (crystalRingPower) {
+			if (crystalRingPower) { //se il power up è attivo il player guadagna punti
 				GameController.getInstance().addScore(10);
 			}
 		}
@@ -197,7 +209,9 @@ public class Player extends Entity {
         notifyObservers();
 //        System.out.println("x: " + x + "  y: " + y + "	left: " + collisionLeft + "  right: " + collisionRight + "  down: " + collisionDown + "  up: " + collisionUp + "   fSpeed: " + fallingSpeed + "   inAir: " + inAir + "   isJumping: " + isJumping + "   leftX: " + getHitboxX() + "  rightX: " + (getHitboxX()+hitboxWidth) + "  bottomY: " + (getHitboxY()+getHitboxHeight()));
 	}
-	
+	/*
+	 * metodo che si occupa di generare a schermo il player
+	 */
 	public void spawnPlayer() {
 		char[][] levelFile = LevelCreator.getInstance().getLevel();
 		for (int x = 0; x < levelFile[0].length; x++) {

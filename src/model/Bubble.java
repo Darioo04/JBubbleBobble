@@ -6,8 +6,8 @@ import java.util.Observable;
 @SuppressWarnings("deprecation")
 
 public abstract class Bubble extends Observable  {
-	protected int x, y;
-	private Direction direction;
+	protected int x, y; //coordinate di spawn della bolla
+	private Direction direction; //direzione della bolla
 	private String path;
 	private int numSprites;
 	private static CollisionChecker collisionChecker = CollisionChecker.getInstance();
@@ -18,19 +18,22 @@ public abstract class Bubble extends Observable  {
 	private boolean isFloating;
 	private boolean isExploded;
 	private boolean canBeDeleted;
-		
+	
+	//hitbox della bolla
 	private Rectangle hitbox;
 	private int hitboxWidth;
 	private int hitboxHeight;
 	private int hitboxOffsetX;
 	private int hitboxOffsetY;
+	
+	//indicano se la bolla entra in collisione con una altro elemento di gioco
 	protected boolean collisionDown;
 	protected boolean collisionLeft;
 	protected boolean collisionRight;
 	protected boolean collisionUp;
 	
 	protected int explosionTime;
-	protected static final int EXPLOSION_DELAY = 20; 
+	protected static final int EXPLOSION_DELAY = 20; //tempo che impiega la bolla ad esplodere
 	
 	public Bubble(int x,int y) {
 		this.x=x;
@@ -228,6 +231,9 @@ public abstract class Bubble extends Observable  {
 		return canBeDeleted;
 	}
 	
+	/*
+	 * comportamento che assume la bolla in base al proprio stato
+	 */
 	public void update() {
 		setHitboxWidth(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);
         setHitboxHeight(GameConstants.BUBBLE_EXPANDED_SIZE - 2*GameConstants.SCALE);

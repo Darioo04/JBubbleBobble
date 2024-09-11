@@ -7,7 +7,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ExtendBubble extends Bubble {
-//donano una vita extra se viene composta la parola "EXTENDS"
+	/*
+	 * donano una vita extra se viene composta la parola "EXTENDS"
+	 * per identificare ogni lettera viene usato un enum
+	 */
+	
 	
 	private enum NumLetter{
 		FIRST(1),
@@ -37,7 +41,8 @@ public class ExtendBubble extends Bubble {
 		setPath("extend"+numLetter.position+"-");
 	}
 	
-	private void createLetterList() {
+	//raccoglie tutte le lettere e le aggiunge ad una lista
+	private void createLetterList() { 
 		letters = Stream.of(NumLetter.values()).collect(Collectors.toList());
 	}
 	
