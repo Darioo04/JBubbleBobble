@@ -31,13 +31,13 @@ public class ExtendBubble extends Bubble {
 		super(x,y);
 		setExpanded(true);
 		setFloating(true);
-		if (letters.size()==0) createLetterArray();
+		if (letters.size()==0) createLetterList();
 		getRandomLetter();
 		setNumSprites(1);
 		setPath("extend"+numLetter.position+"-");
 	}
 	
-	private void createLetterArray() {
+	private void createLetterList() {
 		letters = Stream.of(NumLetter.values()).collect(Collectors.toList());
 	}
 	
@@ -49,7 +49,7 @@ public class ExtendBubble extends Bubble {
 	public void deleteLetter() {
 		if (letters.contains(numLetter)) letters.remove(numLetter);
 		if (letters.size()==0) {
-			createLetterArray();
+			createLetterList();
 			Player.getInstance().increaseLives();
 		}
 	}
