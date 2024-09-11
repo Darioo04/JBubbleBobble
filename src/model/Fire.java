@@ -18,7 +18,7 @@ public class Fire extends ObjModel {
 		if (!getCollisionDown()) {
 			setY( getY() + GameConstants.BUBBLE_X_SPEED);
 		}
-		else if (getCollisionDown()) {
+		else if (getCollisionDown() || getY() >= GameConstants.SCREEN_HEIGHT - GameConstants.TILE_SIZE) {
 			if (fireCounter++ >= FIRE_DELAY) {
 				setCanBeDeleted(true);
 			}
